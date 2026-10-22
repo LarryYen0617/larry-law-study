@@ -41,5 +41,5 @@ document.addEventListener('input',e=>{const t=e.target;if(t.dataset.caseDraft){k
 function knowledgeDownload(name,text,type){const url=URL.createObjectURL(new Blob([text],{type})),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 $k('#exportEssentials').addEventListener('click',()=>{if(window.LEX_PERSONAL_NOTES&&typeof personalMarkdown==='function'){knowledgeDownload('LEX-NEXUS-我的完整筆記.md',personalMarkdown(),'text/markdown;charset=utf-8');return;}const text=['法域中樞｜純重點整理','來源查讀日：'+knowledge.updatedAt,...visibleKnowledgeSubjects().flatMap(s=>['\n## '+s.name,...s.cards.flatMap(c=>['\n### '+c.title,...c.points.map(t=>'- '+t),c.trap?'易錯：'+c.trap:'','整理依據：'+c.source,...c.refs.map(r=>r.label+' '+r.url)])])].join('\n');knowledgeDownload('LEX-NEXUS-重點.md',text,'text/markdown;charset=utf-8');});
 $k('#exportKnowledgeState').addEventListener('click',()=>knowledgeDownload('LEX-NEXUS-練習備份.json',JSON.stringify({version:1,state:knowledgeState},null,2),'application/json'));
-$k('#printEssentials').addEventListener('click',()=>window.print());
+$k('#printEssentials').addEventListener('click',()=>{renderKnowledge();window.print();});
 renderKnowledge();

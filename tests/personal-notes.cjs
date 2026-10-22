@@ -12,3 +12,15 @@ const id=data.subjects[0].chapters[0].id;for(const f of events.input)f({target:{
 node('#knowledgeSearch').input({target:{value:'客觀歸責'}});assert(node('#knowledgeContent').innerHTML.includes('客觀歸責'));
 node('#knowledgeSearch').input({target:{value:'not-found-abc'}});assert(node('#knowledgeContent').innerHTML.includes('沒有符合的筆記'));
 console.log('PASS: 48 restored full chapters, nine-subject integration, inert imported HTML, source provenance, corrections, search, personal annotations and complete-note export.');
+node('#knowledgeSearch').input({target:{value:''}});
+const chapterId=data.subjects[0].chapters[2].id;
+run(`personalSelected=${JSON.stringify(chapterId)};renderKnowledge()`);
+assert.equal((node('#knowledgeContent').innerHTML.match(/class="personal-chapter"/g)||[]).length,1);
+assert(node('#knowledgeContent').innerHTML.includes(`id="${chapterId}"`));
+assert(!node('#knowledgeContent').innerHTML.includes('<details class="personal-chapter"'));
+run('personalShowAll=true;renderKnowledge()');
+assert.equal((node('#knowledgeContent').innerHTML.match(/class="personal-chapter"/g)||[]).length,22);
+assert(node('#knowledgeContent').innerHTML.includes('我自己的補充'));
+assert(node('#knowledgeContent').innerHTML.includes('class="print-notes"'));
+for(const c of data.subjects.find(s=>s.id==='debt').chapters.filter(c=>/personal-debt-scans-|personal-debt-scan-/.test(c.id))){assert(c.body.includes('<table>'));assert(c.body.includes('scope="col"'));assert(c.text.includes('| --- | --- |'));}
+console.log('PASS: single-chapter reading, all-chapter mode, print collection, saved annotations and eight structured note tables.');
