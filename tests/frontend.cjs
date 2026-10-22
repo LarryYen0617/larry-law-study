@@ -57,3 +57,5 @@ assert.ok(el('#content').innerHTML.includes('歷史原創導讀'));
 assert.ok(!el('#content').innerHTML.includes('第二次模型複核及近'));
 click({editorialDate:'latest'});assert.equal(run('selectedEditorialDate'),'');
 console.log('PASS: committed original, archive selection, course supplements, truthful agent review disclosure.');
+
+require('./toolkit.cjs');
