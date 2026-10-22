@@ -1,16 +1,18 @@
 const KNOWLEDGE_KEY='lex-nexus-study-v1',knowledge=window.LEX_KNOWLEDGE;
 const ke=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const $k=s=>document.querySelector(s);
-let knowledgeMode='notes',knowledgeSubject='all',knowledgeQuery='',onlyKnowledgeWrong=false,knowledgeState={familiar:{},answers:{},drafts:{}};
+let knowledgeMode=typeof location!=='undefined'&&location.hash==='#teacher'?'teacher':typeof location!=='undefined'&&location.hash==='#inventory'?'inventory':'notes',knowledgeSubject='',knowledgeQuery='',onlyKnowledgeWrong=false,knowledgeState={familiar:{},answers:{},drafts:{}};
 try{const v=JSON.parse(localStorage.getItem(KNOWLEDGE_KEY)||'null');if(v&&typeof v==='object')for(const key of ['familiar','answers','drafts'])if(v[key]&&typeof v[key]==='object'&&!Array.isArray(v[key]))knowledgeState[key]=v[key];}catch{}
 function knowledgeSave(){try{localStorage.setItem(KNOWLEDGE_KEY,JSON.stringify(knowledgeState));return true;}catch{$k('#knowledgeStatus').textContent='本機儲存失敗，請先下載練習紀錄備份。';return false;}}
 function kr(refs){return `<div class="ref-links">${refs.map(r=>{let u;try{u=new URL(r.url);}catch{return '';}return u.protocol==='https:'&&u.hostname.endsWith('.gov.tw')?`<a href="${ke(u.href)}" target="_blank" rel="noopener noreferrer">${ke(r.label)} ↗</a>`:'';}).join('')}</div>`;}
 function knowledgeMatches(v){return !knowledgeQuery||JSON.stringify(v).toLowerCase().includes(knowledgeQuery.toLowerCase());}
 function visibleKnowledgeSubjects(){return knowledge.subjects.filter(s=>knowledgeSubject==='all'||s.id===knowledgeSubject);}
 function renderKnowledge(){
+ $k('header h1').textContent=knowledgeMode==='teacher'?'老師題型練習':knowledgeMode==='inventory'?'教材整合進度':'純重點整理';
  document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===knowledgeMode)));
  const count=Object.values(knowledgeState.answers).filter(a=>a&&Number.isInteger(a.choice)).length;
  $k('#knowledgeStatus').textContent=knowledgeMode==='notes'?'只顯示概念與重點，不混入題目。':knowledgeMode==='teacher'?`本頁已作答 ${count}/${knowledge.quizzes.length} 題；擬答均為自編。`:'來源與整合狀態逐筆列出，不把「已讀取」當成「全部已校核」。';
+ if(!knowledgeSubject&&knowledgeMode!=='inventory'){$k('#knowledgeContent').innerHTML=`<h2>先選你要讀的科目</h2><div class="subject-picker">${knowledge.subjects.map(s=>`<button data-knowledge-course="${ke(s.id)}">${ke(s.name)}</button>`).join('')}</div><p class="muted">選好後只顯示本科內容；隨時可用上方科目選單切換。</p>`;return;}
  if(knowledgeMode==='notes'){
  let total=0;const html=visibleKnowledgeSubjects().map(s=>{const cards=s.cards.map((c,i)=>({...c,index:i})).filter(knowledgeMatches);total+=cards.length;return cards.length?`<h2 class="topic-heading">${ke(s.name)}</h2><p class="muted">${ke(s.status)}</p><div class="notes-grid">${cards.map(c=>{const key=c.id;return `<article><h3>${ke(c.title)}</h3><ul>${c.points.map(t=>`<li>${ke(t)}</li>`).join('')}</ul>${c.trap?`<p class="trap">易錯：${ke(c.trap)}</p>`:''}${kr(c.refs)}<p class="source">整理依據：${ke(c.source)}</p><label class="familiar"><input type="checkbox" data-familiar="${ke(key)}" ${knowledgeState.familiar[key]?'checked':''}>我已自行確認理解</label></article>`;}).join('')}</div>`:'';}).join('');
  $k('#knowledgeContent').innerHTML=html||'<p class="empty">沒有符合的重點，試試較短的關鍵字。</p>';return;
@@ -26,6 +28,7 @@ const knowledgeSelector=$k('#knowledgeSubject');knowledgeSelector.innerHTML+=kno
 knowledgeSelector.addEventListener('change',e=>{knowledgeSubject=e.target.value;renderKnowledge();});
 $k('#knowledgeSearch').addEventListener('input',e=>{knowledgeQuery=e.target.value.trim();renderKnowledge();});
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.knowledgeCourse){knowledgeSubject=b.dataset.knowledgeCourse;knowledgeSelector.value=knowledgeSubject;renderKnowledge();}
  if(b.dataset.mode){knowledgeMode=b.dataset.mode;renderKnowledge();}
  if(b.dataset.knowledgeAnswer){const [id,n]=b.dataset.knowledgeAnswer.split(':'),q=knowledge.quizzes.find(q=>q.id===id),i=Number(n);if(!q||!Number.isInteger(i)||i<0||i>=q.options.length)return;knowledgeState.answers[id]={choice:i,count:(knowledgeState.answers[id]?.count||0)+1};renderKnowledge();knowledgeSave();}
  if(b.dataset.knowledgeRetry){delete knowledgeState.answers[b.dataset.knowledgeRetry];renderKnowledge();knowledgeSave();}

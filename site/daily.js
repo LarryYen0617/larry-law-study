@@ -68,5 +68,5 @@ let renderedEdition=dailyPlan().editionDate;
 function scheduleRollover(){const now=Date.now(),next=DAILY_ANCHOR+(Math.floor((now-DAILY_ANCHOR)/86400000)+1)*86400000;setTimeout(()=>{renderedEdition=dailyPlan().editionDate;render();if(customFeed||DAILY_CONFIG.feedUrl)refreshDaily();scheduleRollover();},Math.max(1000,next-now+100));}
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&renderedEdition!==dailyPlan().editionDate){renderedEdition=dailyPlan().editionDate;render();if(customFeed||DAILY_CONFIG.feedUrl)refreshDaily();}});
 window.addEventListener('hashchange',()=>{if(location.hash==='#/daily'){page='daily';render();}});
-if(!window.LAW_INITIAL_HASH||window.LAW_INITIAL_HASH==='#/daily'){page='daily';render();}else route();
+if(!window.LAW_INITIAL_HASH){page='dashboard';render();}else if(window.LAW_INITIAL_HASH==='#/daily'){page='daily';render();}else route();
 scheduleRollover();if(location.protocol!=='file:')refreshDaily();

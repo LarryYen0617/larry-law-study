@@ -6,7 +6,7 @@ vm.runInContext(fs.readFileSync(path.join(root,'knowledge-data.js'),'utf8')+'\n'
 const run=s=>vm.runInContext(s,ctx),click=dataset=>{for(const f of events.click||[])f({target:{closest:()=>({dataset})}});};
 assert.equal(run('knowledge.subjects.length'),9);assert.equal(run('knowledgeMode'),'notes');assert.ok(!el('#knowledgeContent').innerHTML.includes('查看完整自編擬答'));
 assert.equal(run('knowledge.cases.length'),4);assert.equal(run('knowledge.quizzes.length'),6);
-assert.ok(el('#knowledgeContent').innerHTML.includes('條號校正'));assert.ok(el('#knowledgeContent').innerHTML.includes('第21條'));
+assert.ok(el('#knowledgeContent').innerHTML.includes('先選你要讀的科目'));click({knowledgeCourse:'criminalgeneral'});assert.ok(el('#knowledgeContent').innerHTML.includes('條號校正'));assert.ok(el('#knowledgeContent').innerHTML.includes('第21條'));
 el('#knowledgeSubject').change({target:{value:'civilgeneral'}});assert.ok(el('#knowledgeContent').innerHTML.includes('民法總則'));assert.ok(!el('#knowledgeContent').innerHTML.includes('無因管理'));
 el('#knowledgeSubject').change({target:{value:'all'}});click({mode:'teacher'});assert.ok(el('#knowledgeContent').innerHTML.includes('查看完整自編擬答'));
 click({knowledgeAnswer:'family-reviewed-1:1'});assert.equal(run('knowledgeState.answers["family-reviewed-1"].choice'),1);assert.ok(el('#knowledgeContent').innerHTML.includes('再確認要件'));
