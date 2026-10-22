@@ -58,6 +58,10 @@ def load_originals(root=ROOT):
 def publish(root=ROOT,now=None):
     now=now or datetime.now(timezone.utc)
     today=now.astimezone(TAIPEI).date().isoformat()
+    resources=root/'content/study-resources.json'
+    if resources.exists():
+        data=json.loads(resources.read_text(encoding='utf-8-sig'))
+        (root/'site/study-toolkit-data.js').write_text('window.LAW_STUDY_RESOURCES = '+json.dumps(data,ensure_ascii=False)+';\n',encoding='utf-8')
     articles=[a for a in load_originals(root) if a['date']<=today]
     daily=json.loads((root/'site/updates/daily.json').read_text(encoding='utf-8-sig'))
     daily['editorialMode']='agent_committed_originals'

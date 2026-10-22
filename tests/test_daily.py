@@ -21,10 +21,10 @@ class DailyTests(unittest.TestCase):
         self.assertEqual(daily.edition_date(datetime(2026,10,22,0,59,tzinfo=timezone.utc)).isoformat(), '2026-10-21')
         self.assertEqual(daily.edition_date(datetime(2026,10,22,1,tzinfo=timezone.utc)).isoformat(), '2026-10-22')
 
-    def test_eighteen_day_cycle_covers_all_topics(self):
+    def test_twenty_seven_day_cycle_covers_all_topics(self):
         from datetime import timedelta
-        plans = [daily.choose_plan(NOW + timedelta(days=i), self.courses, self.readings) for i in range(18)]
-        self.assertEqual(len({(p['courseId'], p['topicIndex']) for p in plans}), 18)
+        plans = [daily.choose_plan(NOW + timedelta(days=i), self.courses, self.readings) for i in range(27)]
+        self.assertEqual(len({(p['courseId'], p['topicIndex']) for p in plans}), 27)
         self.assertTrue(all(len(p['reading']['sections']) == 5 for p in plans))
 
     def test_rss_requires_date_and_official_link(self):

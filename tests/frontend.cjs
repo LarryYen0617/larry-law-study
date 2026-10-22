@@ -3,7 +3,7 @@ const elements=new Map(),events={};function el(s){if(!elements.has(s))elements.s
 const storage=new Map();const ctx=vm.createContext({console,document:{querySelector:el,createElement:()=>el('created'),body:el('body'),addEventListener(t,f,c){(events[t]??=[]).push({f,c:!!c})}},window:{addEventListener(){}},localStorage:{getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v)},setTimeout:()=>1,clearTimeout(){},confirm:()=>true,Blob,URL,Set,Date,history:{replaceState(){}},location:{hash:'',protocol:'file:',href:'file:///public-preview/index.html'},Event:class{constructor(type){this.type=type}}});
 vm.runInContext(['config.js','data.js','statutes.js','app.js','enhanced.js','layout.js','reading-library.js','daily-snapshot.js','editorials.js','daily.js'].map(n=>fs.readFileSync(path.join(root,n),'utf8')).join('\n'),ctx);const run=s=>vm.runInContext(s,ctx);
 function click(dataset,id=''){const e={target:{closest:()=>({dataset,id})}};for(const x of [...events.click].sort((a,b)=>Number(b.c)-Number(a.c)))x.f(e)}
-assert.equal(run('page'),'daily');click({workspace:'dashboard'});assert.ok(el('#content').innerHTML.includes('六科課程'));
+assert.equal(run('page'),'daily');click({workspace:'dashboard'});assert.ok(el('#content').innerHTML.includes('九科課程'));
 run(`COURSES.forEach(c=>{course=c;['chapters','laws','essays','quiz','wrong','progress','materials','dashboard','allwrong'].forEach(p=>{page=p;render()})})`);
 click({openCourse:'crime',openLevel:'0'});assert.equal(run('page'),'essays');assert.equal(run('course.id'),'crime');
 click({page:'quiz'});click({answer:'0:0'});assert.equal(run('state.answers[id(0)].wrong'),true);click({retake:'0'});assert.equal(run('state.retake[id(0)]'),true);assert.ok(!el('#content').innerHTML.includes('正確答案 B'));
@@ -15,10 +15,10 @@ run(`location.hash='#/tax/essays/2';route()`);assert.equal(run('course.id'),'tax
 run(`location.hash='#/wrong/missing/999';route()`);assert.equal(run('page'),'dashboard');
 const html=fs.readFileSync(path.join(root,'index.html'),'utf8');for(const f of html.matchAll(/(?:src|href)="([^"#:]+\.(?:js|css))"/g))assert.ok(fs.existsSync(path.join(root,f[1])),f[1]);
 assert.equal((el('#mainNav').innerHTML.match(/data-workspace=/g)||[]).length,5);click({workspace:'courses'});assert.equal(run('page'),'chapters');assert.equal(el('body').dataset.workspace,'courses');assert.equal((el('#tabs').innerHTML.match(/data-context=/g)||[]).length,2);click({workspace:'practice'});assert.equal(run('page'),'quiz');assert.equal((el('#tabs').innerHTML.match(/data-context=/g)||[]).length,3);click({context:'allwrong'});assert.equal(run('page'),'allwrong');assert.equal(el('#courseControl').hidden,true);click({workspace:'essays'});el('#courseSelector').change({target:{value:'family'}});assert.equal(run('course.id'),'family');assert.equal(run('page'),'essays');assert.equal(run('level'),0);click({workspace:'materials'});assert.equal(run('page'),'materials');assert.equal(el('#tabs').innerHTML,'');click({workspace:'dashboard'});assert.equal(run('page'),'dashboard');assert.equal(el('#courseControl').hidden,true);
-console.log('PASS: 54 course/page renders; five main entries; contextual tabs; subject switching; dashboard; search; retry; wrong-review cycle; resume; routes; v1 data compatibility; local assets.');
+console.log('PASS: 81 course/page renders; five main entries; contextual tabs; subject switching; dashboard; search; retry; wrong-review cycle; resume; routes; v1 data compatibility; local assets.');
 assert.equal(run(`dailyPlan(Date.parse('2026-10-22T00:59:59Z')).editionDate`),'2026-10-21');
 assert.equal(run(`dailyPlan(Date.parse('2026-10-22T01:00:00Z')).editionDate`),'2026-10-22');
-assert.equal(run(`new Set(Array.from({length:18},(_,i)=>{const p=dailyPlan(DAILY_ANCHOR+i*86400000);return p.course.id+':'+p.index})).size`),18);
+assert.equal(run(`new Set(Array.from({length:27},(_,i)=>{const p=dailyPlan(DAILY_ANCHOR+i*86400000);return p.course.id+':'+p.index})).size`),27);
 click({dailyOpen:'true'});assert.equal(run('page'),'daily');assert.ok(el('#content').innerHTML.includes('非人工審定'));
 const k=run(`dailyPlan().course.id+'-'+dailyPlan().index`),oldCount=run(`state.answers[${JSON.stringify(k)}]?.count||0`);
 click({dailyAnswer:String(run('(dailyPlan().topic.correct+1)%4'))});assert.equal(run(`state.answers[${JSON.stringify(k)}].wrong`),true);assert.equal(run(`state.answers[${JSON.stringify(k)}].count`),oldCount+1);
@@ -31,7 +31,7 @@ ctx.AbortController=AbortController;
 (async()=>{const payload=JSON.parse(run(`JSON.stringify({...window.LAW_DAILY_SNAPSHOT,editionDate:dailyPlan().editionDate,generatedAt:new Date().toISOString(),newsUpdatedAt:new Date().toISOString(),newsState:'ok',news:[{title:'<img src=x onerror=alert(1)>',url:'https://www.ey.gov.tw/test-fixture-only',source:'測試來源（非真實新聞）',publishedAt:new Date().toISOString()}]})`));ctx.fetch=async()=>({ok:true,text:async()=>JSON.stringify(payload)});await run('refreshDaily()');assert.equal(run('dailyFeed.news.length'),1);assert.ok(el('#content').innerHTML.includes('&lt;img'));assert.ok(!el('#content').innerHTML.includes('<img src=x'));
 const bad={...payload,news:[{...payload.news[0],url:'javascript:alert(1)'}]};ctx.fetch=async()=>({ok:true,text:async()=>JSON.stringify(bad)});await run('refreshDaily()');assert.equal(run('dailyFeed.news[0].url'),'https://www.ey.gov.tw/test-fixture-only');assert.ok(run('dailyError.length')>0);
 ctx.fetch=async()=>{throw Error('offline test')};await run('refreshDaily()');assert.equal(run('dailyFeed.news.length'),1);assert.ok(run('feedStateText()').includes('保留'));
-console.log('PASS: daily 09:00 rollover, 18-day cycle, reading, daily quiz persistence, retry, essay routing, local-file sharing guard, feed validation, XSS escaping, source failure retention.');})().catch(e=>{console.error(e);process.exitCode=1});
+console.log('PASS: daily 09:00 rollover, 27-day cycle, reading, daily quiz persistence, retry, essay routing, local-file sharing guard, feed validation, XSS escaping, source failure retention.');})().catch(e=>{console.error(e);process.exitCode=1});
 
 
 
@@ -59,3 +59,8 @@ click({editorialDate:'latest'});assert.equal(run('selectedEditorialDate'),'');
 console.log('PASS: committed original, archive selection, course supplements, truthful agent review disclosure.');
 
 require('./toolkit.cjs');
+
+assert.equal(run("COURSES.length"),9);for(const c of ["criminalgeneral","civilgeneral","constitution"]){run(`location.hash="#/${c}/essays/2";route()`);assert.equal(run("course.id"),c);assert.equal(run("level"),2);assert.ok(run("STATUTES[course.id].length")===3);}
+console.log("PASS: three added subjects, direct routes, advanced essays and statute excerpts; original IDs preserved.");
+
+run("page='daily';render()");

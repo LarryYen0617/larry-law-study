@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "editionDate": "2026-10-22",
-  "generatedAt": "2026-10-22T16:41:19.316165Z",
-  "newsUpdatedAt": "2026-10-22T16:41:18.400279Z",
+  "generatedAt": "2026-10-22T17:10:55.608936Z",
+  "newsUpdatedAt": "2026-10-22T17:10:54.673735Z",
   "timezone": "Asia/Taipei",
   "releaseHour": 9,
   "newsState": "ok",
@@ -12,25 +12,41 @@
       "id": "ey-news",
       "name": "行政院本院新聞",
       "status": "ok",
-      "checkedAt": "2026-10-22T16:41:18.400279Z",
+      "checkedAt": "2026-10-22T17:10:54.673735Z",
       "items": 16
     },
     {
       "id": "ey-consumer",
       "name": "行政院消費者保護資訊",
       "status": "ok",
-      "checkedAt": "2026-10-22T16:41:18.400279Z",
+      "checkedAt": "2026-10-22T17:10:54.673735Z",
       "items": 16
     },
     {
       "id": "dot-news",
       "name": "財政部賦稅署新聞稿",
       "status": "ok",
-      "checkedAt": "2026-10-22T16:41:18.400279Z",
-      "items": 1
+      "checkedAt": "2026-10-22T17:10:54.673735Z",
+      "items": 3
     }
   ],
   "news": [
+    {
+      "title": "因應薔琵颱風來襲，稅捐稽徵機關主動協助輔導稅捐減免事宜",
+      "url": "https://www.dot.gov.tw/singlehtml/ch26?cntId=7a1c8475021d40b9bf63a1711a7fe16b",
+      "source": "財政部賦稅署新聞稿",
+      "publishedAt": "2026-10-22T07:40:00Z",
+      "sourceId": "dot-news",
+      "kind": "官方RSS標題・未附AI事件判斷"
+    },
+    {
+      "title": "115年地價稅將於11月1日開徵，繳納期限至同月30日截止",
+      "url": "https://www.dot.gov.tw/singlehtml/ch26?cntId=759f91548b2a4d3e870f6aceb07b6b2d",
+      "source": "財政部賦稅署新聞稿",
+      "publishedAt": "2026-10-22T07:20:00Z",
+      "sourceId": "dot-news",
+      "kind": "官方RSS標題・未附AI事件判斷"
+    },
     {
       "title": "視導薔琵颱風中央災害應變中心 卓揆：中央地方攜手防災 全力確保民眾安全",
       "url": "https://www.ey.gov.tw/Page/9277F759E41CCD91//28285272-cb9c-4b74-889c-7b61c2ad56ba",
@@ -78,22 +94,6 @@
       "publishedAt": "2026-10-22T04:19:09Z",
       "sourceId": "ey-news",
       "kind": "官方RSS標題・未附AI事件判斷"
-    },
-    {
-      "title": "近期肯亞及奈及利亞均確診境外移入相關伊波拉病毒感染症病例，疾管署持續監測疫情發展，並維持剛果民主共和國旅遊警示等級第三級警告(Warning)",
-      "url": "https://www.ey.gov.tw/Page/88F151FFCE5C741E/e7028503-8d9a-4321-9557-8835662defe9",
-      "source": "行政院消費者保護資訊",
-      "publishedAt": "2026-10-21T12:16:00Z",
-      "sourceId": "ey-consumer",
-      "kind": "官方RSS標題・未附AI事件判斷"
-    },
-    {
-      "title": "薔琵颱風逼近 台水啟動防颱機制 維持供水系統穩定運作",
-      "url": "https://www.ey.gov.tw/Page/88F151FFCE5C741E/5a409580-8e65-46fb-8d0d-8e8982bf07f6",
-      "source": "行政院消費者保護資訊",
-      "publishedAt": "2026-10-21T12:00:00Z",
-      "sourceId": "ey-consumer",
-      "kind": "官方RSS標題・未附AI事件判斷"
     }
   ],
   "plan": {
@@ -139,7 +139,7 @@
   "editorial": {
     "status": "published",
     "attemptedDate": "2026-10-23",
-    "attemptedAt": "2026-10-22T16:41:19.316165Z",
+    "attemptedAt": "2026-10-22T17:10:55.608936Z",
     "reason": "committed_original",
     "article": {
       "id": "original-2026-10-23",
