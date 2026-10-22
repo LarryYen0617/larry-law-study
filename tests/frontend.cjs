@@ -71,3 +71,4 @@ require('./library.cjs');
 require('./personal-notes.cjs');
 
 require('./audit.cjs');
+require('./side-navigation.cjs');
