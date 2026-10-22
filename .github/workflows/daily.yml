@@ -14,7 +14,7 @@ permissions:
 
 concurrency:
   group: daily-pages
-  cancel-in-progress: false
+  cancel-in-progress: true # 最新主站版本取代過期發布；文章原稿已永久提交保存
 
 jobs:
   update-and-publish:
