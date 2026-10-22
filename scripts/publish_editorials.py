@@ -58,6 +58,10 @@ def load_originals(root=ROOT):
 def publish(root=ROOT,now=None):
     now=now or datetime.now(timezone.utc)
     today=now.astimezone(TAIPEI).date().isoformat()
+    knowledge_path=root/'content/knowledge-base.json'
+    if knowledge_path.exists():
+        kb=json.loads(knowledge_path.read_text(encoding='utf-8-sig'))
+        (root/'site/knowledge-data.js').write_text('window.LEX_KNOWLEDGE = '+json.dumps(kb,ensure_ascii=False)+';\n',encoding='utf-8')
     resources=root/'content/study-resources.json'
     if resources.exists():
         data=json.loads(resources.read_text(encoding='utf-8-sig'))

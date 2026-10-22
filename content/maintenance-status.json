@@ -3,7 +3,7 @@
   "timezone": "Asia/Taipei",
   "editorialMode": "agent_committed_originals",
   "classroomMaterials": {
-    "state": "awaiting_current_term_sources",
+    "state": "partially_integrated",
     "subjects": [
       "刑法分則",
       "親屬法",
@@ -15,7 +15,7 @@
       "民法總則",
       "憲法"
     ],
-    "note": "本次可存取 Drive 的精確檔名搜尋未找到六科對應教材。舊刑法總則材料不能替代本學期六科範圍。這不是斷言教材不存在。",
+    "note": "已讀取債總附件、親屬題庫及舊刑總整理；純重點37卡、債總四題改寫擬答、親屬六題校核完成。創課目前仍要求登入，其他題庫尚未全部校核。",
     "exclusions": [],
     "exclusionPolicy": "只有原始教材或教師筆記明確說不考且附可追溯位置才加入。"
   },

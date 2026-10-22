@@ -64,3 +64,5 @@ assert.equal(run("COURSES.length"),9);for(const c of ["criminalgeneral","civilge
 console.log("PASS: three added subjects, direct routes, advanced essays and statute excerpts; original IDs preserved.");
 
 run("page='daily';render()");
+
+require('./essentials.cjs');

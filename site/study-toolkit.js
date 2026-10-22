@@ -10,6 +10,6 @@ const draftText=document.querySelector('#draftText'),draftStatus=document.queryS
 try{draftText.value=localStorage.getItem(TOOLKIT_KEY)||'';}catch{draftStatus.textContent='瀏覽器儲存空間無法讀取，請使用文字備份。';}
 document.querySelector('#saveDraft').addEventListener('click',()=>{try{localStorage.setItem(TOOLKIT_KEY,draftText.value);draftStatus.textContent='已儲存在這個瀏覽器。';}catch{draftStatus.textContent='儲存失敗，請下載文字備份。';}});
 draftText.addEventListener('input',()=>{draftStatus.textContent='尚有未儲存的變更。';});
-document.querySelector('#exportDraft').addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([draftText.value],{type:'text/plain;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download='羽澤申論草稿.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);draftStatus.textContent='已要求下載；請確認瀏覽器的下載結果。';});
+document.querySelector('#exportDraft').addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([draftText.value],{type:'text/plain;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download='LEX-NEXUS-申論草稿.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);draftStatus.textContent='已要求下載；請確認瀏覽器的下載結果。';});
 document.querySelector('#printToolkit').addEventListener('click',()=>window.print());
 renderResources();
