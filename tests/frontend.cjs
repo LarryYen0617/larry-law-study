@@ -67,3 +67,5 @@ run("page='daily';render()");
 
 require('./essentials.cjs');
 require('./library.cjs');
+
+require('./personal-notes.cjs');

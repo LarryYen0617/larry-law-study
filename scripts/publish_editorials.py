@@ -58,6 +58,10 @@ def load_originals(root=ROOT):
 def publish(root=ROOT,now=None):
     now=now or datetime.now(timezone.utc)
     today=now.astimezone(TAIPEI).date().isoformat()
+    personal_path=root/'content/personal-notes.json'
+    if personal_path.exists():
+        personal=json.loads(personal_path.read_text(encoding='utf-8-sig'))
+        (root/'site/personal-notes-data.js').write_text('window.LEX_PERSONAL_NOTES='+json.dumps(personal,ensure_ascii=False)+';\n',encoding='utf-8')
     knowledge_path=root/'content/knowledge-base.json'
     if knowledge_path.exists():
         kb=json.loads(knowledge_path.read_text(encoding='utf-8-sig'))

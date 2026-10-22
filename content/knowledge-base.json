@@ -1182,6 +1182,27 @@
       "pages": null,
       "status": "目前可讀分頁仍要求登入，尚未取得課程清單及教材",
       "privacy": "不擷取帳密、成績或其他學生資料"
+    },
+    {
+      "id": "download-notes-刑總",
+      "name": "download.zip / CriminalLaw.html",
+      "status": "已整合為刑總完整個人複習筆記；既有整理網頁，不冒稱教師原始講義",
+      "sha256": "20d0767e96a929a8b1965b406c415c7c618e77efe193c470dd9ea9c045c32038",
+      "privacy": "只匯入經清理的教學內容，不執行原檔程式，不上傳無關世界時間頁。"
+    },
+    {
+      "id": "download-notes-民總",
+      "name": "download.zip / CivilLaw.html",
+      "status": "已整合為民總完整個人複習筆記；既有整理網頁，不冒稱教師原始講義",
+      "sha256": "297b09f2daf28fafeb9c8ea21088e431a9788a59d1360abfac8c0bb8ab3cd270",
+      "privacy": "只匯入經清理的教學內容，不執行原檔程式，不上傳無關世界時間頁。"
+    },
+    {
+      "id": "download-notes-憲法",
+      "name": "download.zip / Constitution.html",
+      "status": "已整合為憲法完整個人複習筆記；既有整理網頁，不冒稱教師原始講義",
+      "sha256": "8cccbacef54a10f9943cd1e6ea22390be54a44bcee77a538d3f1f1dfd1691809",
+      "privacy": "只匯入經清理的教學內容，不執行原檔程式，不上傳無關世界時間頁。"
     }
   ],
   "exclusions": [],
