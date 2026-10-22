@@ -66,3 +66,4 @@ console.log("PASS: three added subjects, direct routes, advanced essays and stat
 run("page='daily';render()");
 
 require('./essentials.cjs');
+require('./library.cjs');
