@@ -35,3 +35,17 @@ console.log('PASS: daily 09:00 rollover, 18-day cycle, reading, daily quiz persi
 
 
 
+
+const savedFeed=run('dailyFeed');
+const ai={id:'original-fixture',date:'2026-10-22',kind:'ai_original',title:'<script>fixture</script>',intro:'測試導入',reflection:'反思',sourceKeys:[],verification:{status:'automated_pass',humanReviewed:false},sources:[{id:'S1',title:'原文一',url:'https://www.ey.gov.tw/fixture1'},{id:'S2',title:'原文二',url:'https://www.ey.gov.tw/fixture2'}],sections:Array.from({length:7},()=>({heading:'測試段落',text:'<img src=x onerror=bad>',sourceIds:['S1']})),claims:[{claim:'測試主張',evidence:[{quote:'測試引文',sourceId:'S1'}]}]};
+ctx.fixtureArticle=ai;
+run('validateEditorial(fixtureArticle);dailyFeed={...dailyFeed,editorial:{status:"rejected",article:fixtureArticle}};page="daily";render()');
+assert.ok(el('#content').innerHTML.includes('非人工審定'));
+assert.ok(el('#content').innerHTML.includes('未通過檢查'));
+assert.ok(el('#content').innerHTML.includes('&lt;script&gt;fixture'));
+assert.ok(!el('#content').innerHTML.includes('<img src=x'));
+assert.ok(el('#content').innerHTML.includes('查看事實主張與引用證據'));
+ai.sources[0].url='javascript:alert(1)';assert.throws(()=>run('validateEditorial(fixtureArticle)'));
+run('dailyFeed=null');assert.ok(run('currentReading(dailyPlan()).sourceKeys.length')>0);
+ctx.restoreFeed=savedFeed;run('dailyFeed=restoreFeed');
+console.log('PASS: AI disclosure, rejection status, evidence links, unsafe-source rejection, escaped AI output, library fallback.');

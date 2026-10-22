@@ -135,7 +135,7 @@ def assemble(now, courses, readings, source_results, previous=None, offline=Fals
         carried = bool(news)
         news_updated_at = previous.get('newsUpdatedAt') if carried else None
     state = 'offline' if offline else 'ok' if success and all(s['status'] == 'ok' for s in statuses) else 'partial' if success else 'error'
-    return {'schemaVersion': 1, 'editionDate': edition_date(now).isoformat(), 'generatedAt': utc_iso(now), 'newsUpdatedAt': news_updated_at, 'timezone': 'Asia/Taipei', 'releaseHour': 9, 'newsState': state, 'carriedNews': carried, 'sources': statuses, 'news': news, 'plan': choose_plan(now, courses, readings), 'notice': '新聞僅列官方RSS標題與連結，不保證涵蓋所有重要事件；深讀為自編研讀庫輪替，法規審閱日期見各篇。'}
+    return {'schemaVersion': 1, 'editionDate': edition_date(now).isoformat(), 'generatedAt': utc_iso(now), 'newsUpdatedAt': news_updated_at, 'timezone': 'Asia/Taipei', 'releaseHour': 9, 'newsState': state, 'carriedNews': carried, 'sources': statuses, 'news': news, 'plan': choose_plan(now, courses, readings), 'editorial': previous.get('editorial', {}) if valid_previous(previous) else {}, 'editorialHistory': previous.get('editorialHistory', [])[-14:] if valid_previous(previous) and isinstance(previous.get('editorialHistory', []), list) else [], 'notice': '新聞僅列官方RSS標題與連結，不保證涵蓋所有重要事件；深讀為自編研讀庫輪替，法規審閱日期見各篇。'}
 
 def atomic_json(path, value):
     path.parent.mkdir(parents=True, exist_ok=True)

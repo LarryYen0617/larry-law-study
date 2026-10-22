@@ -37,6 +37,13 @@ jobs:
         uses: actions/configure-pages@v5
       - name: 從官方來源更新公開資料
         run: python scripts/update_daily.py --previous-url '${{ steps.pages.outputs.base_url }}/updates/daily.json'
+      - name: 產生新導讀與自動複核（預設不啟用）
+        env:
+          DAILY_AI_ENABLED: ${{ vars.DAILY_AI_ENABLED }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+          OPENAI_REVIEW_MODEL: ${{ vars.OPENAI_REVIEW_MODEL }}
+        run: python scripts/generate_editorial.py
       - name: 上傳網站（不包含教材原始檔、腳本或任何秘密）
         uses: actions/upload-pages-artifact@v4
         with:
@@ -45,4 +52,4 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
       - name: 若所有消息來源失敗，明確回報（網站仍保留可用內容）
-        run: python -c "import json,sys; d=json.load(open('site/updates/daily.json')); print('News status:',d['newsState']); sys.exit(1 if d['newsState']=='error' else 0)"
+        run: python -c "import json,sys; d=json.load(open('site/updates/daily.json')); print('News status:',d['newsState']); print('Editorial status:',d.get('editorial',{}).get('status')); sys.exit(1 if d['newsState']=='error' or d.get('editorial',{}).get('status') in ('rejected','error','no_sources','not_configured') else 0)"
