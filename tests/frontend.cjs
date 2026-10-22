@@ -1,7 +1,7 @@
 const fs=require('fs'),vm=require('vm'),assert=require('assert'),path=require('path');const root=path.resolve(__dirname,'../site');
 const elements=new Map(),events={};function el(s){if(!elements.has(s))elements.set(s,{innerHTML:'',textContent:'',value:'',style:{},dataset:{},prepend(node){this.innerHTML=node.innerHTML+this.innerHTML},setAttribute(){},querySelectorAll(){return []},addEventListener(t,f){this[t]=f},scrollIntoView(){},focus(){this.focused=true},click(){},before(){},parentElement:{before(){}},classList:{toggle(){},remove(){}},dispatchEvent(e){for(const x of events[e.type]||[])x.f({target:this})}});return elements.get(s)}
 const storage=new Map();const ctx=vm.createContext({console,document:{querySelector:el,createElement:()=>el('created'),body:el('body'),addEventListener(t,f,c){(events[t]??=[]).push({f,c:!!c})}},window:{addEventListener(){}},localStorage:{getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v)},setTimeout:()=>1,clearTimeout(){},confirm:()=>true,Blob,URL,Set,Date,history:{replaceState(){}},location:{hash:'',protocol:'file:',href:'file:///public-preview/index.html'},Event:class{constructor(type){this.type=type}}});
-vm.runInContext(['config.js','data.js','statutes.js','app.js','enhanced.js','layout.js','reading-library.js','daily-snapshot.js','daily.js'].map(n=>fs.readFileSync(path.join(root,n),'utf8')).join('\n'),ctx);const run=s=>vm.runInContext(s,ctx);
+vm.runInContext(['config.js','data.js','statutes.js','app.js','enhanced.js','layout.js','reading-library.js','daily-snapshot.js','editorials.js','daily.js'].map(n=>fs.readFileSync(path.join(root,n),'utf8')).join('\n'),ctx);const run=s=>vm.runInContext(s,ctx);
 function click(dataset,id=''){const e={target:{closest:()=>({dataset,id})}};for(const x of [...events.click].sort((a,b)=>Number(b.c)-Number(a.c)))x.f(e)}
 assert.equal(run('page'),'daily');click({workspace:'dashboard'});assert.ok(el('#content').innerHTML.includes('六科課程'));
 run(`COURSES.forEach(c=>{course=c;['chapters','laws','essays','quiz','wrong','progress','materials','dashboard','allwrong'].forEach(p=>{page=p;render()})})`);
@@ -19,7 +19,7 @@ console.log('PASS: 54 course/page renders; five main entries; contextual tabs; s
 assert.equal(run(`dailyPlan(Date.parse('2026-10-22T00:59:59Z')).editionDate`),'2026-10-21');
 assert.equal(run(`dailyPlan(Date.parse('2026-10-22T01:00:00Z')).editionDate`),'2026-10-22');
 assert.equal(run(`new Set(Array.from({length:18},(_,i)=>{const p=dailyPlan(DAILY_ANCHOR+i*86400000);return p.course.id+':'+p.index})).size`),18);
-click({dailyOpen:'true'});assert.equal(run('page'),'daily');assert.ok(el('#content').innerHTML.includes('法源審閱日'));
+click({dailyOpen:'true'});assert.equal(run('page'),'daily');assert.ok(el('#content').innerHTML.includes('非人工審定'));
 const k=run(`dailyPlan().course.id+'-'+dailyPlan().index`),oldCount=run(`state.answers[${JSON.stringify(k)}]?.count||0`);
 click({dailyAnswer:String(run('(dailyPlan().topic.correct+1)%4'))});assert.equal(run(`state.answers[${JSON.stringify(k)}].wrong`),true);assert.equal(run(`state.answers[${JSON.stringify(k)}].count`),oldCount+1);
 click({dailyRetry:'true'});assert.ok(!el('#content').innerHTML.includes('正確答案'));
@@ -49,3 +49,11 @@ ai.sources[0].url='javascript:alert(1)';assert.throws(()=>run('validateEditorial
 run('dailyFeed=null');assert.ok(run('currentReading(dailyPlan()).sourceKeys.length')>0);
 ctx.restoreFeed=savedFeed;run('dailyFeed=restoreFeed');
 console.log('PASS: AI disclosure, rejection status, evidence links, unsafe-source rejection, escaped AI output, library fallback.');
+
+run('dailyFeed=restoreFeed;selectedEditorialDate="2026-10-23";page="daily";render()');
+assert.ok(el('#content').innerHTML.includes('三級虛構案例'));
+assert.ok(el('#content').innerHTML.includes('課程補充'));
+assert.ok(el('#content').innerHTML.includes('歷史原創導讀'));
+assert.ok(!el('#content').innerHTML.includes('第二次模型複核及近'));
+click({editorialDate:'latest'});assert.equal(run('selectedEditorialDate'),'');
+console.log('PASS: committed original, archive selection, course supplements, truthful agent review disclosure.');

@@ -37,13 +37,8 @@ jobs:
         uses: actions/configure-pages@v5
       - name: 從官方來源更新公開資料
         run: python scripts/update_daily.py --previous-url '${{ steps.pages.outputs.base_url }}/updates/daily.json'
-      - name: 產生新導讀與自動複核（預設不啟用）
-        env:
-          DAILY_AI_ENABLED: ${{ vars.DAILY_AI_ENABLED }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
-          OPENAI_REVIEW_MODEL: ${{ vars.OPENAI_REVIEW_MODEL }}
-        run: python scripts/generate_editorial.py
+      - name: 發布已提交的原創導讀與歷史文章（無需 API 金鑰）
+        run: python scripts/publish_editorials.py
       - name: 上傳網站（不包含教材原始檔、腳本或任何秘密）
         uses: actions/upload-pages-artifact@v4
         with:

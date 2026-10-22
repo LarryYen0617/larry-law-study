@@ -1,0 +1,14 @@
+{
+  "checkedDate": "2026-10-23",
+  "timezone": "Asia/Taipei",
+  "editorialMode": "agent_committed_originals",
+  "classroomMaterials": {
+    "state": "awaiting_current_term_sources",
+    "subjects": ["刑法分則", "親屬法", "債權", "物權", "行政法", "租稅法"],
+    "note": "本次可存取 Drive 的精確檔名搜尋未找到六科對應教材。舊刑法總則材料不能替代本學期六科範圍。這不是斷言教材不存在。",
+    "exclusions": [],
+    "exclusionPolicy": "只有原始教材或教師筆記明確說不考且附可追溯位置才加入。"
+  },
+  "latestOriginal": "2026-10-23",
+  "nextActions": ["每日新撰及查核後提交", "增量檢查相關教材與官方新資料", "測試後直接改善操作及內容呈現"]
+}
