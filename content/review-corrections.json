@@ -1,0 +1,85 @@
+{
+  "date": "2026-10-23",
+  "corrections": [
+    {
+      "chapter": "personal-civilgeneral-c6",
+      "before": "<td>§96</td>",
+      "after": "<td>§95第2項</td>",
+      "reason": "發出後死亡或能力變更是第95條第2項；第96條處理對無／限制行為能力人的表示",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=95",
+      "checkedAt": "2026-10-23"
+    },
+    {
+      "chapter": "personal-criminalgeneral-official",
+      "before": "原則上可加重其刑至二分之一",
+      "after": "符合要件時加重其刑至二分之一",
+      "reason": "第134條為加重規定，不應誤寫成得加重",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=134",
+      "checkedAt": "2026-10-23"
+    },
+    {
+      "chapter": "personal-criminalgeneral-official",
+      "before": "行為人原本合法持有他人之物，後來易持有為所有",
+      "after": "行為人原本持有他人之物，後來以所有人地位排斥權利人；持有原因及個別例外另須判斷",
+      "reason": "條文為自己持有他人之物，不能增加一律合法持有的限制",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=335",
+      "checkedAt": "2026-10-23"
+    },
+    {
+      "chapter": "personal-criminalgeneral-status",
+      "before": "依§31Ⅰ處理。",
+      "after": "依§31Ⅰ處理，無特定關係者仍可能以正犯或共犯論，但得減輕其刑。",
+      "reason": "補上真正身分犯無身分參與者的減輕規定",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=31",
+      "checkedAt": "2026-10-23"
+    },
+    {
+      "chapter": "personal-criminalgeneral-exam",
+      "before": "你老師曾要求「學說見解＋本文採之」，因此不要只羅列學說名稱而沒有立場與理由。",
+      "after": "申論練習宜提出見解、採說及理由；目前沒有可核對的教師原話，不能把原整理的說法當作教師明確要求。",
+      "reason": "移除無原話位置的教師要求歸因",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=12",
+      "checkedAt": "2026-10-23"
+    },
+    {
+      "chapter": "personal-civilgeneral-c5",
+      "before": "法院得依聲請撤銷或減輕給付。",
+      "after": "法院得依利害關係人聲請撤銷或減輕給付；聲請應於法律行為後一年內為之。",
+      "reason": "補上法院聲請方式與一年期間",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=74",
+      "checkedAt": "2026-10-23"
+    },
+    {
+      "chapter": "personal-civilgeneral-c6",
+      "before": "§88 撤銷要件",
+      "after": "§88 撤銷要件：錯誤或不知事情非由表意人自己的過失所致",
+      "reason": "補足表意人無過失限制，避免只記有錯即可撤銷",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=88",
+      "checkedAt": "2026-10-23"
+    },
+    {
+      "chapter": "personal-civilgeneral-c6",
+      "before": "§90 期間",
+      "after": "§90 期間：自意思表示後經過一年而消滅",
+      "reason": "明列起算點，與發現詐欺起算區分",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=90",
+      "checkedAt": "2026-10-23"
+    },
+    {
+      "chapter": "personal-constitution-local",
+      "before": "中央交地方辦理",
+      "after": "上級政府交地方辦理（非該團體事務）",
+      "reason": "委辦不限中央與地方間，亦含其他上級政府",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0040003&flno=2",
+      "checkedAt": "2026-10-23"
+    },
+    {
+      "chapter": "personal-criminalgeneral-obj",
+      "before": "原整理曾用「徑守原則」等語彙理解此層次，作答時最穩妥的正式寫法是",
+      "after": "原整理的「徑守原則」語彙無可靠來源，予以刪除；本章以",
+      "reason": "不傳播疑似聽打錯詞為學說術語",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=12",
+      "checkedAt": "2026-10-23"
+    }
+  ]
+}

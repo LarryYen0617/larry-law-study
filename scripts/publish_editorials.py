@@ -58,6 +58,10 @@ def load_originals(root=ROOT):
 def publish(root=ROOT,now=None):
     now=now or datetime.now(timezone.utc)
     today=now.astimezone(TAIPEI).date().isoformat()
+    coverage_path=root/'content/coverage.json'
+    if coverage_path.exists():
+        coverage=json.loads(coverage_path.read_text(encoding='utf-8-sig'))
+        (root/'site/coverage-data.js').write_text('window.LEX_COVERAGE='+json.dumps(coverage,ensure_ascii=False)+';\n',encoding='utf-8')
     personal_path=root/'content/personal-notes.json'
     if personal_path.exists():
         personal=json.loads(personal_path.read_text(encoding='utf-8-sig'))

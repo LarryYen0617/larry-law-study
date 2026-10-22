@@ -1,6 +1,6 @@
 # 整合資料庫
 
-入口為 `site/library.html`。2026-10-23 從使用者提供的舊版 LawQuiz 壓縮檔及課堂教材匯入：1,770 題去重舊題、88 則親屬法題目區塊（85 則辨識到原附擬答），以及 1,016 則基礎重點／舊版解析彙整／課堂摘要。解析筆記不冒稱教師完整講義；舊版標示 reviewed 仍顯示本次待複核，題目不計入正式正確率。
+入口為 `site/library.html`。2026-10-23 從使用者提供的舊版 LawQuiz 壓縮檔及課堂教材匯入：1,770 題去重舊題、91 則親屬法題目區塊（85 則辨識到原附擬答），以及 1,016 則基礎重點／舊版解析彙整／課堂摘要。解析筆記不冒稱教師完整講義；舊版標示 reviewed 仍顯示本次待複核，題目不計入正式正確率。
 
 `site/library-data.js` 儲存來源清單；`library-questions-*.js`、`library-notes-*.js`、`library-teacher-*.js` 是靜態資料分段，使用 JSON literal，不包含來源壓縮檔中的執行程式。`content/library-index.json` 記錄各段 SHA-256，測試確認完整性。編輯資料後須同步更新該索引雜湊及筆數測試，不要改動既有題目 ID。
 
@@ -11,3 +11,6 @@
 本頁作答、草稿儲存在 `lex-nexus-library-v1`，提供備份下載；原九科進度及既有重點頁儲存鍵保持不變。資料庫的繼承法是舊題補充，不改動九科主課程。
 
 驗證：`node tests/library.cjs`，也會由 `node tests/frontend.cjs` 一起執行。
+
+
+2026-10-23覆核：新增 coverage.html 及 content/coverage.json，另辨識掃描95頁並校訂舊筆記；最新數量、來源與缺漏以完整度頁為準。

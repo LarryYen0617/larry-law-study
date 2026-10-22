@@ -1,10 +1,10 @@
 {
   "importedAt": "2026-10-23",
   "questions": 1770,
-  "teacherBlocks": 88,
+  "teacherBlocks": 91,
   "notes": 1016,
   "files": {
-    "library-data.js": "552ebf7de58e5be88980cc5d538eee4774571e6f0b5d0207b002a2ad5243f814",
+    "library-data.js": "3ffbaa9507da1730dfac89f1dcb27a4ffef81a330986174b11da1c2eb5c3a65c",
     "library-notes-01.js": "ea2f251e9ce1c9e32e5351d5bef1c7631e639d411508fd0978cac42be97d40c3",
     "library-notes-02.js": "8c3a71ab6d880e0e941e4ba3841f418ab86c1113c0354556d1d6746ab6d0551e",
     "library-notes-03.js": "c9660958c2a8de9ac20277d159b15d5a3f880d5f577d0aef7ab5eca6446cf891",
@@ -46,11 +46,11 @@
     "library-questions-24.js": "44e2bfb1e7024c13e992d53c1d3aa759ddcbb6b65608a9ca1ae8859582367738",
     "library-questions-25.js": "e76c08d251b4bcebaf8a59f4d27999ef72f5a6348494d0975b4e23e59f153439",
     "library-questions-26.js": "9c163c05760cfc0a0db2c462a3b34741cba048276985852f0e6ebad70e3a750d",
-    "library-teacher-01.js": "264fe26883371eed00fcb2dcf3ad3fb910d223df4aa9ca5b48034c24dd4d2184",
-    "library-teacher-02.js": "538ac082b2d3f316a54ec32faf61d8517ce3aad4b7efb29c4b8bbd2a48b14eb6",
-    "library-teacher-03.js": "08453e2f0a737163e1c7042f71b03770045d42f71c7d2a87ddeee9296b456a35",
-    "library-teacher-04.js": "02c5c72ecd2f9d519e0945d30490541c9946f69c85a32129ba6de8157fed850a",
-    "library-teacher-05.js": "be0c5e695769cca2825a6dc5867743a3a92491a94b21b6eb5a2ba95583c4f2ad"
+    "library-teacher-01.js": "22a3a38fe259e49f5733929bdbdddffa61eb251ced5dcc000c21d1b93775c463",
+    "library-teacher-02.js": "f08759f359ccc90306e8646ecbdd4e370f57a09dfb83a1c53696844f27b5407d",
+    "library-teacher-03.js": "e898ea89e7cc0a78b4d36d850bb5241b4320e079a8c7854d1901ec412b5b104d",
+    "library-teacher-04.js": "efd7051391fa91ee5bdaf66817353229673b78329a045825ad117cff8812143d",
+    "library-teacher-05.js": "77a4e8db3aefbd62dd246311fe5db79bcde0e8d921562491cf91b5fdb2738331"
   },
   "hashFormat": "UTF-8, CRLF normalized to LF"
 }
