@@ -52,10 +52,12 @@
     "pythonTests": 23,
     "frontend": "passed",
     "publisher": "passed",
-    "privateMaterialPublished": false
+    "privateMaterialPublished": false,
+    "dailySidebarLink": "browser_verified"
   },
   "changes": [
     "依最新使用者要求修正維護規範的側欄分類，避免後續排程誤用已過時三入口限制。",
-    "記錄當日文章復查及教材存取缺漏，不重複發布文章、不虛構新增教材。"
+    "記錄當日文章復查及教材存取缺漏，不重複發布文章、不虛構新增教材。",
+    "修正每日導讀雜湊路由與舊課程路由互相覆蓋，避免側欄點擊後回到首頁；加入原路由回歸測試並以瀏覽器實測。"
   ]
 }

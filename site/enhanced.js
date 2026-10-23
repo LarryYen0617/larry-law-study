@@ -40,6 +40,6 @@ if(b.dataset.insertOutline){const d=$('#draft');if(d.value.trim()){toast('已有
 if(changed)render();
 });
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();$('#search').focus();}});
-function route(){const p=location.hash.replace(/^#\//,'').split('/');if(p[0]==='dashboard'||p[0]==='allwrong'){page=p[0];}else{const c=COURSES.find(c=>c.id===p[0]);if(c){course=c;page=['chapters','laws','essays','quiz','wrong','progress','materials'].includes(p[1])?p[1]:'chapters';level=Math.min(2,Math.max(0,Number(p[2])||0));}else page='dashboard';}render();}
+function route(){const p=location.hash.replace(/^#\//,'').split('/');if(p[0]==='daily'){if(window.LEX_DAILY_READY){page='daily';render();}return;}if(p[0]==='dashboard'||p[0]==='allwrong'){page=p[0];}else{const c=COURSES.find(c=>c.id===p[0]);if(c){course=c;page=['chapters','laws','essays','quiz','wrong','progress','materials'].includes(p[1])?p[1]:'chapters';level=Math.min(2,Math.max(0,Number(p[2])||0));}else page='dashboard';}render();}
 window.addEventListener('hashchange',route);route();
 

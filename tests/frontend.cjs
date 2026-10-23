@@ -26,6 +26,7 @@ click({dailyRetry:'true'});assert.ok(!el('#content').innerHTML.includes('正確�
 click({dailyAnswer:String(run('dailyPlan().topic.correct'))});assert.ok(el('#content').innerHTML.includes('本次答對'));
 click({dailyEssay:'true'});assert.equal(run('page'),'essays');assert.equal(run('course.id'),run('dailyPlan().course.id'));assert.equal(run('level'),run('dailyPlan().index'));
 run(`location.hash='#/daily';route()`);assert.equal(run('page'),'daily');
+run(`page='dashboard';location.hash='#/daily';learningRoute()`);assert.equal(run('page'),'daily');assert.ok(el('#content').innerHTML.includes('THE DAILY READING'));
 click({},'shareSite');assert.ok(el('#toast').textContent.includes('本機路徑'));
 ctx.AbortController=AbortController;
 (async()=>{const payload=JSON.parse(run(`JSON.stringify({...window.LAW_DAILY_SNAPSHOT,editionDate:dailyPlan().editionDate,generatedAt:new Date().toISOString(),newsUpdatedAt:new Date().toISOString(),newsState:'ok',news:[{title:'<img src=x onerror=alert(1)>',url:'https://www.ey.gov.tw/test-fixture-only',source:'測試來源（非真實新聞）',publishedAt:new Date().toISOString()}]})`));ctx.fetch=async()=>({ok:true,text:async()=>JSON.stringify(payload)});await run('refreshDaily()');assert.equal(run('dailyFeed.news.length'),1);assert.ok(el('#content').innerHTML.includes('&lt;img'));assert.ok(!el('#content').innerHTML.includes('<img src=x'));

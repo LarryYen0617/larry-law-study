@@ -1,6 +1,6 @@
 /* Shared, data-driven navigation. All destinations stay within this site. */
 (()=>{
- const version='20261023-navigation7',subjects=['crime','family','debt','property','admin','tax','criminalgeneral','civilgeneral','constitution'];
+ const version='20261023-navigation8',subjects=['crime','family','debt','property','admin','tax','criminalgeneral','civilgeneral','constitution'];
  const groups=[
   ['學習總覽',[['home','學習首頁','index.html','#/dashboard'],['progress','學習進度','index.html','progress']]],
   ['閱讀與課程',[['notes','我的重點筆記','essentials.html',''],['archivenotes','舊版重點與解析','library.html','#notes'],['daily','每日導讀與消息','index.html','#/daily'],['chapters','課程章節','index.html','chapters'],['laws','法條索引','index.html','laws']]],
