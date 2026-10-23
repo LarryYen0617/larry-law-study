@@ -1,0 +1,61 @@
+{
+  "date": "2026-10-23",
+  "checkedAt": "2026-10-23T04:29:15Z",
+  "baseCommit": "39fbcd36f4492414776f418a8a000097e3e9b57f",
+  "article": {
+    "path": "content/editorials/2026-10-23.json",
+    "status": "existing_original_retained",
+    "newArticleCreated": false,
+    "evidenceValidation": "publish_editorials.py passed; original source hashes and quotes retained",
+    "sourceRecheck": [
+      {
+        "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=J0170001&flno=19",
+        "status": "core_claim_confirmed"
+      },
+      {
+        "url": "https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=J0170012",
+        "status": "exception_and_notice_requirements_confirmed",
+        "note": "行政院原來源本次重讀逾時，改以全國法規資料庫同一準則全文核對；未改寫舊引句或原始證據。"
+      },
+      {
+        "url": "https://cpc.ey.gov.tw/Page/BC16ACF0BBB9CCC2/2055825e-e262-47da-9f56-398a71c92c5b",
+        "status": "necessary_inspection_claim_confirmed"
+      }
+    ],
+    "humanReviewed": false
+  },
+  "materials": {
+    "drive": {
+      "since": "2026-10-22T18:49:59Z",
+      "matchingFiles": 0,
+      "scope": "本次增量名稱／關鍵字查詢；涵蓋九科相關字詞，不代表整個雲端或所有課程已完整盤點。"
+    },
+    "tronclass": {
+      "url": "https://tronclass.asia.edu.tw/user/courses#/?pageIndex=1",
+      "status": "login_required",
+      "note": "本次可用瀏覽器仍導向帳密及驗證碼頁；未登入、未讀取成績或其他學生資料、未宣稱同步。"
+    },
+    "newCourseNotes": 0,
+    "excludedExamRangesAdded": 0
+  },
+  "ui": {
+    "status": "deployed",
+    "commit": "39fbcd36f4492414776f418a8a000097e3e9b57f",
+    "entries": 19,
+    "groups": 4,
+    "readingResume": true,
+    "mobileWidthTest": 390,
+    "workflowRun": 39837317132,
+    "workflowConclusion": "success"
+  },
+  "checks": {
+    "pythonTests": 23,
+    "frontend": "passed",
+    "publisher": "passed",
+    "privateMaterialPublished": false
+  },
+  "changes": [
+    "依最新使用者要求修正維護規範的側欄分類，避免後續排程誤用已過時三入口限制。",
+    "記錄當日文章復查及教材存取缺漏，不重複發布文章、不虛構新增教材。"
+  ]
+}
