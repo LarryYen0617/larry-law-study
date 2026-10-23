@@ -73,3 +73,4 @@ require('./personal-notes.cjs');
 
 require('./audit.cjs');
 require('./side-navigation.cjs');
+require('./unified.cjs');

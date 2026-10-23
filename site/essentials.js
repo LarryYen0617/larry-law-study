@@ -8,11 +8,11 @@ function kr(refs){return `<div class="ref-links">${refs.map(r=>{let u;try{u=new 
 function knowledgeMatches(v){return !knowledgeQuery||JSON.stringify(v).toLowerCase().includes(knowledgeQuery.toLowerCase());}
 function visibleKnowledgeSubjects(){return knowledge.subjects.filter(s=>knowledgeSubject==='all'||s.id===knowledgeSubject);}
 function renderKnowledge(){
- $k('header h1').textContent=knowledgeMode==='teacher'?'老師題型練習':knowledgeMode==='inventory'?'教材整合進度':'純重點整理';
+ $k('header h1').textContent=knowledgeMode==='teacher'?'老師題型練習':knowledgeMode==='inventory'?'教材整合進度':'重點筆記';
  document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===knowledgeMode)));
  const count=Object.values(knowledgeState.answers).filter(a=>a&&Number.isInteger(a.choice)).length;
  $k('#knowledgeStatus').textContent=knowledgeMode==='notes'?'只顯示概念與重點，不混入題目。':knowledgeMode==='teacher'?`本頁已作答 ${count}/${knowledge.quizzes.length} 題；擬答均為自編。`:'來源與整合狀態逐筆列出，不把「已讀取」當成「全部已校核」。';
- if(!knowledgeSubject&&knowledgeMode!=='inventory'){$k('#knowledgeContent').innerHTML=`<h2>先選你要讀的科目</h2><div class="subject-picker">${knowledge.subjects.map(s=>`<button data-knowledge-course="${ke(s.id)}">${ke(s.name)}</button>`).join('')}</div><p class="muted">選好後只顯示本科內容；隨時可用上方科目選單切換。</p>`;return;}
+ if(!knowledgeSubject&&knowledgeMode!=='inventory'){$k('#knowledgeContent').innerHTML=`<h2>先選你要讀的科目</h2><div class="subject-picker">${knowledge.subjects.map(s=>`<button data-knowledge-course="${ke(s.id)}">${ke(s.name)}</button>`).join('')}</div><p class="muted">選好後只顯示本科內容；隨時可點上方科目按鈕切換。</p>`;return;}
  if(knowledgeMode==='notes'){
  if(typeof renderPersonalNotes==='function'&&renderPersonalNotes())return;
  let total=0;const html=visibleKnowledgeSubjects().map(s=>{const cards=s.cards.map((c,i)=>({...c,index:i})).filter(knowledgeMatches);total+=cards.length;return cards.length?`<h2 class="topic-heading">${ke(s.name)}</h2><p class="muted">${ke(s.status)}</p><div class="notes-grid">${cards.map(c=>{const key=c.id;return `<article><h3>${ke(c.title)}</h3><ul>${c.points.map(t=>`<li>${ke(t)}</li>`).join('')}</ul>${c.trap?`<p class="trap">易錯：${ke(c.trap)}</p>`:''}${kr(c.refs)}<p class="source">整理依據：${ke(c.source)}</p><label class="familiar"><input type="checkbox" data-familiar="${ke(key)}" ${knowledgeState.familiar[key]?'checked':''}>我已自行確認理解</label></article>`;}).join('')}</div>`:'';}).join('');
@@ -39,7 +39,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)r
 document.addEventListener('change',e=>{const t=e.target;if(t.dataset.familiar){knowledgeState.familiar[t.dataset.familiar]=t.checked;knowledgeSave();}if(t.id==='knowledgeWrong'){onlyKnowledgeWrong=t.checked;renderKnowledge();}});
 document.addEventListener('input',e=>{const t=e.target;if(t.dataset.caseDraft){knowledgeState.drafts[t.dataset.caseDraft]=t.value;knowledgeSave();}});
 function knowledgeDownload(name,text,type){const url=URL.createObjectURL(new Blob([text],{type})),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-$k('#exportEssentials').addEventListener('click',()=>{if(window.LEX_PERSONAL_NOTES&&typeof personalMarkdown==='function'){knowledgeDownload('LEX-NEXUS-我的完整筆記.md',personalMarkdown(),'text/markdown;charset=utf-8');return;}const text=['法域中樞｜純重點整理','來源查讀日：'+knowledge.updatedAt,...visibleKnowledgeSubjects().flatMap(s=>['\n## '+s.name,...s.cards.flatMap(c=>['\n### '+c.title,...c.points.map(t=>'- '+t),c.trap?'易錯：'+c.trap:'','整理依據：'+c.source,...c.refs.map(r=>r.label+' '+r.url)])])].join('\n');knowledgeDownload('LEX-NEXUS-重點.md',text,'text/markdown;charset=utf-8');});
+$k('#exportEssentials').addEventListener('click',()=>{if(window.LEX_PERSONAL_NOTES&&typeof personalMarkdown==='function'){knowledgeDownload('LEX-NEXUS-我的完整筆記.md',personalMarkdown(),'text/markdown;charset=utf-8');return;}const text=['法域中樞｜重點筆記','來源查讀日：'+knowledge.updatedAt,...visibleKnowledgeSubjects().flatMap(s=>['\n## '+s.name,...s.cards.flatMap(c=>['\n### '+c.title,...c.points.map(t=>'- '+t),c.trap?'易錯：'+c.trap:'','整理依據：'+c.source,...c.refs.map(r=>r.label+' '+r.url)])])].join('\n');knowledgeDownload('LEX-NEXUS-重點.md',text,'text/markdown;charset=utf-8');});
 $k('#exportKnowledgeState').addEventListener('click',()=>knowledgeDownload('LEX-NEXUS-練習備份.json',JSON.stringify({version:1,state:knowledgeState},null,2),'application/json'));
 $k('#printEssentials').addEventListener('click',()=>{renderKnowledge();window.print();});
 renderKnowledge();
