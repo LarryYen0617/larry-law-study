@@ -1276,7 +1276,7 @@
   "corrections": [
     "舊刑總：依法令及上級命令應對照第21條，業務上正當行為是第22條。",
     "舊刑總：未滿14歲不罰依第18條，未遂處罰有特別規定門檻。",
-    "親屬題庫含歷史制度與舊年齡敘述，未逐題查核者不當成現行法標準答案。"
+    "親屬課堂91則區塊已附校訂解析；歷史婚齡、舊項次、條件不足及跨頁續段分別處理，原附擬答另供對照。"
   ],
   "maintenanceChecks": [
     {
@@ -1297,6 +1297,20 @@
       "newTeacherMaterials": 0,
       "teacherQuestionReview": "本次未取得新原題，未新增已校核教師題目或不考範圍。",
       "officialSupplement": "民法第95及97條官方原文，逐項核對；新增自編純重點一則。"
+    },
+    {
+      "date": "2026-10-24",
+      "scope": "整合題庫校訂",
+      "questionsRead": 1770,
+      "literalQuotesMatched": 693,
+      "officialExamAnswersMatched": 6,
+      "revisedItems": 152,
+      "teacherAnalyses": 91,
+      "noteGroupsUpdated": 975,
+      "comparisonTables": 4,
+      "reviewMethod": "AI逐讀及官方法源對照，未冒稱人工或獨立模型審定",
+      "evidence": "content/maintenance/question-review-2026-10-24.json",
+      "originals": "保留原始匯入檔與原附答案；校訂層另存；不新增教師不考範圍。"
     }
   ]
 }

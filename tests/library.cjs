@@ -10,14 +10,17 @@ assert.equal(data.notes.length,1016);assert.equal(data.sources.filter(q=>!q.dupl
 for(const q of data.questions){assert.equal(q.options.length,4);assert(q.answer>=0&&q.answer<4);assert.equal(q.explanations.length,4);assert(q.archiveFile&&q.currentReview);}
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'../content/library-index.json'),'utf8'));
 for(const [name,hash] of Object.entries(manifest.files))assert.equal(require('crypto').createHash('sha256').update(fs.readFileSync(path.join(root,name),'utf8').replace(/\r\n/g,'\n')).digest('hex'),hash);
-assert(node('items').innerHTML.includes('基礎重點'));assert.equal((node('items').innerHTML.match(/<article>/g)||[]).length,12);
+assert(node('items').innerHTML.includes('重點整理'));assert.equal((node('items').innerHTML.match(/<article>/g)||[]).length,12);
 node('subject').value='刑法總則';node('subject').change();assert(!node('items').innerHTML.includes('民法總則'));
 function click(dataset){events.click.forEach(f=>f({target:{closest:()=>({dataset})}}));}
 click({mode:'questions'});assert(node('status').textContent.includes('260'));
-const q=data.questions.find(q=>q.subject==='刑法總則');click({answer:q.id,choice:String((q.answer+1)%4)});assert(node('items').innerHTML.includes('待本次複核'));assert(storage.has('lex-nexus-library-v1'));assert(!storage.has('larry-law-midterm-v1'));
+const q=data.questions.find(q=>q.subject==='刑法總則');click({answer:q.id,choice:String((q.answer+1)%4)});assert(!node('items').innerHTML.includes('待本次複核'));assert(storage.has('lex-nexus-library-v1'));assert(!storage.has('larry-law-midterm-v1'));
 node('wrong').checked=true;node('wrong').change();assert(node('status').textContent.includes('找到 1 題'));
 click({retry:q.id});assert(node('status').textContent.includes('找到 0 題'));
 node('subject').value='';click({mode:'teacher'});assert(node('items').innerHTML.includes('教師原附擬答'));assert(!node('items').innerHTML.includes('data-answer'));
 node('search').value='<script>';node('search').input();assert(!node('items').innerHTML.includes('<script>'));
 assert.equal(run('escapeText("<img onerror=1>")'),'&lt;img onerror=1&gt;');assert.equal(run('refs([{url:"javascript:alert(1)",title:"bad"}])'),'');
-console.log('PASS: archive counts and deduplication, 91 source-mapped teacher blocks, pagination, course/search filters, provisional-answer disclosure, retry, storage isolation and escaping.');
+console.log('PASS: archive counts and deduplication, 91 source-mapped teacher blocks, pagination, course/search filters, corrected-answer display, retry, storage isolation and escaping.');
+
+// A pre-correction choice is retained in storage but cannot be silently graded against rewritten options.
+run("libraryState.answers['gem-1-46']=0;delete libraryState.answerRevisions['gem-1-46']");assert.equal(run("currentAnswer(corpus.questions.find(q=>q.id==='gem-1-46'))"),undefined);assert.equal(run("libraryState.answers['gem-1-46']"),0);click({answer:'gem-1-46',choice:'2'});assert.equal(run("currentAnswer(corpus.questions.find(q=>q.id==='gem-1-46'))"),2);assert.equal(run("libraryState.answerRevisions['gem-1-46']"),'2026-10-24');

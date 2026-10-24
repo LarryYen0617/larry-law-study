@@ -30,6 +30,10 @@ jobs:
           python-version: '3.12'
       - name: 執行離線測試
         run: python -m unittest discover -s tests -v
+      - name: 產生題庫校訂資料並驗證內容
+        run: python scripts/publish_question_reviews.py
+      - name: 驗證題庫答案、計算及原始資料保留
+        run: node tests/question-review.cjs
       - name: 執行前端互動測試
         run: node tests/frontend.cjs
       - name: 取得 Pages 設定
