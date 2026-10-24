@@ -1,6 +1,6 @@
 (()=>{
  if(typeof MutationObserver==='undefined')return;
- const version='20261023-nocturne10',esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const version='20261024-audit11',esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const names=[['criminalgeneral','刑法總則'],['civilgeneral','民法總則'],['constitution','憲法'],['crime','刑法分則'],['family','親屬法'],['debt','債權'],['property','物權'],['admin','行政法'],['tax','租稅法']];
  function surface(){
   const brand=document.querySelector('.brand,.sidebar-brand');if(brand){brand.classList.add('sidebar-brand');brand.innerHTML='<b>LEX NEXUS</b><span>法律 · 閱讀 · 創作</span>';}

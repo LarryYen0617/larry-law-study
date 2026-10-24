@@ -12,7 +12,7 @@ assert.equal(nav.resume({subject:'bad',chapter:'personal-debt-guide'}),null);
 const last={subject:'debt',chapter:'personal-debt-guide',title:'<img onerror="bad">'};
 const html=nav.markup({active:'archive',subject:'debt',file:'index.html',last});
 assert(html.includes('接續上次閱讀'));assert(html.includes('&lt;img'));assert(!html.includes('<img'));assert.equal((html.match(/aria-current="page"/g)||[]).length,1);
-assert(!html.includes('<select'));assert(!html.includes('<details'));assert(html.includes('library.html?v=20261023-nocturne10#teacher'));assert(html.includes('library.html?v=20261023-nocturne10#sources'));
+assert(!html.includes('<select'));assert(!html.includes('<details'));assert(html.includes('library.html?v=20261024-audit11#teacher'));assert(html.includes('library.html?v=20261024-audit11#sources'));
 for(const name of ['index','essentials','library','coverage','study-toolkit','settings','reading']){
  const page=fs.readFileSync(path.join(__dirname,'../site',name+'.html'),'utf8');assert(page.includes('side-navigation.css?'));assert(page.indexOf('side-navigation.js?')<page.indexOf('studio.js?'));
 }

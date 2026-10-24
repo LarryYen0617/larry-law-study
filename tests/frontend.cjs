@@ -57,6 +57,12 @@ assert.ok(el('#content').innerHTML.includes('課程補充'));
 assert.ok(el('#content').innerHTML.includes('歷史原創導讀'));
 assert.ok(!el('#content').innerHTML.includes('第二次模型複核及近'));
 click({editorialDate:'latest'});assert.equal(run('selectedEditorialDate'),'');
+run('selectedEditorialDate="2026-10-24";page="daily";render()');
+assert.ok(el('#content').innerHTML.includes('<span class="tag">民法總則 · 2026-10-24</span>'));
+assert.ok(!el('#content').innerHTML.includes('原創導讀已提交 GitHub'));
+assert.equal(run('editorialStatus()'),'');
+assert.ok(!el('#content').innerHTML.includes('研讀提示（不是事件結論）'));
+click({editorialDate:'latest'});
 console.log('PASS: committed original, archive selection, course supplements, truthful agent review disclosure.');
 
 require('./toolkit.cjs');

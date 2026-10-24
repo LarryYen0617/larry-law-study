@@ -1,5 +1,5 @@
 {
-  "checkedDate": "2026-10-23",
+  "checkedDate": "2026-10-24",
   "timezone": "Asia/Taipei",
   "editorialMode": "agent_committed_originals",
   "classroomMaterials": {
@@ -15,11 +15,11 @@
       "民法總則",
       "憲法"
     ],
-    "note": "已讀取債總附件、親屬題庫及舊刑總整理；純重點37卡、債總四題改寫擬答、親屬六題校核完成。創課目前仍要求登入，其他題庫尚未全部校核。",
+    "note": "純重點38卡、97個筆記單元；舊版1,770題已完成欄位檢查，其中693題完成本次官方引文比對。情境題與教師原附擬答尚未全部逐題審定。",
     "exclusions": [],
     "exclusionPolicy": "只有原始教材或教師筆記明確說不考且附可追溯位置才加入。"
   },
-  "latestOriginal": "2026-10-23",
+  "latestOriginal": "2026-10-24",
   "nextActions": [
     "每日新撰及查核後提交",
     "增量檢查相關教材與官方新資料",

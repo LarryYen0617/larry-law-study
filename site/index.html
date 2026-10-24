@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#202b49"><meta name="description" content="九科法律練習、每日法律概念深讀、官方消息來源與個人進度。可自行架站、公開分享。"><meta property="og:type" content="website"><meta property="og:title" content="法域中樞｜LEX NEXUS"><meta property="og:description" content="每日內容與九科練習，先理解，再涵攝。">
 <title>法域中樞｜LEX NEXUS｜每日內容與九科練習</title>
-<link rel="stylesheet" href="style.css?v=20261023-nocturne10"><link rel="stylesheet" href="redesign.css?v=20261023-nocturne10"><link rel="stylesheet" href="layout.css?v=20261023-nocturne10"><link rel="stylesheet" href="daily.css?v=20261023-nocturne10"><link rel="stylesheet" href="navigation.css?v=20261023-nocturne10">
-<link rel="stylesheet" href="studio.css?v=20261023-nocturne10"><link rel="stylesheet" href="side-navigation.css?v=20261023-nocturne10"><link rel="stylesheet" href="design-system.css?v=20261023-nocturne10"></head>
+<link rel="stylesheet" href="style.css?v=20261024-audit11"><link rel="stylesheet" href="redesign.css?v=20261024-audit11"><link rel="stylesheet" href="layout.css?v=20261024-audit11"><link rel="stylesheet" href="daily.css?v=20261024-audit11"><link rel="stylesheet" href="navigation.css?v=20261024-audit11">
+<link rel="stylesheet" href="studio.css?v=20261024-audit11"><link rel="stylesheet" href="side-navigation.css?v=20261024-audit11"><link rel="stylesheet" href="design-system.css?v=20261024-audit11"></head>
 <body>
 <aside>
  <a class="brand" href="#/dashboard">L<span>法域中樞<small>LEX NEXUS</small></span></a>
@@ -17,7 +17,7 @@
   <span><b id="crumb">我的學習</b><span id="workspaceLabel">學習總覽</span></span>
   <div class="header-actions"><a class="header-home" href="#/dashboard">首頁</a><button id="theme" aria-label="切換深淺色" title="切換深淺色">◐</button>
    <details class="utilities"><summary>更多工具</summary><div class="utility-panel">
-    <h3>我的紀錄</h3><p class="subtle"><a href="settings.html?v=20261023-nocturne10" target="_blank" rel="noopener">資料與完整備份 ↗</a></p><button data-page="progress">查看跨科進度</button><button id="backup">匯出學習備份</button>
+    <h3>我的紀錄</h3><p class="subtle"><a href="settings.html?v=20261024-audit11" target="_blank" rel="noopener">資料與完整備份 ↗</a></p><button data-page="progress">查看跨科進度</button><button id="backup">匯出學習備份</button>
     <label class="upload">還原舊版學習備份<input id="restore" type="file" accept="application/json"></label>
     <small>跨網域或離線版移轉時，先匯出再還原。清除瀏覽器資料會移除本機紀錄。</small>
     <details hidden><summary>進階：公開資料來源</summary><div class="feed-settings"><label for="dailyFeedUrl">公開每日資料網址（HTTPS JSON）</label><input id="dailyFeedUrl" type="url" placeholder="https://你的公開資料站/updates/daily.json"><button id="saveDailyFeed">儲存資料來源</button><p>此設定只影響本瀏覽器。要讓所有朋友使用同一來源，請修改 config.js 的 feedUrl。不可填寫金鑰或密碼。</p></div></details>
@@ -26,7 +26,6 @@
  </header>
  <main id="workspaceTop">
   <section class="hero"><div><div class="eyebrow">MIDTERM LAW COLLECTION · 2026</div><h1 id="title"></h1><p id="intro"></p><div class="hero-actions"><button class="primary" id="start">開始申論練習 ↗</button><button id="continue">查看九科課程 ↓</button></div></div></section>
-  <details class="notice"><summary>課堂範圍待確認・內建題目為自編練習</summary><p>內建內容是一般性自編練習，不代表任何老師指定範圍。請在教材管理加入你自己的筆記、老師明確說法與出處；網站不會推測不考章節。</p></details>
   <section class="stats" id="stats" aria-label="學習統計"></section>
   <div class="toolbar">
    <label class="course-control" id="courseControl"><span>科目</span><select id="courseSelector" aria-label="切換科目"><option value="crime">刑法分則</option><option value="family">親屬法</option><option value="debt">債權</option><option value="property">物權</option><option value="admin">行政法</option><option value="tax">租稅法</option><option value="criminalgeneral">刑法總則</option><option value="civilgeneral">民法總則</option><option value="constitution">憲法</option></select></label>
@@ -34,12 +33,12 @@
    <label class="search">⌕ <input id="search" placeholder="搜尋九科內容" aria-label="搜尋九科內容"></label>
   </div>
   <section id="content" aria-live="polite"></section>
-  <footer>九科學習工作台・自編教學內容，非歷屆試題或法院裁判。<br>法規來源查閱日：2026-10-22。課堂範圍待教材確認；導讀為逐篇新撰並永久存檔，顯示實際日期；既有題庫為複習練習，課堂考試範圍待教材確認。</footer>
+  <footer>LEX NEXUS · 閱讀、理解、練習。</footer>
  </main>
 </div>
 <div id="toast" role="status"></div>
-<script src="config.js?v=20261023-nocturne10"></script><script src="data.js?v=20261023-nocturne10"></script><script src="statutes.js?v=20261023-nocturne10"></script><script src="app.js?v=20261023-nocturne10"></script><script src="enhanced.js?v=20261023-nocturne10"></script><script src="layout.js?v=20261023-nocturne10"></script><script src="reading-library.js?v=20261023-nocturne10"></script><script src="daily-snapshot.js?v=20261023-nocturne10"></script><script src="editorials.js?v=20261023-nocturne10"></script><script src="daily.js?v=20261023-nocturne10"></script><script src="navigation.js?v=20261023-nocturne10"></script>
-<script src="side-navigation.js?v=20261023-nocturne10"></script><script src="studio.js?v=20261023-nocturne10"></script><script src="unified.js?v=20261023-nocturne10"></script></body></html>
+<script src="config.js?v=20261024-audit11"></script><script src="data.js?v=20261024-audit11"></script><script src="statutes.js?v=20261024-audit11"></script><script src="app.js?v=20261024-audit11"></script><script src="enhanced.js?v=20261024-audit11"></script><script src="layout.js?v=20261024-audit11"></script><script src="reading-library.js?v=20261024-audit11"></script><script src="daily-snapshot.js?v=20261024-audit11"></script><script src="editorials.js?v=20261024-audit11"></script><script src="daily.js?v=20261024-audit11"></script><script src="navigation.js?v=20261024-audit11"></script>
+<script src="side-navigation.js?v=20261024-audit11"></script><script src="studio.js?v=20261024-audit11"></script><script src="unified.js?v=20261024-audit11"></script></body></html>
 
 
 

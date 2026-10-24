@@ -1,6 +1,6 @@
 /* Shared, data-driven navigation. All destinations stay within this site. */
 (()=>{
- const version='20261023-nocturne10',subjects=['crime','family','debt','property','admin','tax','criminalgeneral','civilgeneral','constitution'];
+ const version='20261024-audit11',subjects=['crime','family','debt','property','admin','tax','criminalgeneral','civilgeneral','constitution'];
  const groups=[
   ['工作台',[['home','學習首頁','index.html','#/dashboard'],['progress','學習進度','index.html','progress']]],
   ['法律學習',[['notes','重點筆記','essentials.html',''],['chapters','課程章節','index.html','chapters'],['laws','法條索引','index.html','laws'],['quiz','基礎選擇題','index.html','quiz'],['archive','整合題庫','library.html','#questions'],['archivenotes','重點與解析','library.html','#notes'],['teacher','老師題型練習','essentials.html','#teacher'],['originals','課堂原題與擬答','library.html','#teacher'],['essays','三級申論','index.html','essays'],['wrong','跨科錯題本','index.html','#/allwrong'],['method','申論框架與草稿','study-toolkit.html','#method']]],
