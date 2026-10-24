@@ -1,6 +1,6 @@
 {
   "brand": "法域中樞｜LEX NEXUS",
-  "updatedAt": "2026-10-23",
+  "updatedAt": "2026-10-24",
   "subjects": [
     {
       "id": "crime",
@@ -709,6 +709,28 @@
           "source": "自編基礎整理",
           "trap": "",
           "id": "civilgeneral-ab9f1cfa148c"
+        },
+        {
+          "id": "civilgeneral-arrival-withdrawal-20261024",
+          "title": "非對話意思表示：到達與撤回",
+          "points": [
+            "依第95條第1項，通知達到相對人時生效；撤回同時或先時到達為例外。",
+            "原通知與撤回各畫發出、到達時間；比較的是到達先後。",
+            "發出後死亡等變化，依第95條第2項不因此失效；仍須處理到達。",
+            "第97條公示送達有要件及法定程序，不能由社群貼文取代。"
+          ],
+          "refs": [
+            {
+              "label": "民法第95條",
+              "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=95"
+            },
+            {
+              "label": "民法第97條",
+              "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=97"
+            }
+          ],
+          "source": "2026-10-24官方民法第95、97條；自編補充，非教師指定範圍",
+          "trap": "未讀不等於已證明未到達；表示生效不等於整個契約成立。"
         }
       ]
     },
@@ -1255,5 +1277,26 @@
     "舊刑總：依法令及上級命令應對照第21條，業務上正當行為是第22條。",
     "舊刑總：未滿14歲不罰依第18條，未遂處罰有特別規定門檻。",
     "親屬題庫含歷史制度與舊年齡敘述，未逐題查核者不當成現行法標準答案。"
+  ],
+  "maintenanceChecks": [
+    {
+      "date": "2026-10-24",
+      "subjects": [
+        "crime",
+        "family",
+        "debt",
+        "property",
+        "admin",
+        "tax",
+        "criminalgeneral",
+        "civilgeneral",
+        "constitution"
+      ],
+      "drive": "本次查詢2026-10-23起修改之可存取檔案，無結果；不能據此宣稱全部雲端均無新教材。",
+      "tronclass": "本次瀏覽授權課程網址導向帳密及驗證碼登入，未讀取課程、成績或其他學生資料。",
+      "newTeacherMaterials": 0,
+      "teacherQuestionReview": "本次未取得新原題，未新增已校核教師題目或不考範圍。",
+      "officialSupplement": "民法第95及97條官方原文，逐項核對；新增自編純重點一則。"
+    }
   ]
 }

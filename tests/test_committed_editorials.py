@@ -1,6 +1,6 @@
 import sys,json,tempfile,shutil
 from pathlib import Path
-from datetime import datetime,timezone
+from datetime import datetime,timezone,timedelta
 import unittest
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 import publish_editorials as p
@@ -23,5 +23,6 @@ class CommittedOriginalTests(unittest.TestCase):
             new=p.publish(root,datetime(2026,10,23,1,tzinfo=timezone.utc))
             self.assertEqual(new['editorial']['status'],'published')
             self.assertTrue((root/'site/updates/readings/2026-10-23.json').exists())
-            later=p.publish(root,datetime(2026,10,24,1,tzinfo=timezone.utc))
-            self.assertEqual(later['editorial']['status'],'awaiting_original');self.assertEqual(later['editorial']['article']['date'],'2026-10-23')
+            latest=max(p.load_originals(root),key=lambda a:a['date'])['date']
+            later=p.publish(root,datetime.fromisoformat(latest).replace(hour=1,tzinfo=timezone.utc)+timedelta(days=1))
+            self.assertEqual(later['editorial']['status'],'awaiting_original');self.assertEqual(later['editorial']['article']['date'],latest)
