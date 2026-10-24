@@ -11,7 +11,7 @@ assert.equal(get('gem-2-2').answer,2);assert.equal(get('gem-2-20').answer,0);
 assert.equal(get('gem-2-44').answer,0);assert(get('gem-2-39').options[0].includes('變得之物'));
 assert(get('gem-2-11').options[3].includes('刑事責任'));
 assert(get('gem-3-14').options[3].includes('警察機關'));assert(!get('gem-3-49').question.includes('現行民法未允許'));
-assert(teacher[90].correction.analysis.includes('效力未定'));assert(teacher[70].correction.analysis.includes('原附「無須解除表示」錯誤'));
+assert(teacher[90].correction.analysis.includes('效力未定'));assert(teacher[90].correction.analysis.startsWith('17歲丙'));assert(teacher[90].correction.analysis.includes('1119')); assert(teacher[70].correction.analysis.includes('原附「無須解除表示」錯誤'));
 assert(teacher[84].correction.analysis.includes('基礎380'));assert(teacher[84].correction.analysis.includes('基礎180'));
 assert(!teacher[30].correction.analysis.includes('1055-3'));assert(teacher[87].correction.analysis.includes('245'));
 for(const q of c.questions){assert.equal(new Set(q.options.map(x=>x.trim())).size,4,q.id);assert(q.explanations.length===4);assert(!/待補充查核/.test(q.explanations.join('')),q.id);}
