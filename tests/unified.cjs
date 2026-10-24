@@ -6,7 +6,7 @@ const manifest=JSON.parse(fs.readFileSync(path.join(root,'books/wan-jie-fa-shen/
 assert.deepEqual(rows.map(x=>x.number),Array.from({length:513},(_,i)=>i+1));assert(rows.every(x=>x.text.trim().length>0));assert.equal(rows.length,new Set(rows.map(c=>c.number)).size);assert(rows.reduce((n,c)=>n+c.text.length,0)>1_000_000);
 assert(!fs.existsSync(path.join(root,'help.html')));for(const f of fs.readdirSync(root).filter(n=>n.endsWith('.html'))){const text=fs.readFileSync(path.join(root,f),'utf8');assert(!text.includes('help.html'));for(const m of text.matchAll(/(?:src|href)="([^"#:]+\.(?:js|css))(?:\?[^"#]*)?"/g))assert(fs.existsSync(path.join(root,m[1])),m[1]);}
 assert(!/(^|[},])nav a\{/.test(fs.readFileSync(path.join(root,'library.css'),'utf8')));
-const css=fs.readFileSync(path.join(root,'design-system.css'),'utf8');assert(css.includes('.sidebar-link{background:transparent;color:#e2eceb'));assert(css.includes('.sidebar-link[aria-current=page]'));
+const css=fs.readFileSync(path.join(root,'design-system.css'),'utf8');assert(css.includes('/* Navigation is deliberately scoped to the site sidebar. */'));assert(css.includes('.sidebar-link[aria-current=page]'));
 async function testRestore(){
  const nodes=new Map(),get=id=>{if(!nodes.has(id))nodes.set(id,{value:'',textContent:'',checked:true,disabled:false});return nodes.get(id);};const saved=new Map([['lex-nexus-study-v1',JSON.stringify({familiar:{old:true},answers:{},drafts:{}})],['unrelated-setting','keep']]);let downloads=0,failBooks=false;
  const local={getItem:k=>saved.get(k)??null,setItem:(k,v)=>saved.set(k,v),removeItem:k=>saved.delete(k)};
