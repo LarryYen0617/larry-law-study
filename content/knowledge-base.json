@@ -1,6 +1,6 @@
 {
   "brand": "法域中樞｜LEX NEXUS",
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-10-26",
   "subjects": [
     {
       "id": "crime",
@@ -459,6 +459,32 @@
           "source": "自編基礎整理",
           "trap": "",
           "id": "admin-e9afbc690e2d"
+        },
+        {
+          "id": "admin-accessory-review-20261025",
+          "title": "行政附款：入口、關聯與效果",
+          "points": [
+            "第93條：先辨有無裁量；無裁量時僅法定兩種途徑容許附款。",
+            "第94條：有附款空間仍須不違背目的，並有正當合理關聯。",
+            "分清條件與負擔：本處分效力與額外履行義務不是同一層。",
+            "第123條：合法授益處分附負擔未履行，是得廢止事由，不是當然自動失效。"
+          ],
+          "refs": [
+            {
+              "label": "行政程序法第93條",
+              "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030055&flno=93"
+            },
+            {
+              "label": "行政程序法第94條",
+              "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030055&flno=94"
+            },
+            {
+              "label": "行政程序法第123條",
+              "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030055&flno=123"
+            }
+          ],
+          "source": "2026-10-25官方條文查讀後自編整理；非教師教材或考試範圍",
+          "trap": "不以公益口號、申請人同意或拒絕履行，跳過附款合法性檢驗。"
         }
       ]
     },
@@ -648,6 +674,28 @@
           "source": "舊刑總整理・有責性及補充理論（校正）",
           "trap": "誤想防衛涉及理論爭議，不將舊筆記的單一標籤冒充唯一結論。",
           "id": "criminalgeneral-75731d9296f3"
+        },
+        {
+          "id": "criminalgeneral-defense-necessity-20261026",
+          "title": "防衛與避難：逐行為、逐對象判斷",
+          "points": [
+            "第23條：現在不法侵害；可以防衛自己或他人權利，不能以既往侵害直接正當化事後報復。",
+            "第24條：避免自己或他人生命、身體、自由、財產緊急危難，仍須檢查不得已。",
+            "同一事件中對侵害人與無辜第三人的行為，須分開檢驗，不能一律套用正當防衛。",
+            "防衛或避難過當均為得減輕或免除其刑；第24條第2項的特別義務例外須保留避免自己危難的限定。"
+          ],
+          "refs": [
+            {
+              "label": "刑法第23條",
+              "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=23"
+            },
+            {
+              "label": "刑法第24條",
+              "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=24"
+            }
+          ],
+          "source": "2026-10-26官方條文查讀後自編整理；非教師原題或考試範圍",
+          "trap": "不把害怕、保護目的、過當與當然免責混為一談。"
         }
       ]
     },
@@ -1311,6 +1359,44 @@
       "reviewMethod": "AI逐讀及官方法源對照，未冒稱人工或獨立模型審定",
       "evidence": "content/maintenance/question-review-2026-10-24.json",
       "originals": "保留原始匯入檔與原附答案；校訂層另存；不新增教師不考範圍。"
+    },
+    {
+      "date": "2026-10-25",
+      "subjects": [
+        "crime",
+        "family",
+        "debt",
+        "property",
+        "admin",
+        "tax",
+        "criminalgeneral",
+        "civilgeneral",
+        "constitution"
+      ],
+      "drive": "查詢2026-10-24起修改之全部可存取檔案，並以行政法、債、憲法補查2026-10-23起修改檔案，皆無結果；不能據此斷言整個雲端無新教材。",
+      "tronclass": "授權課程網址轉至帳號、密碼及驗證碼登入頁；未讀取課程、成績或其他學生資料。",
+      "newTeacherMaterials": 0,
+      "teacherQuestionReview": "未取得新原題，不新增教師題目查核或不考範圍。",
+      "officialSupplement": "查讀行政程序法第93、94、123條，新增一張自編純重點卡及今日原創導讀。"
+    },
+    {
+      "date": "2026-10-26",
+      "subjects": [
+        "crime",
+        "family",
+        "debt",
+        "property",
+        "admin",
+        "tax",
+        "criminalgeneral",
+        "civilgeneral",
+        "constitution"
+      ],
+      "drive": "查詢2026-10-25起修改之可存取檔案，並以刑法補查2026-10-24起修改檔案，無結果；不推論所有雲端均無新教材。",
+      "tronclass": "課程入口仍轉至帳密及驗證碼登入頁，未讀取課程或學生資料。",
+      "newTeacherMaterials": 0,
+      "teacherQuestionReview": "無新原題，不變更教師題目查核或不考範圍。",
+      "officialSupplement": "查讀刑法第23、24條，新增防衛與避難自編純重點卡、全新導讀及三級擬答。"
     }
   ]
 }
