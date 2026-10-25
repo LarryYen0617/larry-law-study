@@ -24,3 +24,6 @@ assert(node('#knowledgeContent').innerHTML.includes('我自己的補充'));
 assert(node('#knowledgeContent').innerHTML.includes('class="print-notes"'));
 for(const c of data.subjects.find(s=>s.id==='debt').chapters.filter(c=>/personal-debt-scans-|personal-debt-scan-/.test(c.id))){assert(c.body.includes('<table>'));assert(c.body.includes('scope="col"'));assert(c.text.includes('| --- | --- |'));}
 console.log('PASS: single-chapter reading, all-chapter mode, print collection, saved annotations and eight structured note tables.');
+
+// New official supplements must remain reachable when the full personal-note reader owns the view.
+run("knowledgeSubject='admin';knowledgeQuery='';personalShowAll=false;renderKnowledge()");assert(node('#knowledgeContent').innerHTML.includes('行政附款：入口、關聯與效果'));assert(run('supplementMarkdown()').includes('行政附款：入口、關聯與效果'));assert(!run('supplementMarkdown()').includes('防衛與避難：逐行為'));run("knowledgeSubject='criminalgeneral';knowledgeQuery='';renderKnowledge()");assert(node('#knowledgeContent').innerHTML.includes('防衛與避難：逐行為、逐對象判斷'));assert(run('supplementMarkdown()').includes('刑法第23條'));
