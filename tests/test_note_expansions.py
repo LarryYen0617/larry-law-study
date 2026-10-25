@@ -21,7 +21,7 @@ class NoteExpansionTests(unittest.TestCase):
    for c in deep:
     self.assertEqual(c['body'].count('class="note-expansion"'),1);self.assertEqual(c['text'].count('## 深入理解'),1)
     for field in ['深入理解','要件與界線比較','案例拆解','申論落筆']:self.assertIn(field,c['body']);self.assertIn(field,c['text'])
-    self.assertIn('虛構',c['body']);self.assertIn('scope="col"',c['body']);self.assertGreater(len(c['depth']['references']),1)
+    self.assertIn('本章申論模板',c['body']);self.assertIn('本章申論模板',c['text']);self.assertIn('data-essay-append',c['body']);self.assertIn('虛構',c['body']);self.assertIn('scope="col"',c['body']);self.assertGreater(len(c['depth']['references']),1)
  def test_evidence_tampering_and_nonofficial_links_rejected(self):
   p=self.root/'content/maintenance/note-depth-2026-10-26.json';d=json.loads(p.read_text(encoding='utf-8'));k=next(iter(d['sources']));original=d['sources'][k]['text'];d['sources'][k]['text']+='篡改';p.write_text(json.dumps(d),encoding='utf-8')
   with self.assertRaisesRegex(ValueError,'hash mismatch'):compile_expansions(self.root)

@@ -37,7 +37,9 @@ jobs:
       - name: 驗證題庫答案、計算及原始資料保留
         run: node tests/question-review.cjs
       - name: 執行前端互動測試
-        run: node tests/frontend.cjs
+        run: |
+          node tests/frontend.cjs
+          node tests/essay-templates.cjs
       - name: 取得 Pages 設定
         id: pages
         uses: actions/configure-pages@v5

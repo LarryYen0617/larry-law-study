@@ -55,3 +55,7 @@
 ## 深化筆記（2026-10-26）
 
 `content/note-expansions.json` 保存九科27章自編深化內容，`scripts/publish_note_expansions.py` 以原章節 id 編入個人筆記，重複執行不重複附加。每章包括觀念解釋、比較表、虛構案例的逐步涵攝、事實變化與申論落筆。法源快照及AI查讀範圍在 `content/maintenance/note-depth-2026-10-26.json`。維護時不得將這批新增段落的查讀擴稱為全站全部學說均審定。更改深化稿或法源後先重建，再發布筆記與搜尋，保持body、Markdown下載與搜尋一致；保留97個原章節id及使用者熟悉標記、草稿。
+
+## 申論模板（2026-10-26）
+
+九科通用模板及27章專用句型存於 `content/note-expansions.json` 的 baseTemplates 與各章 essayTemplate。建置同時產生內嵌筆記模板、Markdown及 `site/essay-template-data.js`，由 `study-toolkit.html#templates` 集中閱讀。完整示範沿用有明確虛構標示的章節案例，不冒稱教師或官方擬答。附加模板保留草稿原文，重複附加及超出上限會提示；工具箱仍按儲存才落盤，筆記頁沿用原自動儲存及備份。

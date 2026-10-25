@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-26",
+  "kind": "AI自編申論句型與操作檢查，非教師標準答案或獨立模型審定",
+  "subjectFrames": 9,
+  "chapterTemplates": 27,
+  "sources": "沿用content/maintenance/note-depth-2026-10-26.json的逐章法源與虛構案例；未變更案例事實或法律結論",
+  "additionalReadback": [
+    "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=320",
+    "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=172",
+    "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030055&flno=93",
+    "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030055&flno=111"
+  ],
+  "checks": [
+    "五段模板含實質規範、反論與事實欄位",
+    "不捏造學說或裁判",
+    "完整案例保留虛構標示",
+    "附加草稿保留原文與重複防護",
+    "筆記下載、列印與搜尋同步建置"
+  ]
+}
