@@ -27,3 +27,5 @@ console.log('PASS: single-chapter reading, all-chapter mode, print collection, s
 
 // New official supplements must remain reachable when the full personal-note reader owns the view.
 run("knowledgeSubject='admin';knowledgeQuery='';personalShowAll=false;renderKnowledge()");assert(node('#knowledgeContent').innerHTML.includes('行政附款：入口、關聯與效果'));assert(run('supplementMarkdown()').includes('行政附款：入口、關聯與效果'));assert(!run('supplementMarkdown()').includes('防衛與避難：逐行為'));run("knowledgeSubject='criminalgeneral';knowledgeQuery='';renderKnowledge()");assert(node('#knowledgeContent').innerHTML.includes('防衛與避難：逐行為、逐對象判斷'));assert(run('supplementMarkdown()').includes('刑法第23條'));
+
+run("knowledgeSubject='criminalgeneral';knowledgeQuery='not-found-abc';var capturedMarkdown='';knowledgeDownload=(name,text)=>{capturedMarkdown=text;}");for(const f of events.click)f({target:{closest:()=>({id:'downloadPersonal',dataset:{}})}});const fullExport=run('capturedMarkdown');assert(fullExport.includes('防衛與避難：逐行為、逐對象判斷'));assert.equal((fullExport.match(/### 刑法總則｜防衛與避難/g)||[]).length,1);node('#exportEssentials').click();assert.equal(run('capturedMarkdown'),fullExport);
