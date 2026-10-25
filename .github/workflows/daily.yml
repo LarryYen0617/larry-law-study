@@ -43,6 +43,10 @@ jobs:
         run: python scripts/update_daily.py --previous-url '${{ steps.pages.outputs.base_url }}/updates/daily.json'
       - name: 發布已提交的原創導讀與歷史文章（無需 API 金鑰）
         run: python scripts/publish_editorials.py
+      - name: 重建全站搜尋並驗證收藏複習流程
+        run: |
+          node scripts/build_search_index.cjs
+          node tests/discover.cjs
       - name: 上傳網站（不包含教材原始檔、腳本或任何秘密）
         uses: actions/upload-pages-artifact@v4
         with:

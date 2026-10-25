@@ -3,7 +3,7 @@ const DAILY_CONFIG=window.LAW_PUBLIC_CONFIG||{};
 const DAILY_CACHE_KEY='larry-public-daily-cache-v1',DAILY_PREF_KEY='larry-public-feed-url-v1';
 const DAILY_ANCHOR=Date.parse('2026-10-22T01:00:00Z');
 let dailyFeed=window.LAW_DAILY_SNAPSHOT||null,dailyLoading=false,dailyError='',dailyLoadedFrom='隨站快照';
-let selectedEditorialDate='';
+let selectedEditorialDate=(()=>{try{const d=new URL(location.href).searchParams.get('reading');return /^\d{4}-\d{2}-\d{2}$/.test(d||'')?d:'';}catch{return '';}})();
 let customFeed='';try{customFeed=localStorage.getItem(DAILY_PREF_KEY)||'';}catch{}
 function httpsLink(value){try{const u=new URL(value);return u.protocol==='https:'&&!u.username&&!u.password?u.href:'';}catch{return '';}}
 function dailyPlan(at=Date.now()) {const day=Math.floor((at-DAILY_ANCHOR)/86400000),idx=((day%COURSES.length)+COURSES.length)%COURSES.length,c=COURSES[idx],i=((Math.floor(day/COURSES.length)%c.topics.length)+c.topics.length)%c.topics.length;return {course:c,topic:c.topics[i],index:i,editionDate:new Date(at-3600000).toISOString().slice(0,10),reading:LAW_READING_LIBRARY.find(r=>r.subject===c.id)};}

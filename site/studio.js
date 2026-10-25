@@ -30,6 +30,7 @@
   if(main){const p=typeof page==='undefined'?'dashboard':page;active=({dashboard:'home',quiz:'quiz',allwrong:'wrong',wrong:'wrong'})[p]||p;}
   else if(file==='essentials.html'){subject=typeof knowledgeSubject==='undefined'?'crime':knowledgeSubject;active=typeof knowledgeMode!=='undefined'&&knowledgeMode==='teacher'?'teacher':typeof knowledgeMode!=='undefined'&&knowledgeMode==='inventory'?'coverage':'notes';}
   else if(file==='library.html')active=typeof mode!=='undefined'?({questions:'archive',teacher:'originals',sources:'sources',notes:'archivenotes'})[mode]:'archive';
+  else if(file==='discover.html')active=new URLSearchParams(location.hash.slice(1)).get('view')==='saved'||new URLSearchParams(location.hash.slice(1)).get('view')==='due'?'saved':'search';
   else if(file==='coverage.html')active='coverage';else if(file==='settings.html')active='settings';else if(file==='reading.html')active='reading';else if(file==='study-toolkit.html')active=location.hash==='#method'||location.hash==='#draft'?'method':'official';
   return {subject,active,file,last};
  }

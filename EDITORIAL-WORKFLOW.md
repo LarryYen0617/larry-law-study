@@ -45,3 +45,9 @@
 ## 官方增補卡的顯示與匯出（2026-10-26）
 
 新增至 `content/knowledge-base.json` 的官方查讀增補卡，應設定 `courseSupplement: true`，保留穩定 id、來源及自編內容標示。完整個人筆記讀者仍是主體；增補卡在本科筆記下方顯示，搜尋及 Markdown 下載亦須包含，不得只寫入資料檔而讓畫面提早返回。不要為了增加補充而更改原個人章節 id 或既有紀錄。執行 `node tests/personal-notes.cjs` 驗證新增行政法與刑總增補的可見性、科目隔離及匯出。
+
+## 全站搜尋與收藏（2026-10-26）
+
+- `node scripts/build_search_index.cjs` 從正式內容重建 `site/search-index.json`。文章發布後執行，Actions 已自動串接。不得把私人原檔、教師姓名或被取代的原答案加入索引。
+- 搜尋入口為 `discover.html`，收藏、複習排程使用 `lex-nexus-collections-v1`；納入完整備份，不上傳訪客紀錄。既有學習資料鍵不可更名或清除。
+- 新增內容後執行 `node tests/discover.cjs`，並檢查題目、筆記、歷史文章及小說章節的指定連結。

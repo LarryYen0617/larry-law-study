@@ -2,7 +2,7 @@
 (()=>{
  const version='20261024-edition14',subjects=['crime','family','debt','property','admin','tax','criminalgeneral','civilgeneral','constitution'];
  const groups=[
-  ['工作台',[['home','學習首頁','index.html','#/dashboard'],['progress','學習進度','index.html','progress']]],
+  ['工作台',[['home','學習首頁','index.html','#/dashboard'],['search','全站搜尋','discover.html',''],['saved','收藏與複習','discover.html','#view=saved'],['progress','學習進度','index.html','progress']]],
   ['研讀與筆記',[['notes','核心重點筆記','essentials.html',''],['chapters','九科課程章節','index.html','chapters'],['laws','法條索引','index.html','laws'],['archivenotes','題目解析筆記','library.html','#notes']]],
   ['題庫與申論',[['quiz','基礎選擇題','index.html','quiz'],['archive','整合題庫','library.html','#questions'],['teacher','老師題型練習','essentials.html','#teacher'],['originals','課堂原題與擬答','library.html','#teacher'],['essays','三級申論練習','index.html','essays'],['wrong','跨科錯題本','index.html','#/allwrong'],['method','申論框架與草稿','study-toolkit.html','#method']]],
   ['閱讀書房',[['daily','每日法律導讀','index.html','#/daily'],['reading','小說與個人書架','reading.html','']]],
