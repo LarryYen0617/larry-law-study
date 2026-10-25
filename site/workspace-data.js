@@ -1,6 +1,6 @@
 /* Browser-local books and progress. No network or account identifiers. */
 (()=>{
- const keys=['larry-law-midterm-v1','lex-nexus-study-v1','lex-nexus-library-v1','larry-law-toolkit-draft-v1','lex-nexus-reading-position-v1','lex-nexus-reader-preferences-v1','lex-nexus-public-reading-v1','lex-nexus-collections-v1'];
+ const keys=['larry-law-midterm-v1','lex-nexus-study-v1','lex-nexus-library-v1','larry-law-toolkit-draft-v1','lex-nexus-reading-position-v1','lex-nexus-reader-preferences-v1','lex-nexus-public-reading-v1','lex-nexus-collections-v1','lex-nexus-essay-practice-v1'];
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  function chapters(text){
   const clean=String(text).replace(/\r\n?/g,'\n').replace(/\u0000/g,'').trim();if(!clean||clean.length>3_000_000)throw Error('內容需介於 1 字至 300 萬字之間。');

@@ -54,7 +54,7 @@ console.log('PASS: AI disclosure, rejection status, evidence links, unsafe-sourc
 run('dailyFeed=restoreFeed;selectedEditorialDate="2026-10-23";page="daily";render()');
 assert.ok(el('#content').innerHTML.includes('三級虛構案例'));
 assert.ok(el('#content').innerHTML.includes('課程補充'));
-assert.ok(el('#content').innerHTML.includes('歷史原創導讀'));
+assert.ok(el('#content').innerHTML.includes('歷史文章'));
 assert.ok(!el('#content').innerHTML.includes('第二次模型複核及近'));
 click({editorialDate:'latest'});assert.equal(run('selectedEditorialDate'),'');
 run('selectedEditorialDate="2026-10-24";page="daily";render()');
@@ -80,3 +80,14 @@ require('./personal-notes.cjs');
 require('./audit.cjs');
 require('./side-navigation.cjs');
 require('./unified.cjs');
+
+// History retains original dates and both same-day concept and news guides.
+vm.runInContext(fs.readFileSync(path.join(root,'news-guides.js'),'utf8'),ctx);
+assert.ok(run('allDailyArticles().length')>=5);
+click({showHistory:'true'});assert.equal(run('dailyView'),'history');assert.ok(el('#content').innerHTML.includes('2026-10-23'));
+run("query='颱風';render()");assert.ok(el('#content').innerHTML.includes('颱風減免'));assert.ok(!el('#content').innerHTML.includes('data-reading-id=\"agent-2026-10-23'));
+const newsId=run('window.LAW_NEWS_GUIDES[0].id');click({readingId:newsId});assert.equal(run('currentReading(dailyPlan()).id'),newsId);
+assert.ok(el('#content').innerHTML.includes('三級虛構案例'));
+const earliest=run('window.LAW_EDITORIAL_ARCHIVE[0].id');click({readingId:earliest});assert.equal(run('currentReading(dailyPlan()).id'),earliest);
+click({dailyOpen:'true'});assert.equal(run('selectedReadingId'),'');assert.equal(run('currentReading(dailyPlan()).id'),newsId);
+console.log('PASS: searchable five-article history, original date preservation, same-day news and concept guides, selection and latest reset.');

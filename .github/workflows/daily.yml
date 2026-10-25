@@ -1,8 +1,8 @@
-name: 每日九點更新與發布
+name: 官方資訊更新與網站發布
 
 on:
   schedule:
-    - cron: '0 1 * * *' # UTC 01:00 = Asia/Taipei 09:00；GitHub 可能延遲執行
+    - cron: '0 1,5,9,13,17,21 * * *' # 每4小時同步官方資訊，含台北09:00；實際執行可能延遲
   workflow_dispatch:
   push:
     branches: [main]
@@ -40,6 +40,8 @@ jobs:
         run: |
           node tests/frontend.cjs
           node tests/essay-templates.cjs
+          node tests/practice.cjs
+          node tests/practice-views.cjs
       - name: 取得 Pages 設定
         id: pages
         uses: actions/configure-pages@v5

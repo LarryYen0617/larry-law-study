@@ -29,7 +29,7 @@ if(b.dataset.course){course=COURSES.find(c=>c.id===b.dataset.course);page='chapt
 else if(b.dataset.page){page=b.dataset.page;render();}
 else if(b.dataset.done!==undefined){const k=id(b.dataset.done);state.done[k]=!state.done[k];persist();render();}
 else if(b.dataset.essay!==undefined){level=Number(b.dataset.essay);page='essays';query='';$('#search').value='';render();}
-else if(b.dataset.level!==undefined){level=Number(b.dataset.level);render();}
+else if(b.dataset.level!==undefined){level=Number(b.dataset.level);render();$('#content').scrollIntoView?.({block:'start'});}
 else if(b.dataset.answer){const [i,j]=b.dataset.answer.split(':').map(Number),k=id(i),old=state.answers[k]||{count:0,misses:0},isWrong=j!==course.topics[i].correct;state.answers[k]={choice:j,count:old.count+1,misses:old.misses+(isWrong?1:0),wrong:old.wrong||isWrong};persist();render();}
 else if(b.dataset.clearwrong!==undefined){state.answers[id(b.dataset.clearwrong)].wrong=false;persist();render();}
 else if(b.id==='start'){page='essays';query='';$('#search').value='';render();}

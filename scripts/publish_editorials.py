@@ -55,6 +55,16 @@ def load_originals(root=ROOT):
         articles.append(a);seen.add(a['date'])
     return articles
 
+def load_news_guides(root=ROOT):
+    guides=[]
+    for path in sorted((root/'content/news-guides').glob('*.json')):
+        a=validate_article(json.loads(path.read_text(encoding='utf-8-sig')))
+        if not a['id'].startswith('news-'+a['date']+'-') or not path.stem.startswith(a['date']+'-'):raise ValueError('Invalid news guide identity')
+        validate_evidence(a,json.loads((root/'content/news-guide-evidence'/path.name).read_text(encoding='utf-8-sig')))
+        guides.append(a)
+    if len({a['id'] for a in guides})!=len(guides):raise ValueError('Duplicate news guide ID')
+    return guides
+
 def publish(root=ROOT,now=None):
     now=now or datetime.now(timezone.utc)
     today=now.astimezone(TAIPEI).date().isoformat()
@@ -74,6 +84,12 @@ def publish(root=ROOT,now=None):
     if resources.exists():
         data=json.loads(resources.read_text(encoding='utf-8-sig'))
         (root/'site/study-toolkit-data.js').write_text('window.LAW_STUDY_RESOURCES = '+json.dumps(data,ensure_ascii=False)+';\n',encoding='utf-8')
+    guides=[a for a in load_news_guides(root) if a['date']<=today]
+    (root/'site/news-guides.js').write_text('window.LAW_NEWS_GUIDES = '+json.dumps(guides,ensure_ascii=False)+';\n',encoding='utf-8')
+    for a in guides:atomic_json(root/'site/updates/guides'/(a['id']+'.json'),a)
+    atomic_json(root/'site/updates/guides/index.json',[{'id':a['id'],'date':a['date'],'title':a['title'],'subject':a['subject']} for a in reversed(guides)])
+    disputes=root/'content/exam-disputes.json'
+    if disputes.exists():(root/'site/exam-disputes.js').write_text('window.LEX_EXAM_DISPUTES='+json.dumps(json.loads(disputes.read_text(encoding='utf-8'))['items'],ensure_ascii=False)+';\n',encoding='utf-8')
     articles=[a for a in load_originals(root) if a['date']<=today]
     daily=json.loads((root/'site/updates/daily.json').read_text(encoding='utf-8-sig'))
     daily['editorialMode']='agent_committed_originals'

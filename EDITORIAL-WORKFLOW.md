@@ -59,3 +59,15 @@
 ## 申論模板（2026-10-26）
 
 九科通用模板及27章專用句型存於 `content/note-expansions.json` 的 baseTemplates 與各章 essayTemplate。建置同時產生內嵌筆記模板、Markdown及 `site/essay-template-data.js`，由 `study-toolkit.html#templates` 集中閱讀。完整示範沿用有明確虛構標示的章節案例，不冒稱教師或官方擬答。附加模板保留草稿原文，重複附加及超出上限會提示；工具箱仍按儲存才落盤，筆記頁沿用原自動儲存及備份。
+
+## 申論演練台（2026-10-26）
+
+`site/practice.html` 使用既有27則虛構案例，提供五段作答、15/30/60分鐘計時、示範對照與自我檢核。自評與完成標記不是法律正確性評分。紀錄使用 `lex-nexus-essay-practice-v1`，透過 `practice-core.js` 驗證並納入完整備份。不得改掉既有草稿鍵；跨分頁儲存比較前一版本，偵測衝突後先備份再重讀；儲存失敗不得覆蓋或清除原作答。計時以實際截止時間為準，離頁仍繼續，時間結束不自動交卷。
+
+## 統一國考入口與時事導讀（2026-10-26）
+
+側欄只設一個「國考申論」入口 practice.html，內含作答、九科模板與完整示範、學理爭點與實務。原工具箱與課程連結仍相容，草稿不搬移、不清除。content/exam-disputes.json 記錄逐件查讀的法院原文、來源雜湊、自編分析與虛構擬答；不得把個案稱作通說或引用未查讀的學者姓名。
+
+時事延伸稿存 content/news-guides/YYYY-MM-DD-slug.json，同名證據存 content/news-guide-evidence；沿用文章與證據逐項核對格式。不得修改既有原創文的日期或識別碼。publish_editorials.py 同時產生 news-guides.js 與 updates/guides，daily 的歷史文章合併顯示兩種文章，可搜尋與分享。未到日期的稿件不公開；AI 查讀不稱人工審核。
+
+GitHub 排程每四小時嘗試更新官方 RSS，含台北九點；執行可能延後。RSS 更新不等於自動產生深度文章；原創導讀仍須經來源查讀、證據核對及發布。執行 Python 全套測試、frontend.cjs、practice.cjs、essay-templates.cjs、discover.cjs 與相關備份測試。

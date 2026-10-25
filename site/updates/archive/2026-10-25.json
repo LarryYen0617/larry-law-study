@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "editionDate": "2026-10-25",
-  "generatedAt": "2026-10-25T16:45:45.377579Z",
-  "newsUpdatedAt": "2026-10-25T16:45:43.862097Z",
+  "generatedAt": "2026-10-25T22:08:45.921405Z",
+  "newsUpdatedAt": "2026-10-25T21:55:18.927655Z",
   "timezone": "Asia/Taipei",
   "releaseHour": 9,
   "newsState": "ok",
@@ -12,21 +12,21 @@
       "id": "ey-news",
       "name": "行政院本院新聞",
       "status": "ok",
-      "checkedAt": "2026-10-25T16:45:43.862097Z",
+      "checkedAt": "2026-10-25T21:55:18.927655Z",
       "items": 13
     },
     {
       "id": "ey-consumer",
       "name": "行政院消費者保護資訊",
       "status": "ok",
-      "checkedAt": "2026-10-25T16:45:43.862097Z",
+      "checkedAt": "2026-10-25T21:55:18.927655Z",
       "items": 11
     },
     {
       "id": "dot-news",
       "name": "財政部賦稅署新聞稿",
       "status": "ok",
-      "checkedAt": "2026-10-25T16:45:43.862097Z",
+      "checkedAt": "2026-10-25T21:55:18.927655Z",
       "items": 3
     }
   ],
@@ -139,7 +139,7 @@
   "editorial": {
     "status": "published",
     "attemptedDate": "2026-10-26",
-    "attemptedAt": "2026-10-25T16:45:45.377579Z",
+    "attemptedAt": "2026-10-25T22:08:45.921405Z",
     "reason": "committed_original",
     "article": {
       "id": "original-2026-10-26",

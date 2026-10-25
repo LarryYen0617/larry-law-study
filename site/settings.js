@@ -11,6 +11,7 @@
    let item;try{item=JSON.parse(value);}catch{throw Error('備份中的紀錄格式錯誤。');}if(!obj(item))throw Error('備份中的紀錄格式錯誤。');
    if(key==='larry-law-midterm-v1'&&(item.version!==1||!Array.isArray(item.notes)))throw Error('九科進度格式不符。');
    if(key==='lex-nexus-collections-v1'&&!window.LEX_DISCOVER?.validCollection(item))throw Error('收藏與複習紀錄格式不符。');
+   if(key==='lex-nexus-essay-practice-v1'&&!window.LEX_PRACTICE?.valid(item))throw Error('申論演練紀錄格式不符。');
    for(const field of ['done','answers','drafts','checks','familiar'])if(item[field]!==undefined&&!obj(item[field]))throw Error('作答或筆記格式不符。');
   }
   if(!data.books.every(W.validBook)||data.books.reduce((n,b)=>n+b.chapters.reduce((m,c)=>m+c.text.length,0),0)>30_000_000)throw Error('書籍資料超過支援範圍。');return data;
