@@ -1,0 +1,1242 @@
+{
+  "date": "2026-10-26",
+  "method": "AI直接查讀官方條文並逐章對照；非人工或獨立模型審定",
+  "scope": "本次新增的27章深化段落；不將原有其他章節視為同批審定",
+  "sources": {
+    "C0000001:12": {
+      "lawCode": "C0000001",
+      "article": "12",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=12",
+      "text": "行為非出於故意或過失者，不罰。\n過失行為之處罰，以有特別規定者，為限。",
+      "sha256": "5996ba7b7e56f71cb4f3d0fe44308432f9dfc14978ec43a4338212686532c26b"
+    },
+    "C0000001:13": {
+      "lawCode": "C0000001",
+      "article": "13",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=13",
+      "text": "行為人對於構成犯罪之事實，明知並有意使其發生者，為故意。\n行為人對於構成犯罪之事實，預見其發生而其發生並不違背其本意者，以故意論。",
+      "sha256": "e438fb2253562d5111428bfd470c12cf8a006dfdf4a4c80c7ea0fe29b8a7912a"
+    },
+    "C0000001:320": {
+      "lawCode": "C0000001",
+      "article": "320",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=320",
+      "text": "意圖為自己或第三人不法之所有，而竊取他人之動產者，為竊盜罪，處五年以下有期徒刑、拘役或五十萬元以下罰金。\n意圖為自己或第三人不法之利益，而竊佔他人之不動產者，依前項之規定處斷。\n前二項之未遂犯罰之。",
+      "sha256": "65dfe5c1c381a8ce1e33588657e632d60e5ec3379fd3c97ac4fbf9b0d3459eab"
+    },
+    "C0000001:335": {
+      "lawCode": "C0000001",
+      "article": "335",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=335",
+      "text": "意圖為自己或第三人不法之所有，而侵占自己持有他人之物者，處五年以下有期徒刑、拘役或科或併科三萬元以下罰金。\n前項之未遂犯罰之。",
+      "sha256": "817b40f5cd1481e9dfab0b13684c5b50d5247ecf1ce28c7ffef22f2fb42d02da"
+    },
+    "C0000001:339": {
+      "lawCode": "C0000001",
+      "article": "339",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=339",
+      "text": "意圖為自己或第三人不法之所有，以詐術使人將本人或第三人之物交付者，處五年以下有期徒刑、拘役或科或併科五十萬元以下罰金。\n以前項方法得財產上不法之利益或使第三人得之者，亦同。\n前二項之未遂犯罰之。",
+      "sha256": "fb22ebd542f85bab068b032a90aeb3664e1ee9d31d09971036c8e2b8f19ac171"
+    },
+    "B0000001:980": {
+      "lawCode": "B0000001",
+      "article": "980",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=980",
+      "text": "男女未滿十八歲者，不得結婚。",
+      "sha256": "a2a33496ca19cab3a8b7695415672f34adc88dd40d03296d439e15d1a6a7c040"
+    },
+    "B0000001:982": {
+      "lawCode": "B0000001",
+      "article": "982",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=982",
+      "text": "結婚應以書面為之，有二人以上證人之簽名，並應由雙方當事人向戶政機關為結婚之登記。",
+      "sha256": "62621ee514c577679608494702d0a529ab075815884c831d1233d07565ed42f8"
+    },
+    "B0000001:983": {
+      "lawCode": "B0000001",
+      "article": "983",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=983",
+      "text": "與左列親屬，不得結婚︰\n一、直系血親及直系姻親。\n二、旁系血親在六親等以內者。但因收養而成立之四親等及六親等旁系血親，輩分相同者，不在此限。\n三、旁系姻親在五親等以內，輩分不相同者。\n前項直系姻親結婚之限制，於姻親關係消滅後，亦適用之。\n第一項直系血親及直系姻親結婚之限制，於因收養而成立之直系親屬間，在收養關係終止後，亦適用之。",
+      "sha256": "95da6efecdbaaa9b1d9bbcd1d6095d4409f8f91ded18d089b2ec71956f358a70"
+    },
+    "B0000001:985": {
+      "lawCode": "B0000001",
+      "article": "985",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=985",
+      "text": "有配偶者，不得重婚。\n一人不得同時與二人以上結婚。",
+      "sha256": "93a870ba33e47ed497934b8b67bcef9ba7ec688bd5addff3d8ca946aaddbd5e7"
+    },
+    "B0000001:988": {
+      "lawCode": "B0000001",
+      "article": "988",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=988",
+      "text": "結婚有下列情形之一者，無效：\n一、不具備第九百八十二條之方式。\n二、違反第九百八十三條規定。\n三、違反第九百八十五條規定。但重婚之雙方當事人因善意且無過失信賴一方前婚姻消滅之兩願離婚登記或離婚確定判決而結婚者，不在此限。",
+      "sha256": "b00731e1443c080f2d2d86432c6f97b38f9dbc8a4b521790480983118ab620d5"
+    },
+    "B0000001:1004": {
+      "lawCode": "B0000001",
+      "article": "1004",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=1004",
+      "text": "夫妻得於結婚前或結婚後，以契約就本法所定之約定財產制中，選擇其一，為其夫妻財產制。",
+      "sha256": "5516c882b3a493d88360dce692382ff54ebe6850c314ce09603f9ea00781f5a6"
+    },
+    "B0000001:1005": {
+      "lawCode": "B0000001",
+      "article": "1005",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=1005",
+      "text": "夫妻未以契約訂立夫妻財產制者，除本法另有規定外，以法定財產制，為其夫妻財產制。",
+      "sha256": "c18b83bea039e9eba1ec001fa857c650424401d6809c6d133ffc52d034d05531"
+    },
+    "B0000001:1007": {
+      "lawCode": "B0000001",
+      "article": "1007",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=1007",
+      "text": "夫妻財產制契約之訂立、變更或廢止，應以書面為之。",
+      "sha256": "3b201cc8abcb3cbf333844e65ccae1491582e61b537c64de58eeb58881e5a59a"
+    },
+    "B0000001:1008": {
+      "lawCode": "B0000001",
+      "article": "1008",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=1008",
+      "text": "夫妻財產制契約之訂立、變更或廢止，非經登記，不得以之對抗第三人。\n前項夫妻財產制契約之登記，不影響依其他法律所為財產權登記之效力。\n第一項之登記，另以法律定之。",
+      "sha256": "d13a4016cdaf0dfaea4c83567d8b656d6d580ed8459fa2160b16d1731985f237"
+    },
+    "B0000001:1017": {
+      "lawCode": "B0000001",
+      "article": "1017",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=1017",
+      "text": "夫或妻之財產分為婚前財產與婚後財產，由夫妻各自所有。不能證明為婚前或婚後財產者，推定為婚後財產；不能證明為夫或妻所有之財產，推定為夫妻共有。\n夫或妻婚前財產，於婚姻關係存續中所生之孳息，視為婚後財產。\n夫妻以契約訂立夫妻財產制後，於婚姻關係存續中改用法定財產制者，其改用前之財產視為婚前財產。",
+      "sha256": "7b706afffd5f4942f9b607ada892959ba8d77e10574fec34f9e0a7d4f8bc4dd5"
+    },
+    "B0000001:1030-1": {
+      "lawCode": "B0000001",
+      "article": "1030-1",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=1030-1",
+      "text": "法定財產制關係消滅時，夫或妻現存之婚後財產，扣除婚姻關係存續所負債務後，如有剩餘，其雙方剩餘財產之差額，應平均分配。但下列財產不在此限：\n一、因繼承或其他無償取得之財產。\n二、慰撫金。\n夫妻之一方對於婚姻生活無貢獻或協力，或有其他情事，致平均分配有失公平者，法院得調整或免除其分配額。\n法院為前項裁判時，應綜合衡酌夫妻婚姻存續期間之家事勞動、子女照顧養育、對家庭付出之整體協力狀況、共同生活及分居時間之久暫、婚後財產取得時間、雙方之經濟能力等因素。\n第一項請求權，不得讓與或繼承。但已依契約承諾，或已起訴者，不在此限。\n第一項剩餘財產差額之分配請求權，自請求權人知有剩餘財產之差額時起，二年間不行使而消滅。自法定財產制關係消滅時起，逾五年者，亦同。",
+      "sha256": "a0453d197bbba969bf31a5675d898f2bf4205fe9330aa3619b5bc9b811b5da65"
+    },
+    "B0000001:1030-2": {
+      "lawCode": "B0000001",
+      "article": "1030-2",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=1030-2",
+      "text": "夫或妻之一方以其婚後財產清償其婚前所負債務，或以其婚前財產清償婚姻關係存續中所負債務，除已補償者外，於法定財產制關係消滅時，應分別納入現存之婚後財產或婚姻關係存續中所負債務計算。\n夫或妻之一方以其前條第一項但書之財產清償婚姻關係存續中其所負債務者，適用前項之規定。",
+      "sha256": "bab03c7ebd45e86d7a0f341cb4e104898891feb85c460be1fd0b56d3fc3a6999"
+    },
+    "B0000001:1030-3": {
+      "lawCode": "B0000001",
+      "article": "1030-3",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=1030-3",
+      "text": "夫或妻為減少他方對於剩餘財產之分配，而於法定財產制關係消滅前五年內處分其婚後財產者，應將該財產追加計算，視為現存之婚後財產。但為履行道德上義務所為之相當贈與，不在此限。\n前項情形，分配權利人於義務人不足清償其應得之分配額時，得就其不足額，對受領之第三人於其所受利益內請求返還。但受領為有償者，以顯不相當對價取得者為限。\n前項對第三人之請求權，於知悉其分配權利受侵害時起二年間不行使而消滅。自法定財產制關係消滅時起，逾五年者，亦同。",
+      "sha256": "256ad0f9a871027f1776cda5bc01bbe590fb941ef9ee73bc37a090715d257d4f"
+    },
+    "B0000001:1030-4": {
+      "lawCode": "B0000001",
+      "article": "1030-4",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=1030-4",
+      "text": "夫妻現存之婚後財產，其價值計算以法定財產制關係消滅時為準。但夫妻因判決而離婚者，以起訴時為準。\n依前條應追加計算之婚後財產，其價值計算以處分時為準。",
+      "sha256": "6610bfd2830effebd5f010e7e954a7cd5359892b26dd218f12093739e3eb6ae4"
+    },
+    "B0000001:95": {
+      "lawCode": "B0000001",
+      "article": "95",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=95",
+      "text": "非對話而為意思表示者，其意思表示，以通知達到相對人時，發生效力。但撤回之通知，同時或先時到達者，不在此限。\n表意人於發出通知後死亡或喪失行為能力或其行為能力受限制者，其意思表示，不因之失其效力。",
+      "sha256": "5252ff4c87e3ab756b9962fe2ffedb1c945aaa4ba9784d0ee16c13b447154971"
+    },
+    "B0000001:153": {
+      "lawCode": "B0000001",
+      "article": "153",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=153",
+      "text": "當事人互相表示意思一致者，無論其為明示或默示，契約即為成立。\n當事人對於必要之點，意思一致，而對於非必要之點，未經表示意思者，推定其契約為成立，關於該非必要之點，當事人意思不一致時，法院應依其事件之性質定之。",
+      "sha256": "7ccaba9c99c5ed446b717d0497101b0134b436b5af40cd71ea68cc6bd5bfd65d"
+    },
+    "B0000001:161": {
+      "lawCode": "B0000001",
+      "article": "161",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=161",
+      "text": "依習慣或依其事件之性質，承諾無須通知者，在相當時期內，有可認為承諾之事實時，其契約為成立。\n前項規定，於要約人要約當時預先聲明承諾無須通知者準用之。",
+      "sha256": "dd42ccd2c754d3e18c93bde6fa75d68192d401753c08c7d27bca92ecf77a1f24"
+    },
+    "B0000001:166": {
+      "lawCode": "B0000001",
+      "article": "166",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=166",
+      "text": "契約當事人約定其契約須用一定方式者，在該方式未完成前，推定其契約不成立。",
+      "sha256": "7ce010734164a2c8f92413f716c6ccd975451788e2dbf27f713e1b7c2d5f7b72"
+    },
+    "B0000001:464": {
+      "lawCode": "B0000001",
+      "article": "464",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=464",
+      "text": "稱使用借貸者，謂當事人一方以物交付他方，而約定他方於無償使用後返還其物之契約。",
+      "sha256": "90f01c230f5ddcef2aa7c370277a216f604670d9bf95a37040a13adc92260efe"
+    },
+    "B0000001:170": {
+      "lawCode": "B0000001",
+      "article": "170",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=170",
+      "text": "無代理權人以代理人之名義所為之法律行為，非經本人承認，對於本人不生效力。\n前項情形，法律行為之相對人，得定相當期限，催告本人確答是否承認，如本人逾期未為確答者，視為拒絕承認。",
+      "sha256": "c239accde6a6426869d43ca99928998188c6400cf0e41e8059c73f74c818cd28"
+    },
+    "B0000001:172": {
+      "lawCode": "B0000001",
+      "article": "172",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=172",
+      "text": "未受委任，並無義務，而為他人管理事務者，其管理應依本人明示或可得推知之意思，以有利於本人之方法為之。",
+      "sha256": "a6fcbec12fec2fd1e3dadb009670b98721ee2ba5dee92f66cbdb7c0869a2a0b2"
+    },
+    "B0000001:173": {
+      "lawCode": "B0000001",
+      "article": "173",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=173",
+      "text": "管理人開始管理時，以能通知為限，應即通知本人。如無急迫之情事，應俟本人之指示。\n第五百四十條至第五百四十二條關於委任之規定，於無因管理準用之。",
+      "sha256": "67079f3042c2ae7908448e274473c9f9fb67993e526cf5b5854487842ad73953"
+    },
+    "B0000001:174": {
+      "lawCode": "B0000001",
+      "article": "174",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=174",
+      "text": "管理人違反本人明示或可得推知之意思，而為事務之管理者，對於因其管理所生之損害，雖無過失，亦應負賠償之責。\n前項之規定，如其管理係為本人盡公益上之義務，或為其履行法定扶養義務，或本人之意思違反公共秩序善良風俗者，不適用之。",
+      "sha256": "23478694c25070d26e202f3b77d9e16aa28761bf94bfd69978c16dbb0eb429b5"
+    },
+    "B0000001:176": {
+      "lawCode": "B0000001",
+      "article": "176",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=176",
+      "text": "管理事務，利於本人，並不違反本人明示或可得推知之意思者，管理人為本人支出必要或有益之費用，或負擔債務，或受損害時，得請求本人償還其費用及自支出時起之利息，或清償其所負擔之債務，或賠償其損害。\n第一百七十四條第二項規定之情形，管理人管理事務，雖違反本人之意思，仍有前項之請求權。",
+      "sha256": "f57da7362fa9e30db8a222cb6225de7dc795f2a819e172b6c1382275777f83e5"
+    },
+    "B0000001:177": {
+      "lawCode": "B0000001",
+      "article": "177",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=177",
+      "text": "管理事務不合於前條之規定時，本人仍得享有因管理所得之利益，而本人所負前條第一項對於管理人之義務，以其所得之利益為限。\n前項規定，於管理人明知為他人之事務，而為自己之利益管理之者，準用之。",
+      "sha256": "863ab4d7bf3f5ec6888b58921e52f6716a4a64b63c8132f85e50d373955f2daa"
+    },
+    "B0000001:178": {
+      "lawCode": "B0000001",
+      "article": "178",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=178",
+      "text": "管理事務經本人承認者，除當事人有特別意思表示外，溯及管理事務開始時，適用關於委任之規定。",
+      "sha256": "29422421a6e10d55a4914cb66153593eb3ca372f2ec322206c034998bc7adf9d"
+    },
+    "B0000001:179": {
+      "lawCode": "B0000001",
+      "article": "179",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=179",
+      "text": "無法律上之原因而受利益，致他人受損害者，應返還其利益。雖有法律上之原因，而其後已不存在者，亦同。",
+      "sha256": "37a885f9f1cf76264113d4973063ff3ce32f73ff7802bece7290176ce0bca6b0"
+    },
+    "B0000001:180": {
+      "lawCode": "B0000001",
+      "article": "180",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=180",
+      "text": "給付，有左列情形之一者，不得請求返還：\n一、給付係履行道德上之義務者。\n二、債務人於未到期之債務因清償而為給付者。\n三、因清償債務而為給付，於給付時明知無給付之義務者。\n四、因不法之原因而為給付者。但不法之原因僅於受領人一方存在時，不在此限。",
+      "sha256": "ba083bcb5a6e49819d2a9423f58d53f4e32e23e9c29deb0a135003963810eb00"
+    },
+    "B0000001:181": {
+      "lawCode": "B0000001",
+      "article": "181",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=181",
+      "text": "不當得利之受領人，除返還其所受之利益外，如本於該利益更有所取得者，並應返還。但依其利益之性質或其他情形不能返還者，應償還其價額。",
+      "sha256": "8de8a43b2873c9fa339f3e5a0a1d83d7c621a42d3bdaf3d74dcf8864d1f3a595"
+    },
+    "B0000001:182": {
+      "lawCode": "B0000001",
+      "article": "182",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=182",
+      "text": "不當得利之受領人，不知無法律上之原因，而其所受之利益已不存在者，免負返還或償還價額之責任。\n受領人於受領時，知無法律上之原因或其後知之者，應將受領時所得之利益，或知無法律上之原因時所現存之利益，附加利息，一併償還；如有損害，並應賠償。",
+      "sha256": "2f7e37135f9a8b4f9d5d16a3581b6e6fc983814bc0db6e65ff7c55d0b862c964"
+    },
+    "B0000001:183": {
+      "lawCode": "B0000001",
+      "article": "183",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=183",
+      "text": "不當得利之受領人，以其所受者，無償讓與第三人，而受領人因此免返還義務者，第三人於其所免返還義務之限度內，負返還責任。",
+      "sha256": "13ba16183daa64f1f9336ee314c5f5ea16c6d209533ae9b081b77771a9fda2d4"
+    },
+    "B0000001:345": {
+      "lawCode": "B0000001",
+      "article": "345",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=345",
+      "text": "稱買賣者，謂當事人約定一方移轉財產權於他方，他方支付價金之契約。\n當事人就標的物及其價金互相同意時，買賣契約即為成立。",
+      "sha256": "3700b2cdf9d0024c8301c34bb5eec3e67d341ba6ac69e0fb706b48c787981dce"
+    },
+    "B0000001:348": {
+      "lawCode": "B0000001",
+      "article": "348",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=348",
+      "text": "物之出賣人，負交付其物於買受人，並使其取得該物所有權之義務。\n權利之出賣人，負使買受人取得其權利之義務，如因其權利而得占有一定之物者，並負交付其物之義務。",
+      "sha256": "ecab34387122bcc74f62cf427c8d55209cbc7909e49b6637608e55c0f2d053e3"
+    },
+    "B0000001:758": {
+      "lawCode": "B0000001",
+      "article": "758",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=758",
+      "text": "不動產物權，依法律行為而取得、設定、喪失及變更者，非經登記，不生效力。\n前項行為，應以書面為之。",
+      "sha256": "8b8e79d574cd26ff75a4d4689d130d12908c6756f837e0f83fbc5cdb4e75a8c8"
+    },
+    "B0000001:759": {
+      "lawCode": "B0000001",
+      "article": "759",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=759",
+      "text": "因繼承、強制執行、徵收、法院之判決或其他非因法律行為，於登記前已取得不動產物權者，應經登記，始得處分其物權。",
+      "sha256": "040b4d2845938a8a4e350e3cf9e7dc29aca263506d373c61939113daf5bf975a"
+    },
+    "B0000001:455": {
+      "lawCode": "B0000001",
+      "article": "455",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=455",
+      "text": "承租人於租賃關係終止後，應返還租賃物；租賃物有生產力者，並應保持其生產狀態，返還出租人。",
+      "sha256": "3441a71e1ddf5c627dbbe5c2d522cb5817af66f1a02a715d1bdff2cac635c154"
+    },
+    "B0000001:767": {
+      "lawCode": "B0000001",
+      "article": "767",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=767",
+      "text": "所有人對於無權占有或侵奪其所有物者，得請求返還之。對於妨害其所有權者，得請求除去之。有妨害其所有權之虞者，得請求防止之。\n前項規定，於所有權以外之物權，準用之。",
+      "sha256": "59679be7e8d8ae7f6a82e69768cabf9548675f66d1b7faeb53c3489c78cd197e"
+    },
+    "B0000001:761": {
+      "lawCode": "B0000001",
+      "article": "761",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=761",
+      "text": "動產物權之讓與，非將動產交付，不生效力。但受讓人已占有動產者，於讓與合意時，即生效力。\n讓與動產物權，而讓與人仍繼續占有動產者，讓與人與受讓人間，得訂立契約，使受讓人因此取得間接占有，以代交付。\n讓與動產物權，如其動產由第三人占有時，讓與人得以對於第三人之返還請求權，讓與於受讓人，以代交付。",
+      "sha256": "a616a31d7e7d18cb0d32eb742f3b4029667477c060df265fd02140c89156f43c"
+    },
+    "B0000001:801": {
+      "lawCode": "B0000001",
+      "article": "801",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=801",
+      "text": "動產之受讓人占有動產，而受關於占有規定之保護者，縱讓與人無移轉所有權之權利，受讓人仍取得其所有權。",
+      "sha256": "ea16aea03007cae15de33ca22ba8cde517d32553f2029b17faf6c818f34d1558"
+    },
+    "B0000001:948": {
+      "lawCode": "B0000001",
+      "article": "948",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=948",
+      "text": "以動產所有權，或其他物權之移轉或設定為目的，而善意受讓該動產之占有者，縱其讓與人無讓與之權利，其占有仍受法律之保護。但受讓人明知或因重大過失而不知讓與人無讓與之權利者，不在此限。\n動產占有之受讓，係依第七百六十一條第二項規定為之者，以受讓人受現實交付且交付時善意為限，始受前項規定之保護。",
+      "sha256": "5cdc4d65b054989c9348f1f22494816e1c8cb541cccfee93e80200fced9f5695"
+    },
+    "B0000001:949": {
+      "lawCode": "B0000001",
+      "article": "949",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=949",
+      "text": "占有物如係盜贓、遺失物或其他非基於原占有人之意思而喪失其占有者，原占有人自喪失占有之時起二年以內，得向善意受讓之現占有人請求回復其物。\n依前項規定回復其物者，自喪失其占有時起，回復其原來之權利。",
+      "sha256": "f94dc0938c9f706432202fcf834ebe73f0258d162a1e1390c829b4d221b04fe1"
+    },
+    "B0000001:950": {
+      "lawCode": "B0000001",
+      "article": "950",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=950",
+      "text": "盜贓、遺失物或其他非基於原占有人之意思而喪失其占有之物，如現占有人由公開交易場所，或由販賣與其物同種之物之商人，以善意買得者，非償還其支出之價金，不得回復其物。",
+      "sha256": "d7cb3facb4d2c8e80a864da46d8386290340dd3ba143d842dedcb26b7e66e8fb"
+    },
+    "B0000001:951": {
+      "lawCode": "B0000001",
+      "article": "951",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=951",
+      "text": "盜贓、遺失物或其他非基於原占有人之意思而喪失其占有之物，如係金錢或未記載權利人之有價證券，不得向其善意受讓之現占有人請求回復。",
+      "sha256": "d734d60c36fb69538798dc27b53190d2111a6acec476b4df31d149c1099ce19f"
+    },
+    "A0030055:2": {
+      "lawCode": "A0030055",
+      "article": "2",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030055&flno=2",
+      "text": "本法所稱行政程序，係指行政機關作成行政處分、締結行政契約、訂定法規命令與行政規則、確定行政計畫、實施行政指導及處理陳情等行為之程序。\n本法所稱行政機關，係指代表國家、地方自治團體或其他行政主體表示意思，從事公共事務，具有單獨法定地位之組織。\n受託行使公權力之個人或團體，於委託範圍內，視為行政機關。",
+      "sha256": "4685a4e47e317ee49751f8b5981b8dca7ef046d217626ed26446d4b99961f799"
+    },
+    "A0030055:92": {
+      "lawCode": "A0030055",
+      "article": "92",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030055&flno=92",
+      "text": "本法所稱行政處分，係指行政機關就公法上具體事件所為之決定或其他公權力措施而對外直接發生法律效果之單方行政行為。\n前項決定或措施之相對人雖非特定，而依一般性特徵可得確定其範圍者，為一般處分，適用本法有關行政處分之規定。有關公物之設定、變更、廢止或其一般使用者，亦同。",
+      "sha256": "6e354fc819604059ea671b7b999d7951d0657fb2e85ae300d670f9783d91f4a8"
+    },
+    "A0030055:95": {
+      "lawCode": "A0030055",
+      "article": "95",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030055&flno=95",
+      "text": "行政處分除法規另有要式之規定者外，得以書面、言詞或其他方式為之。\n以書面以外方式所為之行政處分，其相對人或利害關係人有正當理由要求作成書面時，處分機關不得拒絕。",
+      "sha256": "d9c111dd875fe5c8cb0d0cb10fb21dbdf2646e59eab9fcdeb7171622a30f0058"
+    },
+    "A0030055:96": {
+      "lawCode": "A0030055",
+      "article": "96",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030055&flno=96",
+      "text": "行政處分以書面為之者，應記載下列事項︰\n一、處分相對人之姓名、出生年月日、性別、身分證統一號碼、住居所或其他足資辨別之特徵；如係法人或其他設有管理人或代表人之團體，其名稱、事務所或營業所，及管理人或代表人之姓名、出生年月日、性別、身分證統一號碼、住居所。\n二、主旨、事實、理由及其法令依據。\n三、有附款者，附款之內容。\n四、處分機關及其首長署名、蓋章，該機關有代理人或受任人者，須同時於其下簽名。但以自動機器作成之大量行政處分，得不經署名，以蓋章為之。\n五、發文字號及年、月、日。\n六、表明其為行政處分之意旨及不服行政處分之救濟方法、期間及其受理機關。\n前項規定於依前條第二項作成之書面，準用之。",
+      "sha256": "8c083c0ebc13d3893f0ba9c2e15ab60d3e888f7e34f527b759eb059ad8237f9f"
+    },
+    "A0030055:110": {
+      "lawCode": "A0030055",
+      "article": "110",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030055&flno=110",
+      "text": "書面之行政處分自送達相對人及已知之利害關係人起；書面以外之行政處分自以其他適當方法通知或使其知悉時起，依送達、通知或使知悉之內容對其發生效力。\n一般處分自公告日或刊登政府公報、新聞紙最後登載日起發生效力。但處分另訂不同日期者，從其規定。\n行政處分未經撤銷、廢止，或未因其他事由而失效者，其效力繼續存在。\n無效之行政處分自始不生效力。",
+      "sha256": "5b991d678d417b4d794ace0e47cbbbf86857db6f4e96a7407cb5c347037ba57d"
+    },
+    "A0030055:4": {
+      "lawCode": "A0030055",
+      "article": "4",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030055&flno=4",
+      "text": "行政行為應受法律及一般法律原則之拘束。",
+      "sha256": "fb254c4e31696a49573a1b95dcae13d68d600484c7a05b7853f1089d992677ef"
+    },
+    "A0030055:6": {
+      "lawCode": "A0030055",
+      "article": "6",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030055&flno=6",
+      "text": "行政行為，非有正當理由，不得為差別待遇。",
+      "sha256": "5740a19543fa3bfc76a5d805777c0def0cedb7e93913be54e7d413ece2acbf88"
+    },
+    "A0030055:7": {
+      "lawCode": "A0030055",
+      "article": "7",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030055&flno=7",
+      "text": "行政行為，應依下列原則為之：\n一、採取之方法應有助於目的之達成。\n二、有多種同樣能達成目的之方法時，應選擇對人民權益損害最少者。\n三、採取之方法所造成之損害不得與欲達成目的之利益顯失均衡。",
+      "sha256": "d8ad7123723a5df471a659df93d9d3ce42f12fb4dbfbab74be2816b903edbecd"
+    },
+    "A0030055:10": {
+      "lawCode": "A0030055",
+      "article": "10",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030055&flno=10",
+      "text": "行政機關行使裁量權，不得逾越法定之裁量範圍，並應符合法規授權之目的。",
+      "sha256": "37b95a5b40aa4b2fdfaeff62ce1a2d1d20a560d29c598bb80e2abeae55c97712"
+    },
+    "A0030055:93": {
+      "lawCode": "A0030055",
+      "article": "93",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030055&flno=93",
+      "text": "行政機關作成行政處分有裁量權時，得為附款。無裁量權者，以法律有明文規定或為確保行政處分法定要件之履行而以該要件為附款內容者為限，始得為之。\n前項所稱之附款如下︰\n一、期限。\n二、條件。\n三、負擔。\n四、保留行政處分之廢止權。\n五、保留負擔之事後附加或變更。",
+      "sha256": "a48cb8c1b98ac76c3cbb6d55e8950ea0386fa45ae60a12fb798fab2fa59bc404"
+    },
+    "A0030055:94": {
+      "lawCode": "A0030055",
+      "article": "94",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030055&flno=94",
+      "text": "前條之附款不得違背行政處分之目的，並應與該處分之目的具有正當合理之關聯。",
+      "sha256": "839144bba02ac37b64e10c93cbbfeb8ed9dc8b00dcbc6394a8e8a896c1ef60dc"
+    },
+    "G0340142:3": {
+      "lawCode": "G0340142",
+      "article": "3",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0340142&flno=3",
+      "text": "納稅者有依法律納稅之權利與義務。\n前項法律，在直轄市、縣（市）政府及鄉（鎮、市）公所，包括自治條例。\n主管機關所發布之行政規則及解釋函令，僅得解釋法律原意、規範執行法律所必要之技術性、細節性事項，不得增加法律所未明定之納稅義務或減免稅捐。",
+      "sha256": "522d379287d6c6681075976c1c389d172c82aa7da6406aa41a6b91970f637ace"
+    },
+    "G0340142:5": {
+      "lawCode": "G0340142",
+      "article": "5",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0340142&flno=5",
+      "text": "納稅者依其實質負擔能力負擔稅捐，無合理之政策目的不得為差別待遇。",
+      "sha256": "028f8d907eac7065797f5952674b5388e4b1c820c1b6835eda0dbb49e8b93dde"
+    },
+    "G0340142:6": {
+      "lawCode": "G0340142",
+      "article": "6",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0340142&flno=6",
+      "text": "稅法或其他法律為特定政策所規定之租稅優惠，應明定實施年限並以達成合理之政策目的為限，不得過度。\n前項租稅優惠之擬訂，於法律案送請立法院審議前，應舉行公聽會並提出稅式支出評估。",
+      "sha256": "77f1a6da103b2c858389bfd8d57a69966f4214efdb1d67df658dcf7087789240"
+    },
+    "G0340142:7": {
+      "lawCode": "G0340142",
+      "article": "7",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0340142&flno=7",
+      "text": "涉及租稅事項之法律，其解釋應本於租稅法律主義之精神，依各該法律之立法目的，衡酌經濟上之意義及實質課稅之公平原則為之。\n稅捐稽徵機關認定課徵租稅之構成要件事實時，應以實質經濟事實關係及其所生實質經濟利益之歸屬與享有為依據。\n納稅者基於獲得租稅利益，違背稅法之立法目的，濫用法律形式，以非常規交易規避租稅構成要件之該當，以達成與交易常規相當之經濟效果，為租稅規避。稅捐稽徵機關仍根據與實質上經濟利益相當之法律形式，成立租稅上請求權，並加徵滯納金及利息。\n前項租稅規避及第二項課徵租稅構成要件事實之認定，稅捐稽徵機關就其事實有舉證之責任。\n納稅者依本法及稅法規定所負之協力義務，不因前項規定而免除。\n稅捐稽徵機關查明納稅者及交易之相對人或關係人有第三項之情事者，為正確計算應納稅額，得按交易常規或依查得資料依各稅法規定予以調整。\n第三項之滯納金，按應補繳稅款百分之十五計算；並自該應補繳稅款原應繳納期限屆滿之次日起，至填發補繳稅款繳納通知書之日止，按補繳稅款，依各年度一月一日郵政儲金一年期定期儲金固定利率，按日加計利息，一併徵收。\n第三項情形，主管機關不得另課予逃漏稅捐之處罰。但納稅者於申報或調查時，對重要事項隱匿或為虛偽不實陳述或提供不正確資料，致使稅捐稽徵機關短漏核定稅捐者，不在此限。\n納稅者得在從事特定交易行為前，提供相關證明文件，向稅捐稽徵機關申請諮詢，稅捐稽徵機關應於六個月內答覆。\n本法施行前之租稅規避案件，依各稅法規定應裁罰而尚未裁罰者，適用第三項、第七項及第八項規定；已裁罰尚未確定者，其處罰金額最高不得超過第七項所定滯納金及利息之總額。但有第八項但書情形者，不適用之。",
+      "sha256": "0a2ca361c406ff00cf5e4210bdb6c357e8abe8c207b40d4e10114c9608a8cb32"
+    },
+    "G0340142:14": {
+      "lawCode": "G0340142",
+      "article": "14",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0340142&flno=14",
+      "text": "稅捐稽徵機關對於課稅基礎，經調查仍不能確定或調查費用過鉅時，為維護課稅公平原則，得推計課稅，並應以書面敘明推計依據及計算資料。\n稅捐稽徵機關推計課稅，應斟酌與推計具有關聯性之一切重要事項，依合理客觀之程序及適切之方法為之。\n推計，有二種以上之方法時，應依最能切近實額之方法為之。\n納稅者已依稅法規定履行協力義務者，稅捐稽徵機關不得依推計結果處罰。",
+      "sha256": "aac91dbf589d96d8538ef5f17fd26558704e940267689d93d6ba22eceb68f34e"
+    },
+    "G0340142:16": {
+      "lawCode": "G0340142",
+      "article": "16",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0340142&flno=16",
+      "text": "納稅者違反稅法上義務之行為非出於故意或過失者，不予處罰。\n納稅者不得因不知法規而免除行政處罰責任。但按其情節，得減輕或免除其處罰。\n稅捐稽徵機關為處罰，應審酌納稅者違反稅法上義務行為應受責難程度、所生影響及因違反稅法上義務所得之利益，並得考量納稅者之資力。",
+      "sha256": "a2cb2b5b4212fa52ce569ccbfba8b64f7ea78ee4c6f2511e222a7a9b55437ab6"
+    },
+    "C0000001:19": {
+      "lawCode": "C0000001",
+      "article": "19",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=19",
+      "text": "行為時因精神障礙或其他心智缺陷，致不能辨識其行為違法或欠缺依其辨識而行為之能力者，不罰。\n行為時因前項之原因，致其辨識行為違法或依其辨識而行為之能力，顯著減低者，得減輕其刑。\n前二項規定，於因故意或過失自行招致者，不適用之。",
+      "sha256": "704a6ba3f2f43e1e9b4fdc82dffef019f591161477b8f91c429bda96f4a5bf0b"
+    },
+    "C0000001:23": {
+      "lawCode": "C0000001",
+      "article": "23",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=23",
+      "text": "對於現在不法之侵害，而出於防衛自己或他人權利之行為，不罰。但防衛行為過當者，得減輕或免除其刑。",
+      "sha256": "96eb73b59288360f608bd3ab23a2e5535828054ba51dd6daeefb4466af6db7d4"
+    },
+    "C0000001:24": {
+      "lawCode": "C0000001",
+      "article": "24",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=24",
+      "text": "因避免自己或他人生命、身體、自由、財產之緊急危難而出於不得已之行為，不罰。但避難行為過當者，得減輕或免除其刑。\n前項關於避免自己危難之規定，於公務上或業務上有特別義務者，不適用之。",
+      "sha256": "3592af1f2e00a8745c2de1c6ef00c71484c5c5703898a6e0433c9cc8ea72ccb7"
+    },
+    "C0000001:277": {
+      "lawCode": "C0000001",
+      "article": "277",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=277",
+      "text": "傷害人之身體或健康者，處五年以下有期徒刑、拘役或五十萬元以下罰金。\n犯前項之罪，因而致人於死者，處無期徒刑或七年以上有期徒刑；致重傷者，處三年以上十年以下有期徒刑。",
+      "sha256": "4118b10b2d886721ff418bd66d2f06e62fcb5e478280b0fdb02212d6de7ef106"
+    },
+    "C0000001:25": {
+      "lawCode": "C0000001",
+      "article": "25",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=25",
+      "text": "已著手於犯罪行為之實行而不遂者，為未遂犯。\n未遂犯之處罰，以有特別規定者為限，並得按既遂犯之刑減輕之。",
+      "sha256": "3cb5565aaf3d0bce5d785aae0f56bda4fa7848b1696a57fe34dc16db4a584b30"
+    },
+    "C0000001:26": {
+      "lawCode": "C0000001",
+      "article": "26",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=26",
+      "text": "行為不能發生犯罪之結果，又無危險者，不罰。",
+      "sha256": "e49b2b84d3776577f9c12d8a19df2f2f0f6369caaf1801f10405ebf6e13d6bfb"
+    },
+    "C0000001:27": {
+      "lawCode": "C0000001",
+      "article": "27",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=27",
+      "text": "已著手於犯罪行為之實行，而因己意中止或防止其結果之發生者，減輕或免除其刑。結果之不發生，非防止行為所致，而行為人已盡力為防止行為者，亦同。\n前項規定，於正犯或共犯中之一人或數人，因己意防止犯罪結果之發生，或結果之不發生，非防止行為所致，而行為人已盡力為防止行為者，亦適用之。",
+      "sha256": "cafafa4642cc4db2b8bbf2fd4ef06cd962493fb8a6301ddf958ad096f40aaaf8"
+    },
+    "C0000001:28": {
+      "lawCode": "C0000001",
+      "article": "28",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=28",
+      "text": "二人以上共同實行犯罪之行為者，皆為正犯。",
+      "sha256": "d7754158a31dd9a15fca5afbad38690a9860aba101537662b3b6f6b0f47cbabf"
+    },
+    "C0000001:29": {
+      "lawCode": "C0000001",
+      "article": "29",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=29",
+      "text": "教唆他人使之實行犯罪行為者，為教唆犯。\n教唆犯之處罰，依其所教唆之罪處罰之。",
+      "sha256": "455bb274a75a6609f9294c3707caade56b0a2686bf8d90ea1a71e26d9fbbdff4"
+    },
+    "C0000001:30": {
+      "lawCode": "C0000001",
+      "article": "30",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=30",
+      "text": "幫助他人實行犯罪行為者，為幫助犯。雖他人不知幫助之情者，亦同。\n幫助犯之處罰，得按正犯之刑減輕之。",
+      "sha256": "a6887e458f526ba20887cd373453aa6077db33d38608529319d949e2004e1cf3"
+    },
+    "B0000001:86": {
+      "lawCode": "B0000001",
+      "article": "86",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=86",
+      "text": "表意人無欲為其意思表示所拘束之意，而為意思表示者，其意思表示，不因之無效。但其情形為相對人所明知者，不在此限。",
+      "sha256": "e9e394d591e197d7fd76d5871530d2aed2052655fe0b6a2c8331ddb00fbb34b9"
+    },
+    "B0000001:87": {
+      "lawCode": "B0000001",
+      "article": "87",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=87",
+      "text": "表意人與相對人通謀而為虛偽意思表示者，其意思表示無效。但不得以其無效對抗善意第三人。\n虛偽意思表示，隱藏他項法律行為者，適用關於該項法律行為之規定。",
+      "sha256": "63cbbdf98d045f9e62fadc6e9f58e63ebb70ba8187004bf4fc994b7db2165934"
+    },
+    "B0000001:88": {
+      "lawCode": "B0000001",
+      "article": "88",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=88",
+      "text": "意思表示之內容有錯誤，或表意人若知其事情即不為意思表示者，表意人得將其意思表示撤銷之。但以其錯誤或不知事情，非由表意人自己之過失者為限。\n當事人之資格或物之性質，若交易上認為重要者，其錯誤，視為意思表示內容之錯誤。",
+      "sha256": "289cb45775019820c748fa46c9cb4998935f180607ec828b2a0d47c69619b69f"
+    },
+    "B0000001:89": {
+      "lawCode": "B0000001",
+      "article": "89",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=89",
+      "text": "意思表示，因傳達人或傳達機關傳達不實者，得比照前條之規定撤銷之。",
+      "sha256": "a4584ab281adadde6722bcae9217e02858eff809a6751f6c4fed6db9615b50c8"
+    },
+    "B0000001:90": {
+      "lawCode": "B0000001",
+      "article": "90",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=90",
+      "text": "前二條之撤銷權，自意思表示後，經過一年而消滅。",
+      "sha256": "513fffb8fcd4e151f00f78d29f40c5766fb9eaf2b6a2d8e57cfc45d20543c7f1"
+    },
+    "B0000001:91": {
+      "lawCode": "B0000001",
+      "article": "91",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=91",
+      "text": "依第八十八條及第八十九條之規定撤銷意思表示時，表意人對於信其意思表示為有效而受損害之相對人或第三人，應負賠償責任。但其撤銷之原因，受害人明知或可得而知者，不在此限。",
+      "sha256": "e546cce3d70519ddca0d63be3f62214b9e7dc292f9693fc8428ecc1214c33e01"
+    },
+    "B0000001:92": {
+      "lawCode": "B0000001",
+      "article": "92",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=92",
+      "text": "因被詐欺或被脅迫而為意思表示者，表意人得撤銷其意思表示。但詐欺係由第三人所為者，以相對人明知其事實或可得而知者為限，始得撤銷之。\n被詐欺而為之意思表示，其撤銷不得以之對抗善意第三人。",
+      "sha256": "e25a0cc380ea96388982686131cb7d06ad43090d1a636d483456921da32e495b"
+    },
+    "B0000001:93": {
+      "lawCode": "B0000001",
+      "article": "93",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=93",
+      "text": "前條之撤銷，應於發見詐欺或脅迫終止後，一年內為之。但自意思表示後，經過十年，不得撤銷。",
+      "sha256": "6262f4e96cf97a10a1dda5f0ef6a2fb843e976ad3591284b82e84daffad800ba"
+    },
+    "B0000001:103": {
+      "lawCode": "B0000001",
+      "article": "103",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=103",
+      "text": "代理人於代理權限內，以本人名義所為之意思表示，直接對本人發生效力。\n前項規定，於應向本人為意思表示，而向其代理人為之者，準用之。",
+      "sha256": "09e3f467d29ac96a06583dca2dbb2fc976c98a1f8dc10b50c3ff1437f6cf4b37"
+    },
+    "B0000001:105": {
+      "lawCode": "B0000001",
+      "article": "105",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=105",
+      "text": "代理人之意思表示，因其意思欠缺、被詐欺、被脅迫，或明知其事情或可得而知其事情，致其效力受影響時，其事實之有無，應就代理人決之。但代理人之代理權係以法律行為授與者，其意思表示，如依照本人所指示之意思而為時，其事實之有無，應就本人決之。",
+      "sha256": "7c88ad896323011774f543172ff8a43b03b6d1e8dcef286fdabaecd4628b418d"
+    },
+    "B0000001:106": {
+      "lawCode": "B0000001",
+      "article": "106",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=106",
+      "text": "代理人非經本人之許諾，不得為本人與自己之法律行為，亦不得既為第三人之代理人，而為本人與第三人之法律行為。但其法律行為，係專履行債務者，不在此限。",
+      "sha256": "5546709aaa78a4fe9cce1570310910784da95346309b8e273d7524ac4e1dd9e0"
+    },
+    "B0000001:107": {
+      "lawCode": "B0000001",
+      "article": "107",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=107",
+      "text": "代理權之限制及撤回，不得以之對抗善意第三人。但第三人因過失而不知其事實者，不在此限。",
+      "sha256": "694c0ec7313ea07dd535aeb376e018b6c96ea921c6224a953b373a5f5c443b9d"
+    },
+    "B0000001:110": {
+      "lawCode": "B0000001",
+      "article": "110",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=110",
+      "text": "無代理權人，以他人之代理人名義所為之法律行為，對於善意之相對人，負損害賠償之責。",
+      "sha256": "795d7c51297bb894f8d370dea90e0c8e36822d8c7de8bf83f14a0739fa7215ef"
+    },
+    "B0000001:169": {
+      "lawCode": "B0000001",
+      "article": "169",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=169",
+      "text": "由自己之行為表示以代理權授與他人，或知他人表示為其代理人而不為反對之表示者，對於第三人應負授權人之責任。但第三人明知其無代理權或可得而知者，不在此限。",
+      "sha256": "2f29ca3eac56dbf29669a13310e020f64686a85d424da8a94d0de7c8c7e1aef4"
+    },
+    "B0000001:171": {
+      "lawCode": "B0000001",
+      "article": "171",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=171",
+      "text": "無代理權人所為之法律行為，其相對人於本人未承認前，得撤回之。但為法律行為時，明知其無代理權者，不在此限。",
+      "sha256": "cbc00e6d53b81bfbd71dda0779e598c003e197cbb1cd55a7511d6d338d131427"
+    },
+    "B0000001:125": {
+      "lawCode": "B0000001",
+      "article": "125",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=125",
+      "text": "請求權，因十五年間不行使而消滅。但法律所定期間較短者，依其規定。",
+      "sha256": "c7861e08ff8c6854bb95281afaa6b5438698d15db5e70fb194ccda925c3f650a"
+    },
+    "B0000001:126": {
+      "lawCode": "B0000001",
+      "article": "126",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=126",
+      "text": "利息、紅利、租金、贍養費、退職金及其他一年或不及一年之定期給付債權，其各期給付請求權，因五年間不行使而消滅。",
+      "sha256": "8aff67f8eaeda9514f47486c17190b76dbc3aa12985bd2a50700d73d4e895139"
+    },
+    "B0000001:127": {
+      "lawCode": "B0000001",
+      "article": "127",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=127",
+      "text": "左列各款請求權，因二年間不行使而消滅：\n一、旅店、飲食店及娛樂場之住宿費、飲食費、座費、消費物之代價及其墊款。\n二、運送費及運送人所墊之款。\n三、以租賃動產為營業者之租價。\n四、醫生、藥師、看護生之診費、藥費、報酬及其墊款。\n五、律師、會計師、公證人之報酬及其墊款。\n六、律師、會計師、公證人所收當事人物件之交還。\n七、技師、承攬人之報酬及其墊款。\n八、商人、製造人、手工業人所供給之商品及產物之代價。",
+      "sha256": "e09c0077e777bbd019341b1792da3a14ef3f8946e3f562fc029055a85e370736"
+    },
+    "B0000001:128": {
+      "lawCode": "B0000001",
+      "article": "128",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=128",
+      "text": "消滅時效，自請求權可行使時起算。以不行為為目的之請求權，自為行為時起算。",
+      "sha256": "65065310af1adf2dd94f6b0a74008c4f18c8a42efcd16e9fec8852fd76059aa0"
+    },
+    "B0000001:129": {
+      "lawCode": "B0000001",
+      "article": "129",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=129",
+      "text": "消滅時效，因左列事由而中斷：\n一、請求。\n二、承認。\n三、起訴。\n左列事項，與起訴有同一效力：\n一、依督促程序，聲請發支付命令。\n二、聲請調解或提付仲裁。\n三、申報和解債權或破產債權。\n四、告知訴訟。\n五、開始執行行為或聲請強制執行。",
+      "sha256": "72f4f9d19fc4a72a37a59158feb2ea43947503246dae96fbbd54a9cfa8b66a68"
+    },
+    "B0000001:130": {
+      "lawCode": "B0000001",
+      "article": "130",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=130",
+      "text": "時效因請求而中斷者，若於請求後六個月內不起訴，視為不中斷。",
+      "sha256": "6e819b7769dfb4da2914f6f224e7fc53aa1f754e89925fa58207622e38f89fb9"
+    },
+    "B0000001:137": {
+      "lawCode": "B0000001",
+      "article": "137",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=137",
+      "text": "時效中斷者，自中斷之事由終止時，重行起算。\n因起訴而中斷之時效，自受確定判決，或因其他方法訴訟終結時，重行起算。\n經確定判決或其他與確定判決有同一效力之執行名義所確定之請求權，其原有消滅時效期間不滿五年者，因中斷而重行起算之時效期間為五年。",
+      "sha256": "cb8e371dc7476925f019d4cfbd9f1ba3f04121728ee7bd659431dfb6ddd5e885"
+    },
+    "B0000001:144": {
+      "lawCode": "B0000001",
+      "article": "144",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=144",
+      "text": "時效完成後，債務人得拒絕給付。\n請求權已經時效消滅，債務人仍為履行之給付者，不得以不知時效為理由，請求返還；其以契約承認該債務或提出擔保者亦同。",
+      "sha256": "1d1d3c5181679b3a2f81cf1c3af5f52ead9b87071d32b25563469154d7d151c0"
+    },
+    "A0000001:7": {
+      "lawCode": "A0000001",
+      "article": "7",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0000001&flno=7",
+      "text": "中華民國人民，無分男女、宗教、種族、階級、黨派，在法律上一律平等。",
+      "sha256": "964041da0ecf7979255f9954adaae7e508a540627dccba7efe5a1c513e263747"
+    },
+    "A0000001:8": {
+      "lawCode": "A0000001",
+      "article": "8",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0000001&flno=8",
+      "text": "人民身體之自由應予保障。除現行犯之逮捕由法律另定外，非經司法或警察機關依法定程序，不得逮捕拘禁。非由法院依法定程序，不得審問處罰。非依法定程序之逮捕、拘禁、審問、處罰，得拒絕之。\n人民因犯罪嫌疑被逮捕拘禁時，其逮捕拘禁機關應將逮捕拘禁原因，以書面告知本人及其本人指定之親友，並至遲於二十四小時內移送該管法院審問。本人或他人亦得聲請該管法院，於二十四小時內向逮捕之機關提審。\n法院對於前項聲請，不得拒絕，並不得先令逮捕拘禁之機關查覆。逮捕拘禁之機關，對於法院之提審，不得拒絕或遲延。\n人民遭受任何機關非法逮捕拘禁時，其本人或他人得向法院聲請追究，法院不得拒絕，並應於二十四小時內向逮捕拘禁之機關追究，依法處理。",
+      "sha256": "87a1b764c630e7035afca03c31d4809c5318481d6dd44e34d25cc5f201a7abf0"
+    },
+    "A0000001:11": {
+      "lawCode": "A0000001",
+      "article": "11",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0000001&flno=11",
+      "text": "人民有言論、講學、著作及出版之自由。",
+      "sha256": "fcb859608148e4566910facb9cf856ebe258b915cf87b477b1fbb51c22abc2df"
+    },
+    "A0000001:15": {
+      "lawCode": "A0000001",
+      "article": "15",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0000001&flno=15",
+      "text": "人民之生存權、工作權及財產權，應予保障。",
+      "sha256": "d918471bc5dc54b55d3d947edb9ee5278ff218503234d992af5ac9d2cfe5ca16"
+    },
+    "A0000001:22": {
+      "lawCode": "A0000001",
+      "article": "22",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0000001&flno=22",
+      "text": "凡人民之其他自由及權利，不妨害社會秩序公共利益者，均受憲法之保障。",
+      "sha256": "f8bfc6412b0fc375e7962b3952cb4e0d01cbf25b89e6192995e374a3177830f6"
+    },
+    "A0000001:23": {
+      "lawCode": "A0000001",
+      "article": "23",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0000001&flno=23",
+      "text": "以上各條列舉之自由權利，除為防止妨礙他人自由、避免緊急危難、維持社會秩序，或增進公共利益所必要者外，不得以法律限制之。",
+      "sha256": "137fcd7cf6b4f45d2ac9dcc6852b286d5c082d221b9e3acc6aa8d3a77a7dee36"
+    },
+    "A0000002:2": {
+      "lawCode": "A0000002",
+      "article": "2",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0000002&flno=2",
+      "text": "總統、副總統由中華民國自由地區全體人民直接選舉之，自中華民國八十五年第九任總統、副總統選舉實施。總統、副總統候選人應聯名登記，在選票上同列一組圈選，以得票最多之一組為當選。在國外之中華民國自由地區人民返國行使選舉權，以法律定之。\n總統發布行政院院長與依憲法經立法院同意任命人員之任免命令及解散立法院之命令，無須行政院院長之副署，不適用憲法第三十七條之規定。\n總統為避免國家或人民遭遇緊急危難或應付財政經濟上重大變故，得經行政院會議之決議發布緊急命令，為必要之處置，不受憲法第四十三條之限制。但須於發布命令後十日內提交立法院追認，如立法院不同意時，該緊急命令立即失效。\n總統為決定國家安全有關大政方針，得設國家安全會議及所屬國家安全局，其組織以法律定之。\n總統於立法院通過對行政院院長之不信任案後十日內，經諮詢立法院院長後，得宣告解散立法院。但總統於戒嚴或緊急命令生效期間，不得解散立法院。立法院解散後，應於六十日內舉行立法委員選舉，並於選舉結果確認後十日內自行集會，其任期重新起算。\n總統、副總統之任期為四年，連選得連任一次，不適用憲法第四十七條之規定。\n副總統缺位時，總統應於三個月內提名候選人，由立法院補選，繼任至原任期屆滿為止。\n總統、副總統均缺位時，由行政院院長代行其職權，並依本條第一項規定補選總統、副總統，繼任至原任期屆滿為止，不適用憲法第四十九條之有關規定。\n總統、副總統之罷免案，須經全體立法委員四分之一之提議，全體立法委員三分之二之同意後提出，並經中華民國自由地區選舉人總額過半數之投票，有效票過半數同意罷免時，即為通過。\n立法院提出總統、副總統彈劾案，聲請司法院大法官審理，經憲法法庭判決成立時，被彈劾人應即解職。",
+      "sha256": "434771098a45f5d0344700f5348249b53ae2be1323949e3860aa0c8c9e0ece8b"
+    },
+    "A0000002:3": {
+      "lawCode": "A0000002",
+      "article": "3",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0000002&flno=3",
+      "text": "行政院院長由總統任命之。行政院院長辭職或出缺時，在總統未任命行政院院長前，由行政院副院長暫行代理。憲法第五十五條之規定，停止適用。\n行政院依左列規定，對立法院負責，憲法第五十七條之規定，停止適用：\n一、行政院有向立法院提出施政方針及施政報告之責。立法委員在開會時，有向行政院院長及行政院各部會首長質詢之權。\n二、行政院對於立法院決議之法律案、預算案、條約案，如認為有窒礙難行時，得經總統之核可，於該決議案送達行政院十日內，移請立法院覆議。立法院對於行政院移請覆議案，應於送達十五日內作成決議。如為休會期間，立法院應於七日內自行集會，並於開議十五日內作成決議。覆議案逾期未議決者，原決議失效。覆議時，如經全體立法委員二分之一以上決議維持原案，行政院院長應即接受該決議。\n三、立法院得經全體立法委員三分之一以上連署，對行政院院長提出不信任案。不信任案提出七十二小時後，應於四十八小時內以記名投票表決之。如經全體立法委員二分之一以上贊成，行政院院長應於十日內提出辭職，並得同時呈請總統解散立法院；不信任案如未獲通過，一年內不得對同一行政院院長再提不信任案。\n國家機關之職權、設立程序及總員額，得以法律為準則性之規定。\n各機關之組織、編制及員額，應依前項法律，基於政策或業務需要決定之。",
+      "sha256": "c817aa3a5df5bb1fc9b4b56f8c14280e69bd7dab611cababf7d168eed13a175f"
+    },
+    "A0000002:4": {
+      "lawCode": "A0000002",
+      "article": "4",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0000002&flno=4",
+      "text": "立法院立法委員自第七屆起一百一十三人，任期四年，連選得連任，於每屆任滿前三個月內，依左列規定選出之，不受憲法第六十四條及第六十五條之限制：\n一、自由地區直轄市、縣市七十三人。每縣市至少一人。\n二、自由地區平地原住民及山地原住民各三人。\n三、全國不分區及僑居國外國民共三十四人。\n前項第一款依各直轄市、縣市人口比例分配，並按應選名額劃分同額選舉區選出之。第三款依政黨名單投票選舉之，由獲得百分之五以上政黨選舉票之政黨依得票比率選出之，各政黨當選名單中，婦女不得低於二分之一。\n立法院於每年集會時，得聽取總統國情報告。\n立法院經總統解散後，在新選出之立法委員就職前，視同休會。\n中華民國領土，依其固有疆域，非經全體立法委員四分之一之提議，全體立法委員四分之三之出席，及出席委員四分之三之決議，提出領土變更案，並於公告半年後，經中華民國自由地區選舉人投票複決，有效同意票過選舉人總額之半數，不得變更之。\n總統於立法院解散後發布緊急命令，立法院應於三日內自行集會，並於開議七日內追認之。但於新任立法委員選舉投票日後發布者，應由新任立法委員於就職後追認之。如立法院不同意時，該緊急命令立即失效。\n立法院對於總統、副總統之彈劾案，須經全體立法委員二分之一以上之提議，全體立法委員三分之二以上之決議，聲請司法院大法官審理，不適用憲法第九十條、第一百條及增修條文第七條第一項有關規定。\n立法委員除現行犯外，在會期中，非經立法院許可，不得逮捕或拘禁。憲法第七十四條之規定，停止適用。",
+      "sha256": "e71a65ad4e072aba88e3325c786624717c07e8bd44ce2ec5a828e71f6603dc86"
+    },
+    "A0000002:5": {
+      "lawCode": "A0000002",
+      "article": "5",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0000002&flno=5",
+      "text": "司法院設大法官十五人，並以其中一人為院長、一人為副院長，由總統提名，經立法院同意任命之，自中華民國九十二年起實施，不適用憲法第七十九條之規定。司法院大法官除法官轉任者外，不適用憲法第八十一條及有關法官終身職待遇之規定。\n司法院大法官任期八年，不分屆次，個別計算，並不得連任。但並為院長、副院長之大法官，不受任期之保障。\n中華民國九十二年總統提名之大法官，其中八位大法官，含院長、副院長，任期四年，其餘大法官任期為八年，不適用前項任期之規定。\n司法院大法官，除依憲法第七十八條之規定外，並組成憲法法庭審理總統、副總統之彈劾及政黨違憲之解散事項。\n政黨之目的或其行為，危害中華民國之存在或自由民主之憲政秩序者為違憲。\n司法院所提出之年度司法概算，行政院不得刪減，但得加註意見，編入中央政府總預算案，送立法院審議。",
+      "sha256": "841894d0153f69056f992d593178c71b5317909d866e9659c504286af123df0a"
+    }
+  },
+  "units": [
+    {
+      "chapterId": "personal-crime-8ee01c57fbed",
+      "evidenceKeys": [
+        "C0000001:12",
+        "C0000001:13",
+        "C0000001:320",
+        "C0000001:335"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-crime-509619f6bd1b",
+      "evidenceKeys": [
+        "C0000001:12",
+        "C0000001:13",
+        "C0000001:335"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-crime-fe7c7759c3a3",
+      "evidenceKeys": [
+        "C0000001:12",
+        "C0000001:13",
+        "C0000001:339"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-family-a13ff5c38158",
+      "evidenceKeys": [
+        "B0000001:980",
+        "B0000001:982",
+        "B0000001:983",
+        "B0000001:985",
+        "B0000001:988"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-family-bdae04a61238",
+      "evidenceKeys": [
+        "B0000001:1004",
+        "B0000001:1005",
+        "B0000001:1007",
+        "B0000001:1008",
+        "B0000001:1017"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-family-6d43222690f3",
+      "evidenceKeys": [
+        "B0000001:1017",
+        "B0000001:1030-1",
+        "B0000001:1030-2",
+        "B0000001:1030-3",
+        "B0000001:1030-4"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-debt-99a2aad570f1",
+      "evidenceKeys": [
+        "B0000001:95",
+        "B0000001:153",
+        "B0000001:161",
+        "B0000001:166",
+        "B0000001:464"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-debt-fa2de76eae0a",
+      "evidenceKeys": [
+        "B0000001:170",
+        "B0000001:172",
+        "B0000001:173",
+        "B0000001:174",
+        "B0000001:176",
+        "B0000001:177",
+        "B0000001:178"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-debt-fee1c5a3cda4",
+      "evidenceKeys": [
+        "B0000001:179",
+        "B0000001:180",
+        "B0000001:181",
+        "B0000001:182",
+        "B0000001:183"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-property-a94e94126b52",
+      "evidenceKeys": [
+        "B0000001:345",
+        "B0000001:348",
+        "B0000001:758",
+        "B0000001:759"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-property-c0b6865e3941",
+      "evidenceKeys": [
+        "B0000001:455",
+        "B0000001:767"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-property-5790e67db279",
+      "evidenceKeys": [
+        "B0000001:761",
+        "B0000001:801",
+        "B0000001:948",
+        "B0000001:949",
+        "B0000001:950",
+        "B0000001:951"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-admin-0941a7b290ef",
+      "evidenceKeys": [
+        "A0030055:2",
+        "A0030055:92",
+        "A0030055:95",
+        "A0030055:96",
+        "A0030055:110"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-admin-50eef60fb83d",
+      "evidenceKeys": [
+        "A0030055:4",
+        "A0030055:6",
+        "A0030055:7",
+        "A0030055:10"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-admin-e9afbc690e2d",
+      "evidenceKeys": [
+        "A0030055:7",
+        "A0030055:10",
+        "A0030055:93",
+        "A0030055:94"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-tax-99353b41f241",
+      "evidenceKeys": [
+        "G0340142:3",
+        "G0340142:5",
+        "G0340142:6",
+        "G0340142:7"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-tax-ad8482432c22",
+      "evidenceKeys": [
+        "G0340142:3",
+        "G0340142:7"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-tax-53e1ff0cf344",
+      "evidenceKeys": [
+        "G0340142:7",
+        "G0340142:14",
+        "G0340142:16"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-criminalgeneral-three",
+      "evidenceKeys": [
+        "C0000001:12",
+        "C0000001:13",
+        "C0000001:19",
+        "C0000001:23",
+        "C0000001:24",
+        "C0000001:277"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-criminalgeneral-attempt",
+      "evidenceKeys": [
+        "C0000001:25",
+        "C0000001:26",
+        "C0000001:27",
+        "C0000001:320"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-criminalgeneral-participation",
+      "evidenceKeys": [
+        "C0000001:28",
+        "C0000001:29",
+        "C0000001:30"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-civilgeneral-c6",
+      "evidenceKeys": [
+        "B0000001:86",
+        "B0000001:87",
+        "B0000001:88",
+        "B0000001:89",
+        "B0000001:90",
+        "B0000001:91",
+        "B0000001:92",
+        "B0000001:93",
+        "B0000001:95"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-civilgeneral-c8",
+      "evidenceKeys": [
+        "B0000001:103",
+        "B0000001:105",
+        "B0000001:106",
+        "B0000001:107",
+        "B0000001:110",
+        "B0000001:169",
+        "B0000001:170",
+        "B0000001:171"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-civilgeneral-c11",
+      "evidenceKeys": [
+        "B0000001:125",
+        "B0000001:126",
+        "B0000001:127",
+        "B0000001:128",
+        "B0000001:129",
+        "B0000001:130",
+        "B0000001:137",
+        "B0000001:144"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-constitution-rights",
+      "evidenceKeys": [
+        "A0000001:7",
+        "A0000001:8",
+        "A0000001:11",
+        "A0000001:15",
+        "A0000001:22",
+        "A0000001:23"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-constitution-art23",
+      "evidenceKeys": [
+        "A0000001:11",
+        "A0000001:23"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    },
+    {
+      "chapterId": "personal-constitution-powers",
+      "evidenceKeys": [
+        "A0000002:2",
+        "A0000002:3",
+        "A0000002:4",
+        "A0000002:5"
+      ],
+      "authorship": "觀念與涵攝為自編；案例皆為虛構或課堂題型去識別改寫，不冒稱裁判或教師原附答案",
+      "checks": [
+        "條號及現行條文對照",
+        "要件與效果區分",
+        "案例事實及結論一致",
+        "反例及適用界線",
+        "未新增推定的教師不考範圍"
+      ]
+    }
+  ]
+}

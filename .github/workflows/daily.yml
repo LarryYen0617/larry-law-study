@@ -28,6 +28,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: 建置法源對照深化筆記
+        run: python scripts/publish_note_expansions.py
       - name: 執行離線測試
         run: python -m unittest discover -s tests -v
       - name: 產生題庫校訂資料並驗證內容

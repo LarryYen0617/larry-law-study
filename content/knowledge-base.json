@@ -1400,5 +1400,41 @@
       "teacherQuestionReview": "無新原題，不變更教師題目查核或不考範圍。",
       "officialSupplement": "查讀刑法第23、24條，新增防衛與避難自編純重點卡、全新導讀及三級擬答。"
     }
-  ]
+  ],
+  "noteDepth": {
+    "updatedAt": "2026-10-26",
+    "unitCount": 27,
+    "chapterIds": [
+      "personal-crime-8ee01c57fbed",
+      "personal-crime-509619f6bd1b",
+      "personal-crime-fe7c7759c3a3",
+      "personal-family-a13ff5c38158",
+      "personal-family-bdae04a61238",
+      "personal-family-6d43222690f3",
+      "personal-debt-99a2aad570f1",
+      "personal-debt-fa2de76eae0a",
+      "personal-debt-fee1c5a3cda4",
+      "personal-property-a94e94126b52",
+      "personal-property-c0b6865e3941",
+      "personal-property-5790e67db279",
+      "personal-admin-0941a7b290ef",
+      "personal-admin-50eef60fb83d",
+      "personal-admin-e9afbc690e2d",
+      "personal-tax-99353b41f241",
+      "personal-tax-ad8482432c22",
+      "personal-tax-53e1ff0cf344",
+      "personal-criminalgeneral-three",
+      "personal-criminalgeneral-attempt",
+      "personal-criminalgeneral-participation",
+      "personal-civilgeneral-c6",
+      "personal-civilgeneral-c8",
+      "personal-civilgeneral-c11",
+      "personal-constitution-rights",
+      "personal-constitution-art23",
+      "personal-constitution-powers"
+    ],
+    "source": "content/note-expansions.json",
+    "reviewRecord": "content/maintenance/note-depth-2026-10-26.json",
+    "kind": "自編深化筆記；維持原有章節及個人紀錄識別碼"
+  }
 }

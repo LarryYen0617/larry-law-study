@@ -51,3 +51,7 @@
 - `node scripts/build_search_index.cjs` 從正式內容重建 `site/search-index.json`。文章發布後執行，Actions 已自動串接。不得把私人原檔、教師姓名或被取代的原答案加入索引。
 - 搜尋入口為 `discover.html`，收藏、複習排程使用 `lex-nexus-collections-v1`；納入完整備份，不上傳訪客紀錄。既有學習資料鍵不可更名或清除。
 - 新增內容後執行 `node tests/discover.cjs`，並檢查題目、筆記、歷史文章及小說章節的指定連結。
+
+## 深化筆記（2026-10-26）
+
+`content/note-expansions.json` 保存九科27章自編深化內容，`scripts/publish_note_expansions.py` 以原章節 id 編入個人筆記，重複執行不重複附加。每章包括觀念解釋、比較表、虛構案例的逐步涵攝、事實變化與申論落筆。法源快照及AI查讀範圍在 `content/maintenance/note-depth-2026-10-26.json`。維護時不得將這批新增段落的查讀擴稱為全站全部學說均審定。更改深化稿或法源後先重建，再發布筆記與搜尋，保持body、Markdown下載與搜尋一致；保留97個原章節id及使用者熟悉標記、草稿。
