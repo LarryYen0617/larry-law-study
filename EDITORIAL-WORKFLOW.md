@@ -97,3 +97,7 @@ scripts/build_analysis_notes.cjs 從既有來源及校訂層建立 analysis-note
 - palette.js / palette.css 共用四款配色，lex-nexus-palette-v1 只保存外觀，不修改作答資料；嵌入題庫同步外觀。
 - questions.html 顯示 1803 題選擇題、95 則課堂來源區塊及 27 題自編申論，新增題目時須同步此實際統計，不能把區塊或模板當成完整新題。
 - library.js 上下方皆可翻頁，支援跳頁與清除篩選；practice.js 預設全部九科，可切換單科，保留原題目 ID、草稿與計時。
+
+
+## 平台視覺（2026-10-26）
+platform.css 提供共用版面層，沿用 palette.css 色票及既有學習資料；首頁主視覺使用自製 study-architecture.svg，九科卡片新增簡短領域說明。參考 Coursera 的搜尋與分類入口、Notion Help 的主題導覽、MDN 的文件分類；沒有使用第三方品牌圖片或接入追蹤服務。
