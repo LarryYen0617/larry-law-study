@@ -13,6 +13,7 @@ el('notice').textContent=corpus.notice;el('totals').innerHTML=`<b>${corpus.quest
 function refs(sources=[]){return sources.map(s=>{try{const u=new URL(s.url);return u.protocol==='https:'&&u.hostname.endsWith('.gov.tw')?`<a target="_blank" rel="noopener noreferrer" href="${escapeText(u.href)}">${escapeText(s.title)} ↗</a>`:'';}catch{return '';}}).join(' · ');}
 function saveLibrary(){try{localStorage.setItem(libraryKey,JSON.stringify(libraryState));}catch{el('status').textContent='儲存空間不足，請先備份紀錄。';}}
 function renderLibrary(){
+ const title=document.querySelector?.('header h1');if(title)title.textContent=mode==='sources'?'教材目錄':mode==='notes'?'題目解析筆記':'題庫與申論';
  document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));
  el('wrongLabel').hidden=mode!=='questions';const query=el('search').value.trim().toLowerCase(),subject=el('subject').value;
  let rows=(mode==='questions'?corpus.questions:mode==='teacher'?corpus.teacherQuestions:mode==='sources'?corpus.sources:corpus.notes).filter(q=>(!targetItem||q.id===targetItem)&&(mode==='sources'||!subject||subjectName(q.subject)===subject)&&(!query||JSON.stringify(q).toLowerCase().includes(query)));

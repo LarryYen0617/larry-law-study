@@ -36,12 +36,12 @@
   return {subject,active,file,last};
  }
  function mount(){const scroll=aside.scrollTop;nav.innerHTML=window.LEX_NAVIGATION.markup(context());aside.scrollTop=scroll;}
- function remember(){
+ function remember(updateURL=true){
   if(file!=='essentials.html'||typeof knowledgeMode==='undefined'||knowledgeMode!=='notes')return;
   const id=document.querySelector('.chapter-reader .personal-chapter')?.id;if(!id)return;
   const subject=window.LEX_PERSONAL_NOTES?.subjects.find(s=>s.chapters.some(c=>c.id===id)),chapter=subject?.chapters.find(c=>c.id===id);if(!chapter)return;
   last={subject:subject.id,chapter:id,title:subject.name+' · '+chapter.title,updatedAt:new Date().toISOString()};try{localStorage.setItem(key,JSON.stringify(last));}catch{}
-  const url=new URL(location.href);url.hash=id;history.replaceState(null,'',url);
+  if(updateURL){const url=new URL(location.href);url.hash=id;history.replaceState(null,'',url);}
  }
  function close(){aside.classList.remove('sidebar-open');toggle.setAttribute('aria-expanded','false');}
  toggle.addEventListener('click',()=>{const open=aside.classList.toggle('sidebar-open');toggle.setAttribute('aria-expanded',String(open));});
@@ -55,5 +55,5 @@
  if(main&&typeof render==='function'){const previous=render;render=function(){previous();mount();};}
  window.addEventListener('hashchange',()=>{close();mount();});
  window.addEventListener('storage',e=>{if(e.key===key){try{last=JSON.parse(e.newValue||'null');}catch{last=null;}mount();}});
- remember();mount();
+ remember(false);mount();
 })();

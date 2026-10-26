@@ -34,6 +34,8 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: 產生題庫校訂資料並驗證內容
         run: python scripts/publish_question_reviews.py
+      - name: 建置整合解析筆記
+        run: node scripts/build_analysis_notes.cjs
       - name: 驗證題庫答案、計算及原始資料保留
         run: node tests/question-review.cjs
       - name: 執行前端互動測試
@@ -45,6 +47,7 @@ jobs:
           node tests/questions.cjs
           node tests/daily-entry.cjs
           node tests/note-law.cjs
+          node tests/study-workspace.cjs
       - name: 取得 Pages 設定
         id: pages
         uses: actions/configure-pages@v5

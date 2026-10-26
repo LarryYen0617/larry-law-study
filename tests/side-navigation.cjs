@@ -1,7 +1,7 @@
 const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('assert');
 const ctx={window:{}};vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../site/side-navigation.js'),'utf8'),ctx);
 const nav=ctx.window.LEX_NAVIGATION,ids=nav.groups.flatMap(g=>g[1].map(i=>i[0]));
-assert.equal(nav.groups.length,5);assert.equal(ids.length,15);assert.equal(new Set(ids).size,15);
+assert.equal(nav.groups.length,5);assert.equal(ids.length,13);assert.equal(new Set(ids).size,13);
 for(const subject of ['crime','family','debt','property','admin','tax','criminalgeneral','civilgeneral','constitution']){
  assert.equal(nav.destination('index.html','essays',subject,'index.html'),`#/${subject}/essays/0`);
  assert(nav.destination('index.html','progress',subject,'essentials.html').endsWith(`#/${subject}/progress/0`));
