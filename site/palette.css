@@ -1,0 +1,24 @@
+html[data-palette] body{--side:#182f26;--side-active:#314b36;--foil:linear-gradient(115deg,#ac7b22,#f4d88e 35%,#c59439 58%,#f9e6b0 80%,#bd8b32)}
+html[data-palette=navy] body{--ink:#24334b;--muted:#596b80;--paper:#fffefa;--bg:#f0f3f7;--line:#cbd4df;--accent:#29486d;--soft:#e8eef6;--gold:#826137;--side:#182940;--side-active:#304d70}
+html[data-palette=gold] body{--ink:#302a21;--muted:#6c604c;--paper:#fffdf7;--bg:#f3efe5;--line:#d8c9aa;--accent:#71521e;--soft:#eee5d1;--gold:#79591c;--side:#211e19;--side-active:#50432a}
+html[data-palette=rose] body{--ink:#47313d;--muted:#7b626e;--paper:#fffafb;--bg:#f6f0f2;--line:#decbd3;--accent:#78475e;--soft:#f0e2e8;--gold:#80583b;--side:#35232e;--side-active:#634153}
+html[data-palette] body.dark{--ink:#f0ebdf;--muted:#c6bfae;--paper:#292b29;--bg:#1d201e;--line:#53564f;--accent:#b9ceba;--soft:#343c34;--gold:#e0bd77}
+html[data-palette=navy] body.dark{--paper:#242e3d;--bg:#18212e;--accent:#adc9ed;--soft:#303f54;--line:#516078}
+html[data-palette=gold] body.dark{--paper:#2c2821;--bg:#1c1915;--accent:#e1c486;--soft:#403728;--line:#63553b}
+html[data-palette=rose] body.dark{--paper:#352a32;--bg:#251d23;--accent:#e3b5cb;--soft:#483440;--line:#705363}
+html[data-palette] body.has-site-sidebar>.site-sidebar{background:var(--side)!important;scrollbar-color:var(--side-active) var(--side)}
+html[data-palette] .site-sidebar :is(#mainNav,#siteNavigation) .sidebar-link[aria-current=page],html[data-palette] .sidebar-resume{background:var(--side-active)!important}
+html[data-palette] :is(.personal-focus,.desk-feature,.resume-card,.feedback,.notice,.personal-body th,.personal-body tr:nth-child(even) td){background:var(--soft)!important;color:var(--ink)!important;border-color:var(--line)!important}
+html[data-palette] :is(.shell>header,.home-search,.personal-chapter,.analysis-note,.chapter-rail button,.options button,.palette-dialog){background:var(--paper)!important;color:var(--ink)!important;border-color:var(--line)!important}
+html[data-palette] :is(button[aria-pressed=true],button.active,.solid-link,.primary-action,.home-search button){background:var(--accent)!important;color:var(--paper)!important;border-color:var(--accent)!important}
+html[data-palette] body.dark :is(button[aria-pressed=true],button.active,.solid-link,.primary-action,.home-search button){color:var(--bg)!important}
+html[data-palette=gold] .site-sidebar .sidebar-brand b{background:var(--foil);background-clip:text;-webkit-background-clip:text;color:transparent!important}
+html[data-palette=gold] .home-primary-card:before{background:var(--foil);height:3px}
+html[data-palette=gold] :is(.palette-open,.sidebar-link[aria-current=page]){border-color:#bc9347!important;box-shadow:inset 0 1px #eed99b55}
+.palette-open{position:fixed;right:20px;bottom:20px;z-index:70;min-height:44px;background:var(--paper);color:var(--ink);border:1px solid var(--line);box-shadow:0 4px 20px #0002}
+.palette-dialog{width:min(480px,calc(100vw - 32px));max-height:85vh;overflow:auto;padding:28px;border:1px solid var(--line);border-radius:16px;color:var(--ink);background:var(--paper)}
+.palette-dialog::backdrop{background:#10171499}.palette-dialog h2{margin-top:0}.palette-dialog p{color:var(--muted)}.palette-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}.palette-options button{display:grid;gap:12px;text-align:left}.palette-swatch{height:38px;display:block;border-radius:5px}.swatch-forest{background:linear-gradient(110deg,#183b29 50%,#ecefdf 50%)}.swatch-navy{background:linear-gradient(110deg,#213c60 50%,#d5e1ef 50%)}.swatch-gold{background:linear-gradient(110deg,#211e19 35%,#b38431 36%,#f6e2a4 68%,#ac7925)}.swatch-rose{background:linear-gradient(110deg,#78475e 50%,#f0dce5 50%)}
+.bank-summary{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);margin:14px 0}.bank-summary span{border:1px solid var(--line);padding:8px 14px;border-radius:8px}.bank-summary strong{color:var(--ink);font-size:20px;margin-right:5px}.bank-pager{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:18px 0}.bank-pager span{font-size:13px}.bank-pager input{width:80px}.practice-case-list{max-height:340px;overflow:auto}
+@media print{.palette-open,.palette-dialog,.bank-pager{display:none!important}}
+html[data-embedded] .page-reading-tools,html[data-embedded] .skip-content{display:none!important}
+

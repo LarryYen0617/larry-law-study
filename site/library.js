@@ -18,7 +18,7 @@ function renderLibrary(){
  el('wrongLabel').hidden=mode!=='questions';const query=el('search').value.trim().toLowerCase(),subject=el('subject').value;
  let rows=(mode==='questions'?corpus.questions:mode==='teacher'?corpus.teacherQuestions:mode==='sources'?corpus.sources:corpus.notes).filter(q=>(!targetItem||q.id===targetItem)&&(mode==='sources'||!subject||subjectName(q.subject)===subject)&&(!query||JSON.stringify(q).toLowerCase().includes(query)));
  if(mode==='questions'&&el('wrong').checked)rows=rows.filter(q=>Number.isInteger(currentAnswer(q))&&currentAnswer(q)!==q.answer);
- const pages=Math.max(1,Math.ceil(rows.length/12));pageIndex=Math.min(pageIndex,pages-1);el('status').textContent=`找到 ${rows.length} ${mode==='questions'?'題':mode==='teacher'?'則課堂題目與解析':mode==='sources'?'份檔案':'則筆記'} · 每頁最多 12 筆`;el('page').textContent=`${pageIndex+1} / ${pages}`;el('prev').disabled=pageIndex===0;el('next').disabled=pageIndex+1>=pages;
+ const pages=Math.max(1,Math.ceil(rows.length/12));pageIndex=Math.min(pageIndex,pages-1);el('status').textContent=`找到 ${rows.length} ${mode==='questions'?'題':mode==='teacher'?'則課堂題目與解析':mode==='sources'?'份檔案':'則筆記'} · 每頁最多 12 筆`;el('page').textContent=`${pageIndex+1} / ${pages}`;el('prev').disabled=pageIndex===0;el('next').disabled=pageIndex+1>=pages;if(el('bankPage')){el('bankPage').textContent=`第 ${pageIndex+1} / ${pages} 頁 · ${rows.length? pageIndex*12+1:0}–${Math.min((pageIndex+1)*12,rows.length)} / ${rows.length} 筆`;el('bankPrev').disabled=pageIndex===0;el('bankNext').disabled=pageIndex+1>=pages;el('bankJump').max=pages;el('bankJump').value=pageIndex+1;}
  el('items').innerHTML=rows.slice(pageIndex*12,pageIndex*12+12).map(q=>{
   if(mode==='sources')return `<article><span class="badge">${q.duplicateOf?'已去重':'來源盤點'}</span><h2>${escapeText(q.name)}</h2><p>${escapeText(q.status)}</p><p>${q.pages||'—'} 頁 · ${q.characters||0} 字${q.duplicateOf?' · 重複於 '+escapeText(q.duplicateOf):''}</p></article>`;
   if(mode==='teacher')return `<article><span class="badge">${escapeText(q.subject||'親屬法')} / ${escapeText(q.provenance||q.correction?.label||'課堂原題')}</span><h2>${escapeText(q.topic)}</h2><p class="original-text">${escapeText(q.question)}</p>${q.correction?`<section class="feedback"><h3>${q.provenance?'自編擬答':'校訂解析'}</h3><p class="original-text">${escapeText(q.correction.analysis)}</p><p>${refs(q.correction.sources)}</p></section>`:''}<section class="answer-original"><h3>${q.provenance?'自編擬答':'教師原附擬答'}</h3><p class="original-text">${escapeText(q.answer||'原始區塊未附完整擬答；請對照上方校訂解析及相鄰題幹。')}</p></section><p class="source">${escapeText(q.source)}${q.provenance?'':' · 第 '+escapeText(q.page)+' 頁起'}</p></article>`;
@@ -33,3 +33,12 @@ el('prev').onclick=()=>{pageIndex--;renderLibrary();};el('next').onclick=()=>{pa
 el('backup').onclick=()=>{const u=URL.createObjectURL(new Blob([JSON.stringify({version:1,state:libraryState},null,2)],{type:'application/json'})),a=document.createElement('a');a.href=u;a.download='LEX-NEXUS-資料庫練習備份.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);};renderLibrary();
 
 try{if(new URL(location.href).searchParams.get("wrong")==="1"){el("wrong").checked=true;mode="questions";renderLibrary();}}catch{}
+
+if(el('bankPrev')){
+ const top=()=>el('status').scrollIntoView({block:'start'});
+ el('bankPrev').onclick=()=>{if(pageIndex>0)pageIndex--;renderLibrary();top();};
+ el('bankNext').onclick=()=>{pageIndex++;renderLibrary();top();};
+ el('bankGo').onclick=()=>{const n=Number(el('bankJump').value);if(Number.isInteger(n)&&n>=1){pageIndex=n-1;renderLibrary();top();}};
+ el('bankReset').onclick=()=>{targetItem='';el('subject').value='';el('search').value='';el('wrong').checked=false;pageIndex=0;el('subject').dispatchEvent(new Event('change',{bubbles:true}));renderLibrary();};
+ el('prev').onclick=el('bankPrev').onclick;el('next').onclick=el('bankNext').onclick;
+}

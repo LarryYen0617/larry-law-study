@@ -91,3 +91,9 @@ essentials.html 統一章節筆記與法條索引。content/note-law-links.json 
 筆記與法條 essentials.html 是唯一閱讀學習入口：章節筆記、題目解析、法條索引在同一頁切換。九科課程的舊章節／法條路由導向此處，仍按原科目及章節對應；library.html#notes 及舊解析單則連結同樣導回閱讀頁。題目練習維持 questions.html。首頁主入口為筆記與法條、題庫與申論、每日資訊；側欄移除九科課程與解析筆記重複入口，原進度鍵、章節id及作答資料不更名、不清除。
 
 scripts/build_analysis_notes.cjs 從既有來源及校訂層建立 analysis-notes-data.js，保留1016個解析id。僅在科目與標題一致、所有重點及易錯提示均可在章節找到時建立 canonicalChapter；目前29筆連回完整章節，987筆獨立解析仍可搜尋、分頁及匯出表格。不可因相似名稱就刪除筆記。新增或修改來源後重建並執行 tests/study-workspace.cjs。主要閱讀切換置頂、科目和搜尋置中，下載／列印／備份僅保留一套工具列；章節操作排列在同一列。
+
+
+## 配色與題庫入口（2026-10-26）
+- palette.js / palette.css 共用四款配色，lex-nexus-palette-v1 只保存外觀，不修改作答資料；嵌入題庫同步外觀。
+- questions.html 顯示 1803 題選擇題、95 則課堂來源區塊及 27 題自編申論，新增題目時須同步此實際統計，不能把區塊或模板當成完整新題。
+- library.js 上下方皆可翻頁，支援跳頁與清除篩選；practice.js 預設全部九科，可切換單科，保留原題目 ID、草稿與計時。
