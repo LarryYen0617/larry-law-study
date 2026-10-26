@@ -5,7 +5,7 @@ render=function(){
  const home=page==='dashboard'&&!query,practice=['quiz','essays','wrong','allwrong'].includes(page);
  $('#mainNav').innerHTML=`<a class="navigation-primary" href="essentials.html?v=20261024-edition14"><span aria-hidden="true">01</span>看重點</a><button class="navigation-primary ${practice?'selected':''}" data-workspace="practice" ${practice?'aria-current="page"':''}><span aria-hidden="true">02</span>做練習</button><button class="navigation-primary ${page==='progress'?'selected':''}" data-workspace="progress" ${page==='progress'?'aria-current="page"':''}><span aria-hidden="true">03</span>看進度</button>`;
  // Published chapter notes and Legal English live under site/class-notes (Pages deploys site/ only).
- $('#mainNav').insertAdjacentHTML('beforeend', '<a class="navigation-primary" href="class-notes/study-hub.html"><span aria-hidden="true">04</span>教材章節</a><a class="navigation-primary" href="class-notes/legal-english.html"><span aria-hidden="true">05</span>法學英文</a>');
+ $('#mainNav').innerHTML += '<a class="navigation-primary" href="class-notes/study-hub.html"><span aria-hidden="true">04</span>教材章節</a><a class="navigation-primary" href="class-notes/legal-english.html"><span aria-hidden="true">05</span>法學英文</a>';
 
  if(home){
  document.body.dataset.workspace='home';$('#title').textContent='把知識串起來，把爭點練清楚。';$('#intro').textContent='LAW IN FOCUS · 九科法律學習工作室｜從重點閱讀到案例涵攝，找到今天的下一步。';$('#crumb').textContent='首頁';$('#workspaceLabel').textContent='';$('#tabs').innerHTML='';$('#stats').innerHTML='';$('#courseControl').hidden=true;
