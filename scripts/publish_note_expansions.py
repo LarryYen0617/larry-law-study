@@ -17,7 +17,7 @@ def compile_expansions(root=ROOT):
  esc=lambda x:html.escape(str(x),quote=True)
  essay_topics=[]
  for id,u in units.items():
-  if len(u['explain'])<2 or len(u['comparison'])<3 or len(u['example']['answer'])<4:raise ValueError('Incomplete note expansion')
+  if len(u['explain'])<2 or len(u['comparison'])<3 or len(u['example']['answer'])!=5:raise ValueError('Incomplete note expansion')
   for n in u['articles']:
    if u['lawCode']+':'+n not in evidence:raise ValueError('Missing statutory evidence')
   refs=[{'label':NAMES[u['lawCode']]+'第'+n+'條','url':evidence[u['lawCode']+':'+n]['url']} for n in u['articles']]
@@ -28,13 +28,16 @@ def compile_expansions(root=ROOT):
   c=chapters[id]
   template=u.get('essayTemplate')
   if not template or len(template.get('steps',[]))!=5:raise ValueError('Five-step essay template required')
+  argument=u.get('argument')
+  if not argument or any(not argument.get(k) for k in ['objection','response','keyFacts','boundary']):raise ValueError('Topic-specific argument required')
+  argument_html='<section class="essay-argument"><h4>本題正反論證</h4><p><strong>可能反對：</strong>'+esc(argument['objection'])+'</p><p><strong>採取理由：</strong>'+esc(argument['response'])+'</p><p><strong>涵攝關鍵：</strong>'+esc(argument['keyFacts'])+'</p><p><strong>變式檢驗：</strong>'+esc(argument['boundary'])+'</p></section>'
   rendered=''.join('<h4>'+esc(step['heading'])+'</h4><p>'+esc(step['text'])+'</p>' for step in template['steps'])
   template_html='<section class="essay-template"><p class="depth-label">ISSUE / RULE / APPLICATION</p><h3>本章申論模板</h3><p class="template-instruction">將【】換成題目事實與自己的理由，再對照上方案例。</p><div class="template-steps">'+rendered+'</div><p><strong>反論提示：</strong>'+esc(template['counterHint'])+'</p><div class="essay-template-actions"><button type="button" data-essay-copy="'+esc(id)+'">複製本章模板</button><button type="button" data-essay-append="'+esc(id)+'">附加到我的草稿</button><button type="button" data-essay-download="'+esc(id)+'">下載本章模板</button></div><p class="essay-action-status" data-essay-status="'+esc(id)+'" role="status" aria-live="polite"></p></section>'
-  body=body.replace('<p class="depth-sources">',template_html+'<p class="depth-sources">')
+  body=body.replace('<p class="depth-sources">',template_html+argument_html+'<p class="depth-sources">')
   template_md='\n\n### 本章申論模板\n\n'+'\n\n'.join(step['heading']+'\n'+step['text'] for step in template['steps'])+'\n\n反論提示：'+template['counterHint']
   markdown=markdown.replace('\n\n法源對照：',template_md+'\n\n法源對照：')
   subject=next(s for s in personal['subjects'] if any(row['id']==id for row in s['chapters']))
-  essay_topics.append({'id':id,'subject':subject['id'],'title':c['title'],'steps':template['steps'],'counterHint':template['counterHint'],'checklist':template['checklist'],'example':u['example'],'references':refs})
+  essay_topics.append({'id':id,'subject':subject['id'],'title':c['title'],'steps':template['steps'],'counterHint':template['counterHint'],'checklist':template['checklist'],'example':u['example'],'references':refs,'argument':argument})
   c['body']=c['body'].split('<section class="note-expansion"')[0].rstrip()+'\n'+body
   c['text']=c['text'].split('\n\n## 深入理解')[0].rstrip()+markdown
   c['depth']={'version':1,'checkedAt':source['checkedAt'],'references':refs,'authorship':source['authorship']}
@@ -45,7 +48,14 @@ def compile_expansions(root=ROOT):
  kbpath.write_text(json.dumps(kb,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
  bases=source.get('baseTemplates',[])
  if len(bases)!=9 or len({x['subject'] for x in bases})!=9 or any(len(x.get('steps',[]))!=5 for x in bases):raise ValueError('Nine subject templates required')
+ for base in bases:
+  first=next(t for t in essay_topics if t['subject']==base['subject'])
+  base['example']=first['example']
+  base['argument']=first['argument']
+  base['references']=first['references']
  (root/'site').mkdir(exist_ok=True)
+ (root/'site/personal-notes-data.js').write_text('window.LEX_PERSONAL_NOTES='+json.dumps(personal,ensure_ascii=False)+';\n',encoding='utf-8')
+ (root/'site/knowledge-data.js').write_text('window.LEX_KNOWLEDGE = '+json.dumps(kb,ensure_ascii=False)+';\n',encoding='utf-8')
  (root/'site/essay-template-data.js').write_text('window.LEX_ESSAY_TEMPLATES='+json.dumps({'version':1,'subjects':bases,'topics':essay_topics},ensure_ascii=False)+';\n',encoding='utf-8')
  return len(units)
 if __name__=='__main__':print('Compiled deep-note chapters:',compile_expansions())
