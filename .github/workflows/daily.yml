@@ -41,6 +41,7 @@ jobs:
       - name: 執行前端互動測試
         run: |
           node tests/frontend.cjs
+          node tests/class-notes.cjs
           node tests/essay-templates.cjs
           node tests/practice.cjs
           node tests/practice-views.cjs
