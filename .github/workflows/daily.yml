@@ -42,6 +42,8 @@ jobs:
           node tests/essay-templates.cjs
           node tests/practice.cjs
           node tests/practice-views.cjs
+          node tests/questions.cjs
+          node tests/daily-entry.cjs
       - name: 取得 Pages 設定
         id: pages
         uses: actions/configure-pages@v5

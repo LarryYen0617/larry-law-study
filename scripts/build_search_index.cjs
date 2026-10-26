@@ -3,7 +3,7 @@ const fs=require('fs'),path=require('path'),vm=require('vm');const root=path.res
 const read=f=>fs.readFileSync(path.join(root,f),'utf8').replace(/^\uFEFF/,''),json=f=>JSON.parse(read(f)),ctx={window:{},URL,console};vm.createContext(ctx);
 for(const m of read('site/library.html').matchAll(/<script src="([^"?]+)(?:\?[^" ]*)?"><\/script>/g)){if(m[1]==='library.js')break;vm.runInContext(read('site/'+m[1]),ctx,{filename:m[1]});}
 ctx.window.LEX_LIBRARY.notes.forEach((r,i)=>r.id??=('note-'+i));
-vm.runInContext(read('site/data.js'),ctx);const courses=vm.runInContext('COURSES',ctx);let items=[];
+const courses=vm.runInContext('COURSES',ctx);let items=[];
 const subjectMap={'刑法總則':'criminalgeneral','民法總則':'civilgeneral','憲法':'constitution','刑法分則':'crime','親屬法':'family','債權':'debt','債編總論':'debt','物權':'property','行政法':'admin','租稅法':'tax'};
 const clean=x=>typeof x==='string'?x:Array.isArray(x)?x.map(clean).join(' '):x&&typeof x==='object'?Object.values(x).map(clean).join(' '):'';
 const add=(type,id,subject,title,body,href)=>items.push({id:type+':'+id,type,subject:subjectMap[subject]||subject||'',title:String(title),body:clean(body),href});
@@ -12,6 +12,7 @@ for(const s of json('content/knowledge-base.json').subjects)for(const c of s.car
 for(const [type,rows,mode] of [['question',ctx.window.LEX_LIBRARY.questions,'questions'],['teacher',ctx.window.LEX_LIBRARY.teacherQuestions,'teacher'],['archive',ctx.window.LEX_LIBRARY.notes,'notes']])for(const r of rows){if(type==='teacher'&&r.correction?.label==='跨頁續段')continue;add(type,r.id,r.subject,type==='question'?r.question:r.topic,type==='question'?[r.question,r.options,r.explanations]:type==='teacher'?[r.question,r.correction?.analysis||'']: [r.points,r.table,r.trap],`library.html?item=${encodeURIComponent(r.id)}#${mode}`);}
 for(const file of fs.readdirSync(path.join(root,'content/editorials')).filter(f=>/^\d{4}-\d{2}-\d{2}\.json$/.test(f)).sort()){const a=json('content/editorials/'+file);add('reading',file.slice(0,10),a.subject||'',a.title,[a.summary,a.sections,a.practice,a.reflection],`index.html?reading=${file.slice(0,10)}#/daily`);}
 for(const file of fs.readdirSync(path.join(root,'content/news-guides')).filter(f=>f.endsWith('.json')).sort()){const a=json('content/news-guides/'+file);add('reading',a.id,a.subject,a.title,[a.intro,a.sections,a.reflection],`index.html?article=${a.id}#/daily`);}
+for(const a of json('content/readings.json'))add('reading','legacy-'+a.id,a.subject,a.title,[a.sections,a.reflection],`index.html?article=${a.id}#/daily`);
 for(const c of courses)for(const [i,t] of c.topics.entries())add('lesson',c.id+'-'+i,c.id,t.title,[t.rule,t.points,t.facts,t.answer],`index.html#/${c.id}/chapters/${i}`);
 for(const c of json('site/books/wan-jie-fa-shen/manifest.json').chapters)add('novel','wan-jie-fa-shen-'+c.number,'',c.title,'全職法師：萬界法神 · 第 '+c.number+' 章',`reading.html?book=wan-jie-fa-shen&chapter=${c.number}`);
 vm.runInContext(read('site/discover-core.js'),ctx);const index={version:1,items};if(!ctx.window.LEX_DISCOVER.validIndex(index))throw Error('Search index validation failed');fs.writeFileSync(path.join(site,'search-index.json'),JSON.stringify(index)+'\n');console.log('Search index:',items.length,'entries;',fs.statSync(path.join(site,'search-index.json')).size,'bytes');

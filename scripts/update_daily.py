@@ -87,7 +87,7 @@ def parse_feed(raw, source, now):
         title = plain(values.get('title'), 180)
         if not title:
             continue
-        result.append({'title': title, 'url': link, 'source': source['name'], 'publishedAt': utc_iso(stamp), 'sourceId': source['id'], 'kind': '官方RSS標題・未附AI事件判斷'})
+        result.append({'title': title, 'url': link, 'source': source['name'], 'publishedAt': utc_iso(stamp), 'sourceId': source['id'], 'excerpt': plain(values.get('description') or values.get('summary'), 240), 'kind': '官方RSS標題・未附AI事件判斷'})
     return result
 
 def fetch_one(source, now):

@@ -19,7 +19,7 @@ console.log('PASS: 81 course/page renders; three main entries; contextual tabs; 
 assert.equal(run(`dailyPlan(Date.parse('2026-10-22T00:59:59Z')).editionDate`),'2026-10-21');
 assert.equal(run(`dailyPlan(Date.parse('2026-10-22T01:00:00Z')).editionDate`),'2026-10-22');
 assert.equal(run(`new Set(Array.from({length:27},(_,i)=>{const p=dailyPlan(DAILY_ANCHOR+i*86400000);return p.course.id+':'+p.index})).size`),27);
-click({dailyOpen:'true'});assert.equal(run('page'),'daily');assert.ok(el('#content').innerHTML.includes('非人工審定'));
+click({dailyOpen:'true'});assert.equal(run('page'),'daily');assert.equal(run('dailyView'),'official');assert.ok(el('#content').innerHTML.includes('閱讀官方原文'));run("dailyView='reading';render()");
 const k=run(`dailyPlan().course.id+'-'+dailyPlan().index`),oldCount=run(`state.answers[${JSON.stringify(k)}]?.count||0`);
 click({dailyAnswer:String(run('(dailyPlan().topic.correct+1)%4'))});assert.equal(run(`state.answers[${JSON.stringify(k)}].wrong`),true);assert.equal(run(`state.answers[${JSON.stringify(k)}].count`),oldCount+1);
 click({dailyRetry:'true'});assert.ok(!el('#content').innerHTML.includes('正確答案'));
@@ -40,7 +40,7 @@ console.log('PASS: daily 09:00 rollover, 27-day cycle, reading, daily quiz persi
 const savedFeed=run('dailyFeed');
 const ai={id:'original-fixture',date:'2026-10-22',kind:'ai_original',title:'<script>fixture</script>',intro:'測試導入',reflection:'反思',sourceKeys:[],verification:{status:'automated_pass',humanReviewed:false},sources:[{id:'S1',title:'原文一',url:'https://www.ey.gov.tw/fixture1'},{id:'S2',title:'原文二',url:'https://www.ey.gov.tw/fixture2'}],sections:Array.from({length:7},()=>({heading:'測試段落',text:'<img src=x onerror=bad>',sourceIds:['S1']})),claims:[{claim:'測試主張',evidence:[{quote:'測試引文',sourceId:'S1'}]}]};
 ctx.fixtureArticle=ai;
-run('validateEditorial(fixtureArticle);dailyFeed={...dailyFeed,editorial:{status:"rejected",article:fixtureArticle}};page="daily";render()');
+run('validateEditorial(fixtureArticle);dailyFeed={...dailyFeed,editorial:{status:"rejected",article:fixtureArticle}};dailyView="reading";page="daily";render()');
 assert.ok(el('#content').innerHTML.includes('非人工審定'));
 assert.ok(el('#content').innerHTML.includes('未通過檢查'));
 assert.ok(el('#content').innerHTML.includes('&lt;script&gt;fixture'));
@@ -51,13 +51,13 @@ run('dailyFeed=null');assert.ok(run('currentReading(dailyPlan()).sourceKeys.leng
 ctx.restoreFeed=savedFeed;run('dailyFeed=restoreFeed');
 console.log('PASS: AI disclosure, rejection status, evidence links, unsafe-source rejection, escaped AI output, library fallback.');
 
-run('dailyFeed=restoreFeed;selectedEditorialDate="2026-10-23";page="daily";render()');
+run('dailyFeed=restoreFeed;dailyView="reading";selectedEditorialDate="2026-10-23";page="daily";render()');
 assert.ok(el('#content').innerHTML.includes('三級虛構案例'));
 assert.ok(el('#content').innerHTML.includes('課程補充'));
 assert.ok(el('#content').innerHTML.includes('歷史文章'));
 assert.ok(!el('#content').innerHTML.includes('第二次模型複核及近'));
 click({editorialDate:'latest'});assert.equal(run('selectedEditorialDate'),'');
-run('selectedEditorialDate="2026-10-24";page="daily";render()');
+run('dailyView="reading";selectedEditorialDate="2026-10-24";page="daily";render()');
 assert.ok(el('#content').innerHTML.includes('<span class="tag">民法總則 · 2026-10-24</span>'));
 assert.ok(!el('#content').innerHTML.includes('原創導讀已提交 GitHub'));
 assert.equal(run('editorialStatus()'),'');
@@ -83,7 +83,7 @@ require('./unified.cjs');
 
 // History retains original dates and both same-day concept and news guides.
 vm.runInContext(fs.readFileSync(path.join(root,'news-guides.js'),'utf8'),ctx);
-assert.ok(run('allDailyArticles().length')>=5);
+assert.equal(run('allDailyArticles().length'),14);
 click({showHistory:'true'});assert.equal(run('dailyView'),'history');assert.ok(el('#content').innerHTML.includes('2026-10-23'));
 run("query='颱風';render()");assert.ok(el('#content').innerHTML.includes('颱風減免'));assert.ok(!el('#content').innerHTML.includes('data-reading-id=\"agent-2026-10-23'));
 const newsId=run('window.LAW_NEWS_GUIDES[0].id');click({readingId:newsId});assert.equal(run('currentReading(dailyPlan()).id'),newsId);
@@ -91,3 +91,5 @@ assert.ok(el('#content').innerHTML.includes('三級虛構案例'));
 const earliest=run('window.LAW_EDITORIAL_ARCHIVE[0].id');click({readingId:earliest});assert.equal(run('currentReading(dailyPlan()).id'),earliest);
 click({dailyOpen:'true'});assert.equal(run('selectedReadingId'),'');assert.equal(run('currentReading(dailyPlan()).id'),newsId);
 console.log('PASS: searchable five-article history, original date preservation, same-day news and concept guides, selection and latest reset.');
+
+click({readingId:"crime-judgment"});assert.equal(run("currentReading(dailyPlan()).archiveKind"),"legacy");assert.ok(el("#content").innerHTML.includes("別從結果倒推犯罪"));
