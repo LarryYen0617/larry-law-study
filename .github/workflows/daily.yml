@@ -48,6 +48,8 @@ jobs:
           node tests/daily-entry.cjs
           node tests/note-law.cjs
           node tests/study-workspace.cjs
+      - name: 驗證小說章節完整性與字數待辦
+        run: node tests/novel-integrity.cjs
       - name: 取得 Pages 設定
         id: pages
         uses: actions/configure-pages@v5
