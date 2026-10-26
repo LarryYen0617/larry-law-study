@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-27",
+  "project": "全職法師：萬界法神",
+  "scope": "GitHub Pages 站內 site/books/wan-jie-fa-shen/，513 章；以 2026-10-26 完整稽核為基準，累加本輪第 3、4 章實際字元變化",
+  "method": "Unicode code points（含空白、標點），正文 text 欄位不含標題；本輪屬增量稽核，不代表重新逐一審讀全部 513 章",
+  "targetCharactersPerChapter": 2500,
+  "chapterCount": 513,
+  "baselineReport": "content/maintenance/novel-length-audit-2026-10-26.json",
+  "baseline": {
+    "totalCharacters": 1315847,
+    "chaptersUnderTarget": 288,
+    "chaptersUnder1500": 60
+  },
+  "revisions": [
+    {
+      "chapter": 3,
+      "title": "覺醒之前",
+      "before": 1395,
+      "after": 2729,
+      "delta": 1334,
+      "commit": "b0e6d8fa3d89f0fb6a85bb837951eb3690a1ad41",
+      "notes": "覺醒說明會、同儕與沈月璃的遠景、家庭對話；未提前觸發正式覺醒"
+    },
+    {
+      "chapter": 4,
+      "title": "不被看好的少年",
+      "before": 1449,
+      "after": 2951,
+      "delta": 1502,
+      "commit": "b0e6d8fa3d89f0fb6a85bb837951eb3690a1ad41",
+      "notes": "考試與風險處置、資源差距、與沈月璃首次對話的前後銜接、母子交流"
+    }
+  ],
+  "incrementalTotals": {
+    "totalCharacters": 1318683,
+    "averageCharacters": 2571,
+    "chaptersUnderTarget": 286,
+    "chaptersMeetingTarget": 227,
+    "chaptersUnder1500": 58
+  },
+  "integrityNotes": [
+    "GitHub Pages 書房 manifest 記載 513 章；先前 EPUB 資料曾記載 525 章，兩種來源數量不同，未經逐章比對不可擅自覆蓋或補造第 514–525 章。",
+    "字數達標不代表內容品質已完成校訂，仍須檢查時間線、人物與伏筆。",
+    "本輪僅更新網站內 JSON 章節，未重新產生 EPUB。"
+  ],
+  "next": [
+    "第 5 章起逐章校訂並核對前後文",
+    "查明網站 513 章與 EPUB 525 章的差異，再決定安全的合併策略",
+    "每次更新後執行 tests/novel-integrity.cjs 與網站部署測試"
+  ]
+}
