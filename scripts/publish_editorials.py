@@ -80,6 +80,8 @@ def publish(root=ROOT,now=None):
     if knowledge_path.exists():
         kb=json.loads(knowledge_path.read_text(encoding='utf-8-sig'))
         (root/'site/knowledge-data.js').write_text('window.LEX_KNOWLEDGE = '+json.dumps(kb,ensure_ascii=False)+';\n',encoding='utf-8')
+    law_links=root/'content/note-law-links.json'
+    if law_links.exists():(root/'site/note-law-data.js').write_text('window.LEX_NOTE_LAWS='+json.dumps(json.loads(law_links.read_text(encoding='utf-8')),ensure_ascii=False)+';\n',encoding='utf-8')
     resources=root/'content/study-resources.json'
     if resources.exists():
         data=json.loads(resources.read_text(encoding='utf-8-sig'))

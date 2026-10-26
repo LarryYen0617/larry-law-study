@@ -31,3 +31,5 @@ const native=data.questions.find(q=>q.id==='course-crime-0');storage.set('larry-
 console.log('PASS: 33 merged course/class quizzes, four classroom cases and original-key answer preservation.');
 
 nodes.subject.value="親屬法";nodes.search.value="";run('mode="teacher";targetItem="";renderLibrary()');assert(nodes.status.textContent.includes("91"));console.log("PASS: classroom originals retain correct subject filtering.");
+
+nodes.subject.value='';nodes.search.value='';nodes.wrong.checked=false;run('mode="questions";targetItem="core-001";renderLibrary()');assert(nodes.items.innerHTML.includes('查看答案與解析'));const before=JSON.stringify([...storage]);click({showAnswer:'core-001'});assert(nodes.items.innerHTML.includes('答案與解析'));assert.equal(JSON.stringify([...storage]),before);click({hideAnswer:'core-001'});assert.equal(JSON.stringify([...storage]),before);assert(nodes.items.innerHTML.includes('查看答案與解析'));console.log('PASS: explicit answer reveal without recording a choice or altering progress.');

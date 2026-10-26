@@ -3,7 +3,7 @@
  const version='20261024-edition14',subjects=['crime','family','debt','property','admin','tax','criminalgeneral','civilgeneral','constitution'];
  const groups=[
   ['工作台',[['home','學習首頁','index.html','#/dashboard'],['search','全站搜尋','discover.html',''],['saved','收藏與複習','discover.html','#view=saved'],['progress','學習進度','index.html','progress']]],
-  ['研讀與筆記',[['notes','核心重點筆記','essentials.html',''],['chapters','九科課程章節','index.html','chapters'],['laws','法條索引','index.html','laws'],['archivenotes','題目解析筆記','library.html','#notes']]],
+  ['研讀與筆記',[['notes','筆記與法條','essentials.html',''],['chapters','九科課程章節','index.html','chapters'],['archivenotes','題目解析筆記','library.html','#notes']]],
   ['題庫與申論',[['questions','題庫與申論中心','questions.html','']]],
   ['閱讀書房',[['daily','每日法律導讀','index.html','#/daily'],['reading','小說與個人書架','reading.html','']]],
   ['資料管理',[['materials','個人教材','index.html','materials'],['coverage','資料來源與校訂','coverage.html',''],['sources','教材目錄','library.html','#sources'],['official','官方法律資源','study-toolkit.html','#sources'],['settings','資料與備份','settings.html','']]]

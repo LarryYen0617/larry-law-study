@@ -44,6 +44,7 @@ jobs:
           node tests/practice-views.cjs
           node tests/questions.cjs
           node tests/daily-entry.cjs
+          node tests/note-law.cjs
       - name: 取得 Pages 設定
         id: pages
         uses: actions/configure-pages@v5

@@ -11,7 +11,7 @@ function courseSupplements(applyQuery=true){return visibleKnowledgeSubjects().fl
 function supplementMarkdown(){const cards=courseSupplements(false);return cards.length?'\n\n## 法源補充\n'+cards.map(c=>'\n### '+c.subjectName+'｜'+c.title+'\n'+c.points.map(t=>'- '+t).join('\n')+'\n'+c.source+'\n'+c.refs.map(r=>r.label+' '+r.url).join('\n')).join('\n'):'';}
 function renderCourseSupplements(){const cards=courseSupplements();return cards.length?`<section class="course-supplements" aria-label="法源補充"><h2>法源補充</h2><div class="notes-grid">${cards.map(c=>`<article><span class="badge">${ke(c.subjectName)}</span><h3>${ke(c.title)}</h3><ul>${c.points.map(p=>`<li>${ke(p)}</li>`).join('')}</ul>${c.trap?`<p class="trap">易錯：${ke(c.trap)}</p>`:''}${kr(c.refs)}<p class="source">${ke(c.source)}</p><label class="familiar"><input type="checkbox" data-familiar="${ke(c.id)}" ${knowledgeState.familiar[c.id]?'checked':''}>我已自行確認理解</label></article>`).join('')}</div></section>`:'';}
 function renderKnowledge(){
- $k('header h1').textContent=knowledgeMode==='teacher'?'老師題型練習':knowledgeMode==='inventory'?'教材整合進度':'重點筆記';
+ $k('header h1').textContent=knowledgeMode==='teacher'?'老師題型練習':knowledgeMode==='inventory'?'教材整合進度':'筆記與法條';
  document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===knowledgeMode)));
  const count=Object.values(knowledgeState.answers).filter(a=>a&&Number.isInteger(a.choice)).length;
  $k('#knowledgeStatus').textContent=knowledgeMode==='notes'?'只顯示概念與重點，不混入題目。':knowledgeMode==='teacher'?`本頁已作答 ${count}/${knowledge.quizzes.length} 題；擬答均為自編。`:'來源與整合狀態逐筆列出，不把「已讀取」當成「全部已校核」。';
