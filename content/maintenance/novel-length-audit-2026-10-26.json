@@ -1,0 +1,308 @@
+{
+  "date": "2026-10-26",
+  "project": "全職法師：萬界法神",
+  "scope": "site/books/wan-jie-fa-shen/chapters-001.json ... chapters-026.json",
+  "method": "JSON 每章 text 欄位以 Unicode code points 計數，含空白與標點，不含標題；未進行內容品質自動評分。",
+  "targetCharactersPerChapter": 2500,
+  "chapterCount": 513,
+  "totalCharacters": 1315847,
+  "averageCharacters": 2565,
+  "chaptersUnderTarget": 288,
+  "chaptersMeetingTarget": 225,
+  "chaptersUnder1500": 60,
+  "completedThisRun": [
+    {
+      "chapter": 2,
+      "previousCharacters": 1578,
+      "newCharacters": 3026,
+      "change": "新增兩段連貫場景，保留原章內容及章號",
+      "commit": "4619b008605a95549403a6f163f770a8dd68a35a"
+    }
+  ],
+  "priorityRanges": [
+    {
+      "range": "3-20",
+      "reason": "大多不足1500字；優先核對前後章銜接，再擴寫"
+    },
+    {
+      "range": "21-50, 52-56, 59",
+      "reason": "早期章節低於2500字，應保留已建立的人物與伏筆"
+    },
+    {
+      "range": "275-513",
+      "reason": "後段有大量不足2500字章節，分卷檢查時間線與設定再修訂"
+    }
+  ],
+  "perPart": [
+    {
+      "part": "001",
+      "chapterRange": "1-20",
+      "chapterCount": 20,
+      "under2500": 18,
+      "under1500": 18,
+      "minCharacters": 656,
+      "maxCharacters": 3852,
+      "totalCharacters": 24416
+    },
+    {
+      "part": "002",
+      "chapterRange": "21-40",
+      "chapterCount": 20,
+      "under2500": 20,
+      "under1500": 2,
+      "minCharacters": 1220,
+      "maxCharacters": 2409,
+      "totalCharacters": 36021
+    },
+    {
+      "part": "003",
+      "chapterRange": "41-60",
+      "chapterCount": 20,
+      "under2500": 16,
+      "under1500": 1,
+      "minCharacters": 1476,
+      "maxCharacters": 3909,
+      "totalCharacters": 42232
+    },
+    {
+      "part": "004",
+      "chapterRange": "61-80",
+      "chapterCount": 20,
+      "under2500": 0,
+      "under1500": 0,
+      "minCharacters": 3405,
+      "maxCharacters": 3920,
+      "totalCharacters": 75153
+    },
+    {
+      "part": "005",
+      "chapterRange": "81-100",
+      "chapterCount": 20,
+      "under2500": 0,
+      "under1500": 0,
+      "minCharacters": 3238,
+      "maxCharacters": 3782,
+      "totalCharacters": 66698
+    },
+    {
+      "part": "006",
+      "chapterRange": "101-120",
+      "chapterCount": 20,
+      "under2500": 0,
+      "under1500": 0,
+      "minCharacters": 3206,
+      "maxCharacters": 3588,
+      "totalCharacters": 65841
+    },
+    {
+      "part": "007",
+      "chapterRange": "121-140",
+      "chapterCount": 20,
+      "under2500": 0,
+      "under1500": 0,
+      "minCharacters": 3193,
+      "maxCharacters": 3339,
+      "totalCharacters": 64802
+    },
+    {
+      "part": "008",
+      "chapterRange": "141-160",
+      "chapterCount": 20,
+      "under2500": 0,
+      "under1500": 0,
+      "minCharacters": 3138,
+      "maxCharacters": 3281,
+      "totalCharacters": 64227
+    },
+    {
+      "part": "009",
+      "chapterRange": "161-180",
+      "chapterCount": 20,
+      "under2500": 0,
+      "under1500": 0,
+      "minCharacters": 3152,
+      "maxCharacters": 3267,
+      "totalCharacters": 63831
+    },
+    {
+      "part": "010",
+      "chapterRange": "181-200",
+      "chapterCount": 20,
+      "under2500": 0,
+      "under1500": 0,
+      "minCharacters": 3170,
+      "maxCharacters": 3347,
+      "totalCharacters": 64730
+    },
+    {
+      "part": "011",
+      "chapterRange": "201-220",
+      "chapterCount": 20,
+      "under2500": 0,
+      "under1500": 0,
+      "minCharacters": 3190,
+      "maxCharacters": 3273,
+      "totalCharacters": 64497
+    },
+    {
+      "part": "012",
+      "chapterRange": "221-240",
+      "chapterCount": 20,
+      "under2500": 0,
+      "under1500": 0,
+      "minCharacters": 3161,
+      "maxCharacters": 3378,
+      "totalCharacters": 64461
+    },
+    {
+      "part": "013",
+      "chapterRange": "241-260",
+      "chapterCount": 20,
+      "under2500": 0,
+      "under1500": 0,
+      "minCharacters": 3169,
+      "maxCharacters": 3306,
+      "totalCharacters": 64406
+    },
+    {
+      "part": "014",
+      "chapterRange": "261-280",
+      "chapterCount": 20,
+      "under2500": 6,
+      "under1500": 0,
+      "minCharacters": 2024,
+      "maxCharacters": 3285,
+      "totalCharacters": 58118
+    },
+    {
+      "part": "015",
+      "chapterRange": "281-300",
+      "chapterCount": 20,
+      "under2500": 20,
+      "under1500": 1,
+      "minCharacters": 1338,
+      "maxCharacters": 2477,
+      "totalCharacters": 39878
+    },
+    {
+      "part": "016",
+      "chapterRange": "301-320",
+      "chapterCount": 20,
+      "under2500": 20,
+      "under1500": 20,
+      "minCharacters": 1296,
+      "maxCharacters": 1441,
+      "totalCharacters": 26829
+    },
+    {
+      "part": "017",
+      "chapterRange": "321-340",
+      "chapterCount": 20,
+      "under2500": 20,
+      "under1500": 18,
+      "minCharacters": 1297,
+      "maxCharacters": 2284,
+      "totalCharacters": 28260
+    },
+    {
+      "part": "018",
+      "chapterRange": "341-360",
+      "chapterCount": 20,
+      "under2500": 18,
+      "under1500": 0,
+      "minCharacters": 2286,
+      "maxCharacters": 2586,
+      "totalCharacters": 47247
+    },
+    {
+      "part": "019",
+      "chapterRange": "361-380",
+      "chapterCount": 20,
+      "under2500": 20,
+      "under1500": 0,
+      "minCharacters": 2254,
+      "maxCharacters": 2361,
+      "totalCharacters": 46111
+    },
+    {
+      "part": "020",
+      "chapterRange": "381-400",
+      "chapterCount": 20,
+      "under2500": 20,
+      "under1500": 0,
+      "minCharacters": 2263,
+      "maxCharacters": 2465,
+      "totalCharacters": 46724
+    },
+    {
+      "part": "021",
+      "chapterRange": "401-420",
+      "chapterCount": 20,
+      "under2500": 19,
+      "under1500": 0,
+      "minCharacters": 2295,
+      "maxCharacters": 2611,
+      "totalCharacters": 47436
+    },
+    {
+      "part": "022",
+      "chapterRange": "421-440",
+      "chapterCount": 20,
+      "under2500": 18,
+      "under1500": 0,
+      "minCharacters": 2018,
+      "maxCharacters": 3212,
+      "totalCharacters": 46461
+    },
+    {
+      "part": "023",
+      "chapterRange": "441-460",
+      "chapterCount": 20,
+      "under2500": 20,
+      "under1500": 0,
+      "minCharacters": 2268,
+      "maxCharacters": 2374,
+      "totalCharacters": 46422
+    },
+    {
+      "part": "024",
+      "chapterRange": "461-480",
+      "chapterCount": 20,
+      "under2500": 20,
+      "under1500": 0,
+      "minCharacters": 2228,
+      "maxCharacters": 2369,
+      "totalCharacters": 46317
+    },
+    {
+      "part": "025",
+      "chapterRange": "481-500",
+      "chapterCount": 20,
+      "under2500": 20,
+      "under1500": 0,
+      "minCharacters": 2213,
+      "maxCharacters": 2344,
+      "totalCharacters": 45591
+    },
+    {
+      "part": "026",
+      "chapterRange": "501-513",
+      "chapterCount": 13,
+      "under2500": 13,
+      "under1500": 0,
+      "minCharacters": 2225,
+      "maxCharacters": 2300,
+      "totalCharacters": 29138
+    }
+  ],
+  "limitations": [
+    "達到2500字不等於通過劇情、語感、人物與伏筆品質檢查。",
+    "本次只修訂第2章；其餘不足字數章節尚未補寫。",
+    "content/novel-import.json 是原始 EPUB 匯入紀錄，保留原始匯入字數，不因後續編修覆蓋。"
+  ],
+  "nextActions": [
+    "逐章修訂第3至20章，保留原有劇情與人物設定。",
+    "擴寫後重新統計每章字數並檢查前後章連續性。",
+    "抽查角色姓名、能力設定、時間線及章節編號；不得僅為湊字數添加重複敘述。"
+  ]
+}
