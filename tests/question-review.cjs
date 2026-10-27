@@ -15,7 +15,12 @@ assert(teacher[90].correction.analysis.includes('效力未定'));assert(teacher[
 assert(teacher[84].correction.analysis.includes('基礎380'));assert(teacher[84].correction.analysis.includes('基礎180'));
 assert(!teacher[30].correction.analysis.includes('1055-3'));assert(teacher[87].correction.analysis.includes('245'));
 for(const q of c.questions){assert.equal(new Set(q.options.map(x=>x.trim())).size,4,q.id);assert(q.explanations.length===4);assert(!/待補充查核/.test(q.explanations.join('')),q.id);}
-for(const q of teacher){assert(q.correction?.analysis.length>20,q.id);assert(q.correction.sources.every(s=>s.url.startsWith('https://law.moj.gov.tw/')),q.id);}
+const classroom=JSON.parse(fs.readFileSync(path.join(root,'content/classroom-practice.json'),'utf8')).questions;
+const authored=new Map(classroom.map(q=>[q.id,q]));
+assert.equal(teacher.filter(q=>!authored.has(q.id)).length,95);
+assert.equal(teacher.filter(q=>authored.has(q.id)).length,classroom.length);
+for(const q of teacher){if(authored.has(q.id)){const original=authored.get(q.id);assert.equal(q.provenance,'課堂整理自編練習');assert.equal(q.question,original.question);assert.equal(q.answer,original.answer);assert.equal(q.sourceHref,original.sourceHref);assert(fs.existsSync(path.join(site,q.sourceHref)));assert(q.answer.trim().length>0);}else{assert(q.correction?.analysis.length>20,q.id);assert(q.correction.sources.every(s=>s.url.startsWith('https://law.moj.gov.tw/')),q.id);}}
+
 assert.equal(c.notes.filter(n=>n.table).length,4);
 const ledger=JSON.parse(fs.readFileSync(path.join(root,'content/maintenance/question-review-2026-10-24.json'),'utf8'));
 assert.equal(ledger.questions.length,1770);assert.equal(ledger.teacher.length,91);
