@@ -1,7 +1,7 @@
 {
-  "checkedDate": "2026-10-24",
+  "checkedDate": "2026-10-27",
   "timezone": "Asia/Taipei",
-  "editorialMode": "agent_committed_originals",
+  "editorialMode": "official_rss_first",
   "classroomMaterials": {
     "state": "partially_integrated",
     "subjects": [
@@ -17,12 +17,19 @@
     ],
     "note": "純重點38卡、97個筆記單元；舊版1,770題已完成欄位檢查，其中693題完成本次官方引文比對。情境題與教師原附擬答尚未全部逐題審定。",
     "exclusions": [],
-    "exclusionPolicy": "只有原始教材或教師筆記明確說不考且附可追溯位置才加入。"
+    "exclusionPolicy": "只有原始教材或教師筆記明確說不考且附可追溯位置才加入。",
+    "latestScan": {
+      "date": "2026-10-27",
+      "source": "已連接 Google Drive",
+      "modifiedSince": "2026-10-26T00:00:00Z",
+      "state": "no_matching_recent_files",
+      "note": "九科相關檔名與法律關鍵字增量搜尋無結果；未新增教材或不考標示。創課本次未讀取課程，不宣稱已同步。"
+    }
   },
-  "latestOriginal": "2026-10-24",
+  "latestOriginal": "2026-10-26",
   "nextActions": [
-    "每日新撰及查核後提交",
-    "增量檢查相關教材與官方新資料",
-    "測試後直接改善操作及內容呈現"
+    "同步近期官方原始資訊，保留原發布時間與連結",
+    "增量檢查教材；僅新增確認相關的去識別摘要",
+    "維護歷史研讀文章與統一題庫，不強制每日自編文章"
   ]
 }

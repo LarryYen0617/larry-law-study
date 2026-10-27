@@ -61,6 +61,7 @@ run('dailyView="reading";selectedEditorialDate="2026-10-24";page="daily";render(
 assert.ok(el('#content').innerHTML.includes('<span class="tag">民法總則 · 2026-10-24</span>'));
 assert.ok(!el('#content').innerHTML.includes('原創導讀已提交 GitHub'));
 assert.equal(run('editorialStatus()'),'');
+run("var statusBefore=dailyFeed.editorial.status;dailyFeed.editorial.status='awaiting_original'");assert.equal(run('editorialStatus()'),'');run("dailyFeed.editorial.status='rejected'");assert(run('editorialStatus()').includes('未通過'));run('dailyFeed.editorial.status=statusBefore');
 assert.ok(!el('#content').innerHTML.includes('研讀提示（不是事件結論）'));
 click({editorialDate:'latest'});
 console.log('PASS: committed original, archive selection, course supplements, truthful agent review disclosure.');
