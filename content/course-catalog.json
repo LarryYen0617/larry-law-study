@@ -9,7 +9,8 @@
       "reading": "essentials.html?subject=criminalgeneral",
       "practice": "questions.html?view=choice&subject=刑法總則",
       "essay": "questions.html?view=essay&subject=criminalgeneral",
-      "materials": []
+      "materials": [],
+      "teacherOriginals": false
     },
     {
       "id": "civilgeneral",
@@ -19,7 +20,8 @@
       "reading": "essentials.html?subject=civilgeneral",
       "practice": "questions.html?view=choice&subject=民法總則",
       "essay": "questions.html?view=essay&subject=civilgeneral",
-      "materials": []
+      "materials": [],
+      "teacherOriginals": false
     },
     {
       "id": "constitution",
@@ -29,7 +31,8 @@
       "reading": "essentials.html?subject=constitution",
       "practice": "questions.html?view=choice&subject=憲法",
       "essay": "questions.html?view=essay&subject=constitution",
-      "materials": []
+      "materials": [],
+      "teacherOriginals": false
     },
     {
       "id": "crime",
@@ -58,7 +61,8 @@
           "label": "財產犯罪與申論",
           "href": "class-notes/criminal-property-offenses.html"
         }
-      ]
+      ],
+      "teacherOriginals": false
     },
     {
       "id": "family",
@@ -66,7 +70,7 @@
       "group": "法律專業",
       "description": "身分關係與夫妻財產",
       "reading": "essentials.html?subject=family",
-      "practice": "questions.html?view=choice&subject=親屬法",
+      "practice": "questions.html?view=teacher&subject=親屬法",
       "essay": "questions.html?view=essay&subject=family",
       "materials": [
         {
@@ -81,7 +85,8 @@
           "label": "四科研讀架構",
           "href": "class-notes/four-subjects-roadmap.html"
         }
-      ]
+      ],
+      "teacherOriginals": true
     },
     {
       "id": "debt",
@@ -89,7 +94,7 @@
       "group": "法律專業",
       "description": "契約、給付與責任",
       "reading": "essentials.html?subject=debt",
-      "practice": "questions.html?view=choice&subject=債權",
+      "practice": "questions.html?view=teacher&subject=債權",
       "essay": "questions.html?view=essay&subject=debt",
       "materials": [
         {
@@ -104,7 +109,8 @@
           "label": "四科研讀架構",
           "href": "class-notes/four-subjects-roadmap.html"
         }
-      ]
+      ],
+      "teacherOriginals": true
     },
     {
       "id": "property",
@@ -127,7 +133,8 @@
           "label": "四科研讀架構",
           "href": "class-notes/four-subjects-roadmap.html"
         }
-      ]
+      ],
+      "teacherOriginals": false
     },
     {
       "id": "admin",
@@ -174,7 +181,8 @@
           "label": "課堂黑板整理",
           "href": "class-notes/2026-10-blackboard.html"
         }
-      ]
+      ],
+      "teacherOriginals": false
     },
     {
       "id": "tax",
@@ -197,7 +205,8 @@
           "label": "四科研讀架構",
           "href": "class-notes/four-subjects-roadmap.html"
         }
-      ]
+      ],
+      "teacherOriginals": false
     },
     {
       "id": "legalenglish",
@@ -217,7 +226,8 @@
           "label": "Courts and Jurisdiction 課堂整理",
           "href": "class-notes/legal-english.html"
         }
-      ]
+      ],
+      "teacherOriginals": false
     },
     {
       "id": "photonics",
@@ -227,7 +237,8 @@
       "reading": "photonics.html",
       "practice": "questions.html?view=choice&subject=光電科技",
       "essay": "photonics.html?view=application",
-      "materials": []
+      "materials": [],
+      "teacherOriginals": false
     }
   ],
   "materials": [
