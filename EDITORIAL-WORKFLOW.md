@@ -101,3 +101,16 @@ scripts/build_analysis_notes.cjs 從既有來源及校訂層建立 analysis-note
 
 ## 平台視覺（2026-10-26）
 platform.css 提供共用版面層，沿用 palette.css 色票及既有學習資料；首頁主視覺使用自製 study-architecture.svg，九科卡片新增簡短領域說明。參考 Coursera 的搜尋與分類入口、Notion Help 的主題導覽、MDN 的文件分類；沒有使用第三方品牌圖片或接入追蹤服務。
+
+
+## 全站課程架構與漏接防護（2026-10-27）
+
+`content/course-catalog.json` 是首頁、課程總覽與教材連結的共同目錄，現有九科法律、法學英文、光電科技。`courses.html` 提供科目、筆記、課堂整理與題庫入口。九科原本的章節與進度 schema 保留；法學英文用 `content/legal-english.json`，光電科技用 `content/photonics.json`，不得將光電教材當成法學英文範圍。
+
+法學英文依使用者提供的2026-10-22公告：2026-10-29 13:00–15:00，M517；三大主題為法系、法源與法律領域、法院與管轄。核心與延伸分開，不推定老師明說不考。私人教材原檔不公開，公開自編筆記、題目及來源位置。
+
+發布前依序建置 `scripts/publish_note_expansions.py`、`scripts/build_legal_english.py`、`scripts/build_learning_catalog.py`；最後重建搜尋。`class-notes` 的八份內容頁已從課程目錄與本科筆記連接，原七科入口導回課程總覽。新增內容頁必須同時列入目錄及搜尋，`tests/course-catalog.cjs` 會拒絕未登錄的教材頁。
+
+`content/classroom-practice.json` 保存從既有課堂整理接回的14則自編問答及原附自編答案，不稱教師原題。選擇題總量1872（原1803＋法學英文61＋光電8）；課堂題目及解析區塊109（原95＋接回14），申論演練27題，三種計數不可混合。
+
+所有題目經 `questions.html` 操作，法學英文與光電題共用 library 紀錄；不搬移或清除原九科進度、草稿、收藏、小說閱讀資料。側欄與原課堂頁共用主站視覺及配色，巢狀目錄連結須返回站根目錄。

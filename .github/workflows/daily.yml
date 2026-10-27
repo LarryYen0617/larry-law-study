@@ -30,6 +30,10 @@ jobs:
           python-version: '3.12'
       - name: 建置法源對照深化筆記
         run: python scripts/publish_note_expansions.py
+      - name: 建置全部課程與法學英文
+        run: |
+          python scripts/build_legal_english.py
+          python scripts/build_learning_catalog.py
       - name: 執行離線測試
         run: python -m unittest discover -s tests -v
       - name: 產生題庫校訂資料並驗證內容
@@ -42,6 +46,8 @@ jobs:
         run: |
           node tests/frontend.cjs
           node tests/class-notes.cjs
+          node tests/legal-english.cjs
+          node tests/course-catalog.cjs
           node tests/essay-templates.cjs
           node tests/practice.cjs
           node tests/practice-views.cjs

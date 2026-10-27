@@ -1,0 +1,2951 @@
+{
+  "version": 1,
+  "updatedAt": "2026-10-26",
+  "subject": "legalenglish",
+  "name": "法學英文",
+  "authorship": "依課堂教材自編中英複習；示範答案不是教師原附標準答案",
+  "exam": {
+    "date": "2026-10-29",
+    "time": "13:00–15:00",
+    "venue": "M517",
+    "source": "使用者提供之課程公告，發布時間 2026-10-22 09:32",
+    "scope": [
+      "Legal Systems and Traditions: Civil Law vs. Common Law",
+      "Sources and Areas of Law: Statutory Law vs. Case Law",
+      "Courts and Jurisdiction"
+    ],
+    "formats": [
+      "選擇題",
+      "克漏字",
+      "法律詞彙",
+      "閱讀理解",
+      "英文寫作"
+    ],
+    "rule": "閉書；不得使用教材、筆記及電子設備。依題目要求以英文作答。",
+    "excluded": []
+  },
+  "units": [
+    {
+      "id": "systems",
+      "title": "01｜Civil law 與 common law 的三種比較",
+      "scope": "核心",
+      "source": "Legal Systems (ERS) PDF 第1–2頁；Reading Drill 01-L02 對話；簡報第14–23、50–51張",
+      "points": [
+        "先判斷 civil law 的語境：與 common law 對照時，是「大陸法系」；與 criminal law 對照時，是「民事法」。不能看見同一個字就套同一中文。",
+        "大陸法傳統重視體系化法典；普通法傳統重視先例推理。兩邊都會使用制定法與法院判決，差別是法源結構及論證方法，而不是有法條與沒有法條。",
+        "歷史線索：羅馬法、查士丁尼六世紀編纂與近代法典化；英格蘭中世紀王室法院的逐案發展。教材簡報寫成五世紀與另一份教材六世紀不一致，本頁採六世紀。",
+        "混合法系須說明混合在哪個領域；例如蘇格蘭有大陸法與普通法因素，不能因此說整個英國都用同一套法院與實體法。"
+      ],
+      "table": {
+        "headers": [
+          "概念／術語",
+          "中文理解",
+          "辨別重點"
+        ],
+        "rows": [
+          [
+            "civil law system",
+            "大陸法系",
+            "法系分類"
+          ],
+          [
+            "civil law vs. criminal law",
+            "民事法相對於刑事法",
+            "法律領域分類"
+          ],
+          [
+            "common law",
+            "普通法系／判例法／相對於衡平法的普通法",
+            "依上下文決定"
+          ],
+          [
+            "hybrid system",
+            "混合法系",
+            "不是任意混用所有規則"
+          ]
+        ]
+      },
+      "passage": "Two students discuss how lawyers find legal rules. One begins with a code and then reads decisions interpreting it. The other begins with a relevant precedent but also checks legislation. Neither approach allows a lawyer to ignore an applicable statute. The labels civil law and common law describe traditions; they do not provide a complete answer to every legal problem.",
+      "translation": "兩名學生討論如何找規則：一人先讀法典再查解釋判決，另一人先找先例也會核對制定法。法系標籤有助理解傳統，不能代替具體適用法的分析。",
+      "reading": {
+        "question": "Why does the passage reject the idea that common law means no statutes?",
+        "answer": "Because a lawyer in a common law system must also check applicable legislation. The distinction concerns legal traditions, not the absence of written law."
+      },
+      "refs": []
+    },
+    {
+      "id": "sources",
+      "title": "02｜法源：bill、statute、regulation、precedent",
+      "scope": "核心",
+      "source": "Sources of Law PDF 第1–2、6頁；ILE PDF 第2–3頁；簡報第7–13張",
+      "points": [
+        "法源題先問「由誰產生、處於什麼階段、是否有拘束力」。Bill 是草案，statute / Act 通常指經立法程序成立的法律；中文「法案」容易把草案和已生效法律混為一談。",
+        "Regulation 常指有授權依據的行政規範；secondary legislation 與 secondary source 是兩個不同分類。前者可能是有法律效力的授權立法，後者通常指教科書、論文等說明材料。",
+        "判決閱讀先找 material facts、issue、holding / ratio，再看理由。摘要 headnote 或 syllabus 只是閱讀輔助，不能直接當成法院全部理由。先例是否拘束要看法院層級、管轄區與可適用的法律命題，不是只數事實有幾項一樣。",
+        "教材中的 Queen 是歷史措辭；複習用 the monarch / Royal Assent。英國議會官方說明顯示，御准是法案成為 Act 的步驟；開始施行時間仍可能另定。"
+      ],
+      "table": {
+        "headers": [
+          "概念／術語",
+          "中文理解",
+          "辨別重點"
+        ],
+        "rows": [
+          [
+            "bill → Act / statute",
+            "草案 → 已成立法律",
+            "草案不是現行有效法"
+          ],
+          [
+            "primary legislation / delegated legislation",
+            "主要立法／授權立法",
+            "看制定機關與授權"
+          ],
+          [
+            "primary / secondary source",
+            "一手法源／解說資料",
+            "不要與授權立法混淆"
+          ],
+          [
+            "binding / persuasive",
+            "有拘束力／具說服力",
+            "說服力不等於必須遵循"
+          ]
+        ]
+      },
+      "passage": "A committee discusses a bill. An agency later issues detailed rules under authority granted by an Act. A student also reads a textbook explaining the rules. These documents have different functions: the proposal is not yet an Act, the agency rules depend on legal authority, and the textbook explains rather than enacts the law.",
+      "translation": "草案、授權行政規則與教科書各有不同功能。要辨認效力，先問它是尚未通過的提案、依法制定的規範，還是解說。",
+      "reading": {
+        "question": "Which document explains the rules without itself enacting them?",
+        "answer": "The textbook. It is an explanatory source, whereas the Act and authorized rules may supply legal rules."
+      },
+      "refs": [
+        "royal"
+      ]
+    },
+    {
+      "id": "areas",
+      "title": "03｜法律領域與易混詞：civil、tort、property",
+      "scope": "核心",
+      "source": "glos All Legal English Vocabulary_rev3：Areas of Law；111-1 試題 Legal Terminology 題型",
+      "points": [
+        "看爭議焦點選領域：合意成立與履行是 contract law；侵害造成損害的民事責任常涉及 tort law；誰有所有權、占有或其他物權是 property law；公共機關權限與程序則可能屬公法。",
+        "同一事件可跨領域。偷竊既可能涉及刑事責任，也可能引出返還或賠償；不要把 tort 翻成 crime。題目問的是該請求或程序的性質。",
+        "Damage 是損害；damages 常指金錢賠償。Liable 是負法律責任，不等於刑事 guilty。Property 在一般語境是財產，real property 與 personal property 要依該法域的分類讀，不能把 personal 當「私人物品」的日常意思。"
+      ],
+      "table": {
+        "headers": [
+          "概念／術語",
+          "中文理解",
+          "辨別重點"
+        ],
+        "rows": [
+          [
+            "contract / tort",
+            "契約／侵權",
+            "責任基礎不同"
+          ],
+          [
+            "damage / damages",
+            "損害／損害賠償金",
+            "可數與用法不同"
+          ],
+          [
+            "liable / guilty",
+            "負責任／有罪",
+            "民事與刑事語境"
+          ],
+          [
+            "ownership / possession",
+            "所有權／占有",
+            "權利與控制狀態不同"
+          ]
+        ]
+      },
+      "passage": "A buyer says a seller failed to deliver a machine as promised. A visitor separately claims that unsafe equipment injured her. The buyer focuses on the agreement; the visitor focuses on the alleged injury. Both may seek damages, but the legal basis of each claim must be identified separately.",
+      "translation": "買方主張未依約交貨，訪客主張設備致傷；即使都請求金錢，仍要分辨契約與侵權的責任基礎。",
+      "reading": {
+        "question": "Does the word damages prove that a claim is contractual?",
+        "answer": "No. Damages may be sought on different legal bases. The agreement and the alleged injury must be analysed separately."
+      },
+      "refs": []
+    },
+    {
+      "id": "us-courts",
+      "title": "04｜美國法院：兩套體系與三個層級",
+      "scope": "核心",
+      "source": "LE L03 Courts and Jurisdiction：State and Federal Courts / Types of Courts；簡報第25–32張",
+      "points": [
+        "州法院與聯邦法院不是同一條升級階梯。聯邦法院的管轄權來自憲法及法律授權；不是案件重要或跨州就當然有聯邦管轄。",
+        "一般聯邦路徑可記 District Court → Court of Appeals → Supreme Court。州法院有各州自己的設計，不應斷言所有州都恰好三級、最高法院都相同人數。",
+        "當事人稱謂隨程序轉換：起訴是 plaintiff / defendant，上訴是 appellant / appellee；向最高法院聲請調卷審查常用 petitioner / respondent。原告也可能成為被上訴人，角色不能固定綁人。",
+        "最高法院審理許多案件須先准許 certiorari；不能寫每個敗訴者都有無條件第三審權利。原始管轄與上訴管轄是不同權限。"
+      ],
+      "table": {
+        "headers": [
+          "概念／術語",
+          "中文理解",
+          "辨別重點"
+        ],
+        "rows": [
+          [
+            "U.S. District Court",
+            "聯邦地方法院",
+            "一般聯邦初審"
+          ],
+          [
+            "U.S. Court of Appeals",
+            "聯邦上訴法院",
+            "審查下級法院裁判"
+          ],
+          [
+            "U.S. Supreme Court",
+            "聯邦最高法院",
+            "終審；受理須符程序"
+          ],
+          [
+            "state courts / federal courts",
+            "州／聯邦法院",
+            "不是上下級的通稱"
+          ]
+        ]
+      },
+      "passage": "River sues Pine in a federal district court. After judgment, Pine appeals. At this stage, Pine is the appellant and River is the appellee. If Pine later seeks Supreme Court review by petition, the terminology changes again. Changing the label describes a procedural role, not a change in the person’s identity.",
+      "translation": "Pine 在初審是被告，提起上訴後成為 appellant；稱謂反映程序角色，不表示換了一個人。",
+      "reading": {
+        "question": "Who is the appellee in this fictional appeal?",
+        "answer": "River is the appellee because Pine brings the appeal. River’s earlier role as plaintiff does not prevent River from being the appellee."
+      },
+      "refs": [
+        "us",
+        "appeal"
+      ]
+    },
+    {
+      "id": "jurisdiction",
+      "title": "05｜管轄與上訴：原始、上訴、一般、有限",
+      "scope": "核心",
+      "source": "LE L03 Courts and Jurisdiction：Trial Courts / Appellate Courts；L03 Reading Comprehension；Mini-Glossary",
+      "points": [
+        "Original / appellate 看法院是在首次審理還是審查下級裁判；general / limited 看管轄範圍。這是兩個不同軸線，original 不等於 general。",
+        "Issue of fact 問「實際發生什麼」；issue of law 問規範如何解釋與適用。法院是否可以受理、何種審查標準等又涉及程序規則。",
+        "美國一般上訴不是重新開一次證據審判，通常以既有紀錄審查錯誤；但「只看法律」不能被誤讀成完全不能審查事實認定有無符合適用標準。",
+        "Affirm 維持，reverse 撤銷／推翻，remand 發回。發回表示案件交回下級法院續行，不等於已終局勝訴。Trial de novo 與一般 appellate review 不是同義詞。"
+      ],
+      "table": {
+        "headers": [
+          "概念／術語",
+          "中文理解",
+          "辨別重點"
+        ],
+        "rows": [
+          [
+            "original / appellate jurisdiction",
+            "原始／上訴管轄",
+            "程序階段"
+          ],
+          [
+            "general / limited jurisdiction",
+            "一般／有限管轄",
+            "受理範圍"
+          ],
+          [
+            "issue of fact / issue of law",
+            "事實／法律爭點",
+            "發生什麼／規範如何適用"
+          ],
+          [
+            "affirm / reverse / remand",
+            "維持／撤銷／發回",
+            "結果及後續程序分開"
+          ]
+        ]
+      },
+      "passage": "A court can hear only a defined category of cases, but it hears those cases first. Its jurisdiction is limited in scope and original in stage. After a decision, a reviewing court finds an error and sends the case back. The return of the case requires further proceedings; it does not itself state who ultimately wins.",
+      "translation": "有限管轄法院也可能有原始管轄。上訴法院發回後仍需續行程序，不能只看到 remand 就推論實體勝負。",
+      "reading": {
+        "question": "Can a court have both original and limited jurisdiction?",
+        "answer": "Yes. Original concerns the stage at which the court hears the case, while limited concerns the scope of cases it may hear."
+      },
+      "refs": [
+        "appeal"
+      ]
+    },
+    {
+      "id": "uk-courts",
+      "title": "06｜英國法院：jurisdiction 不等於全英統一制度",
+      "scope": "核心",
+      "source": "LE U4-02 Courts in the US and the UK：Not One System / Court Hierarchy；簡報第129張",
+      "points": [
+        "先辨認 England and Wales、Scotland、Northern Ireland 三個法律管轄區；不要用 England 指整個 UK。",
+        "英格蘭與威爾斯基本詞彙：Magistrates’ Courts、Crown Court、County Court、High Court、Court of Appeal。法院名稱不能直接機械對照臺灣層級；例如 High Court 不等於臺灣高等法院的完整職能。",
+        "UK Supreme Court 於2009年開始運作。它處理全英國民事的重要法律爭點上訴；一般刑事上訴範圍為英格蘭、威爾斯與北愛爾蘭。蘇格蘭刑事與權限移轉等事項要分開，不能寫成一律有或一律無管轄。",
+        "Parliamentary sovereignty 不代表法院只會翻譯法條、不能審查政府行為。對 Westminster 主要立法的效力與其他種類規範、行政行為的審查，必須分辨。"
+      ],
+      "table": {
+        "headers": [
+          "概念／術語",
+          "中文理解",
+          "辨別重點"
+        ],
+        "rows": [
+          [
+            "England and Wales",
+            "英格蘭與威爾斯",
+            "一個法律管轄區"
+          ],
+          [
+            "Crown Court",
+            "王室刑事法院",
+            "英格蘭與威爾斯重要刑事審判"
+          ],
+          [
+            "Court of Appeal",
+            "上訴法院",
+            "勿與 High Court 混同"
+          ],
+          [
+            "UK Supreme Court",
+            "英國最高法院",
+            "2009年設立運作；上訴範圍有界線"
+          ]
+        ]
+      },
+      "passage": "A student writes that every criminal appeal from Scotland goes to the UK Supreme Court. Another student checks the court’s own description and corrects the statement. A useful summary must distinguish ordinary criminal appeals from special questions about devolved powers. A geographical label alone does not establish jurisdiction.",
+      "translation": "不能把蘇格蘭所有刑事案件都畫成通往英國最高法院的一般上訴路徑；需辨別普通刑事上訴及特別權限問題。",
+      "reading": {
+        "question": "What is wrong with the first student’s claim?",
+        "answer": "It treats all Scottish criminal appeals alike. The UK Supreme Court’s ordinary criminal appellate role does not cover Scotland in the same way as England, Wales and Northern Ireland."
+      },
+      "refs": [
+        "uk"
+      ]
+    },
+    {
+      "id": "taiwan",
+      "title": "07｜寫作主題：用英文介紹臺灣法院",
+      "scope": "核心",
+      "source": "2026-10-22 課程公告 Writing Task 示例；司法院英文網站",
+      "points": [
+        "先限定 ordinary courts：臺灣普通法院一般由地方法院、高等法院及最高法院構成，主要處理民事與刑事案件。法院層級與每案能否上訴要分開。",
+        "英文使用 generally / ordinarily / subject to statutory requirements 留下正確界線，不要說 all cases automatically receive three trials。",
+        "介紹整個體系時，可再補充行政法院及憲法法庭有不同職能；它們不是普通法院三審之後的第四審。",
+        "建議段落順序：體系概述 → 各層職能 → 上訴限制 → 其他法院。先寫正確短句，再加入比較或轉折，不以艱難單字代替清楚內容。"
+      ],
+      "table": {
+        "headers": [
+          "概念／術語",
+          "中文理解",
+          "辨別重點"
+        ],
+        "rows": [
+          [
+            "district courts",
+            "地方法院",
+            "通常是普通案件第一審"
+          ],
+          [
+            "high courts",
+            "高等法院",
+            "主要審查地院上訴案件"
+          ],
+          [
+            "the Supreme Court",
+            "最高法院",
+            "普通法院終審，主要法律審"
+          ],
+          [
+            "administrative courts / Constitutional Court",
+            "行政法院／憲法法庭",
+            "專責制度，非普通第四審"
+          ]
+        ]
+      },
+      "passage": "Taiwan’s ordinary courts hear civil and criminal cases. Their main levels are district courts, high courts and the Supreme Court. District courts generally hear cases first. Higher courts review cases according to procedural law. Not every case can reach all three levels. Administrative litigation and constitutional adjudication belong to distinct institutional arrangements.",
+      "translation": "臺灣普通法院處理民刑事案件，主要有三級；上訴須依程序規範，不保證每案都經三級。行政訴訟與憲法審判另有制度。",
+      "reading": {
+        "question": "Why is “Every case has three appeals” inaccurate?",
+        "answer": "Court levels are not the number of appeals guaranteed to each case. Access to review depends on procedural requirements."
+      },
+      "refs": [
+        "tw"
+      ]
+    },
+    {
+      "id": "trial",
+      "title": "08｜延伸：陪審、證據與裁判用語",
+      "scope": "延伸",
+      "source": "LE U4-01 Reading Text / Mini-Glossary；簡報第36–47張",
+      "points": [
+        "Adversarial / inquisitorial 是程序比較的理想類型。真實制度有混合，不能寫「對抗制法官完全不問問題」。",
+        "Jury trial 中陪審團判斷事實，法官處理法律與程序並指示法律；bench trial 沒有陪審團，法官也擔任事實認定者。是否有陪審及如何放棄，要依案件與規則。",
+        "Verdict 是陪審裁決；judgment 是法院判決；sentence 是刑事量刑。民事 liable 不要寫成 guilty。直接詰問與反詰問則看由哪一方詢問。"
+      ],
+      "table": {
+        "headers": [
+          "概念／術語",
+          "中文理解",
+          "辨別重點"
+        ],
+        "rows": [
+          [
+            "jury / bench trial",
+            "陪審／法官審判",
+            "誰認定事實"
+          ],
+          [
+            "direct / cross-examination",
+            "主詰問／反詰問",
+            "詢問方不同"
+          ],
+          [
+            "verdict / judgment / sentence",
+            "裁決／判決／刑罰",
+            "不能通用"
+          ]
+        ]
+      },
+      "passage": "In a fictional civil jury trial, jurors find the defendant liable. The judge enters judgment. This is not a criminal conviction, so the writer should not replace liable with guilty. A careful legal summary keeps the type of case and the decision-maker visible.",
+      "translation": "民事陪審案件認定 liable，不能直接翻成刑事有罪。摘要需交代案件類型與決策者。",
+      "reading": {
+        "question": "Why is guilty unsuitable here?",
+        "answer": "The passage concerns civil liability, not a criminal finding of guilt."
+      },
+      "refs": [
+        "civil"
+      ]
+    },
+    {
+      "id": "pretrial",
+      "title": "09｜延伸：訴狀、聲請與證據開示",
+      "scope": "延伸",
+      "source": "LE U4-03 Reading Text / Matching / Reading Comprehension；ILE PDF 第5頁",
+      "points": [
+        "Complaint 提起訴訟並陳述請求；answer 是答辯；counterclaim 是反訴。Pleadings 描述一類正式書狀，不是所有文件與 motions 的統稱。",
+        "Motion 是請法院作成命令或裁定的聲請。駁回聲請的理由很多；「假設事實為真仍不足構成請求」只是特定法律不足的分析，不能等同所有駁回聲請都因缺乏證據。Demurrer 的使用依歷史與法域而異。",
+        "Discovery 是審前取得與交換訴訟資訊的程序，有相關性、特權與程序限制，不是對方所有私人資料都可索取。Deposition 口頭宣誓證言、interrogatories 對當事人的書面詰問、production 文件或物件提出，須分清楚。"
+      ],
+      "table": {
+        "headers": [
+          "概念／術語",
+          "中文理解",
+          "辨別重點"
+        ],
+        "rows": [
+          [
+            "complaint / answer",
+            "起訴狀／答辯狀",
+            "不同提出方及功能"
+          ],
+          [
+            "motion",
+            "聲請",
+            "請求法院作成程序處置"
+          ],
+          [
+            "deposition / interrogatories",
+            "庭外證言錄取／書面詰問",
+            "口頭與書面方式"
+          ],
+          [
+            "request for production",
+            "請求提出文件等資料",
+            "不是不受限制的搜尋權"
+          ]
+        ]
+      },
+      "passage": "A claimant files a complaint. The opposing party responds and requests a court order on a procedural issue. Later, the parties seek relevant documents and testimony. These steps serve different purposes, so a writer should not call every document an answer or every request discovery.",
+      "translation": "起訴、答辯、聲請與證據開示各有功能；應以目的辨別，不可只因都發生在審前就混用。",
+      "reading": {
+        "question": "How does a motion differ from an answer?",
+        "answer": "A motion asks the court to take an action or make a ruling. An answer responds to allegations in a complaint."
+      },
+      "refs": [
+        "civil"
+      ]
+    },
+    {
+      "id": "extended",
+      "title": "10｜延伸：契約、判例閱讀與舊題校訂",
+      "scope": "延伸",
+      "source": "簡報第54–64、66–168張；111-1 試題；總詞彙表",
+      "points": [
+        "Case brief 可用 Facts → Procedural history → Issue → Rule / Holding → Reasoning → Disposition。Holding 是對法律爭點的裁判答案，disposition 是維持、撤銷、發回等處置，不應只寫誰贏。",
+        "契約語彙：offer 要約、acceptance 承諾、consideration 對價、breach 違約、remedy 救濟。對價不是一般英文的「考量」，也不能未辨法域就當成臺灣所有契約的成立要件。簡報的契約案例屬延伸素材，不據此擴張公告期中範圍。",
+        "教材的 parol evidence 不等於 parole（假釋）。Equitable remedy 應讀為「衡平法上救濟」，不是單純合理的賠償；en banc 是全院／全體法官合議的審理用語，不是停審。",
+        "111-1 的 Roe / privacy 題屬歷史背景。Dobbs（2022）推翻 Roe 與 Casey 的相關先例；不能把舊題敘述直接當成現行聯邦憲法保障，也不能由此推論全美各州一律禁止墮胎。"
+      ],
+      "table": {
+        "headers": [
+          "概念／術語",
+          "中文理解",
+          "辨別重點"
+        ],
+        "rows": [
+          [
+            "consideration / gift",
+            "對價／贈與",
+            "交換與無償承諾要分辨"
+          ],
+          [
+            "parol / parole",
+            "契約外證據語境／假釋",
+            "拼字改變概念"
+          ],
+          [
+            "remand / affirm",
+            "發回／維持",
+            "已校訂原詞彙表誤譯"
+          ],
+          [
+            "presumption of innocence",
+            "無罪推定",
+            "不是推定過失"
+          ]
+        ]
+      },
+      "passage": "A reader prepares a case brief. She records the facts, identifies the question, explains the reasoning and states the court’s disposition. She also checks whether later authority has changed the rule. A historical judgment is valuable for learning, but its date and subsequent treatment matter.",
+      "translation": "判例摘要除了事實與理由，也要寫處置並查後續發展；歷史裁判不能脫離日期當作現行規則。",
+      "reading": {
+        "question": "Why should a case brief mention subsequent treatment?",
+        "answer": "A later court may change the precedential position. Describing an old decision without that context may misstate the current rule."
+      },
+      "refs": [
+        "dobbs",
+        "glossary",
+        "innocence"
+      ]
+    }
+  ],
+  "vocabulary": [
+    {
+      "id": "en-v-001",
+      "en": "civil law",
+      "zh": "大陸法系；民事法",
+      "note": "與 common law 或 criminal law 對照時意思不同",
+      "unit": "systems",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-002",
+      "en": "common law",
+      "zh": "普通法系；判例法",
+      "note": "不是沒有制定法",
+      "unit": "systems",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-003",
+      "en": "hybrid legal system",
+      "zh": "混合法系",
+      "note": "要交代混合的傳統與領域",
+      "unit": "systems",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-004",
+      "en": "codify",
+      "zh": "編纂成法典",
+      "note": "不是單純翻譯",
+      "unit": "systems",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-005",
+      "en": "code",
+      "zh": "法典",
+      "note": "不是每份法律文件都叫 code",
+      "unit": "systems",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-006",
+      "en": "legal tradition",
+      "zh": "法律傳統",
+      "note": "與單一現行規則不同",
+      "unit": "systems",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-007",
+      "en": "customary law",
+      "zh": "習慣法",
+      "note": "不是個人慣例",
+      "unit": "systems",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-008",
+      "en": "Roman law",
+      "zh": "羅馬法",
+      "note": "法系歷史用語",
+      "unit": "systems",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-009",
+      "en": "statute",
+      "zh": "制定法；法律",
+      "note": "區別尚未通過的 bill",
+      "unit": "sources",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-010",
+      "en": "bill",
+      "zh": "法案草案",
+      "note": "不是已生效法律",
+      "unit": "sources",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-011",
+      "en": "Act",
+      "zh": "法律；法令名稱",
+      "note": "看大小寫與語境",
+      "unit": "sources",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-012",
+      "en": "regulation",
+      "zh": "行政規範；規則",
+      "note": "先確認法域與授權",
+      "unit": "sources",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-013",
+      "en": "legislature",
+      "zh": "立法機關",
+      "note": "不是 legislation",
+      "unit": "sources",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-014",
+      "en": "legislation",
+      "zh": "立法；制定法規",
+      "note": "可指過程或規範集合",
+      "unit": "sources",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-015",
+      "en": "precedent",
+      "zh": "先例",
+      "note": "效力依層級與法域而定",
+      "unit": "sources",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-016",
+      "en": "case law",
+      "zh": "判例法；裁判形成的法律",
+      "note": "不是所有裁判都具有相同拘束力",
+      "unit": "sources",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-017",
+      "en": "binding",
+      "zh": "有拘束力的",
+      "note": "不同於 persuasive",
+      "unit": "sources",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-018",
+      "en": "persuasive",
+      "zh": "有說服力的",
+      "note": "不等於必須遵循",
+      "unit": "sources",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-019",
+      "en": "holding",
+      "zh": "裁判對爭點的法律結論",
+      "note": "與摘要及程序處置區分",
+      "unit": "sources",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-020",
+      "en": "ratio decidendi",
+      "zh": "裁判必要法律理由",
+      "note": "不等於所有附帶評論",
+      "unit": "sources",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-021",
+      "en": "obiter dictum",
+      "zh": "附帶意見",
+      "note": "非裁判結論必要的論述",
+      "unit": "sources",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-022",
+      "en": "secondary source",
+      "zh": "解說性資料",
+      "note": "不等於 secondary legislation",
+      "unit": "sources",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-023",
+      "en": "delegated legislation",
+      "zh": "授權立法",
+      "note": "依授權制定的規範",
+      "unit": "sources",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-024",
+      "en": "royal assent",
+      "zh": "御准",
+      "note": "法律成立與施行日期仍要分辨",
+      "unit": "sources",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-025",
+      "en": "contract law",
+      "zh": "契約法",
+      "note": "合意、履行及違約的法律領域",
+      "unit": "areas",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-026",
+      "en": "tort law",
+      "zh": "侵權行為法",
+      "note": "不等於刑法",
+      "unit": "areas",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-027",
+      "en": "property law",
+      "zh": "財產法；物權法語境",
+      "note": "所有權與占有須分辨",
+      "unit": "areas",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-028",
+      "en": "criminal law",
+      "zh": "刑法",
+      "note": "涉及犯罪與處罰",
+      "unit": "areas",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-029",
+      "en": "constitutional law",
+      "zh": "憲法",
+      "note": "政府架構、權限與基本權",
+      "unit": "areas",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-030",
+      "en": "administrative law",
+      "zh": "行政法",
+      "note": "公共行政的法律規範",
+      "unit": "areas",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-031",
+      "en": "damages",
+      "zh": "損害賠償金",
+      "note": "不同於單數 damage",
+      "unit": "areas",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-032",
+      "en": "damage",
+      "zh": "損害",
+      "note": "不直接等同賠償金",
+      "unit": "areas",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-033",
+      "en": "liable",
+      "zh": "負法律責任的",
+      "note": "不直接等同 guilty",
+      "unit": "areas",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-034",
+      "en": "ownership",
+      "zh": "所有權",
+      "note": "不同於 possession",
+      "unit": "areas",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-035",
+      "en": "possession",
+      "zh": "占有；持有",
+      "note": "依語境而定，不等於所有權",
+      "unit": "areas",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-036",
+      "en": "jurisdiction",
+      "zh": "管轄權；法律管轄區",
+      "note": "看權限或地理制度語境",
+      "unit": "jurisdiction",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-037",
+      "en": "original jurisdiction",
+      "zh": "原始管轄權",
+      "note": "首次審理案件的權限",
+      "unit": "jurisdiction",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-038",
+      "en": "appellate jurisdiction",
+      "zh": "上訴管轄權",
+      "note": "審查下級裁判的權限",
+      "unit": "jurisdiction",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-039",
+      "en": "general jurisdiction",
+      "zh": "一般管轄權",
+      "note": "與 original 不是同一分類軸",
+      "unit": "jurisdiction",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-040",
+      "en": "limited jurisdiction",
+      "zh": "有限管轄權",
+      "note": "受理範圍受限定",
+      "unit": "jurisdiction",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-041",
+      "en": "venue",
+      "zh": "審判地；法院所在地的適當性",
+      "note": "與法院有無管轄權區分",
+      "unit": "jurisdiction",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-042",
+      "en": "issue of fact",
+      "zh": "事實爭點",
+      "note": "問實際發生什麼",
+      "unit": "jurisdiction",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-043",
+      "en": "issue of law",
+      "zh": "法律爭點",
+      "note": "問規則及其解釋適用",
+      "unit": "jurisdiction",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-044",
+      "en": "affirm",
+      "zh": "維持原裁判",
+      "note": "不要與 remand 混淆",
+      "unit": "jurisdiction",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-045",
+      "en": "reverse",
+      "zh": "撤銷；推翻下級裁判",
+      "note": "語境是上訴處置",
+      "unit": "jurisdiction",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-046",
+      "en": "remand",
+      "zh": "發回續行審理",
+      "note": "不是維持原判",
+      "unit": "jurisdiction",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-047",
+      "en": "trial de novo",
+      "zh": "重新審理",
+      "note": "不同於一般上訴審查",
+      "unit": "jurisdiction",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-048",
+      "en": "plaintiff",
+      "zh": "原告",
+      "note": "民事起訴方",
+      "unit": "us-courts",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-049",
+      "en": "defendant",
+      "zh": "被告",
+      "note": "可以出現在民事或刑事程序",
+      "unit": "us-courts",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-050",
+      "en": "appellant",
+      "zh": "上訴人",
+      "note": "可能原先是原告或被告",
+      "unit": "us-courts",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-051",
+      "en": "appellee",
+      "zh": "被上訴人",
+      "note": "不能永遠翻成被告",
+      "unit": "us-courts",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-052",
+      "en": "petitioner",
+      "zh": "聲請人",
+      "note": "不是所有語境都指最高法院上訴人",
+      "unit": "us-courts",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-053",
+      "en": "respondent",
+      "zh": "相對人；答辯方",
+      "note": "依聲請、上訴等程序判斷",
+      "unit": "us-courts",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-054",
+      "en": "writ of certiorari",
+      "zh": "調卷令",
+      "note": "聲請不代表必定受理",
+      "unit": "us-courts",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-055",
+      "en": "trial court",
+      "zh": "審判法院；初審法院",
+      "note": "通常首次處理案件證據與法律",
+      "unit": "us-courts",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-056",
+      "en": "court of appeals",
+      "zh": "上訴法院",
+      "note": "通常不重新進行完整證據審判",
+      "unit": "us-courts",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-057",
+      "en": "Supreme Court",
+      "zh": "最高法院",
+      "note": "先說明哪個國家或體系",
+      "unit": "us-courts",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-058",
+      "en": "judiciary",
+      "zh": "司法部門；法院體系",
+      "note": "不是 legislature",
+      "unit": "uk-courts",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-059",
+      "en": "Crown Court",
+      "zh": "王室刑事法院",
+      "note": "英格蘭與威爾斯語境",
+      "unit": "uk-courts",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-060",
+      "en": "parliamentary sovereignty",
+      "zh": "議會主權",
+      "note": "不代表法院毫無司法審查權",
+      "unit": "uk-courts",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-061",
+      "en": "separation of powers",
+      "zh": "權力分立",
+      "note": "區分立法、行政與司法",
+      "unit": "uk-courts",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-062",
+      "en": "jury",
+      "zh": "陪審團",
+      "note": "不等於 judge",
+      "unit": "trial",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-063",
+      "en": "bench trial",
+      "zh": "無陪審團的法官審判",
+      "note": "法官也認定事實",
+      "unit": "trial",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-064",
+      "en": "verdict",
+      "zh": "陪審裁決",
+      "note": "不同於判決及量刑",
+      "unit": "trial",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-065",
+      "en": "judgment",
+      "zh": "判決",
+      "note": "不同於每一份 jury verdict",
+      "unit": "trial",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-066",
+      "en": "sentence",
+      "zh": "刑罰；量刑判決",
+      "note": "也可作動詞判處",
+      "unit": "trial",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-067",
+      "en": "cross-examination",
+      "zh": "反詰問；交叉詰問",
+      "note": "由對造一方詢問",
+      "unit": "trial",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-068",
+      "en": "direct examination",
+      "zh": "主詰問；直接詰問",
+      "note": "由提出證人的一方詢問",
+      "unit": "trial",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-069",
+      "en": "complaint",
+      "zh": "民事起訴狀",
+      "note": "不是一般抱怨",
+      "unit": "pretrial",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-070",
+      "en": "answer",
+      "zh": "答辯狀",
+      "note": "不是普通的回答",
+      "unit": "pretrial",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-071",
+      "en": "counterclaim",
+      "zh": "反訴；反請求",
+      "note": "被告向原告提出請求",
+      "unit": "pretrial",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-072",
+      "en": "pleadings",
+      "zh": "訴狀類書狀",
+      "note": "不是所有程序文件的統稱",
+      "unit": "pretrial",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-073",
+      "en": "motion",
+      "zh": "聲請",
+      "note": "請法院作成命令或裁定",
+      "unit": "pretrial",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-074",
+      "en": "discovery",
+      "zh": "審前證據開示",
+      "note": "受相關性、特權及程序限制",
+      "unit": "pretrial",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-075",
+      "en": "deposition",
+      "zh": "庭外宣誓證言錄取",
+      "note": "不是只指交文件",
+      "unit": "pretrial",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-076",
+      "en": "interrogatories",
+      "zh": "書面詰問",
+      "note": "與口頭 deposition 分開",
+      "unit": "pretrial",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-077",
+      "en": "consideration",
+      "zh": "對價",
+      "note": "此語境不是一般考量",
+      "unit": "extended",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-078",
+      "en": "breach of contract",
+      "zh": "違約",
+      "note": "要與契約是否成立分開",
+      "unit": "extended",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-079",
+      "en": "remedy",
+      "zh": "法律救濟",
+      "note": "不僅限於金錢賠償",
+      "unit": "extended",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-080",
+      "en": "equitable remedy",
+      "zh": "衡平法上救濟",
+      "note": "不是合理的賠償",
+      "unit": "extended",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-081",
+      "en": "presumption of innocence",
+      "zh": "無罪推定",
+      "note": "原詞彙表誤譯已校正",
+      "unit": "extended",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-082",
+      "en": "en banc",
+      "zh": "全院合議審理",
+      "note": "不是停審",
+      "unit": "extended",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-083",
+      "en": "per curiam",
+      "zh": "以法院名義作成的意見",
+      "note": "不表示必定全體一致",
+      "unit": "extended",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    },
+    {
+      "id": "en-v-084",
+      "en": "bar examination",
+      "zh": "律師資格考試",
+      "note": "通過考試不等於滿足所有准入要求",
+      "unit": "extended",
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理"
+    }
+  ],
+  "questions": [
+    {
+      "id": "en-q-001",
+      "subject": "法學英文",
+      "unit": "systems",
+      "topic": "語境詞彙｜systems",
+      "question": "在本課法律語境中，civil law 最適合對應哪個意思？",
+      "options": [
+        "大陸法系；民事法",
+        "法案草案",
+        "有說服力的",
+        "契約法"
+      ],
+      "answer": 0,
+      "explanations": [
+        "civil law：大陸法系；民事法。與 common law 或 criminal law 對照時意思不同",
+        "bill：法案草案。不是已生效法律",
+        "persuasive：有說服力的。不等於必須遵循",
+        "contract law：契約法。合意、履行及違約的法律領域"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-002",
+      "subject": "法學英文",
+      "unit": "systems",
+      "topic": "語境詞彙｜systems",
+      "question": "在本課法律語境中，common law 最適合對應哪個意思？",
+      "options": [
+        "立法；制定法規",
+        "附帶意見",
+        "刑法",
+        "普通法系；判例法"
+      ],
+      "answer": 3,
+      "explanations": [
+        "legislation：立法；制定法規。可指過程或規範集合",
+        "obiter dictum：附帶意見。非裁判結論必要的論述",
+        "criminal law：刑法。涉及犯罪與處罰",
+        "common law：普通法系；判例法。不是沒有制定法"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-003",
+      "subject": "法學英文",
+      "unit": "systems",
+      "topic": "語境詞彙｜systems",
+      "question": "在本課法律語境中，hybrid legal system 最適合對應哪個意思？",
+      "options": [
+        "御准",
+        "損害賠償金",
+        "混合法系",
+        "有拘束力的"
+      ],
+      "answer": 2,
+      "explanations": [
+        "royal assent：御准。法律成立與施行日期仍要分辨",
+        "damages：損害賠償金。不同於單數 damage",
+        "hybrid legal system：混合法系。要交代混合的傳統與領域",
+        "binding：有拘束力的。不同於 persuasive"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-004",
+      "subject": "法學英文",
+      "unit": "systems",
+      "topic": "語境詞彙｜systems",
+      "question": "在本課法律語境中，codify 最適合對應哪個意思？",
+      "options": [
+        "所有權",
+        "編纂成法典",
+        "裁判必要法律理由",
+        "財產法；物權法語境"
+      ],
+      "answer": 1,
+      "explanations": [
+        "ownership：所有權。不同於 possession",
+        "codify：編纂成法典。不是單純翻譯",
+        "ratio decidendi：裁判必要法律理由。不等於所有附帶評論",
+        "property law：財產法；物權法語境。所有權與占有須分辨"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-005",
+      "subject": "法學英文",
+      "unit": "systems",
+      "topic": "語境詞彙｜systems",
+      "question": "在本課法律語境中，code 最適合對應哪個意思？",
+      "options": [
+        "法典",
+        "授權立法",
+        "行政法",
+        "原始管轄權"
+      ],
+      "answer": 0,
+      "explanations": [
+        "code：法典。不是每份法律文件都叫 code",
+        "delegated legislation：授權立法。依授權制定的規範",
+        "administrative law：行政法。公共行政的法律規範",
+        "original jurisdiction：原始管轄權。首次審理案件的權限"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-006",
+      "subject": "法學英文",
+      "unit": "systems",
+      "topic": "語境詞彙｜systems",
+      "question": "在本課法律語境中，legal tradition 最適合對應哪個意思？",
+      "options": [
+        "侵權行為法",
+        "負法律責任的",
+        "有限管轄權",
+        "法律傳統"
+      ],
+      "answer": 3,
+      "explanations": [
+        "tort law：侵權行為法。不等於刑法",
+        "liable：負法律責任的。不直接等同 guilty",
+        "limited jurisdiction：有限管轄權。受理範圍受限定",
+        "legal tradition：法律傳統。與單一現行規則不同"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-007",
+      "subject": "法學英文",
+      "unit": "systems",
+      "topic": "語境詞彙｜systems",
+      "question": "在本課法律語境中，customary law 最適合對應哪個意思？",
+      "options": [
+        "管轄權；法律管轄區",
+        "法律爭點",
+        "習慣法",
+        "憲法"
+      ],
+      "answer": 2,
+      "explanations": [
+        "jurisdiction：管轄權；法律管轄區。看權限或地理制度語境",
+        "issue of law：法律爭點。問規則及其解釋適用",
+        "customary law：習慣法。不是個人慣例",
+        "constitutional law：憲法。政府架構、權限與基本權"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-008",
+      "subject": "法學英文",
+      "unit": "systems",
+      "topic": "語境詞彙｜systems",
+      "question": "在本課法律語境中，Roman law 最適合對應哪個意思？",
+      "options": [
+        "發回續行審理",
+        "羅馬法",
+        "損害",
+        "一般管轄權"
+      ],
+      "answer": 1,
+      "explanations": [
+        "remand：發回續行審理。不是維持原判",
+        "Roman law：羅馬法。法系歷史用語",
+        "damage：損害。不直接等同賠償金",
+        "general jurisdiction：一般管轄權。與 original 不是同一分類軸"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-009",
+      "subject": "法學英文",
+      "unit": "sources",
+      "topic": "語境詞彙｜sources",
+      "question": "在本課法律語境中，statute 最適合對應哪個意思？",
+      "options": [
+        "制定法；法律",
+        "法律爭點",
+        "上訴人",
+        "最高法院"
+      ],
+      "answer": 0,
+      "explanations": [
+        "statute：制定法；法律。區別尚未通過的 bill",
+        "issue of law：法律爭點。問規則及其解釋適用",
+        "appellant：上訴人。可能原先是原告或被告",
+        "Supreme Court：最高法院。先說明哪個國家或體系"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-010",
+      "subject": "法學英文",
+      "unit": "sources",
+      "topic": "語境詞彙｜sources",
+      "question": "在本課法律語境中，bill 最適合對應哪個意思？",
+      "options": [
+        "發回續行審理",
+        "相對人；答辯方",
+        "議會主權",
+        "法案草案"
+      ],
+      "answer": 3,
+      "explanations": [
+        "remand：發回續行審理。不是維持原判",
+        "respondent：相對人；答辯方。依聲請、上訴等程序判斷",
+        "parliamentary sovereignty：議會主權。不代表法院毫無司法審查權",
+        "bill：法案草案。不是已生效法律"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-011",
+      "subject": "法學英文",
+      "unit": "sources",
+      "topic": "語境詞彙｜sources",
+      "question": "在本課法律語境中，Act 最適合對應哪個意思？",
+      "options": [
+        "上訴法院",
+        "編纂成法典",
+        "法律；法令名稱",
+        "被告"
+      ],
+      "answer": 2,
+      "explanations": [
+        "court of appeals：上訴法院。通常不重新進行完整證據審判",
+        "codify：編纂成法典。不是單純翻譯",
+        "Act：法律；法令名稱。看大小寫與語境",
+        "defendant：被告。可以出現在民事或刑事程序"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-012",
+      "subject": "法學英文",
+      "unit": "sources",
+      "topic": "語境詞彙｜sources",
+      "question": "在本課法律語境中，regulation 最適合對應哪個意思？",
+      "options": [
+        "習慣法",
+        "行政規範；規則",
+        "聲請人",
+        "王室刑事法院"
+      ],
+      "answer": 1,
+      "explanations": [
+        "customary law：習慣法。不是個人慣例",
+        "regulation：行政規範；規則。先確認法域與授權",
+        "petitioner：聲請人。不是所有語境都指最高法院上訴人",
+        "Crown Court：王室刑事法院。英格蘭與威爾斯語境"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-013",
+      "subject": "法學英文",
+      "unit": "sources",
+      "topic": "語境詞彙｜sources",
+      "question": "在本課法律語境中，legislature 最適合對應哪個意思？",
+      "options": [
+        "立法機關",
+        "審判法院；初審法院",
+        "混合法系",
+        "侵權行為法"
+      ],
+      "answer": 0,
+      "explanations": [
+        "legislature：立法機關。不是 legislation",
+        "trial court：審判法院；初審法院。通常首次處理案件證據與法律",
+        "hybrid legal system：混合法系。要交代混合的傳統與領域",
+        "tort law：侵權行為法。不等於刑法"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-014",
+      "subject": "法學英文",
+      "unit": "sources",
+      "topic": "語境詞彙｜sources",
+      "question": "在本課法律語境中，legislation 最適合對應哪個意思？",
+      "options": [
+        "司法部門；法院體系",
+        "法律傳統",
+        "憲法",
+        "立法；制定法規"
+      ],
+      "answer": 3,
+      "explanations": [
+        "judiciary：司法部門；法院體系。不是 legislature",
+        "legal tradition：法律傳統。與單一現行規則不同",
+        "constitutional law：憲法。政府架構、權限與基本權",
+        "legislation：立法；制定法規。可指過程或規範集合"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-015",
+      "subject": "法學英文",
+      "unit": "sources",
+      "topic": "語境詞彙｜sources",
+      "question": "在本課法律語境中，precedent 最適合對應哪個意思？",
+      "options": [
+        "契約法",
+        "損害",
+        "先例",
+        "權力分立"
+      ],
+      "answer": 2,
+      "explanations": [
+        "contract law：契約法。合意、履行及違約的法律領域",
+        "damage：損害。不直接等同賠償金",
+        "precedent：先例。效力依層級與法域而定",
+        "separation of powers：權力分立。區分立法、行政與司法"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-016",
+      "subject": "法學英文",
+      "unit": "sources",
+      "topic": "語境詞彙｜sources",
+      "question": "在本課法律語境中，case law 最適合對應哪個意思？",
+      "options": [
+        "占有；持有",
+        "判例法；裁判形成的法律",
+        "法典",
+        "刑法"
+      ],
+      "answer": 1,
+      "explanations": [
+        "possession：占有；持有。依語境而定，不等於所有權",
+        "case law：判例法；裁判形成的法律。不是所有裁判都具有相同拘束力",
+        "code：法典。不是每份法律文件都叫 code",
+        "criminal law：刑法。涉及犯罪與處罰"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-017",
+      "subject": "法學英文",
+      "unit": "sources",
+      "topic": "語境詞彙｜sources",
+      "question": "在本課法律語境中，binding 最適合對應哪個意思？",
+      "options": [
+        "有拘束力的",
+        "羅馬法",
+        "損害賠償金",
+        "上訴管轄權"
+      ],
+      "answer": 0,
+      "explanations": [
+        "binding：有拘束力的。不同於 persuasive",
+        "Roman law：羅馬法。法系歷史用語",
+        "damages：損害賠償金。不同於單數 damage",
+        "appellate jurisdiction：上訴管轄權。審查下級裁判的權限"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-018",
+      "subject": "法學英文",
+      "unit": "sources",
+      "topic": "語境詞彙｜sources",
+      "question": "在本課法律語境中，persuasive 最適合對應哪個意思？",
+      "options": [
+        "財產法；物權法語境",
+        "所有權",
+        "審判地；法院所在地的適當性",
+        "有說服力的"
+      ],
+      "answer": 3,
+      "explanations": [
+        "property law：財產法；物權法語境。所有權與占有須分辨",
+        "ownership：所有權。不同於 possession",
+        "venue：審判地；法院所在地的適當性。與法院有無管轄權區分",
+        "persuasive：有說服力的。不等於必須遵循"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-019",
+      "subject": "法學英文",
+      "unit": "sources",
+      "topic": "語境詞彙｜sources",
+      "question": "在本課法律語境中，holding 最適合對應哪個意思？",
+      "options": [
+        "原始管轄權",
+        "維持原裁判",
+        "裁判對爭點的法律結論",
+        "行政法"
+      ],
+      "answer": 2,
+      "explanations": [
+        "original jurisdiction：原始管轄權。首次審理案件的權限",
+        "affirm：維持原裁判。不要與 remand 混淆",
+        "holding：裁判對爭點的法律結論。與摘要及程序處置區分",
+        "administrative law：行政法。公共行政的法律規範"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-020",
+      "subject": "法學英文",
+      "unit": "sources",
+      "topic": "語境詞彙｜sources",
+      "question": "在本課法律語境中，ratio decidendi 最適合對應哪個意思？",
+      "options": [
+        "重新審理",
+        "裁判必要法律理由",
+        "負法律責任的",
+        "有限管轄權"
+      ],
+      "answer": 1,
+      "explanations": [
+        "trial de novo：重新審理。不同於一般上訴審查",
+        "ratio decidendi：裁判必要法律理由。不等於所有附帶評論",
+        "liable：負法律責任的。不直接等同 guilty",
+        "limited jurisdiction：有限管轄權。受理範圍受限定"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-021",
+      "subject": "法學英文",
+      "unit": "sources",
+      "topic": "語境詞彙｜sources",
+      "question": "在本課法律語境中，obiter dictum 最適合對應哪個意思？",
+      "options": [
+        "附帶意見",
+        "管轄權；法律管轄區",
+        "法律爭點",
+        "上訴人"
+      ],
+      "answer": 0,
+      "explanations": [
+        "obiter dictum：附帶意見。非裁判結論必要的論述",
+        "jurisdiction：管轄權；法律管轄區。看權限或地理制度語境",
+        "issue of law：法律爭點。問規則及其解釋適用",
+        "appellant：上訴人。可能原先是原告或被告"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-022",
+      "subject": "法學英文",
+      "unit": "sources",
+      "topic": "語境詞彙｜sources",
+      "question": "在本課法律語境中，secondary source 最適合對應哪個意思？",
+      "options": [
+        "一般管轄權",
+        "發回續行審理",
+        "相對人；答辯方",
+        "解說性資料"
+      ],
+      "answer": 3,
+      "explanations": [
+        "general jurisdiction：一般管轄權。與 original 不是同一分類軸",
+        "remand：發回續行審理。不是維持原判",
+        "respondent：相對人；答辯方。依聲請、上訴等程序判斷",
+        "secondary source：解說性資料。不等於 secondary legislation"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-023",
+      "subject": "法學英文",
+      "unit": "sources",
+      "topic": "語境詞彙｜sources",
+      "question": "在本課法律語境中，delegated legislation 最適合對應哪個意思？",
+      "options": [
+        "被告",
+        "上訴法院",
+        "授權立法",
+        "事實爭點"
+      ],
+      "answer": 2,
+      "explanations": [
+        "defendant：被告。可以出現在民事或刑事程序",
+        "court of appeals：上訴法院。通常不重新進行完整證據審判",
+        "delegated legislation：授權立法。依授權制定的規範",
+        "issue of fact：事實爭點。問實際發生什麼"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-024",
+      "subject": "法學英文",
+      "unit": "sources",
+      "topic": "語境詞彙｜sources",
+      "question": "在本課法律語境中，royal assent 最適合對應哪個意思？",
+      "options": [
+        "王室刑事法院",
+        "御准",
+        "撤銷；推翻下級裁判",
+        "聲請人"
+      ],
+      "answer": 1,
+      "explanations": [
+        "Crown Court：王室刑事法院。英格蘭與威爾斯語境",
+        "royal assent：御准。法律成立與施行日期仍要分辨",
+        "reverse：撤銷；推翻下級裁判。語境是上訴處置",
+        "petitioner：聲請人。不是所有語境都指最高法院上訴人"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-025",
+      "subject": "法學英文",
+      "unit": "areas",
+      "topic": "語境詞彙｜areas",
+      "question": "在本課法律語境中，contract law 最適合對應哪個意思？",
+      "options": [
+        "契約法",
+        "事實爭點",
+        "被告",
+        "上訴法院"
+      ],
+      "answer": 0,
+      "explanations": [
+        "contract law：契約法。合意、履行及違約的法律領域",
+        "issue of fact：事實爭點。問實際發生什麼",
+        "defendant：被告。可以出現在民事或刑事程序",
+        "court of appeals：上訴法院。通常不重新進行完整證據審判"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-026",
+      "subject": "法學英文",
+      "unit": "areas",
+      "topic": "語境詞彙｜areas",
+      "question": "在本課法律語境中，tort law 最適合對應哪個意思？",
+      "options": [
+        "撤銷；推翻下級裁判",
+        "聲請人",
+        "王室刑事法院",
+        "侵權行為法"
+      ],
+      "answer": 3,
+      "explanations": [
+        "reverse：撤銷；推翻下級裁判。語境是上訴處置",
+        "petitioner：聲請人。不是所有語境都指最高法院上訴人",
+        "Crown Court：王室刑事法院。英格蘭與威爾斯語境",
+        "tort law：侵權行為法。不等於刑法"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-027",
+      "subject": "法學英文",
+      "unit": "areas",
+      "topic": "語境詞彙｜areas",
+      "question": "在本課法律語境中，property law 最適合對應哪個意思？",
+      "options": [
+        "審判法院；初審法院",
+        "混合法系",
+        "財產法；物權法語境",
+        "原告"
+      ],
+      "answer": 2,
+      "explanations": [
+        "trial court：審判法院；初審法院。通常首次處理案件證據與法律",
+        "hybrid legal system：混合法系。要交代混合的傳統與領域",
+        "property law：財產法；物權法語境。所有權與占有須分辨",
+        "plaintiff：原告。民事起訴方"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-028",
+      "subject": "法學英文",
+      "unit": "areas",
+      "topic": "語境詞彙｜areas",
+      "question": "在本課法律語境中，criminal law 最適合對應哪個意思？",
+      "options": [
+        "法律傳統",
+        "刑法",
+        "被上訴人",
+        "司法部門；法院體系"
+      ],
+      "answer": 1,
+      "explanations": [
+        "legal tradition：法律傳統。與單一現行規則不同",
+        "criminal law：刑法。涉及犯罪與處罰",
+        "appellee：被上訴人。不能永遠翻成被告",
+        "judiciary：司法部門；法院體系。不是 legislature"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-029",
+      "subject": "法學英文",
+      "unit": "areas",
+      "topic": "語境詞彙｜areas",
+      "question": "在本課法律語境中，constitutional law 最適合對應哪個意思？",
+      "options": [
+        "憲法",
+        "調卷令",
+        "權力分立",
+        "法案草案"
+      ],
+      "answer": 0,
+      "explanations": [
+        "constitutional law：憲法。政府架構、權限與基本權",
+        "writ of certiorari：調卷令。聲請不代表必定受理",
+        "separation of powers：權力分立。區分立法、行政與司法",
+        "bill：法案草案。不是已生效法律"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-030",
+      "subject": "法學英文",
+      "unit": "areas",
+      "topic": "語境詞彙｜areas",
+      "question": "在本課法律語境中，administrative law 最適合對應哪個意思？",
+      "options": [
+        "最高法院",
+        "法典",
+        "立法；制定法規",
+        "行政法"
+      ],
+      "answer": 3,
+      "explanations": [
+        "Supreme Court：最高法院。先說明哪個國家或體系",
+        "code：法典。不是每份法律文件都叫 code",
+        "legislation：立法；制定法規。可指過程或規範集合",
+        "administrative law：行政法。公共行政的法律規範"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-031",
+      "subject": "法學英文",
+      "unit": "areas",
+      "topic": "語境詞彙｜areas",
+      "question": "在本課法律語境中，damages 最適合對應哪個意思？",
+      "options": [
+        "羅馬法",
+        "有拘束力的",
+        "損害賠償金",
+        "議會主權"
+      ],
+      "answer": 2,
+      "explanations": [
+        "Roman law：羅馬法。法系歷史用語",
+        "binding：有拘束力的。不同於 persuasive",
+        "damages：損害賠償金。不同於單數 damage",
+        "parliamentary sovereignty：議會主權。不代表法院毫無司法審查權"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-032",
+      "subject": "法學英文",
+      "unit": "areas",
+      "topic": "語境詞彙｜areas",
+      "question": "在本課法律語境中，damage 最適合對應哪個意思？",
+      "options": [
+        "裁判必要法律理由",
+        "損害",
+        "編纂成法典",
+        "立法機關"
+      ],
+      "answer": 1,
+      "explanations": [
+        "ratio decidendi：裁判必要法律理由。不等於所有附帶評論",
+        "damage：損害。不直接等同賠償金",
+        "codify：編纂成法典。不是單純翻譯",
+        "legislature：立法機關。不是 legislation"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-033",
+      "subject": "法學英文",
+      "unit": "areas",
+      "topic": "語境詞彙｜areas",
+      "question": "在本課法律語境中，liable 最適合對應哪個意思？",
+      "options": [
+        "負法律責任的",
+        "習慣法",
+        "判例法；裁判形成的法律",
+        "授權立法"
+      ],
+      "answer": 0,
+      "explanations": [
+        "liable：負法律責任的。不直接等同 guilty",
+        "customary law：習慣法。不是個人慣例",
+        "case law：判例法；裁判形成的法律。不是所有裁判都具有相同拘束力",
+        "delegated legislation：授權立法。依授權制定的規範"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-034",
+      "subject": "法學英文",
+      "unit": "areas",
+      "topic": "語境詞彙｜areas",
+      "question": "在本課法律語境中，ownership 最適合對應哪個意思？",
+      "options": [
+        "行政規範；規則",
+        "裁判對爭點的法律結論",
+        "原始管轄權",
+        "所有權"
+      ],
+      "answer": 3,
+      "explanations": [
+        "regulation：行政規範；規則。先確認法域與授權",
+        "holding：裁判對爭點的法律結論。與摘要及程序處置區分",
+        "original jurisdiction：原始管轄權。首次審理案件的權限",
+        "ownership：所有權。不同於 possession"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-035",
+      "subject": "法學英文",
+      "unit": "areas",
+      "topic": "語境詞彙｜areas",
+      "question": "在本課法律語境中，possession 最適合對應哪個意思？",
+      "options": [
+        "解說性資料",
+        "有限管轄權",
+        "占有；持有",
+        "先例"
+      ],
+      "answer": 2,
+      "explanations": [
+        "secondary source：解說性資料。不等於 secondary legislation",
+        "limited jurisdiction：有限管轄權。受理範圍受限定",
+        "possession：占有；持有。依語境而定，不等於所有權",
+        "precedent：先例。效力依層級與法域而定"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-036",
+      "subject": "法學英文",
+      "unit": "jurisdiction",
+      "topic": "語境詞彙｜jurisdiction",
+      "question": "在本課法律語境中，jurisdiction 最適合對應哪個意思？",
+      "options": [
+        "所有權",
+        "管轄權；法律管轄區",
+        "裁判必要法律理由",
+        "財產法；物權法語境"
+      ],
+      "answer": 1,
+      "explanations": [
+        "ownership：所有權。不同於 possession",
+        "jurisdiction：管轄權；法律管轄區。看權限或地理制度語境",
+        "ratio decidendi：裁判必要法律理由。不等於所有附帶評論",
+        "property law：財產法；物權法語境。所有權與占有須分辨"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-037",
+      "subject": "法學英文",
+      "unit": "jurisdiction",
+      "topic": "語境詞彙｜jurisdiction",
+      "question": "在本課法律語境中，original jurisdiction 最適合對應哪個意思？",
+      "options": [
+        "原始管轄權",
+        "授權立法",
+        "行政法",
+        "被告"
+      ],
+      "answer": 0,
+      "explanations": [
+        "original jurisdiction：原始管轄權。首次審理案件的權限",
+        "delegated legislation：授權立法。依授權制定的規範",
+        "administrative law：行政法。公共行政的法律規範",
+        "defendant：被告。可以出現在民事或刑事程序"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-038",
+      "subject": "法學英文",
+      "unit": "jurisdiction",
+      "topic": "語境詞彙｜jurisdiction",
+      "question": "在本課法律語境中，appellate jurisdiction 最適合對應哪個意思？",
+      "options": [
+        "侵權行為法",
+        "負法律責任的",
+        "聲請人",
+        "上訴管轄權"
+      ],
+      "answer": 3,
+      "explanations": [
+        "tort law：侵權行為法。不等於刑法",
+        "liable：負法律責任的。不直接等同 guilty",
+        "petitioner：聲請人。不是所有語境都指最高法院上訴人",
+        "appellate jurisdiction：上訴管轄權。審查下級裁判的權限"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-039",
+      "subject": "法學英文",
+      "unit": "jurisdiction",
+      "topic": "語境詞彙｜jurisdiction",
+      "question": "在本課法律語境中，general jurisdiction 最適合對應哪個意思？",
+      "options": [
+        "原告",
+        "審判法院；初審法院",
+        "一般管轄權",
+        "憲法"
+      ],
+      "answer": 2,
+      "explanations": [
+        "plaintiff：原告。民事起訴方",
+        "trial court：審判法院；初審法院。通常首次處理案件證據與法律",
+        "general jurisdiction：一般管轄權。與 original 不是同一分類軸",
+        "constitutional law：憲法。政府架構、權限與基本權"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-040",
+      "subject": "法學英文",
+      "unit": "jurisdiction",
+      "topic": "語境詞彙｜jurisdiction",
+      "question": "在本課法律語境中，limited jurisdiction 最適合對應哪個意思？",
+      "options": [
+        "司法部門；法院體系",
+        "有限管轄權",
+        "損害",
+        "被上訴人"
+      ],
+      "answer": 1,
+      "explanations": [
+        "judiciary：司法部門；法院體系。不是 legislature",
+        "limited jurisdiction：有限管轄權。受理範圍受限定",
+        "damage：損害。不直接等同賠償金",
+        "appellee：被上訴人。不能永遠翻成被告"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-041",
+      "subject": "法學英文",
+      "unit": "jurisdiction",
+      "topic": "語境詞彙｜jurisdiction",
+      "question": "在本課法律語境中，venue 最適合對應哪個意思？",
+      "options": [
+        "審判地；法院所在地的適當性",
+        "占有；持有",
+        "調卷令",
+        "權力分立"
+      ],
+      "answer": 0,
+      "explanations": [
+        "venue：審判地；法院所在地的適當性。與法院有無管轄權區分",
+        "possession：占有；持有。依語境而定，不等於所有權",
+        "writ of certiorari：調卷令。聲請不代表必定受理",
+        "separation of powers：權力分立。區分立法、行政與司法"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-042",
+      "subject": "法學英文",
+      "unit": "jurisdiction",
+      "topic": "語境詞彙｜jurisdiction",
+      "question": "在本課法律語境中，issue of fact 最適合對應哪個意思？",
+      "options": [
+        "上訴人",
+        "最高法院",
+        "法典",
+        "事實爭點"
+      ],
+      "answer": 3,
+      "explanations": [
+        "appellant：上訴人。可能原先是原告或被告",
+        "Supreme Court：最高法院。先說明哪個國家或體系",
+        "code：法典。不是每份法律文件都叫 code",
+        "issue of fact：事實爭點。問實際發生什麼"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-043",
+      "subject": "法學英文",
+      "unit": "jurisdiction",
+      "topic": "語境詞彙｜jurisdiction",
+      "question": "在本課法律語境中，issue of law 最適合對應哪個意思？",
+      "options": [
+        "議會主權",
+        "羅馬法",
+        "法律爭點",
+        "相對人；答辯方"
+      ],
+      "answer": 2,
+      "explanations": [
+        "parliamentary sovereignty：議會主權。不代表法院毫無司法審查權",
+        "Roman law：羅馬法。法系歷史用語",
+        "issue of law：法律爭點。問規則及其解釋適用",
+        "respondent：相對人；答辯方。依聲請、上訴等程序判斷"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-044",
+      "subject": "法學英文",
+      "unit": "jurisdiction",
+      "topic": "語境詞彙｜jurisdiction",
+      "question": "在本課法律語境中，affirm 最適合對應哪個意思？",
+      "options": [
+        "立法機關",
+        "維持原裁判",
+        "上訴法院",
+        "編纂成法典"
+      ],
+      "answer": 1,
+      "explanations": [
+        "legislature：立法機關。不是 legislation",
+        "affirm：維持原裁判。不要與 remand 混淆",
+        "court of appeals：上訴法院。通常不重新進行完整證據審判",
+        "codify：編纂成法典。不是單純翻譯"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-045",
+      "subject": "法學英文",
+      "unit": "jurisdiction",
+      "topic": "語境詞彙｜jurisdiction",
+      "question": "在本課法律語境中，reverse 最適合對應哪個意思？",
+      "options": [
+        "撤銷；推翻下級裁判",
+        "王室刑事法院",
+        "習慣法",
+        "判例法；裁判形成的法律"
+      ],
+      "answer": 0,
+      "explanations": [
+        "reverse：撤銷；推翻下級裁判。語境是上訴處置",
+        "Crown Court：王室刑事法院。英格蘭與威爾斯語境",
+        "customary law：習慣法。不是個人慣例",
+        "case law：判例法；裁判形成的法律。不是所有裁判都具有相同拘束力"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-046",
+      "subject": "法學英文",
+      "unit": "jurisdiction",
+      "topic": "語境詞彙｜jurisdiction",
+      "question": "在本課法律語境中，remand 最適合對應哪個意思？",
+      "options": [
+        "混合法系",
+        "行政規範；規則",
+        "裁判對爭點的法律結論",
+        "發回續行審理"
+      ],
+      "answer": 3,
+      "explanations": [
+        "hybrid legal system：混合法系。要交代混合的傳統與領域",
+        "regulation：行政規範；規則。先確認法域與授權",
+        "holding：裁判對爭點的法律結論。與摘要及程序處置區分",
+        "remand：發回續行審理。不是維持原判"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-047",
+      "subject": "法學英文",
+      "unit": "jurisdiction",
+      "topic": "語境詞彙｜jurisdiction",
+      "question": "在本課法律語境中，trial de novo 最適合對應哪個意思？",
+      "options": [
+        "先例",
+        "解說性資料",
+        "重新審理",
+        "法律傳統"
+      ],
+      "answer": 2,
+      "explanations": [
+        "precedent：先例。效力依層級與法域而定",
+        "secondary source：解說性資料。不等於 secondary legislation",
+        "trial de novo：重新審理。不同於一般上訴審查",
+        "legal tradition：法律傳統。與單一現行規則不同"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-048",
+      "subject": "法學英文",
+      "unit": "us-courts",
+      "topic": "語境詞彙｜us-courts",
+      "question": "在本課法律語境中，plaintiff 最適合對應哪個意思？",
+      "options": [
+        "裁判對爭點的法律結論",
+        "原告",
+        "混合法系",
+        "行政規範；規則"
+      ],
+      "answer": 1,
+      "explanations": [
+        "holding：裁判對爭點的法律結論。與摘要及程序處置區分",
+        "plaintiff：原告。民事起訴方",
+        "hybrid legal system：混合法系。要交代混合的傳統與領域",
+        "regulation：行政規範；規則。先確認法域與授權"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-049",
+      "subject": "法學英文",
+      "unit": "us-courts",
+      "topic": "語境詞彙｜us-courts",
+      "question": "在本課法律語境中，defendant 最適合對應哪個意思？",
+      "options": [
+        "被告",
+        "法律傳統",
+        "先例",
+        "解說性資料"
+      ],
+      "answer": 0,
+      "explanations": [
+        "defendant：被告。可以出現在民事或刑事程序",
+        "legal tradition：法律傳統。與單一現行規則不同",
+        "precedent：先例。效力依層級與法域而定",
+        "secondary source：解說性資料。不等於 secondary legislation"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-050",
+      "subject": "法學英文",
+      "unit": "us-courts",
+      "topic": "語境詞彙｜us-courts",
+      "question": "在本課法律語境中，appellant 最適合對應哪個意思？",
+      "options": [
+        "法案草案",
+        "有說服力的",
+        "契約法",
+        "上訴人"
+      ],
+      "answer": 3,
+      "explanations": [
+        "bill：法案草案。不是已生效法律",
+        "persuasive：有說服力的。不等於必須遵循",
+        "contract law：契約法。合意、履行及違約的法律領域",
+        "appellant：上訴人。可能原先是原告或被告"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-051",
+      "subject": "法學英文",
+      "unit": "us-courts",
+      "topic": "語境詞彙｜us-courts",
+      "question": "在本課法律語境中，appellee 最適合對應哪個意思？",
+      "options": [
+        "附帶意見",
+        "刑法",
+        "被上訴人",
+        "立法；制定法規"
+      ],
+      "answer": 2,
+      "explanations": [
+        "obiter dictum：附帶意見。非裁判結論必要的論述",
+        "criminal law：刑法。涉及犯罪與處罰",
+        "appellee：被上訴人。不能永遠翻成被告",
+        "legislation：立法；制定法規。可指過程或規範集合"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-052",
+      "subject": "法學英文",
+      "unit": "us-courts",
+      "topic": "語境詞彙｜us-courts",
+      "question": "在本課法律語境中，petitioner 最適合對應哪個意思？",
+      "options": [
+        "損害賠償金",
+        "聲請人",
+        "有拘束力的",
+        "御准"
+      ],
+      "answer": 1,
+      "explanations": [
+        "damages：損害賠償金。不同於單數 damage",
+        "petitioner：聲請人。不是所有語境都指最高法院上訴人",
+        "binding：有拘束力的。不同於 persuasive",
+        "royal assent：御准。法律成立與施行日期仍要分辨"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-053",
+      "subject": "法學英文",
+      "unit": "us-courts",
+      "topic": "語境詞彙｜us-courts",
+      "question": "在本課法律語境中，respondent 最適合對應哪個意思？",
+      "options": [
+        "相對人；答辯方",
+        "裁判必要法律理由",
+        "財產法；物權法語境",
+        "所有權"
+      ],
+      "answer": 0,
+      "explanations": [
+        "respondent：相對人；答辯方。依聲請、上訴等程序判斷",
+        "ratio decidendi：裁判必要法律理由。不等於所有附帶評論",
+        "property law：財產法；物權法語境。所有權與占有須分辨",
+        "ownership：所有權。不同於 possession"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-054",
+      "subject": "法學英文",
+      "unit": "us-courts",
+      "topic": "語境詞彙｜us-courts",
+      "question": "在本課法律語境中，writ of certiorari 最適合對應哪個意思？",
+      "options": [
+        "授權立法",
+        "行政法",
+        "原始管轄權",
+        "調卷令"
+      ],
+      "answer": 3,
+      "explanations": [
+        "delegated legislation：授權立法。依授權制定的規範",
+        "administrative law：行政法。公共行政的法律規範",
+        "original jurisdiction：原始管轄權。首次審理案件的權限",
+        "writ of certiorari：調卷令。聲請不代表必定受理"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-055",
+      "subject": "法學英文",
+      "unit": "us-courts",
+      "topic": "語境詞彙｜us-courts",
+      "question": "在本課法律語境中，trial court 最適合對應哪個意思？",
+      "options": [
+        "負法律責任的",
+        "有限管轄權",
+        "審判法院；初審法院",
+        "侵權行為法"
+      ],
+      "answer": 2,
+      "explanations": [
+        "liable：負法律責任的。不直接等同 guilty",
+        "limited jurisdiction：有限管轄權。受理範圍受限定",
+        "trial court：審判法院；初審法院。通常首次處理案件證據與法律",
+        "tort law：侵權行為法。不等於刑法"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-056",
+      "subject": "法學英文",
+      "unit": "us-courts",
+      "topic": "語境詞彙｜us-courts",
+      "question": "在本課法律語境中，court of appeals 最適合對應哪個意思？",
+      "options": [
+        "法律爭點",
+        "上訴法院",
+        "憲法",
+        "管轄權；法律管轄區"
+      ],
+      "answer": 1,
+      "explanations": [
+        "issue of law：法律爭點。問規則及其解釋適用",
+        "court of appeals：上訴法院。通常不重新進行完整證據審判",
+        "constitutional law：憲法。政府架構、權限與基本權",
+        "jurisdiction：管轄權；法律管轄區。看權限或地理制度語境"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-057",
+      "subject": "法學英文",
+      "unit": "us-courts",
+      "topic": "語境詞彙｜us-courts",
+      "question": "在本課法律語境中，Supreme Court 最適合對應哪個意思？",
+      "options": [
+        "最高法院",
+        "損害",
+        "一般管轄權",
+        "發回續行審理"
+      ],
+      "answer": 0,
+      "explanations": [
+        "Supreme Court：最高法院。先說明哪個國家或體系",
+        "damage：損害。不直接等同賠償金",
+        "general jurisdiction：一般管轄權。與 original 不是同一分類軸",
+        "remand：發回續行審理。不是維持原判"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-058",
+      "subject": "法學英文",
+      "unit": "uk-courts",
+      "topic": "語境詞彙｜uk-courts",
+      "question": "在本課法律語境中，judiciary 最適合對應哪個意思？",
+      "options": [
+        "有拘束力的",
+        "御准",
+        "損害賠償金",
+        "司法部門；法院體系"
+      ],
+      "answer": 3,
+      "explanations": [
+        "binding：有拘束力的。不同於 persuasive",
+        "royal assent：御准。法律成立與施行日期仍要分辨",
+        "damages：損害賠償金。不同於單數 damage",
+        "judiciary：司法部門；法院體系。不是 legislature"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-059",
+      "subject": "法學英文",
+      "unit": "uk-courts",
+      "topic": "語境詞彙｜uk-courts",
+      "question": "在本課法律語境中，Crown Court 最適合對應哪個意思？",
+      "options": [
+        "財產法；物權法語境",
+        "所有權",
+        "王室刑事法院",
+        "裁判必要法律理由"
+      ],
+      "answer": 2,
+      "explanations": [
+        "property law：財產法；物權法語境。所有權與占有須分辨",
+        "ownership：所有權。不同於 possession",
+        "Crown Court：王室刑事法院。英格蘭與威爾斯語境",
+        "ratio decidendi：裁判必要法律理由。不等於所有附帶評論"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-060",
+      "subject": "法學英文",
+      "unit": "uk-courts",
+      "topic": "語境詞彙｜uk-courts",
+      "question": "在本課法律語境中，parliamentary sovereignty 最適合對應哪個意思？",
+      "options": [
+        "原始管轄權",
+        "議會主權",
+        "授權立法",
+        "行政法"
+      ],
+      "answer": 1,
+      "explanations": [
+        "original jurisdiction：原始管轄權。首次審理案件的權限",
+        "parliamentary sovereignty：議會主權。不代表法院毫無司法審查權",
+        "delegated legislation：授權立法。依授權制定的規範",
+        "administrative law：行政法。公共行政的法律規範"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    },
+    {
+      "id": "en-q-061",
+      "subject": "法學英文",
+      "unit": "uk-courts",
+      "topic": "語境詞彙｜uk-courts",
+      "question": "在本課法律語境中，separation of powers 最適合對應哪個意思？",
+      "options": [
+        "權力分立",
+        "侵權行為法",
+        "負法律責任的",
+        "有限管轄權"
+      ],
+      "answer": 0,
+      "explanations": [
+        "separation of powers：權力分立。區分立法、行政與司法",
+        "tort law：侵權行為法。不等於刑法",
+        "liable：負法律責任的。不直接等同 guilty",
+        "limited jurisdiction：有限管轄權。受理範圍受限定"
+      ],
+      "source": "Glossary 01-L01；總詞彙表；L03 / U4 詞彙，依對應單元重新整理",
+      "provenance": "自編練習",
+      "refs": []
+    }
+  ],
+  "oral": [
+    {
+      "id": "en-o-systems",
+      "unit": "systems",
+      "question": "Why does the passage reject the idea that common law means no statutes?",
+      "model": "Because a lawyer in a common law system must also check applicable legislation. The distinction concerns legal traditions, not the absence of written law.",
+      "zh": "回答時先說結論，再用本單元的英文關鍵詞給理由；可以用自己的句子，不必逐字背誦。",
+      "source": "Legal Systems (ERS) PDF 第1–2頁；Reading Drill 01-L02 對話；簡報第14–23、50–51張",
+      "provenance": "自編閱讀／口說練習"
+    },
+    {
+      "id": "en-o-sources",
+      "unit": "sources",
+      "question": "Which document explains the rules without itself enacting them?",
+      "model": "The textbook. It is an explanatory source, whereas the Act and authorized rules may supply legal rules.",
+      "zh": "回答時先說結論，再用本單元的英文關鍵詞給理由；可以用自己的句子，不必逐字背誦。",
+      "source": "Sources of Law PDF 第1–2、6頁；ILE PDF 第2–3頁；簡報第7–13張",
+      "provenance": "自編閱讀／口說練習"
+    },
+    {
+      "id": "en-o-areas",
+      "unit": "areas",
+      "question": "Does the word damages prove that a claim is contractual?",
+      "model": "No. Damages may be sought on different legal bases. The agreement and the alleged injury must be analysed separately.",
+      "zh": "回答時先說結論，再用本單元的英文關鍵詞給理由；可以用自己的句子，不必逐字背誦。",
+      "source": "glos All Legal English Vocabulary_rev3：Areas of Law；111-1 試題 Legal Terminology 題型",
+      "provenance": "自編閱讀／口說練習"
+    },
+    {
+      "id": "en-o-us-courts",
+      "unit": "us-courts",
+      "question": "Who is the appellee in this fictional appeal?",
+      "model": "River is the appellee because Pine brings the appeal. River’s earlier role as plaintiff does not prevent River from being the appellee.",
+      "zh": "回答時先說結論，再用本單元的英文關鍵詞給理由；可以用自己的句子，不必逐字背誦。",
+      "source": "LE L03 Courts and Jurisdiction：State and Federal Courts / Types of Courts；簡報第25–32張",
+      "provenance": "自編閱讀／口說練習"
+    },
+    {
+      "id": "en-o-jurisdiction",
+      "unit": "jurisdiction",
+      "question": "Can a court have both original and limited jurisdiction?",
+      "model": "Yes. Original concerns the stage at which the court hears the case, while limited concerns the scope of cases it may hear.",
+      "zh": "回答時先說結論，再用本單元的英文關鍵詞給理由；可以用自己的句子，不必逐字背誦。",
+      "source": "LE L03 Courts and Jurisdiction：Trial Courts / Appellate Courts；L03 Reading Comprehension；Mini-Glossary",
+      "provenance": "自編閱讀／口說練習"
+    },
+    {
+      "id": "en-o-uk-courts",
+      "unit": "uk-courts",
+      "question": "What is wrong with the first student’s claim?",
+      "model": "It treats all Scottish criminal appeals alike. The UK Supreme Court’s ordinary criminal appellate role does not cover Scotland in the same way as England, Wales and Northern Ireland.",
+      "zh": "回答時先說結論，再用本單元的英文關鍵詞給理由；可以用自己的句子，不必逐字背誦。",
+      "source": "LE U4-02 Courts in the US and the UK：Not One System / Court Hierarchy；簡報第129張",
+      "provenance": "自編閱讀／口說練習"
+    },
+    {
+      "id": "en-o-taiwan",
+      "unit": "taiwan",
+      "question": "Why is “Every case has three appeals” inaccurate?",
+      "model": "Court levels are not the number of appeals guaranteed to each case. Access to review depends on procedural requirements.",
+      "zh": "回答時先說結論，再用本單元的英文關鍵詞給理由；可以用自己的句子，不必逐字背誦。",
+      "source": "2026-10-22 課程公告 Writing Task 示例；司法院英文網站",
+      "provenance": "自編閱讀／口說練習"
+    },
+    {
+      "id": "en-o-trial",
+      "unit": "trial",
+      "question": "Why is guilty unsuitable here?",
+      "model": "The passage concerns civil liability, not a criminal finding of guilt.",
+      "zh": "回答時先說結論，再用本單元的英文關鍵詞給理由；可以用自己的句子，不必逐字背誦。",
+      "source": "LE U4-01 Reading Text / Mini-Glossary；簡報第36–47張",
+      "provenance": "自編閱讀／口說練習"
+    },
+    {
+      "id": "en-o-pretrial",
+      "unit": "pretrial",
+      "question": "How does a motion differ from an answer?",
+      "model": "A motion asks the court to take an action or make a ruling. An answer responds to allegations in a complaint.",
+      "zh": "回答時先說結論，再用本單元的英文關鍵詞給理由；可以用自己的句子，不必逐字背誦。",
+      "source": "LE U4-03 Reading Text / Matching / Reading Comprehension；ILE PDF 第5頁",
+      "provenance": "自編閱讀／口說練習"
+    },
+    {
+      "id": "en-o-extended",
+      "unit": "extended",
+      "question": "Why should a case brief mention subsequent treatment?",
+      "model": "A later court may change the precedential position. Describing an old decision without that context may misstate the current rule.",
+      "zh": "回答時先說結論，再用本單元的英文關鍵詞給理由；可以用自己的句子，不必逐字背誦。",
+      "source": "簡報第54–64、66–168張；111-1 試題；總詞彙表",
+      "provenance": "自編閱讀／口說練習"
+    }
+  ],
+  "references": [
+    {
+      "id": "us",
+      "label": "美國聯邦法院組織",
+      "url": "https://www.uscourts.gov/about-federal-courts/court-role-and-structure"
+    },
+    {
+      "id": "appeal",
+      "label": "美國上訴程序",
+      "url": "https://www.uscourts.gov/about-federal-courts/types-cases/appeals"
+    },
+    {
+      "id": "glossary",
+      "label": "美國法院法律詞彙",
+      "url": "https://www.uscourts.gov/glossary"
+    },
+    {
+      "id": "uk",
+      "label": "英國最高法院",
+      "url": "https://www.supremecourt.uk/about-the-court"
+    },
+    {
+      "id": "civil",
+      "label": "美國民事案件",
+      "url": "https://www.uscourts.gov/about-federal-courts/types-cases/civil-cases"
+    },
+    {
+      "id": "royal",
+      "label": "英國國會：御准",
+      "url": "https://www.parliament.uk/about/how/laws/passage-bill/lords/lrds-royal-assent/"
+    },
+    {
+      "id": "tw",
+      "label": "司法院：臺灣法院介紹",
+      "url": "https://www.judicial.gov.tw/en/cp-1613-80062-a7043-2.html"
+    },
+    {
+      "id": "dobbs",
+      "label": "美國最高法院 Dobbs 判決",
+      "url": "https://www.supremecourt.gov/opinions/21pdf/19-1392_6j37.pdf"
+    },
+    {
+      "id": "innocence",
+      "label": "美國刑事案件",
+      "url": "https://www.uscourts.gov/about-federal-courts/types-cases/criminal-cases"
+    }
+  ],
+  "cloze": [
+    {
+      "id": "en-cloze-1",
+      "title": "法源與法系",
+      "text": "A proposed law is a [1]. After enactment, it may be called a [2]. A previous judicial decision may serve as a [3]. A legal textbook is generally a [4] source.",
+      "bank": [
+        "bill",
+        "statute",
+        "precedent",
+        "secondary"
+      ],
+      "answers": [
+        "bill",
+        "statute",
+        "precedent",
+        "secondary"
+      ],
+      "why": [
+        "bill 是提案階段。",
+        "statute 是制定法。",
+        "precedent 是可供後案分析的先例。",
+        "解說性教科書屬 secondary source。"
+      ]
+    },
+    {
+      "id": "en-cloze-2",
+      "title": "法院與程序角色",
+      "text": "The [1] starts a civil lawsuit. The [2] responds to it. A party bringing an appeal is the [3]. The opposing party on appeal is the [4].",
+      "bank": [
+        "plaintiff",
+        "defendant",
+        "appellant",
+        "appellee"
+      ],
+      "answers": [
+        "plaintiff",
+        "defendant",
+        "appellant",
+        "appellee"
+      ],
+      "why": [
+        "原告啟動民事訴訟。",
+        "被告回應起訴。",
+        "上訴人看誰提起上訴。",
+        "被上訴人不是固定原被告之一。"
+      ]
+    },
+    {
+      "id": "en-cloze-3",
+      "title": "兩個管轄分類軸",
+      "text": "A court hearing a case first exercises [1] jurisdiction. A reviewing court exercises [2] jurisdiction. A court restricted to a defined category of cases has [3] jurisdiction. Sending a case back is called [4].",
+      "bank": [
+        "original",
+        "appellate",
+        "limited",
+        "remand"
+      ],
+      "answers": [
+        "original",
+        "appellate",
+        "limited",
+        "remand"
+      ],
+      "why": [
+        "original 看首次審理。",
+        "appellate 看審查下級裁判。",
+        "limited 看受理範圍。",
+        "remand 是發回，不是維持。"
+      ]
+    }
+  ],
+  "writing": [
+    {
+      "level": "基礎｜約60字",
+      "model": "Taiwan’s ordinary court system has three main levels: district courts, high courts and the Supreme Court. District courts generally hear civil and criminal cases first. Appeals are governed by procedural law. Not every case reaches the Supreme Court. Taiwan also has administrative courts and a Constitutional Court, which perform different functions.",
+      "guide": "先記三個英文名稱，使用 generally 與 not every 避免絕對化。"
+    },
+    {
+      "level": "進階｜比較與界線",
+      "model": "Taiwan’s ordinary courts deal mainly with civil and criminal matters. District courts usually act as courts of first instance, while high courts generally hear appeals from district courts. The Supreme Court primarily reviews questions of law. However, a three-level structure does not mean that every litigant is entitled to three full trials. The availability and scope of an appeal depend on procedural rules. Administrative litigation and constitutional adjudication follow separate arrangements. Therefore, an accurate description should distinguish the ordinary court hierarchy from the wider judicial system.",
+      "guide": "層級、職能、上訴限制、其他體系，四段意思保持清楚。"
+    },
+    {
+      "level": "挑戰｜評改錯句",
+      "model": "The statement ‘Every case in Taiwan has three appeals’ is inaccurate. It confuses the number of court levels with the number of appeals available in a particular case. A better statement is: ‘Taiwan’s ordinary courts have three main levels, but appellate review is subject to statutory requirements.’ It is also misleading to call the Constitutional Court a fourth ordinary instance. Constitutional adjudication has a different function and procedure.",
+      "guide": "先點出錯誤，再提出修正句與理由。這是自編挑戰題，不是老師預告考題。"
+    }
+  ],
+  "writingTemplate": [
+    "Overview: Taiwan’s ordinary court system …",
+    "First instance: District courts generally …",
+    "Review: High courts …; the Supreme Court …",
+    "Qualification: Not every case …",
+    "Distinction: Administrative courts and the Constitutional Court …"
+  ],
+  "history": {
+    "year": "111-1",
+    "source": "111_1 Legal English Midterm.docx：Legal Terminology / Courts and their respective functions / Spotlight Question",
+    "use": "僅整理歷屆題型與學習方向；不公開限閱原卷及命題者姓名，不推定115-1範圍。",
+    "patterns": [
+      "英文字詞填空：法源、法院管轄與法律領域",
+      "短答：civil law / common law 的特徵及歷史",
+      "法院圖表：層級、管轄與當事人稱謂",
+      "比較題：法官與陪審、上訴審的工作",
+      "歷史時事論述：Roe / Dobbs，須先區分判決事實與個人立場"
+    ],
+    "corrections": [
+      "remand＝發回；affirm＝維持。",
+      "presumption of innocence＝無罪推定。",
+      "en banc＝全院合議；不是停審。",
+      "per curiam 不保證所有法官一致。",
+      "Roe 的歷史理由不可直接冒充 Dobbs 之後的現行聯邦規則。"
+    ]
+  },
+  "sourceIntegration": {
+    "totalFiles": 16,
+    "relevantFiles": 15,
+    "separateCourse": [
+      {
+        "name": "115-1 期中重點.pdf",
+        "course": "光電科技",
+        "status": "使用者已確認，保留原檔，不納入法學英文"
+      }
+    ],
+    "scopeEvidence": "使用者提供之課程公告，發布時間 2026-10-22 09:32",
+    "status": "15份法學英文教材已盤點；筆記依公告核心及延伸分類。未宣稱全部原題逐題轉製。",
+    "unavailable": [
+      "ILE PDF 第5頁的聽力練習未附音檔，不編造聽力答案。"
+    ],
+    "questionReview": "本頁61題自編詞義題均檢查唯一答案及解說；歷屆原卷只做題型對照，未公開或重製整卷。",
+    "files": [
+      {
+        "name": "Sources of Law.pdf",
+        "status": "主題已納入自編筆記；原檔未公開",
+        "location": "文字抽取與主題整理"
+      },
+      {
+        "name": "Reading Drill 01-L02.docx",
+        "status": "主題已納入自編筆記；原檔未公開",
+        "location": "文字抽取與主題整理"
+      },
+      {
+        "name": "Oral Questions Drill 01-L02.docx",
+        "status": "主題已納入自編筆記；原檔未公開",
+        "location": "文字抽取與主題整理"
+      },
+      {
+        "name": "Legal_English - 法學英文.pptx",
+        "status": "主題已納入自編筆記；原檔未公開",
+        "location": "文字抽取與主題整理"
+      },
+      {
+        "name": "Legal Systems pp (ILE).pdf",
+        "status": "主題已納入自編筆記；原檔未公開",
+        "location": "全文圖頁檢讀"
+      },
+      {
+        "name": "Legal Systems (ERS).pdf",
+        "status": "主題已納入自編筆記；原檔未公開",
+        "location": "全文圖頁檢讀"
+      },
+      {
+        "name": "LE U4-03 Pretrial Pleadings, Motions and Discovery.docx",
+        "status": "主題已納入自編筆記；原檔未公開",
+        "location": "文字抽取與主題整理"
+      },
+      {
+        "name": "LE U4-02 Courts in the US and the UK.docx",
+        "status": "主題已納入自編筆記；原檔未公開",
+        "location": "文字抽取與主題整理"
+      },
+      {
+        "name": "LE U4-01 Trials and Juries in the Common Law System.docx",
+        "status": "主題已納入自編筆記；原檔未公開",
+        "location": "文字抽取與主題整理"
+      },
+      {
+        "name": "LE L03 Reading Comprehension and Drill.docx",
+        "status": "主題已納入自編筆記；原檔未公開",
+        "location": "文字抽取與主題整理"
+      },
+      {
+        "name": "LE L03 Courts and Jurisdiction.docx",
+        "status": "主題已納入自編筆記；原檔未公開",
+        "location": "文字抽取與主題整理"
+      },
+      {
+        "name": "Glossary 01-L01.docx",
+        "status": "主題已納入自編筆記；原檔未公開",
+        "location": "文字抽取與主題整理"
+      },
+      {
+        "name": "glos All Legal English Vocabulary_rev3.docx",
+        "status": "主題已納入自編筆記；原檔未公開",
+        "location": "文字抽取與主題整理"
+      },
+      {
+        "name": "115-1 期中重點.pdf",
+        "status": "另科分流：光電科技",
+        "location": "文字抽取與主題整理"
+      },
+      {
+        "name": "111_1 Legal English Midterm.docx",
+        "status": "主題已納入自編筆記；原檔未公開",
+        "location": "文字抽取與主題整理"
+      },
+      {
+        "name": "LE L03 Mini-Glossary Courts and Jurisdicton - Now, go on and compile the mini-glossary. Take ca... conv.docx",
+        "status": "主題已納入自編筆記；原檔未公開",
+        "location": "文字抽取與主題整理"
+      }
+    ]
+  }
+}

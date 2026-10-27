@@ -5,7 +5,7 @@ const context=vm.createContext({window:{},location:{hash:''},URL,Blob,setTimeout
 const html=fs.readFileSync(path.join(root,'library.html'),'utf8');
 for(const match of html.matchAll(/<script src="([^?]+)\?[^\"]+"><\/script>/g))vm.runInContext(fs.readFileSync(path.join(root,match[1]),'utf8'),context);
 const run=s=>vm.runInContext(s,context);const data=context.window.LEX_LIBRARY;
-assert.equal(data.questions.length,1803);assert.equal(data.teacherQuestions.length,95);assert.equal(new Set(data.questions.map(q=>q.id)).size,1803);
+assert.equal(data.questions.length,1872);assert.equal(data.teacherQuestions.length,109);assert.equal(new Set(data.questions.map(q=>q.id)).size,1872);
 assert.equal(data.notes.length,1016);assert.equal(data.sources.filter(q=>!q.duplicateOf&&q.name.endsWith('.pdf')).length,19);
 for(const q of data.questions){assert.equal(q.options.length,4);assert(q.answer>=0&&q.answer<4);assert.equal(q.explanations.length,4);assert(q.archiveFile&&q.currentReview);}
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'../content/library-index.json'),'utf8'));

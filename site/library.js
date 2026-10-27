@@ -9,6 +9,7 @@ libraryState.answerRevisions??={};
 const currentAnswer=q=>q.native?window.LEX_QUESTION_ADAPTER.read(q):q.originalVersion&&libraryState.answerRevisions[q.id]!=='2026-10-24'?undefined:libraryState.answers[q.id];
 const subjectName=s=>s==='債編總論'?'債權':s;
 const subjects=[...new Set([...corpus.notes,...corpus.questions].map(q=>subjectName(q.subject)))];el('subject').innerHTML+=subjects.map(s=>`<option>${escapeText(s)}</option>`).join('');
+try{const requested=new URL(location.href).searchParams.get('subject');if(subjects.includes(requested))el('subject').value=requested;}catch{}
 el('notice').textContent=corpus.notice;el('totals').innerHTML=`<b>${corpus.questions.length.toLocaleString()} 題整合練習</b><b>${corpus.teacherQuestions.length} 則課堂題目與解析</b><b>${corpus.notes.length.toLocaleString()} 則重點／解析筆記</b><b>${corpus.sources.filter(s=>!s.duplicateOf&&s.name.endsWith('.pdf')).length} 份課堂教材</b>`;
 function refs(sources=[]){return sources.map(s=>{try{const u=new URL(s.url);return u.protocol==='https:'&&u.hostname.endsWith('.gov.tw')?`<a target="_blank" rel="noopener noreferrer" href="${escapeText(u.href)}">${escapeText(s.title)} ↗</a>`:'';}catch{return '';}}).join(' · ');}
 function saveLibrary(){try{localStorage.setItem(libraryKey,JSON.stringify(libraryState));}catch{el('status').textContent='儲存空間不足，請先備份紀錄。';}}

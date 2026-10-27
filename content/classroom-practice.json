@@ -1,0 +1,145 @@
+{
+  "version": 1,
+  "questions": [
+    {
+      "id": "class-administrative-law-chapter-1-1",
+      "subject": "行政法",
+      "topic": "行政活動分類｜1",
+      "question": "某市政府對違規攤販開罰，另採購辦公室設備，並對符合資格的居民發放生活補助。請分別說明其行政活動的分類。",
+      "answer": "開罰原則上屬干預行政與公權力行政；採購設備原則上屬私經濟行政；生活補助屬給付行政，但其公法或私法性質仍須依具體法制與實施方式判斷。答題時先列分類標準，再逐一涵攝。",
+      "provenance": "課堂整理自編練習",
+      "source": "class-notes/administrative-law-chapter-1.html，第1個參考答題區",
+      "sourceHref": "class-notes/administrative-law-chapter-1.html"
+    },
+    {
+      "id": "class-administrative-law-principles-1",
+      "subject": "行政法",
+      "topic": "行政法基本原則｜1",
+      "question": "甲依市府公告申請設備補助，提出真實資料並獲核准，隨即簽訂無法無償解約的設備採購契約。半年後市府發現承辦人誤解法規，原核准處分違法，遂以公文撤銷補助，要求全額返還；日後申請人另須捐款給指定活動。試論撤銷、返還與附款的合法性。",
+      "answer": "爭點： 原補助處分性質與違法性、違法授益處分撤銷限制、信賴保護、返還請求，以及新增捐款條件是否合法。 規範： 依行政程序法 §8、§117–§121 檢驗撤銷與信賴；涉及已受領給付的返還，另查 §127。新附款須查 §93、§94，並審查法律保留與平等、比例原則。 法律評價： 甲提供真實資料且已負擔難以回復的契約義務，可能具值得保護的信賴；但仍須查明是否有 §119 事由，並比較撤銷所維護公益與信賴利益。不得僅因承辦人誤解法規，就省略 §117 的限制。 涵攝： 若信賴利益顯然大於撤銷所欲維護公益且無 §119 事由，可能落入不得撤銷情形；如依法仍得撤銷，應續查 §120 合理補償。要求返還前須先釐清處分效力與 §127 要件，不能把「撤銷」與「直接命返還」視為同一行為。捐款條件與設備補助目的是否有正當合理關聯，顯有疑問，且需有相應法源。 結論： 撤銷、補償、返還及新申請條件各有不同法定要件，須分別審查。甲最終能否保有補助，仍依完整事實與法規判斷。",
+      "provenance": "課堂整理自編練習",
+      "source": "class-notes/administrative-law-principles.html，第1個參考答題區",
+      "sourceHref": "class-notes/administrative-law-principles.html"
+    },
+    {
+      "id": "class-administrative-law-principles-2",
+      "subject": "行政法",
+      "topic": "行政法基本原則｜2",
+      "question": "Q1｜法律優位與法律保留有何不同？",
+      "answer": "法律優位問「行政不得違反上位法」；法律保留問「行政措施是否需要法律或法律授權作為依據」。",
+      "provenance": "課堂整理自編練習",
+      "source": "class-notes/administrative-law-principles.html，第2個參考答題區",
+      "sourceHref": "class-notes/administrative-law-principles.html"
+    },
+    {
+      "id": "class-administrative-law-principles-3",
+      "subject": "行政法",
+      "topic": "行政法基本原則｜3",
+      "question": "Q2｜比例原則三步驟？",
+      "answer": "適合性、必要性、狹義比例性（衡量性），依序檢驗。",
+      "provenance": "課堂整理自編練習",
+      "source": "class-notes/administrative-law-principles.html，第3個參考答題區",
+      "sourceHref": "class-notes/administrative-law-principles.html"
+    },
+    {
+      "id": "class-administrative-law-principles-4",
+      "subject": "行政法",
+      "topic": "行政法基本原則｜4",
+      "question": "Q3｜有差別待遇就違反平等原則嗎？",
+      "answer": "不一定。須比較案件是否同類，並判斷差別是否有正當理由。",
+      "provenance": "課堂整理自編練習",
+      "source": "class-notes/administrative-law-principles.html，第4個參考答題區",
+      "sourceHref": "class-notes/administrative-law-principles.html"
+    },
+    {
+      "id": "class-administrative-law-principles-5",
+      "subject": "行政法",
+      "topic": "行政法基本原則｜5",
+      "question": "Q4｜違法授益處分撤銷時，哪些信賴可能不值得保護？",
+      "answer": "依 §119，例如以詐欺、脅迫、賄賂取得處分；提供重大不正確或不完全資料；明知處分違法或因重大過失不知。",
+      "provenance": "課堂整理自編練習",
+      "source": "class-notes/administrative-law-principles.html，第5個參考答題區",
+      "sourceHref": "class-notes/administrative-law-principles.html"
+    },
+    {
+      "id": "class-administrative-law-principles-6",
+      "subject": "行政法",
+      "topic": "行政法基本原則｜6",
+      "question": "Q5｜營業許可附帶要求捐款，應查什麼？",
+      "answer": "先查附款法源及容許性（§93），再查與處分目的的正當合理關聯（§94），並兼顧法律保留及其他基本原則。",
+      "provenance": "課堂整理自編練習",
+      "source": "class-notes/administrative-law-principles.html，第6個參考答題區",
+      "sourceHref": "class-notes/administrative-law-principles.html"
+    },
+    {
+      "id": "class-criminal-property-offenses-1",
+      "subject": "刑法分則",
+      "topic": "財產犯罪｜1",
+      "question": "甲在超商將架上商品放進外套準備離開，店員乙發現並追上。甲為脫免逮捕而推開乙後逃離。另設甲為負責保管倉庫物品之職員，私自將保管物搬回家。請分析其罪名與須補充判斷的事實。",
+      "answer": "爭點： 商品持有歸屬、竊盜既遂時點、推人是否構成準強盜，以及倉庫職員是否具獨立持有地位。 規範： 先論 §320Ⅰ；如有法定加重事由再論 §321；當場為脫免逮捕施強暴脅迫，另審查 §329；保管物轉為自己所有則檢討 §335。 學說／實務爭議： 簡述刑法持有的判斷、竊盜既遂與準強盜強暴程度的可能爭議，說明採取何一判準及理由；不虛構特定裁判。 涵攝： 超商商品原在店家支配下，甲藏匿取走應分析是否已建立新的持有；推開乙須檢驗「當場」、脫免逮捕目的及強暴程度。倉庫職員若確實獨立持有受託保管物，據為己有則較接近侵占；若僅為持有輔助者，結論可能不同。 結論： 依事實充分程度分別提出條件式結論，最後處理罪數／競合；不可跳過持有或強暴程度的論證。",
+      "provenance": "課堂整理自編練習",
+      "source": "class-notes/criminal-property-offenses.html，第1個參考答題區",
+      "sourceHref": "class-notes/criminal-property-offenses.html"
+    },
+    {
+      "id": "class-criminal-property-offenses-2",
+      "subject": "刑法分則",
+      "topic": "財產犯罪｜2",
+      "question": "Q1：竊盜一定要偷偷拿才成立嗎？",
+      "answer": "不一定。關鍵在破壞他人持有、建立新的持有及主觀不法所有意圖；秘密性並非 §320Ⅰ 的必要文字要件。",
+      "provenance": "課堂整理自編練習",
+      "source": "class-notes/criminal-property-offenses.html，第2個參考答題區",
+      "sourceHref": "class-notes/criminal-property-offenses.html"
+    },
+    {
+      "id": "class-criminal-property-offenses-3",
+      "subject": "刑法分則",
+      "topic": "財產犯罪｜3",
+      "question": "Q2：店員把店裡商品拿走，必然是侵占嗎？",
+      "answer": "不是。先判斷店員是獨立持有者或僅有持有輔助地位，再依具體行為檢討侵占或竊盜。",
+      "provenance": "課堂整理自編練習",
+      "source": "class-notes/criminal-property-offenses.html，第3個參考答題區",
+      "sourceHref": "class-notes/criminal-property-offenses.html"
+    },
+    {
+      "id": "class-criminal-property-offenses-4",
+      "subject": "刑法分則",
+      "topic": "財產犯罪｜4",
+      "question": "Q3：竊盜後推開追捕者，一律成立準強盜嗎？",
+      "answer": "不是。仍須逐項分析 §329 的前行為、法定目的、當場性與強暴脅迫要件，並注意手段強度爭議。",
+      "provenance": "課堂整理自編練習",
+      "source": "class-notes/criminal-property-offenses.html，第4個參考答題區",
+      "sourceHref": "class-notes/criminal-property-offenses.html"
+    },
+    {
+      "id": "class-legal-english-1",
+      "subject": "法學英文",
+      "topic": "Courts and Jurisdiction｜1",
+      "question": "1. Which term means 管轄權?",
+      "answer": "Jurisdiction.",
+      "provenance": "課堂整理自編練習",
+      "source": "class-notes/legal-english.html，第1個參考答題區",
+      "sourceHref": "class-notes/legal-english.html"
+    },
+    {
+      "id": "class-legal-english-2",
+      "subject": "法學英文",
+      "topic": "Courts and Jurisdiction｜2",
+      "question": "2. What is the difference between a trial court and an appellate court?",
+      "answer": "A trial court initially hears a case and evaluates evidence; an appellate court reviews a lower court's decision under applicable procedural rules.",
+      "provenance": "課堂整理自編練習",
+      "source": "class-notes/legal-english.html，第2個參考答題區",
+      "sourceHref": "class-notes/legal-english.html"
+    },
+    {
+      "id": "class-legal-english-3",
+      "subject": "法學英文",
+      "topic": "Courts and Jurisdiction｜3",
+      "question": "3. Translate: The plaintiff filed a civil lawsuit.",
+      "answer": "原告提起民事訴訟。",
+      "provenance": "課堂整理自編練習",
+      "source": "class-notes/legal-english.html，第3個參考答題區",
+      "sourceHref": "class-notes/legal-english.html"
+    }
+  ]
+}

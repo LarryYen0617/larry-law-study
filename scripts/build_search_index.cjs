@@ -4,7 +4,7 @@ const read=f=>fs.readFileSync(path.join(root,f),'utf8').replace(/^\uFEFF/,''),js
 for(const m of read('site/library.html').matchAll(/<script src="([^"?]+)(?:\?[^" ]*)?"><\/script>/g)){if(m[1]==='library.js')break;vm.runInContext(read('site/'+m[1]),ctx,{filename:m[1]});}
 ctx.window.LEX_LIBRARY.notes.forEach((r,i)=>r.id??=('note-'+i));
 const courses=vm.runInContext('COURSES',ctx);let items=[];
-const subjectMap={'刑法總則':'criminalgeneral','民法總則':'civilgeneral','憲法':'constitution','刑法分則':'crime','親屬法':'family','債權':'debt','債編總論':'debt','物權':'property','行政法':'admin','租稅法':'tax'};
+const subjectMap={'刑法總則':'criminalgeneral','民法總則':'civilgeneral','憲法':'constitution','刑法分則':'crime','親屬法':'family','債權':'debt','債編總論':'debt','物權':'property','行政法':'admin','租稅法':'tax','法學英文':'legalenglish','光電科技':'photonics'};
 const clean=x=>typeof x==='string'?x:Array.isArray(x)?x.map(clean).join(' '):x&&typeof x==='object'?Object.values(x).map(clean).join(' '):'';
 const add=(type,id,subject,title,body,href)=>items.push({id:type+':'+id,type,subject:subjectMap[subject]||subject||'',title:String(title),body:clean(body),href});
 for(const s of json('content/personal-notes.json').subjects)for(const c of s.chapters)add('note',c.id,s.id,c.title,[c.focus,c.text,c.trap],`essentials.html?subject=${s.id}#${c.id}`);
@@ -15,4 +15,8 @@ for(const file of fs.readdirSync(path.join(root,'content/news-guides')).filter(f
 for(const a of json('content/readings.json'))add('reading','legacy-'+a.id,a.subject,a.title,[a.sections,a.reflection],`index.html?article=${a.id}#/daily`);
 for(const c of courses)for(const [i,t] of c.topics.entries())add('lesson',c.id+'-'+i,c.id,t.title,[t.rule,t.points,t.facts,t.answer],`index.html#/${c.id}/chapters/${i}`);
 for(const c of json('site/books/wan-jie-fa-shen/manifest.json').chapters)add('novel','wan-jie-fa-shen-'+c.number,'',c.title,'全職法師：萬界法神 · 第 '+c.number+' 章',`reading.html?book=wan-jie-fa-shen&chapter=${c.number}`);
+const en=json('content/legal-english.json');for(const u of en.units)add('note','english-'+u.id,'legalenglish',u.title,[u.points,u.table,u.passage,u.translation,u.reading],`legal-english.html?view=notes&unit=${u.id}`);for(const v of en.vocabulary)add('card',v.id,'legalenglish',v.en,[v.zh,v.note],'legal-english.html?view=vocabulary');
+const sc=json('content/photonics.json');for(const u of sc.units)add('note','photonics-'+u.id,'photonics',u.title,[u.points,u.table,u.question,u.answer],'photonics.html#'+u.id);
+const strip=s=>s.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,' ').replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,' ').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
+for(const m of json('content/course-catalog.json').materials)for(const subject of m.subjects)add('card','class-'+m.id+'-'+subject,subject,m.title,strip(read('site/'+m.href)),m.href);
 vm.runInContext(read('site/discover-core.js'),ctx);const index={version:1,items};if(!ctx.window.LEX_DISCOVER.validIndex(index))throw Error('Search index validation failed');fs.writeFileSync(path.join(site,'search-index.json'),JSON.stringify(index)+'\n');console.log('Search index:',items.length,'entries;',fs.statSync(path.join(site,'search-index.json')).size,'bytes');

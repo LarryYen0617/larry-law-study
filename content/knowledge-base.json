@@ -1436,5 +1436,255 @@
     "source": "content/note-expansions.json",
     "reviewRecord": "content/maintenance/note-depth-2026-10-26.json",
     "kind": "自編深化筆記；維持原有章節及個人紀錄識別碼"
-  }
+  },
+  "legalEnglish": {
+    "canonicalContent": "content/legal-english.json",
+    "page": "legal-english.html",
+    "exam": {
+      "date": "2026-10-29",
+      "time": "13:00–15:00",
+      "venue": "M517",
+      "source": "使用者提供之課程公告，發布時間 2026-10-22 09:32",
+      "scope": [
+        "Legal Systems and Traditions: Civil Law vs. Common Law",
+        "Sources and Areas of Law: Statutory Law vs. Case Law",
+        "Courts and Jurisdiction"
+      ],
+      "formats": [
+        "選擇題",
+        "克漏字",
+        "法律詞彙",
+        "閱讀理解",
+        "英文寫作"
+      ],
+      "rule": "閉書；不得使用教材、筆記及電子設備。依題目要求以英文作答。",
+      "excluded": []
+    },
+    "sourceIntegration": {
+      "totalFiles": 16,
+      "relevantFiles": 15,
+      "separateCourse": [
+        {
+          "name": "115-1 期中重點.pdf",
+          "course": "光電科技",
+          "status": "使用者已確認，保留原檔，不納入法學英文"
+        }
+      ],
+      "scopeEvidence": "使用者提供之課程公告，發布時間 2026-10-22 09:32",
+      "status": "15份法學英文教材已盤點；筆記依公告核心及延伸分類。未宣稱全部原題逐題轉製。",
+      "unavailable": [
+        "ILE PDF 第5頁的聽力練習未附音檔，不編造聽力答案。"
+      ],
+      "questionReview": "本頁61題自編詞義題均檢查唯一答案及解說；歷屆原卷只做題型對照，未公開或重製整卷。",
+      "files": [
+        {
+          "name": "Sources of Law.pdf",
+          "status": "主題已納入自編筆記；原檔未公開",
+          "location": "文字抽取與主題整理"
+        },
+        {
+          "name": "Reading Drill 01-L02.docx",
+          "status": "主題已納入自編筆記；原檔未公開",
+          "location": "文字抽取與主題整理"
+        },
+        {
+          "name": "Oral Questions Drill 01-L02.docx",
+          "status": "主題已納入自編筆記；原檔未公開",
+          "location": "文字抽取與主題整理"
+        },
+        {
+          "name": "Legal_English - 法學英文.pptx",
+          "status": "主題已納入自編筆記；原檔未公開",
+          "location": "文字抽取與主題整理"
+        },
+        {
+          "name": "Legal Systems pp (ILE).pdf",
+          "status": "主題已納入自編筆記；原檔未公開",
+          "location": "全文圖頁檢讀"
+        },
+        {
+          "name": "Legal Systems (ERS).pdf",
+          "status": "主題已納入自編筆記；原檔未公開",
+          "location": "全文圖頁檢讀"
+        },
+        {
+          "name": "LE U4-03 Pretrial Pleadings, Motions and Discovery.docx",
+          "status": "主題已納入自編筆記；原檔未公開",
+          "location": "文字抽取與主題整理"
+        },
+        {
+          "name": "LE U4-02 Courts in the US and the UK.docx",
+          "status": "主題已納入自編筆記；原檔未公開",
+          "location": "文字抽取與主題整理"
+        },
+        {
+          "name": "LE U4-01 Trials and Juries in the Common Law System.docx",
+          "status": "主題已納入自編筆記；原檔未公開",
+          "location": "文字抽取與主題整理"
+        },
+        {
+          "name": "LE L03 Reading Comprehension and Drill.docx",
+          "status": "主題已納入自編筆記；原檔未公開",
+          "location": "文字抽取與主題整理"
+        },
+        {
+          "name": "LE L03 Courts and Jurisdiction.docx",
+          "status": "主題已納入自編筆記；原檔未公開",
+          "location": "文字抽取與主題整理"
+        },
+        {
+          "name": "Glossary 01-L01.docx",
+          "status": "主題已納入自編筆記；原檔未公開",
+          "location": "文字抽取與主題整理"
+        },
+        {
+          "name": "glos All Legal English Vocabulary_rev3.docx",
+          "status": "主題已納入自編筆記；原檔未公開",
+          "location": "文字抽取與主題整理"
+        },
+        {
+          "name": "115-1 期中重點.pdf",
+          "status": "另科分流：光電科技",
+          "location": "文字抽取與主題整理"
+        },
+        {
+          "name": "111_1 Legal English Midterm.docx",
+          "status": "主題已納入自編筆記；原檔未公開",
+          "location": "文字抽取與主題整理"
+        },
+        {
+          "name": "LE L03 Mini-Glossary Courts and Jurisdicton - Now, go on and compile the mini-glossary. Take ca... conv.docx",
+          "status": "主題已納入自編筆記；原檔未公開",
+          "location": "文字抽取與主題整理"
+        }
+      ]
+    },
+    "notes": [
+      {
+        "id": "systems",
+        "title": "01｜Civil law 與 common law 的三種比較",
+        "points": [
+          "先判斷 civil law 的語境：與 common law 對照時，是「大陸法系」；與 criminal law 對照時，是「民事法」。不能看見同一個字就套同一中文。",
+          "大陸法傳統重視體系化法典；普通法傳統重視先例推理。兩邊都會使用制定法與法院判決，差別是法源結構及論證方法，而不是有法條與沒有法條。",
+          "歷史線索：羅馬法、查士丁尼六世紀編纂與近代法典化；英格蘭中世紀王室法院的逐案發展。教材簡報寫成五世紀與另一份教材六世紀不一致，本頁採六世紀。",
+          "混合法系須說明混合在哪個領域；例如蘇格蘭有大陸法與普通法因素，不能因此說整個英國都用同一套法院與實體法。"
+        ],
+        "source": "Legal Systems (ERS) PDF 第1–2頁；Reading Drill 01-L02 對話；簡報第14–23、50–51張"
+      },
+      {
+        "id": "sources",
+        "title": "02｜法源：bill、statute、regulation、precedent",
+        "points": [
+          "法源題先問「由誰產生、處於什麼階段、是否有拘束力」。Bill 是草案，statute / Act 通常指經立法程序成立的法律；中文「法案」容易把草案和已生效法律混為一談。",
+          "Regulation 常指有授權依據的行政規範；secondary legislation 與 secondary source 是兩個不同分類。前者可能是有法律效力的授權立法，後者通常指教科書、論文等說明材料。",
+          "判決閱讀先找 material facts、issue、holding / ratio，再看理由。摘要 headnote 或 syllabus 只是閱讀輔助，不能直接當成法院全部理由。先例是否拘束要看法院層級、管轄區與可適用的法律命題，不是只數事實有幾項一樣。",
+          "教材中的 Queen 是歷史措辭；複習用 the monarch / Royal Assent。英國議會官方說明顯示，御准是法案成為 Act 的步驟；開始施行時間仍可能另定。"
+        ],
+        "source": "Sources of Law PDF 第1–2、6頁；ILE PDF 第2–3頁；簡報第7–13張"
+      },
+      {
+        "id": "areas",
+        "title": "03｜法律領域與易混詞：civil、tort、property",
+        "points": [
+          "看爭議焦點選領域：合意成立與履行是 contract law；侵害造成損害的民事責任常涉及 tort law；誰有所有權、占有或其他物權是 property law；公共機關權限與程序則可能屬公法。",
+          "同一事件可跨領域。偷竊既可能涉及刑事責任，也可能引出返還或賠償；不要把 tort 翻成 crime。題目問的是該請求或程序的性質。",
+          "Damage 是損害；damages 常指金錢賠償。Liable 是負法律責任，不等於刑事 guilty。Property 在一般語境是財產，real property 與 personal property 要依該法域的分類讀，不能把 personal 當「私人物品」的日常意思。"
+        ],
+        "source": "glos All Legal English Vocabulary_rev3：Areas of Law；111-1 試題 Legal Terminology 題型"
+      },
+      {
+        "id": "us-courts",
+        "title": "04｜美國法院：兩套體系與三個層級",
+        "points": [
+          "州法院與聯邦法院不是同一條升級階梯。聯邦法院的管轄權來自憲法及法律授權；不是案件重要或跨州就當然有聯邦管轄。",
+          "一般聯邦路徑可記 District Court → Court of Appeals → Supreme Court。州法院有各州自己的設計，不應斷言所有州都恰好三級、最高法院都相同人數。",
+          "當事人稱謂隨程序轉換：起訴是 plaintiff / defendant，上訴是 appellant / appellee；向最高法院聲請調卷審查常用 petitioner / respondent。原告也可能成為被上訴人，角色不能固定綁人。",
+          "最高法院審理許多案件須先准許 certiorari；不能寫每個敗訴者都有無條件第三審權利。原始管轄與上訴管轄是不同權限。"
+        ],
+        "source": "LE L03 Courts and Jurisdiction：State and Federal Courts / Types of Courts；簡報第25–32張"
+      },
+      {
+        "id": "jurisdiction",
+        "title": "05｜管轄與上訴：原始、上訴、一般、有限",
+        "points": [
+          "Original / appellate 看法院是在首次審理還是審查下級裁判；general / limited 看管轄範圍。這是兩個不同軸線，original 不等於 general。",
+          "Issue of fact 問「實際發生什麼」；issue of law 問規範如何解釋與適用。法院是否可以受理、何種審查標準等又涉及程序規則。",
+          "美國一般上訴不是重新開一次證據審判，通常以既有紀錄審查錯誤；但「只看法律」不能被誤讀成完全不能審查事實認定有無符合適用標準。",
+          "Affirm 維持，reverse 撤銷／推翻，remand 發回。發回表示案件交回下級法院續行，不等於已終局勝訴。Trial de novo 與一般 appellate review 不是同義詞。"
+        ],
+        "source": "LE L03 Courts and Jurisdiction：Trial Courts / Appellate Courts；L03 Reading Comprehension；Mini-Glossary"
+      },
+      {
+        "id": "uk-courts",
+        "title": "06｜英國法院：jurisdiction 不等於全英統一制度",
+        "points": [
+          "先辨認 England and Wales、Scotland、Northern Ireland 三個法律管轄區；不要用 England 指整個 UK。",
+          "英格蘭與威爾斯基本詞彙：Magistrates’ Courts、Crown Court、County Court、High Court、Court of Appeal。法院名稱不能直接機械對照臺灣層級；例如 High Court 不等於臺灣高等法院的完整職能。",
+          "UK Supreme Court 於2009年開始運作。它處理全英國民事的重要法律爭點上訴；一般刑事上訴範圍為英格蘭、威爾斯與北愛爾蘭。蘇格蘭刑事與權限移轉等事項要分開，不能寫成一律有或一律無管轄。",
+          "Parliamentary sovereignty 不代表法院只會翻譯法條、不能審查政府行為。對 Westminster 主要立法的效力與其他種類規範、行政行為的審查，必須分辨。"
+        ],
+        "source": "LE U4-02 Courts in the US and the UK：Not One System / Court Hierarchy；簡報第129張"
+      },
+      {
+        "id": "taiwan",
+        "title": "07｜寫作主題：用英文介紹臺灣法院",
+        "points": [
+          "先限定 ordinary courts：臺灣普通法院一般由地方法院、高等法院及最高法院構成，主要處理民事與刑事案件。法院層級與每案能否上訴要分開。",
+          "英文使用 generally / ordinarily / subject to statutory requirements 留下正確界線，不要說 all cases automatically receive three trials。",
+          "介紹整個體系時，可再補充行政法院及憲法法庭有不同職能；它們不是普通法院三審之後的第四審。",
+          "建議段落順序：體系概述 → 各層職能 → 上訴限制 → 其他法院。先寫正確短句，再加入比較或轉折，不以艱難單字代替清楚內容。"
+        ],
+        "source": "2026-10-22 課程公告 Writing Task 示例；司法院英文網站"
+      },
+      {
+        "id": "trial",
+        "title": "08｜延伸：陪審、證據與裁判用語",
+        "points": [
+          "Adversarial / inquisitorial 是程序比較的理想類型。真實制度有混合，不能寫「對抗制法官完全不問問題」。",
+          "Jury trial 中陪審團判斷事實，法官處理法律與程序並指示法律；bench trial 沒有陪審團，法官也擔任事實認定者。是否有陪審及如何放棄，要依案件與規則。",
+          "Verdict 是陪審裁決；judgment 是法院判決；sentence 是刑事量刑。民事 liable 不要寫成 guilty。直接詰問與反詰問則看由哪一方詢問。"
+        ],
+        "source": "LE U4-01 Reading Text / Mini-Glossary；簡報第36–47張"
+      },
+      {
+        "id": "pretrial",
+        "title": "09｜延伸：訴狀、聲請與證據開示",
+        "points": [
+          "Complaint 提起訴訟並陳述請求；answer 是答辯；counterclaim 是反訴。Pleadings 描述一類正式書狀，不是所有文件與 motions 的統稱。",
+          "Motion 是請法院作成命令或裁定的聲請。駁回聲請的理由很多；「假設事實為真仍不足構成請求」只是特定法律不足的分析，不能等同所有駁回聲請都因缺乏證據。Demurrer 的使用依歷史與法域而異。",
+          "Discovery 是審前取得與交換訴訟資訊的程序，有相關性、特權與程序限制，不是對方所有私人資料都可索取。Deposition 口頭宣誓證言、interrogatories 對當事人的書面詰問、production 文件或物件提出，須分清楚。"
+        ],
+        "source": "LE U4-03 Reading Text / Matching / Reading Comprehension；ILE PDF 第5頁"
+      },
+      {
+        "id": "extended",
+        "title": "10｜延伸：契約、判例閱讀與舊題校訂",
+        "points": [
+          "Case brief 可用 Facts → Procedural history → Issue → Rule / Holding → Reasoning → Disposition。Holding 是對法律爭點的裁判答案，disposition 是維持、撤銷、發回等處置，不應只寫誰贏。",
+          "契約語彙：offer 要約、acceptance 承諾、consideration 對價、breach 違約、remedy 救濟。對價不是一般英文的「考量」，也不能未辨法域就當成臺灣所有契約的成立要件。簡報的契約案例屬延伸素材，不據此擴張公告期中範圍。",
+          "教材的 parol evidence 不等於 parole（假釋）。Equitable remedy 應讀為「衡平法上救濟」，不是單純合理的賠償；en banc 是全院／全體法官合議的審理用語，不是停審。",
+          "111-1 的 Roe / privacy 題屬歷史背景。Dobbs（2022）推翻 Roe 與 Casey 的相關先例；不能把舊題敘述直接當成現行聯邦憲法保障，也不能由此推論全美各州一律禁止墮胎。"
+        ],
+        "source": "簡報第54–64、66–168張；111-1 試題；總詞彙表"
+      }
+    ],
+    "questionTypes": [
+      "選擇題",
+      "克漏字",
+      "法律詞彙",
+      "閱讀理解",
+      "英文寫作"
+    ]
+  },
+  "additionalCourses": [
+    {
+      "id": "photonics",
+      "name": "光電科技",
+      "content": "content/photonics.json",
+      "source": "115-1 期中重點.pdf 第1–3頁；使用者確認課別",
+      "scope": "僅依該份資料整理，未確認其他指定範圍",
+      "questionReview": "8題自編概念題，附答案與解析"
+    }
+  ],
+  "courseCatalog": "content/course-catalog.json"
 }

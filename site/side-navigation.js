@@ -1,20 +1,20 @@
 /* Shared, data-driven navigation. All destinations stay within this site. */
 (()=>{
- const version='20261024-edition14',subjects=['crime','family','debt','property','admin','tax','criminalgeneral','civilgeneral','constitution'];
+ const version='20261027-architecture',subjects=['crime','family','debt','property','admin','tax','criminalgeneral','civilgeneral','constitution'];
  const groups=[
   ['工作台',[['home','學習首頁','index.html','#/dashboard'],['search','全站搜尋','discover.html',''],['saved','收藏與複習','discover.html','#view=saved'],['progress','學習進度','index.html','progress']]],
-  ['研讀與筆記',[['notes','筆記與法條','essentials.html','']]],
+  ['課程與筆記',[['courses','課程總覽','courses.html',''],['notes','法律筆記與法條','essentials.html',''],['english','法學英文','legal-english.html',''],['science','光電科技','photonics.html','']]],
   ['題庫與申論',[['questions','題庫與申論中心','questions.html','']]],
-  ['閱讀書房',[['daily','每日法律導讀','index.html','#/daily'],['reading','小說與個人書架','reading.html','']]],
-  ['資料管理',[['materials','個人教材','index.html','materials'],['coverage','資料來源與校訂','coverage.html',''],['sources','教材目錄','library.html','#sources'],['official','官方法律資源','study-toolkit.html','#sources'],['settings','資料與備份','settings.html','']]]
+  ['閱讀書房',[['daily','每日官方資訊','index.html','#/daily'],['reading','小說與個人書架','reading.html','']]],
+  ['資料管理',[['materials','個人教材','index.html','materials'],['coverage','資料來源與校訂','coverage.html',''],['official','官方法律資源','study-toolkit.html','#sources'],['settings','資料與備份','settings.html','']]]
  ];
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  function destination(file,target,subject='crime',current=''){
   const id=subjects.includes(subject)?subject:'crime';let hash=target;
   if(target&&!target.startsWith('#'))hash=`#/${id}/${target}/0`;
-  return (file==='index.html'&&current==='index.html'?'':`${file}?v=${version}`)+hash;
+  const prefix=typeof location!=='undefined'&&/\/class-notes\//.test(location.pathname||'')?'../':'';return prefix+(file==='index.html'&&current==='index.html'?'':`${file}?v=${version}`)+hash;
  }
- function resume(last){return last&&subjects.includes(last.subject)&&/^personal-[a-z0-9-]+$/.test(last.chapter)?`essentials.html?v=${version}&subject=${last.subject}#${last.chapter}`:null;}
+ function resume(last){const prefix=typeof location!=='undefined'&&/\/class-notes\//.test(location.pathname||'')?'../':'';return last&&subjects.includes(last.subject)&&/^personal-[a-z0-9-]+$/.test(last.chapter)?`${prefix}essentials.html?v=${version}&subject=${last.subject}#${last.chapter}`:null;}
  function markup(ctx={}){
   const last=resume(ctx.last);
   return `<div class="side-intro"><span>YOUR WORKSPACE</span><p>研習工作室</p></div>${last?`<a class="sidebar-resume" href="${esc(last)}"><small>接續上次閱讀 →</small><span>${esc(ctx.last.title||'我的重點筆記')}</span></a>`:''}${groups.map(([label,items])=>`<section class="sidebar-group"><h2>${label}</h2>${items.map(([id,label,file,target])=>`<a class="sidebar-link" data-nav-id="${id}" href="${esc(destination(file,target,ctx.subject,ctx.file))}" ${ctx.active===id?'aria-current="page"':''}><span class="sidebar-marker" aria-hidden="true"></span>${label}</a>`).join('')}</section>`).join('')}<p class="sidebar-local">個人筆記與紀錄保存在此瀏覽器<br>換裝置前請先備份。</p>`;

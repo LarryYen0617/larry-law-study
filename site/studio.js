@@ -7,7 +7,7 @@
   select.after(nav);select.hidden=true;select.setAttribute('aria-hidden','true');
   const sync=()=>{nav.innerHTML=Array.from(select.options).filter(o=>o.value||o.textContent.includes('全部')).map(o=>{const b=document.createElement('button');b.type='button';b.textContent=o.textContent;b.dataset.subjectValue=o.value;b.setAttribute('aria-pressed',String(o.value===select.value));return b.outerHTML;}).join('');};
   nav.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;select.value=b.dataset.subjectValue;select.dispatchEvent(new Event('change',{bubbles:true}));sync();});
-  select.addEventListener('change',()=>{sync();if(id==='knowledgeSubject'){const url=new URL(location.href);url.searchParams.set('subject',select.value);if(url.hash.startsWith('#personal-'))url.hash='';history.replaceState(null,'',url);}});new MutationObserver(sync).observe(select,{childList:true});
+  select.addEventListener('change',()=>{sync();if(id==='knowledgeSubject'){const url=new URL(location.href);url.searchParams.set('subject',select.value);if(url.hash.startsWith('#personal-'))url.hash='';history.replaceState(null,'',url);}});try{if(select.nodeType===1)new MutationObserver(sync).observe(select,{childList:true});}catch{}
   document.addEventListener('click',()=>{for(const b of nav.querySelectorAll('button'))b.setAttribute('aria-pressed',String(b.dataset.subjectValue===select.value));});sync();
  }
 })();
@@ -17,9 +17,10 @@
  if(typeof MutationObserver==='undefined'||!window.LEX_NAVIGATION)return;
  const key='lex-nexus-reading-position-v1',file=location.pathname.split('/').pop()||'index.html',main=document.getElementById('mainNav');
  let last=null;try{last=JSON.parse(localStorage.getItem(key)||'null');}catch{}
+ const rootPrefix=location.pathname.includes('/class-notes/')?'../':'';
  const aside=main?main.closest('aside'):document.createElement('aside');aside.classList.add('site-sidebar');
  const nav=main||document.createElement('nav');nav.id=main?'mainNav':'siteNavigation';nav.setAttribute('aria-label','完整功能分類');
- if(!main){aside.innerHTML=`<a class="sidebar-brand" href="index.html?v=${window.LEX_NAVIGATION.version}#/dashboard"><b>LEX NEXUS</b><span>法域中樞 · 法律學習工作室</span></a>`;aside.append(nav);document.body.prepend(aside);}
+ if(!main){aside.innerHTML=`<a class="sidebar-brand" href="${rootPrefix}index.html?v=${window.LEX_NAVIGATION.version}#/dashboard"><b>LEX NEXUS</b><span>法域中樞 · 法律學習工作室</span></a>`;aside.append(nav);document.body.prepend(aside);}
  else aside.querySelector('.sidebar-foot')?.remove();
  document.body.classList.add('has-site-sidebar');if(main)document.body.classList.add('has-main-app');
  const toggle=document.createElement('button');toggle.className='sidebar-toggle';toggle.textContent='☰ 功能分類';toggle.type='button';toggle.setAttribute('aria-controls',nav.id);toggle.setAttribute('aria-expanded','false');aside.insertBefore(toggle,nav);
@@ -30,6 +31,7 @@
   if(main){const p=typeof page==='undefined'?'dashboard':page;active=({dashboard:'home',quiz:'quiz',allwrong:'wrong',wrong:'wrong'})[p]||p;}
   else if(file==='essentials.html'){subject=typeof knowledgeSubject==='undefined'?'crime':knowledgeSubject;active=typeof knowledgeMode!=='undefined'&&knowledgeMode==='teacher'?'teacher':typeof knowledgeMode!=='undefined'&&knowledgeMode==='inventory'?'coverage':'notes';}
   else if(file==='library.html')active=typeof mode!=='undefined'?({questions:'archive',teacher:'originals',sources:'sources',notes:'archivenotes'})[mode]:'archive';
+  else if(location.pathname.includes('/class-notes/')||file==='courses.html')active='courses';else if(file==='legal-english.html')active='english';else if(file==='photonics.html')active='science';
   else if(file==='discover.html')active=new URLSearchParams(location.hash.slice(1)).get('view')==='saved'||new URLSearchParams(location.hash.slice(1)).get('view')==='due'?'saved':'search';
   else if(file==='practice.html'||file==='questions.html')active='questions';
   else if(file==='coverage.html')active='coverage';else if(file==='settings.html')active='settings';else if(file==='reading.html')active='reading';else if(file==='study-toolkit.html')active=location.hash==='#method'||location.hash==='#draft'||location.hash==='#templates'?'method':'official';
