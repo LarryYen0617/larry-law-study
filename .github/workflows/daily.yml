@@ -47,7 +47,6 @@ jobs:
           node tests/frontend.cjs
           node tests/class-notes.cjs
           node tests/legal-english.cjs
-          node tests/course-catalog.cjs
           node tests/essay-templates.cjs
           node tests/practice.cjs
           node tests/practice-views.cjs
@@ -68,6 +67,7 @@ jobs:
         run: |
           node scripts/build_search_index.cjs
           node tests/discover.cjs
+          node tests/course-catalog.cjs
       - name: 上傳網站（不包含教材原始檔、腳本或任何秘密）
         uses: actions/upload-pages-artifact@v4
         with:
