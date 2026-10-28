@@ -27,14 +27,15 @@ a{overflow-wrap:anywhere}a:focus-visible,button:focus-visible,input:focus-visibl
 <nav aria-label="返回"><a href="courses.html">← 返回課程與筆記</a> · <a href="discover.html">原有搜尋與複習</a></nav>
 <h1>全站教材搜尋</h1>
 <p>查詢全站筆記、題目、教師教材、閱讀及小說索引；實際資料筆數顯示於下方載入狀態。此頁不會修改原始資料，查詢只在本機瀏覽器進行。</p>
-<div class="search-grid">
-<label for="query">關鍵字<input id="query" type="search" placeholder="例如：物權 757、強盜、法學英文" autocomplete="off"></label>
+<div class="search-grid" role="search" aria-label="教材搜尋條件">
+<label for="query">關鍵字<input id="query" type="search" maxlength="200" aria-describedby="search-help" aria-controls="results" placeholder="例如：物權 757、強盜、法學英文" autocomplete="off"></label>
 <label for="subject">科目<select id="subject"><option value="">全部科目</option></select></label>
 <label for="kind">資料類型<select id="kind"><option value="">全部類型</option></select></label>
 </div>
+<p id="search-help">可輸入多個關鍵字，以空白分隔；結果須同時符合所有關鍵字。最多輸入 200 個字元。</p>
 <p id="status" role="status" aria-live="polite">正在讀取教材資料庫……</p>
 <button id="retry" type="button" hidden>重新載入</button>
-<section id="results" aria-label="搜尋結果"></section>
+<section id="results" aria-label="搜尋結果" aria-busy="true"></section>
 <div id="pager" hidden><button id="previous" type="button">上一頁</button><span id="page-label"></span><button id="next" type="button">下一頁</button></div>
 </main>
 <script type="module">
@@ -125,6 +126,7 @@ function search(){
 }
 async function load(){
   ready=false;
+  results.setAttribute("aria-busy","true");
   $("#retry").hidden=true;status.textContent="正在讀取教材資料庫……";
   const controller=new AbortController();
   const timeout=setTimeout(()=>controller.abort(),15000);
@@ -160,7 +162,7 @@ async function load(){
     records=[];hits=[];results.replaceChildren();pager.hidden=true;
     status.textContent="資料載入失敗："+(error.name==="AbortError"?"連線逾時":error.message)+"。可重新載入。";
     $("#retry").hidden=false;
-  }finally{clearTimeout(timeout)}
+  }finally{clearTimeout(timeout);results.setAttribute("aria-busy","false")}
 }
 input.addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(search,130)});
 subject.addEventListener("change",search);kind.addEventListener("change",search);
