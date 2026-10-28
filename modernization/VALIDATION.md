@@ -32,3 +32,9 @@ python3 modernization/scripts/audit-site.py site-audit.json
 
 ## 上線門檻
 正式資料無破壞、CI 綠燈、瀏覽器/手機 E2E 驗收、法規來源核對、部署與回滾路徑明確後才可合併 main。未達條件保持草稿 PR。
+
+## 線上站點檢查（2026-10-29 臺灣時間）
+- GitHub Pages：`https://larryyen0617.github.io/larry-law-study/` 可讀取首頁、`courses.html`、`discover.html`、`search-index.json`、物權期中筆記頁。
+- `search-preview.html` 在正式站回傳 404，符合尚未部署的現況；本 PR 中已建立此頁，但不應聲稱正式上線。
+- `https://larry-law-study.larry20070617.chatgpt.site/` 回傳 HTTP 401，不能當成公開可用的正式站。
+- 儲存庫 main 沒有根目錄 `index.html`、也沒有找到常見的 `deploy.yml`／`pages.yml` 工作流程；GitHub Pages 目前如何從 `site/` 發布尚待確認，不能直接假設合併 main 就會自動部署。
