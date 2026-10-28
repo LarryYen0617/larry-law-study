@@ -44,6 +44,8 @@ class SearchPageTests(unittest.TestCase):
     def test_rejects_blank_titles_in_browser(self):
         self.assertIn("!item.title.trim()", self.html)
         self.assertIn("input.value.slice(0,200)", self.html)
+        self.assertIn("if(clean.length<3602)", self.html)
+        self.assertIn("if(target.username||target.password)return null", self.html)
 
     def test_course_link(self):
         catalog = PAGE.with_name("courses.html").read_text(encoding="utf-8")
