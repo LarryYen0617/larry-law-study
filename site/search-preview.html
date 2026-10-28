@@ -48,7 +48,7 @@ const load=async page=>{
 function render(){
   results.replaceChildren();
   const terms=normalize(input.value).split(" ").filter(Boolean);
-  if(!terms.length){status.textContent=loading?"正在載入教材索引……":`已索引 ${index.length} 個頁面；輸入關鍵字開始搜尋。${failedCount?` ${failedCount} 個頁面讀取失敗。`:""}`;return;}
+  if(!terms.length){const available=index.filter(page=>!filter.value||page.subject===filter.value);status.textContent=loading?"正在載入教材索引……":`目前可搜尋 ${available.length} 個頁面；輸入關鍵字開始搜尋。${failedCount?` ${failedCount} 個頁面讀取失敗。`:""}`;return;}
   const hits=index.filter(page=>!filter.value||page.subject===filter.value).map(page=>{
     const title=normalize(page.title),body=normalize(page.body);
     if(!terms.every(term=>title.includes(term)||body.includes(term)||normalize(page.subject).includes(term)))return null;
@@ -84,6 +84,8 @@ async function initialize(){
     render();
   }
 }
+const initialQuery=new URLSearchParams(location.search).get("q");
+if(initialQuery)input.value=initialQuery.slice(0,200);
 initialize();
 input.addEventListener("input",render);
 filter.addEventListener("change",render);
