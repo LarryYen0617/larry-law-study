@@ -92,6 +92,12 @@ try{
   assert.match(await truncated.locator("#status").innerText(),/資料筆數低於正式資料庫基準/,"truncated corpus not rejected");
   assert.equal(await truncated.locator("#results article").count(),0,"truncated corpus displayed results");
   await truncated.close();
+  const malformed=await browser.newPage();
+  await malformed.route("**/search-index.json",route=>route.fulfill({status:200,contentType:"application/json",body:"{invalid-json"}));
+  await malformed.goto("http://127.0.0.1:"+port+"/search-preview.html",{waitUntil:"domcontentloaded"});
+  await malformed.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("資料載入失敗"),null,{timeout:10000});
+  assert.equal(await malformed.locator("#retry").isVisible(),true,"malformed JSON did not show retry");
+  await malformed.close();
   const practice=await browser.newPage({viewport:{width:1280,height:800}});
   await practice.goto("http://127.0.0.1:"+port+"/practice.html",{waitUntil:"domcontentloaded"});
   await practice.waitForSelector("#practice-issue",{timeout:12000});
