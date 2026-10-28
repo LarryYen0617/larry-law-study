@@ -107,6 +107,10 @@ function search(){
   if(!ready)return;
   const terms=normalize(input.value.slice(0,200)).split(" ").filter(Boolean);
   const selectedSubject=subject.value,selectedKind=kind.value;
+  if(!terms.length){
+    hits=records.filter(item=>(!selectedSubject||item.subject===selectedSubject)&&(!selectedKind||item.type===selectedKind));
+    page=0;draw();updateLink();return;
+  }
   hits=records.filter(item=>(!selectedSubject||item.subject===selectedSubject)&&(!selectedKind||item.type===selectedKind)).map(item=>{
     if(!terms.length)return {item,score:0};
     let score=0;
