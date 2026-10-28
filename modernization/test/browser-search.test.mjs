@@ -32,7 +32,11 @@ try{
   page.on("pageerror",error=>errors.push(error.message));
   await page.goto("http://127.0.0.1:"+port+"/search-preview.html",{waitUntil:"domcontentloaded"});
   await page.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("筆資料已載入"),null,{timeout:20000});
-  assert.match(await page.locator("#status").innerText(),/3602 筆資料已載入/);
+  const expectedCount=await page.evaluate(async()=> (await (await fetch("search-index.json")).json()).items.length);
+  const initialStatus=await page.locator("#status").innerText();
+  const loadedCount=Number(initialStatus.match(/^(\d+) 筆資料已載入/)?.[1]);
+  assert.ok(loadedCount>=3602,"production corpus dropped below 3602 records");
+  assert.equal(loadedCount,expectedCount,"search UI silently excluded valid indexed records");
   assert.ok(await page.locator("#results article").count()>0,"no initial results");
   await page.locator("#query").fill("物權");
   await page.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("找到"),null,{timeout:5000});
