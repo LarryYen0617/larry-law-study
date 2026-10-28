@@ -6,7 +6,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[2]
-INDEX = ROOT / "site" / "search-index.json"
+INDEX = ROOT / "site" / "search-preview-index.json"
 REQUIRED = ("url", "subject", "title", "body")
 def validate(data, site_root=ROOT / "site"):
     issues = []
