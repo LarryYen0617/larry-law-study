@@ -46,7 +46,7 @@ const safePages=new Set(["essentials.html","library.html","index.html","reading.
 const normalize=value=>String(value||"").normalize("NFKC").toLocaleLowerCase("zh-TW").replace(/\s+/g," ").trim();
 const label=(table,key)=>table[key]||key||"未分類";
 const pageSize=20;
-let records=[],hits=[],page=0,timer;
+let records=[],hits=[],page=0,timer,ready=false;
 function safeHref(href){
   if(typeof href!=="string"||href.includes("\\")||/[\u0000-\u001f]/.test(href))return null;
   try{
@@ -103,6 +103,7 @@ function draw(){
   $("#previous").disabled=page===0;$("#next").disabled=page>=totalPages-1;
 }
 function search(){
+  if(!ready)return;
   const terms=normalize(input.value.slice(0,200)).split(" ").filter(Boolean);
   const selectedSubject=subject.value,selectedKind=kind.value;
   hits=records.filter(item=>(!selectedSubject||item.subject===selectedSubject)&&(!selectedKind||item.type===selectedKind)).map(item=>{
@@ -118,6 +119,7 @@ function search(){
   page=0;draw();updateLink();
 }
 async function load(){
+  ready=false;
   $("#retry").hidden=true;status.textContent="正在讀取教材資料庫……";
   const controller=new AbortController();
   const timeout=setTimeout(()=>controller.abort(),15000);
@@ -137,6 +139,7 @@ async function load(){
     }
     if(!clean.length)throw new Error("資料庫沒有可用的記錄");
     records=clean;
+    ready=true;
     subject.replaceChildren(new Option("全部科目", ""));
     kind.replaceChildren(new Option("全部類型", ""));
     fillOptions(subject,new Set(records.map(x=>x.subject)),subjectNames);
@@ -148,6 +151,7 @@ async function load(){
     search();
     if(clean.length!==data.items.length)status.textContent+=" 注意：部分不安全或無效記錄已排除。";
   }catch(error){
+    ready=false;
     records=[];hits=[];results.replaceChildren();pager.hidden=true;
     status.textContent="資料載入失敗："+(error.name==="AbortError"?"連線逾時":error.message)+"。可重新載入。";
     $("#retry").hidden=false;
