@@ -21,6 +21,18 @@ class SiteAuditTests(unittest.TestCase):
             report = audit_module.audit(Path(temp))
             self.assertEqual(report["pages_checked"], 0)
             self.assertEqual(report["problems"][0]["type"], "no_html_files")
+    def test_spa_hash_route_is_not_a_missing_anchor(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / 'index.html').write_text('<title>SPA</title><a href="#/dashboard">首頁</a>', encoding='utf-8')
+            self.assertEqual(audit_module.audit(root)['blocking_problem_count'], 0)
+    def test_dynamic_practice_anchor_is_warning(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / 'practice.html').write_text('<title>申論</title><div id="practiceFields"></div><a href="#practice-issue">爭點</a>', encoding='utf-8')
+            report = audit_module.audit(root)
+            self.assertEqual(report['blocking_problem_count'], 0)
+            self.assertEqual(report['problems'][0]['type'], 'dynamic_anchor_unverified')
     def test_valid_page(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
