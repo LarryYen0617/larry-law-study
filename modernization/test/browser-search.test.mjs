@@ -117,6 +117,27 @@ try{
   await failurePage.waitForFunction(count=>document.querySelector("#status")?.textContent?.includes(count+" 筆資料已載入"),expectedCount,{timeout:20000});
   assert.ok(await failurePage.locator("#results article").count()>0,"retry did not restore results");
   await failurePage.close();
+  // Regression: collapsed whitespace used to shift excerpt offsets and hide
+  // the matching term from the result preview.
+  const excerptPage=await browser.newPage();
+  await excerptPage.route("**/search-index.json",async route=>{
+    const fixture=JSON.parse(await readFile(resolve(site,"search-index.json"),"utf8"));
+    fixture.items.push({
+      id:"note:excerpt-offset-regression",type:"note",subject:"property",
+      title:"片段位置回歸測試",body:"前".repeat(90)+" ".repeat(260)+"定位詞　ＡＢＣ 後文",
+      href:"courses.html"
+    });
+    await route.fulfill({status:200,contentType:"application/json; charset=utf-8",body:JSON.stringify(fixture)});
+  });
+  await excerptPage.goto("http://127.0.0.1:"+port+"/search-preview.html",{waitUntil:"domcontentloaded"});
+  await excerptPage.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("筆資料已載入"),null,{timeout:20000});
+  await excerptPage.locator("#query").fill("定位詞");
+  const excerptRecord=excerptPage.locator("#results article").filter({has:excerptPage.getByRole("heading",{name:"片段位置回歸測試"})});
+  await excerptRecord.waitFor({timeout:5000});
+  const excerptText=await excerptRecord.locator("p").innerText();
+  assert.match(excerptText,/定位詞/,"search excerpt omitted the matching term after collapsed whitespace");
+  assert.match(excerptText,/ABC/,"search excerpt did not normalize full-width characters");
+  await excerptPage.close();
   const practice=await browser.newPage({viewport:{width:1280,height:800}});
   await practice.goto("http://127.0.0.1:"+port+"/practice.html",{waitUntil:"domcontentloaded"});
   await practice.waitForSelector("#practice-issue",{timeout:12000});
