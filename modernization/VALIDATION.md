@@ -12,7 +12,7 @@
 - GitHub Actions 必須完整成功；請檢查 PR 最新 commit 的 `Modernization checks`。
 - 已在 GitHub Actions 的 Chromium E2E（run #40756354647）驗證 3,602 筆資料載入、關鍵字、科目／類型篩選、分享網址、390px 手機寬度及無未捕捉 JavaScript 錯誤；尚未驗證真實手機觸控、長文效能與完整鍵盤／螢幕閱讀器流程。
 - 教師教材授權、法規版本、考試答案及申論品質尚未逐筆查核；資料結構通過不代表內容正確。
-- 正式網站部署管道、域名解析、回復版本與線上實際操作須在合併前確認。
+- 正式部署管道已確認為 `.github/workflows/daily.yml`；合併後的線上操作與回復版本仍須實際驗證。
 
 ## CI 驗證指令
 ```sh
@@ -37,7 +37,7 @@ python3 modernization/scripts/audit-site.py site-audit.json
 - GitHub Pages：`https://larryyen0617.github.io/larry-law-study/` 可讀取首頁、`courses.html`、`discover.html`、`search-index.json`、物權期中筆記頁。
 - `search-preview.html` 在正式站回傳 404，符合尚未部署的現況；本 PR 中已建立此頁，但不應聲稱正式上線。
 - `https://larry-law-study.larry20070617.chatgpt.site/` 回傳 HTTP 401，不能當成公開可用的正式站。
-- 儲存庫 main 沒有根目錄 `index.html`、也沒有找到常見的 `deploy.yml`／`pages.yml` 工作流程；GitHub Pages 目前如何從 `site/` 發布尚待確認，不能直接假設合併 main 就會自動部署。
+- 已確認正式發布來源為 `.github/workflows/daily.yml`：main push 與每四小時定時執行，先建置課程、題庫、搜尋與前端測試，再將 `site/` 上傳 GitHub Pages。開發分支已在原有發布前插入升級版搜尋及資料安全驗證，避免雙重部署競爭。
 
 ## 租稅法源抽樣查核（2026-10-29）
 - 中華民國憲法第19條：「人民有依法律納稅之義務。」來源：總統府憲法本文 https://www.president.gov.tw/Page/94 。
