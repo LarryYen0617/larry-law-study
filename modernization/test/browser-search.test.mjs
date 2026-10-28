@@ -41,10 +41,6 @@ try{
   assert.equal(await page.getByRole("search",{name:"教材搜尋條件"}).count(),1);
   assert.equal(await page.locator("#results").getAttribute("aria-busy"),"false");
   await page.emulateMedia({reducedMotion:"reduce"});
-  await page.evaluate(()=>{
-    const original=window.scrollTo.bind(window);
-    window.scrollTo=options=>{window.lastSearchScroll=options;original(options)};
-  });
   await page.locator("#query").fill("物權");
   await page.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("找到"),null,{timeout:5000});
   assert.ok(await page.locator("#results article").count()>0,"keyword query returned no results");
@@ -64,6 +60,10 @@ try{
   await page.locator("#query").fill("");
   await page.waitForFunction(count=>document.querySelector("#status")?.textContent?.includes("目前顯示 "+count+" 筆"),expectedCount,{timeout:12000});
   const expectedPages=Math.ceil(expectedCount/20);
+  await page.evaluate(()=>{
+    const original=window.scrollTo.bind(window);
+    window.scrollTo=options=>{window.lastSearchScroll=options;original(options)};
+  });
   await page.locator("#next").focus();
   await page.keyboard.press("Enter");
   assert.equal(await page.locator("#results h2").first().evaluate(el=>el===document.activeElement),true,"paging lost keyboard focus");
