@@ -12,13 +12,13 @@ body{font-family:system-ui,"Noto Sans TC",sans-serif;max-width:980px;margin:0 au
 main{min-width:0}h1{font-size:clamp(1.5rem,4vw,2.3rem)}
 .search-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:.75rem;align-items:end}
 label{display:block;font-weight:600}input,select{width:100%;box-sizing:border-box;padding:.75rem;font:inherit;border:1px solid #888;border-radius:.55rem;min-height:2.8rem;background:Canvas;color:CanvasText}
-button{font:inherit;padding:.5rem .9rem;border:1px solid #888;border-radius:.5rem;background:Canvas;color:CanvasText;cursor:pointer}
+button{min-height:44px;min-width:44px;font:inherit;padding:.5rem .9rem;border:1px solid #888;border-radius:.5rem;background:Canvas;color:CanvasText;cursor:pointer}
 button:disabled{opacity:.5;cursor:default}
 article{border:1px solid #8886;border-radius:.75rem;padding:1rem;margin:.8rem 0;overflow-wrap:anywhere}
 article h2{font-size:1.1rem;margin:0 0 .25rem}article p{margin:.5rem 0 0;white-space:normal}
 .meta{font-size:.87rem;opacity:.82}
-#status{min-height:1.6rem}#pager{display:flex;gap:1rem;align-items:center;justify-content:center;margin:1rem 0}
-a{overflow-wrap:anywhere}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #2c8bd8;outline-offset:2px}
+#status{min-height:1.6rem;color:var(--ink);font-size:1rem}#pager{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:center;margin:1rem 0}
+a{overflow-wrap:anywhere}h2:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #2c8bd8;outline-offset:2px}
 @media(max-width:700px){.search-grid{grid-template-columns:1fr}.search-grid label{width:100%}article{padding:.85rem}}
 </style>
 </head>
@@ -26,16 +26,17 @@ a{overflow-wrap:anywhere}a:focus-visible,button:focus-visible,input:focus-visibl
 <main>
 <nav aria-label="返回"><a href="courses.html">← 返回課程與筆記</a> · <a href="discover.html">原有搜尋與複習</a></nav>
 <h1>全站教材搜尋</h1>
-<p>直接查詢原有的 3,602 筆筆記、題目、教師教材、閱讀及小說索引。此頁不會修改原始資料，查詢只在本機瀏覽器進行。</p>
-<div class="search-grid">
-<label for="query">關鍵字<input id="query" type="search" placeholder="例如：物權 757、強盜、法學英文" autocomplete="off"></label>
+<p>查詢全站筆記、題目、教師教材、閱讀及小說索引；實際資料筆數顯示於下方載入狀態。此頁不會修改原始資料，查詢只在本機瀏覽器進行。</p>
+<div class="search-grid" role="search" aria-label="教材搜尋條件">
+<label for="query">關鍵字<input id="query" type="search" maxlength="200" aria-describedby="search-help" aria-controls="results" placeholder="例如：物權 757、強盜、法學英文" autocomplete="off"></label>
 <label for="subject">科目<select id="subject"><option value="">全部科目</option></select></label>
 <label for="kind">資料類型<select id="kind"><option value="">全部類型</option></select></label>
 </div>
+<p id="search-help">可輸入多個關鍵字，以空白分隔；結果須同時符合所有關鍵字。最多輸入 200 個字元。</p>
 <p id="status" role="status" aria-live="polite">正在讀取教材資料庫……</p>
 <button id="retry" type="button" hidden>重新載入</button>
-<section id="results" aria-label="搜尋結果"></section>
-<div id="pager" hidden><button id="previous" type="button">上一頁</button><span id="page-label"></span><button id="next" type="button">下一頁</button></div>
+<section id="results" aria-label="搜尋結果" aria-busy="true"></section>
+<div id="pager" hidden><button id="previous" type="button">上一頁</button><span id="page-label" aria-live="polite" aria-atomic="true"></span><button id="next" type="button">下一頁</button></div>
 </main>
 <script type="module">
 const $=selector=>document.querySelector(selector);
@@ -89,7 +90,7 @@ function draw(){
   const start=page*pageSize;
   for(const item of hits.slice(start,start+pageSize)){
     const article=document.createElement("article");
-    const heading=document.createElement("h2");
+    const heading=document.createElement("h2");heading.tabIndex=-1;
     const link=document.createElement("a");
     link.href=item.href;link.textContent=item.title;
     heading.append(link);
@@ -125,6 +126,7 @@ function search(){
 }
 async function load(){
   ready=false;
+  results.setAttribute("aria-busy","true");
   $("#retry").hidden=true;status.textContent="正在讀取教材資料庫……";
   const controller=new AbortController();
   const timeout=setTimeout(()=>controller.abort(),15000);
@@ -160,12 +162,18 @@ async function load(){
     records=[];hits=[];results.replaceChildren();pager.hidden=true;
     status.textContent="資料載入失敗："+(error.name==="AbortError"?"連線逾時":error.message)+"。可重新載入。";
     $("#retry").hidden=false;
-  }finally{clearTimeout(timeout)}
+  }finally{clearTimeout(timeout);results.setAttribute("aria-busy","false")}
 }
 input.addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(search,130)});
 subject.addEventListener("change",search);kind.addEventListener("change",search);
-$("#previous").addEventListener("click",()=>{page--;draw();window.scrollTo({top:0,behavior:"smooth"})});
-$("#next").addEventListener("click",()=>{page++;draw();window.scrollTo({top:0,behavior:"smooth"})});
+function changePage(offset){
+  page+=offset;draw();
+  const firstHeading=results.querySelector("h2");
+  firstHeading?.focus({preventScroll:true});
+  firstHeading?.scrollIntoView({block:"start",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"instant":"smooth"});
+}
+$("#previous").addEventListener("click",()=>changePage(-1));
+$("#next").addEventListener("click",()=>changePage(1));
 $("#retry").addEventListener("click",load);
 load();
 </script>

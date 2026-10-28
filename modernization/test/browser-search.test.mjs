@@ -5,6 +5,7 @@ import { existsSync } from "node:fs";
 import { resolve, extname, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright-core";
+import AxeBuilder from "@axe-core/playwright";
 
 const site=resolve(dirname(fileURLToPath(import.meta.url)),"../../site");
 const types={".html":"text/html; charset=utf-8",".css":"text/css; charset=utf-8",
@@ -23,11 +24,16 @@ await new Promise((ok,fail)=>server.once("error",fail).listen(0,"127.0.0.1",ok))
 const port=server.address().port;
 const candidates=[process.env.CHROME_PATH,"/usr/bin/google-chrome","/usr/bin/google-chrome-stable","/usr/bin/chromium","/usr/bin/chromium-browser"];
 const executablePath=candidates.find(p=>p&&existsSync(p));
+async function checkAccessibility(page,label){
+  const audit=await new AxeBuilder({page}).withTags(["wcag2a","wcag2aa","wcag21a","wcag21aa","wcag22aa"]).analyze();
+  assert.deepEqual(audit.violations.map(item=>({id:item.id,impact:item.impact,targets:item.nodes.map(node=>node.target)})),[],label+" accessibility violations");
+}
 let browser;
 try{
   assert.ok(executablePath,"Chromium/Chrome executable not found on CI runner");
   browser=await chromium.launch({executablePath,headless:true,args:["--no-sandbox"]});
-  const page=await browser.newPage({viewport:{width:1280,height:800}});
+  const context=await browser.newContext({viewport:{width:1280,height:800}});
+  const page=await context.newPage();
   const errors=[];
   page.on("pageerror",error=>errors.push(error.message));
   await page.goto("http://127.0.0.1:"+port+"/search-preview.html",{waitUntil:"domcontentloaded"});
@@ -38,6 +44,10 @@ try{
   assert.ok(loadedCount>=3602,"production corpus dropped below 3602 records");
   assert.equal(loadedCount,expectedCount,"search UI silently excluded valid indexed records");
   assert.ok(await page.locator("#results article").count()>0,"no initial results");
+  assert.equal(await page.getByRole("search",{name:"教材搜尋條件"}).count(),1);
+  assert.equal(await page.locator("#results").getAttribute("aria-busy"),"false");
+  await checkAccessibility(page,"desktop");
+  await page.emulateMedia({reducedMotion:"reduce"});
   await page.locator("#query").fill("物權");
   await page.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("找到"),null,{timeout:5000});
   assert.ok(await page.locator("#results article").count()>0,"keyword query returned no results");
@@ -57,15 +67,24 @@ try{
   await page.locator("#query").fill("");
   await page.waitForFunction(count=>document.querySelector("#status")?.textContent?.includes("目前顯示 "+count+" 筆"),expectedCount,{timeout:12000});
   const expectedPages=Math.ceil(expectedCount/20);
-  await page.locator("#next").click();
+  await page.evaluate(()=>{
+    const original=Element.prototype.scrollIntoView;
+    Element.prototype.scrollIntoView=function(options){window.lastSearchScroll=options;original.call(this,options)};
+  });
+  await page.locator("#next").focus();
+  await page.keyboard.press("Enter");
+  assert.equal(await page.locator("#results h2").first().evaluate(el=>el===document.activeElement),true,"paging lost keyboard focus");
   assert.equal(await page.locator("#page-label").innerText(),"第 2／"+expectedPages+" 頁","pagination failed");
-  await page.locator("#previous").click();
+  assert.equal(await page.evaluate(()=>window.lastSearchScroll.behavior),"instant","reduced-motion preference ignored");
+  await page.locator("#previous").focus();
+  await page.keyboard.press("Enter");
+  assert.equal(await page.locator("#results h2").first().evaluate(el=>el===document.activeElement),true,"previous page lost keyboard focus");
   assert.equal(await page.locator("#page-label").innerText(),"第 1／"+expectedPages+" 頁","previous page failed");
   await page.locator("#query").fill("zzzxxyy-no-match");
   await page.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("找到 0 筆"),null,{timeout:5000});
   assert.equal(await page.locator("#results article").count(),0,"no-match query returned results");
   assert.equal(await page.locator("#pager").isHidden(),true,"pager shown for no matches");
-  await page.setViewportSize({width:390,height:844});
+  await page.setViewportSize({width:320,height:700});
   await page.locator("#query").fill("行政法");
   await page.selectOption("#subject","admin");
   await page.selectOption("#kind","");
@@ -73,11 +92,22 @@ try{
   assert.ok(await page.locator("#results article").count()>0,"mobile search returned no results");
   const width=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,viewport:window.innerWidth}));
   assert.ok(width.scroll<=width.viewport+2,"mobile horizontal overflow: "+JSON.stringify(width));
+  const buttonSize=await page.locator("#next").boundingBox();
+  assert.ok(buttonSize&&buttonSize.height>=44&&buttonSize.width>=44,"pager touch target too small");
+  await page.locator("#next").focus();
+  await page.keyboard.press("Enter");
+  assert.equal(await page.locator("#results h2").first().evaluate(el=>el===document.activeElement),true,"mobile paging lost focus");
+  const focusedBox=await page.locator("#results h2").first().boundingBox();
+  assert.ok(focusedBox&&focusedBox.y>=0&&focusedBox.y+focusedBox.height<=700,"mobile paging left focused result outside viewport");
+  await checkAccessibility(page,"320px mobile");
+  await page.emulateMedia({colorScheme:"dark"});
+  await checkAccessibility(page,"mobile dark preference");
   assert.deepEqual(errors,[],"uncaught browser errors");
   const failurePage=await browser.newPage();
   await failurePage.route("**/search-index.json",route=>route.abort("failed"));
   await failurePage.goto("http://127.0.0.1:"+port+"/search-preview.html",{waitUntil:"domcontentloaded"});
   await failurePage.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("資料載入失敗"),null,{timeout:10000});
+  assert.equal(await failurePage.locator("#results").getAttribute("aria-busy"),"false","failed load left results busy");
   await failurePage.locator("#query").fill("物權");
   await failurePage.waitForTimeout(250);
   assert.match(await failurePage.locator("#status").innerText(),/資料載入失敗/,"search input erased the load error");
@@ -94,7 +124,7 @@ try{
     assert.equal(await practice.locator("#"+id).count(),1,"missing dynamic practice field "+id);
   }
   await practice.close();
-  console.log("Chromium E2E PASS: "+expectedCount+" records, filters, share URL restore, pagination, no-match, offline/retry, mobile width, essay anchors.");
+  console.log("Chromium E2E PASS: "+expectedCount+" records, filters, share URL restore, pagination, no-match, offline/retry, mobile width, visible paging focus, axe accessibility scans, essay anchors.");
 }finally{
   if(browser)await browser.close();
   await new Promise(resolve=>server.close(resolve));
