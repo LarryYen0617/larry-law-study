@@ -31,9 +31,11 @@ const hits = searchLawNotes(notes, "物權", { subject: "民法物權" });
 
 > 本範例只是示範資料格式；法律內容與現行法版本在正式上線前仍需逐條核對。
 
-## 靜態搜尋索引（開發分支）
-- `site/search-preview.html` 優先載入 `site/search-preview-index.json`；若失敗則嘗試讀取九個已確認存在的 HTML 頁面。
-- `scripts/build-search-index.py` 可從 `site/` 的九個來源頁面重新產生索引。執行：`python3 modernization/scripts/build-search-index.py`。
-- 修改教材後須重新產生並提交索引，否則搜尋可能顯示舊內容。GitHub Actions 目前僅驗證產生流程，尚未檢查已提交索引與來源是否完全一致。
-- 索引只包含公開頁面；**不要放入私人講義、個資、未授權的教師教材或 API 金鑰**。
-- 搜尋頁面尚未正式整合，亦未完成端到端瀏覽器驗收。
+## 全站搜尋（開發分支）
+
+- `site/search-preview.html` 直接讀取既有 `site/search-index.json`，不覆蓋原始資料。正式索引目前有 3,602 筆：筆記、重點卡片、題目、教師教材、資料庫、閱讀、申論及小說。
+- 支援科目／類型篩選、AND 關鍵字搜尋、分頁、手機版版面、結果網址白名單與失敗重試；所有結果文字使用 `textContent`，避免把資料內容當 HTML 執行。
+- `site/courses.html` 提供搜尋入口；仍需實際手機與瀏覽器 E2E 驗收，**尚未合併正式站**。
+- `modernization/scripts/audit-production-index.py` 以只讀方式檢查原有資料結構、至少 3,602 筆記錄、唯一 ID 與安全連結。
+- `modernization/scripts/build-search-index.py` 仍可產生九個 HTML 頁面的輕量預覽索引，供開發驗證；產物 `site/search-preview-index.json` **不納入 Git**，CI 每次重新產生、檢查並確認一致性，不再使用過期的手工 JSON。
+- 請勿放入私人講義、個資、未授權教師教材或 API 金鑰。搜尋只是檢索既有內容，**不代表法條與答案已全部查核**。
