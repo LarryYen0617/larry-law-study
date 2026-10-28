@@ -52,7 +52,14 @@ try{
   const width=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,viewport:window.innerWidth}));
   assert.ok(width.scroll<=width.viewport+2,"mobile horizontal overflow: "+JSON.stringify(width));
   assert.deepEqual(errors,[],"uncaught browser errors");
-  console.log("Chromium E2E PASS: 3602 records, query, subject/type filters, share URL, mobile width.");
+  const practice=await browser.newPage({viewport:{width:1280,height:800}});
+  await practice.goto("http://127.0.0.1:"+port+"/practice.html",{waitUntil:"domcontentloaded"});
+  await practice.waitForSelector("#practice-issue",{timeout:12000});
+  for(const id of ["practice-issue","practice-rule","practice-debate","practice-application","practice-conclusion"]){
+    assert.equal(await practice.locator("#"+id).count(),1,"missing dynamic practice field "+id);
+  }
+  await practice.close();
+  console.log("Chromium E2E PASS: 3602 records, query, subject/type filters, share URL, mobile width, essay anchors.");
 }finally{
   if(browser)await browser.close();
   await new Promise(resolve=>server.close(resolve));
