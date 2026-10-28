@@ -30,3 +30,10 @@ const hits = searchLawNotes(notes, "物權", { subject: "民法物權" });
 ```
 
 > 本範例只是示範資料格式；法律內容與現行法版本在正式上線前仍需逐條核對。
+
+## 靜態搜尋索引（開發分支）
+- `site/search-preview.html` 優先載入 `site/search-index.json`；若失敗則嘗試讀取九個已確認存在的 HTML 頁面。
+- `scripts/build-search-index.py` 可從 `site/` 的九個來源頁面重新產生索引。執行：`python3 modernization/scripts/build-search-index.py`。
+- 修改教材後須重新產生並提交索引，否則搜尋可能顯示舊內容。GitHub Actions 目前僅驗證產生流程，尚未檢查已提交索引與來源是否完全一致。
+- 索引只包含公開頁面；**不要放入私人講義、個資、未授權的教師教材或 API 金鑰**。
+- 搜尋頁面尚未正式整合，亦未完成端到端瀏覽器驗收。
