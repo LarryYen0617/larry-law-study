@@ -27,6 +27,8 @@ def inspect(data, min_records=0, baseline_types=None):
         for field in REQUIRED:
             if not isinstance(item.get(field), str):
                 problems.append(f"row {row}: invalid {field}")
+            elif not item[field].strip():
+                problems.append(f"row {row}: empty {field}")
         key = item.get("id")
         if not isinstance(key, str) or not key.strip():
             problems.append(f"row {row}: missing id")
