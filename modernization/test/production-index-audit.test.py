@@ -35,6 +35,16 @@ class ProductionIndexAuditTests(unittest.TestCase):
         self.assertFalse(module.inspect({"version": 1, "items": [item(key="")]})["valid"])
     def test_rejects_non_object_record(self):
         self.assertFalse(module.inspect({"version": 1, "items": [None]})["valid"])
+    def test_rejects_loss_of_record_category_even_if_total_is_unchanged(self):
+        records = [item("id-1"), item("id-2")]
+        report = module.inspect({"version": 1, "items": records},
+                                min_records=2, baseline_types={"note": 1, "teacher": 1})
+        self.assertFalse(report["valid"])
+        self.assertTrue(any("type teacher dropped" in x for x in report["problems"]))
+    def test_accepts_category_baseline(self):
+        report = module.inspect({"version": 1, "items": [item()]},
+                                min_records=1, baseline_types={"note": 1})
+        self.assertTrue(report["valid"])
     def test_rejects_invalid_schema(self):
         self.assertFalse(module.inspect({"schemaVersion": 1, "pages": []})["valid"])
 
