@@ -31,6 +31,7 @@ const pages = [
   {url:"class-notes/property-midterm-1151.html",subject:"民法物權",label:"物權期中考整理"}
 ];
 const input=document.querySelector("#query"),results=document.querySelector("#results"),status=document.querySelector("#status");
+const allowedUrls=new Set(pages.map(p=>p.url));
 let index=[];
 let loading=true;
 let failedCount=0;
@@ -55,8 +56,9 @@ function render(){
   for(const hit of hits){
     const card=document.createElement("article"),link=document.createElement("a"),detail=document.createElement("p"),meta=document.createElement("small");
     link.href=hit.url;link.textContent=hit.title;meta.textContent=hit.subject;
-    const at=Math.max(0,normalize(hit.body).indexOf(terms[0]));
-    detail.textContent=hit.body.slice(Math.max(0,at-45),Math.min(hit.body.length,at+155))+"…";
+    const body=hit.body;
+    const at=Math.max(0,normalize(body).indexOf(terms[0]));
+    detail.textContent=body.slice(Math.max(0,at-45),Math.min(body.length,at+155))+(body.length>at+155?"…":"");
     card.append(link,meta,detail);results.append(card);
   }
 }
@@ -66,7 +68,7 @@ async function initialize(){
     if(!response.ok)throw new Error("Index unavailable");
     const data=await response.json();
     if(data.schemaVersion!==1||!Array.isArray(data.pages))throw new Error("Unsupported index");
-    index=data.pages.filter(page=>page && typeof page.url==="string" && typeof page.title==="string" && typeof page.body==="string" && typeof page.subject==="string");
+    index=data.pages.filter(page=>page && allowedUrls.has(page.url) && typeof page.title==="string" && typeof page.body==="string" && typeof page.subject==="string");
     failedCount=data.pages.length-index.length;
   } catch {
     const all=await Promise.allSettled(pages.map(load));
