@@ -4,7 +4,7 @@ on:
     paths:
       - 'modernization/**'
       - 'site/search-preview.html'
-      - 'site/search-index.json'
+      - 'site/search-preview-index.json'
       - 'site/**/*.html'
       - '.github/workflows/modernization-checks.yml'
   pull_request:
