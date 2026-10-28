@@ -102,8 +102,15 @@ try{
   const buttonSize=await page.locator("#next").boundingBox();
   assert.ok(buttonSize&&buttonSize.height>=44&&buttonSize.width>=44,"pager touch target too small");
   await page.locator("#next").focus();
+  const beforeMobileEnter=await page.evaluate(()=>({
+    activeId:document.activeElement?.id,
+    pagerHidden:document.querySelector("#pager").hidden,
+    nextDisabled:document.querySelector("#next").disabled,
+    pageLabel:document.querySelector("#page-label").textContent,
+    status:document.querySelector("#status").textContent,
+    url:location.search
+  }));
   await page.keyboard.press("Enter");
-  await page.waitForFunction(()=>document.querySelector("#page-label")?.textContent?.startsWith("第 2／"),null,{timeout:3000});
   const mobilePagingState=await page.evaluate(()=>({
     focused:document.querySelector("#results h2")===document.activeElement,
     activeTag:document.activeElement?.tagName,
@@ -113,7 +120,8 @@ try{
     pageLabel:document.querySelector("#page-label").textContent,
     url:location.search
   }));
-  assert.equal(mobilePagingState.focused,true,"mobile paging lost focus: "+JSON.stringify(mobilePagingState));
+  assert.ok(mobilePagingState.pageLabel.startsWith("第 2／"),"mobile paging did not advance: "+JSON.stringify({beforeMobileEnter,mobilePagingState}));
+  assert.equal(mobilePagingState.focused,true,"mobile paging lost focus: "+JSON.stringify({beforeMobileEnter,mobilePagingState}));
   const focusedBox=await page.locator("#results h2").first().boundingBox();
   assert.ok(focusedBox&&focusedBox.y>=0&&focusedBox.y+focusedBox.height<=700,"mobile paging left focused result outside viewport");
   await checkAccessibility(page,"320px mobile");
