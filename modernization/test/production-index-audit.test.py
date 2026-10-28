@@ -49,6 +49,10 @@ class ProductionIndexAuditTests(unittest.TestCase):
         record = item()
         record["title"] = "   "
         self.assertFalse(module.inspect({"version": 1, "items": [record]})["valid"])
+    def test_allows_uncategorized_records(self):
+        record = item()
+        record["subject"] = ""
+        self.assertTrue(module.inspect({"version": 1, "items": [record]})["valid"])
     def test_rejects_invalid_schema(self):
         self.assertFalse(module.inspect({"schemaVersion": 1, "pages": []})["valid"])
 
