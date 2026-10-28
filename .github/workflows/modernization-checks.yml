@@ -16,4 +16,4 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node --test modernization/test/*.test.mjs
+      - run: cd modernization && npm install --no-audit --no-fund && npm test
