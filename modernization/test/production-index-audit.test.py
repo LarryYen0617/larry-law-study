@@ -23,6 +23,9 @@ class ProductionIndexAuditTests(unittest.TestCase):
         self.assertFalse(module.inspect({"version": 1, "items": [item(), item()]})["valid"])
     def test_rejects_external_href(self):
         self.assertFalse(module.inspect({"version": 1, "items": [item(href="https://evil.example/")]})["valid"])
+    def test_rejects_credential_href(self):
+        self.assertFalse(module.inspect({"version": 1, "items": [item(href="https://user:password@example.com/index.html")]})["valid"])
+
     def test_rejects_traversal_href(self):
         self.assertFalse(module.inspect({"version": 1, "items": [item(href="../index.html")]})["valid"])
     def test_rejects_javascript_href(self):
