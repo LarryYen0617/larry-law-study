@@ -8,6 +8,15 @@ const hub=read(path.join(dir,'study-hub.html'));
 const required=['刑法分則','民法親屬','民法債編','民法物權','行政法','租稅法','法學英文'];
 for(const name of required)assert(hub.includes(name),'科目入口缺少：'+name);
 for(const name of ['administrative-law-principles.html','four-subjects-roadmap.html','criminal-property-offenses.html'])assert(hub.includes(name),'未從科目入口連結：'+name);
+// Public administrative-law summary must be reachable without publishing class transcripts.
+const adminPage=path.join(dir,'administrative-discipline-remedies.html');
+const adminHtml=read(adminPage);
+for(const term of ['公務員懲戒法','公務人員考績法','公務人員保障法','第64條','第12條','第78條'])
+  assert(adminHtml.includes(term),'行政懲戒專題缺少法源：'+term);
+assert(!/私人逐字稿全文|教師講義原文內容：/.test(adminHtml),'行政專題不得公開私人原稿');
+const catalog=JSON.parse(read(path.resolve(__dirname,'../content/course-catalog.json')));
+assert(catalog.materials.some(m=>m.href==='class-notes/administrative-discipline-remedies.html'&&m.subjects.includes('admin')),
+  '行政懲戒專題尚未納入行政法課程目錄');
 let checked=0;
 for(const name of pages){
   const file=path.join(dir,name),html=read(file);
