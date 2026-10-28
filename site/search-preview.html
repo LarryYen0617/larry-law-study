@@ -85,7 +85,7 @@ function draw(){
   results.setAttribute("aria-busy","false");
   const totalPages=Math.max(1,Math.ceil(hits.length/pageSize));
   page=Math.min(page,totalPages-1);
-  const terms=normalize(input.value).split(" ").filter(Boolean);
+  const terms=normalize(input.value.slice(0,200)).split(" ").filter(Boolean);
   const start=page*pageSize;
   for(const item of hits.slice(start,start+pageSize)){
     const article=document.createElement("article");
@@ -135,7 +135,7 @@ async function load(){
     for(const item of data.items){
       if(!item||["id","type","subject","title","body","href"].some(key=>typeof item[key]!=="string"))continue;
       const href=safeHref(item.href);
-      if(!href||!item.id||seen.has(item.id))continue;
+      if(!href||!item.id.trim()||!item.title.trim()||!item.type.trim()||seen.has(item.id))continue;
       seen.add(item.id);
       clean.push({...item,href,_title:normalize(item.title),_subject:normalize(label(subjectNames,item.subject)),_body:normalize(item.body)});
     }
