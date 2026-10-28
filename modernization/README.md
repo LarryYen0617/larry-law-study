@@ -40,7 +40,7 @@ const hits = searchLawNotes(notes, "物權", { subject: "民法物權" });
 - `modernization/scripts/build-search-index.py` 仍可產生九個 HTML 頁面的輕量預覽索引，供開發驗證；產物 `site/search-preview-index.json` **不納入 Git**，CI 每次重新產生、檢查並確認一致性，不再使用過期的手工 JSON。
 - 請勿放入私人講義、個資、未授權教師教材或 API 金鑰。搜尋只是檢索既有內容，**不代表法條與答案已全部查核**。
 
-## 部署流程（尚未啟用正式部署）
-- `.github/workflows/deploy-pages.yml` 提供 main 分支限定的 GitHub Pages 發布流程，包含 TypeScript、Chromium E2E、正式索引及預覽索引驗證。
-- 合併 main 後的站點相關變更會觸發驗證及部署；若 GitHub Pages 未設定為 GitHub Actions 發布來源，仍需在儲存庫設定中調整。不得以工作流程存在推定已部署。
-- 回復方法：將 main 還原至上一次已驗收提交，再由同一工作流程重新部署；保留舊版原始資料及備份。
+## 既有正式部署流程（尚未合併）
+- 原專案已透過 `.github/workflows/daily.yml` 在 main push 及定時任務建置並部署 GitHub Pages；**不得再啟動第二個競爭的 Pages 部署工作流程**。
+- 開發分支已在原有流程的正式上傳前加入 TypeScript、Chromium E2E、正式 3,602 筆索引、HTML 連結與九科覆蓋驗證；只有這些檢查成功才會進入原有發布步驟。
+- 回復方式：將 main 還原至上一次已驗收提交，再由原有 daily.yml 重新發布。仍須檢查定時發布與本次改動的實際相容性。
