@@ -17,6 +17,12 @@ class IndexAuditTests(unittest.TestCase):
             (root/"ok.html").write_text("<title>OK</title>",encoding="utf-8")
             item={"url":"ok.html","subject":"民法","title":"測試","body":"內容"}
             self.assertTrue(any("duplicate" in x for x in module.validate({"schemaVersion":1,"pages":[item,item]},root)))
+    def test_rejects_oversized_title(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            (root/"ok.html").write_text("<title>OK</title>",encoding="utf-8")
+            data={"schemaVersion":1,"pages":[{"url":"ok.html","subject":"民法","title":"甲"*301,"body":"內容"}]}
+            self.assertTrue(any("title too long" in x for x in module.validate(data,root)))
     def test_accepts_valid_entry(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)
