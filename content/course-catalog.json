@@ -122,6 +122,15 @@
       "essay": "questions.html?view=essay&subject=property",
       "materials": [
         {
+          "id": "property-midterm-1151",
+          "subjects": [
+            "property"
+          ],
+          "title": "民法物權｜期中考範圍與超巨蛋BOT申論",
+          "label": "期中考：25題單選與BOT申論",
+          "href": "class-notes/property-midterm-1151.html"
+        },
+        {
           "id": "four-subjects-roadmap",
           "subjects": [
             "family",
@@ -316,6 +325,15 @@
       "title": "法學英文｜Legal English",
       "label": "Courts and Jurisdiction 課堂整理",
       "href": "class-notes/legal-english.html"
+    },
+    {
+      "id": "property-midterm-1151",
+      "subjects": [
+        "property"
+      ],
+      "title": "民法物權｜期中考範圍與超巨蛋BOT申論",
+      "label": "期中考：25題單選與BOT申論",
+      "href": "class-notes/property-midterm-1151.html"
     }
   ]
 }
