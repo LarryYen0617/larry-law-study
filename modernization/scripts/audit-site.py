@@ -70,6 +70,9 @@ if __name__ == "__main__":
     report = audit()
     output = Path(sys.argv[1]) if len(sys.argv) > 1 else None
     payload = json.dumps(report, ensure_ascii=False, indent=2)
-    if output: output.write_text(payload + "\n", encoding="utf-8")
+    if output:
+        output.write_text(payload + "\n", encoding="utf-8")
+        counts = Counter(item["type"] for item in report["problems"])
+        print(json.dumps({"pages_checked": report["pages_checked"], "problem_count": report["problem_count"], "problem_types": dict(counts), "sample": report["problems"][:8]}, ensure_ascii=False))
     else: print(payload)
     # Audit is informative: pre-existing issues do not break deployment.
