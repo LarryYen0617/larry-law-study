@@ -110,7 +110,9 @@ try{
     status:document.querySelector("#status").textContent,
     url:location.search
   }));
-  await page.keyboard.press("Enter");
+  // Locator.press re-establishes page focus after the mobile viewport resize,
+  // while still exercising keyboard activation (not a mouse click).
+  await page.locator("#next").press("Enter");
   const mobilePagingState=await page.evaluate(()=>({
     focused:document.querySelector("#results h2")===document.activeElement,
     activeTag:document.activeElement?.tagName,
