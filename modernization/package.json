@@ -1,0 +1,15 @@
+{
+  "name": "larry-law-study-modernization",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test test/legal-search.test.mjs",
+    "validate": "node scripts/validate-notes.mjs",
+    "test:e2e": "node test/browser-search.test.mjs"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.3",
+    "playwright-core": "^1.55.0"
+  }
+}
