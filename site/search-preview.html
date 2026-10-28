@@ -130,6 +130,7 @@ async function load(){
     if(!response.ok)throw new Error("HTTP "+response.status);
     const data=await response.json();
     if(data.version!==1||!Array.isArray(data.items))throw new Error("不支援的資料格式");
+    if(data.items.length<3602)throw new Error("資料筆數低於正式資料庫基準，已停止顯示以避免誤導");
     const seen=new Set();
     const clean=[];
     for(const item of data.items){
