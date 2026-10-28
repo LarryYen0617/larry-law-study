@@ -1,0 +1,32 @@
+"""Regression tests for the immutable production search-index contract."""
+import importlib.util
+import unittest
+from pathlib import Path
+
+SCRIPT = Path(__file__).resolve().parents[1] / "scripts" / "audit-production-index.py"
+spec = importlib.util.spec_from_file_location("production_audit", SCRIPT)
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+
+def item(key="id-1", href="index.html#example"):
+    return {"id": key, "type": "note", "subject": "civilgeneral",
+            "title": "民法", "body": "物權", "href": href}
+
+class ProductionIndexAuditTests(unittest.TestCase):
+    def test_valid_record(self):
+        self.assertTrue(module.inspect({"version": 1, "items": [item()]}, min_records=1)["valid"])
+    def test_rejects_truncated_database(self):
+        report = module.inspect({"version": 1, "items": [item()]}, min_records=3602)
+        self.assertFalse(report["valid"])
+        self.assertTrue(any("record count dropped" in x for x in report["problems"]))
+    def test_rejects_duplicate_ids(self):
+        self.assertFalse(module.inspect({"version": 1, "items": [item(), item()]})["valid"])
+    def test_rejects_external_href(self):
+        self.assertFalse(module.inspect({"version": 1, "items": [item(href="https://evil.example/")]})["valid"])
+    def test_rejects_traversal_href(self):
+        self.assertFalse(module.inspect({"version": 1, "items": [item(href="../index.html")]})["valid"])
+    def test_rejects_invalid_schema(self):
+        self.assertFalse(module.inspect({"schemaVersion": 1, "pages": []})["valid"])
+
+if __name__ == "__main__":
+    unittest.main()
