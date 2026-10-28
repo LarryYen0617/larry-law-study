@@ -43,7 +43,7 @@ def audit(root=ROOT):
             problems.append({"page": rel, "type": "missing_title"})
         if len(title) > 150:
             problems.append({"page": rel, "type": "long_title", "detail": str(len(title))})
-        else:
+        if title:
             titles.setdefault(title, []).append(rel)
         for ident, count in Counter(parser.ids).items():
             if count > 1: problems.append({"page": rel, "type": "duplicate_id", "detail": ident})
