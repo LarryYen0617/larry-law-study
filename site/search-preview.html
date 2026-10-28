@@ -51,6 +51,7 @@ function safeHref(href){
   if(typeof href!=="string"||href.includes("\\")||/[\u0000-\u001f]/.test(href))return null;
   try{
     const target=new URL(href,location.href);
+    if(target.username||target.password)return null;
     const source=new URL(location.href);
     const path=target.pathname.split("/").pop();
     if(target.origin!==source.origin||!safePages.has(path)||target.pathname!==new URL(path,location.href).pathname)return null;
@@ -152,7 +153,7 @@ async function load(){
     if([...subject.options].some(x=>x.value===params.get("subject")))subject.value=params.get("subject")||"";
     if([...kind.options].some(x=>x.value===params.get("type")))kind.value=params.get("type")||"";
     search();
-    if(clean.length!==data.items.length)status.textContent+=" 注意：部分不安全或無效記錄已排除。";
+
   }catch(error){
     ready=false;
     records=[];hits=[];results.replaceChildren();results.setAttribute("aria-busy","false");pager.hidden=true;
