@@ -12,7 +12,7 @@ small{opacity:.8}a{overflow-wrap:anywhere}button{padding:.5rem}#status{min-heigh
 <body><main>
 <nav><a href="courses.html">返回課程入口</a></nav>
 <h1>法律教材搜尋（預覽版）</h1>
-<p>目前索引已確認存在的九個頁面，尚未涵蓋全部教材；搜尋在瀏覽器本機執行，不會上傳查詢內容。</p>
+<p>目前涵蓋九個已確認存在的頁面，尚未涵蓋全部教材。優先載入預先建立的索引；若尚未產生索引，改用逐頁讀取。查詢在瀏覽器本機執行。</p>
 <label for="query">輸入科目、法條或關鍵字</label>
 <input id="query" type="search" placeholder="例如：物權 757" autocomplete="off">
 <p id="status" role="status" aria-live="polite">正在載入教材索引……</p>
@@ -60,11 +60,23 @@ function render(){
     card.append(link,meta,detail);results.append(card);
   }
 }
-Promise.allSettled(pages.map(load)).then(all=>{
-  index=all.filter(x=>x.status==="fulfilled").map(x=>x.value);
-  failedCount=all.length-index.length;
-  loading=false;
-  render();
-});
+async function initialize(){
+  try {
+    const response=await fetch("search-index.json");
+    if(!response.ok)throw new Error("Index unavailable");
+    const data=await response.json();
+    if(data.schemaVersion!==1||!Array.isArray(data.pages))throw new Error("Unsupported index");
+    index=data.pages.filter(page=>page && typeof page.url==="string" && typeof page.title==="string" && typeof page.body==="string" && typeof page.subject==="string");
+    failedCount=data.pages.length-index.length;
+  } catch {
+    const all=await Promise.allSettled(pages.map(load));
+    index=all.filter(x=>x.status==="fulfilled").map(x=>x.value);
+    failedCount=all.length-index.length;
+  } finally {
+    loading=false;
+    render();
+  }
+}
+initialize();
 input.addEventListener("input",render);
 </script></body></html>
