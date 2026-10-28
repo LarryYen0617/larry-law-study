@@ -8,6 +8,7 @@ on:
       - 'site/search-index.json'
       - 'site/**/*.html'
       - '.github/workflows/modernization-checks.yml'
+      - '.github/workflows/daily.yml'
   pull_request:
     paths:
       - 'modernization/**'
