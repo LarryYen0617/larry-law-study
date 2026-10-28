@@ -45,6 +45,10 @@ class ProductionIndexAuditTests(unittest.TestCase):
         report = module.inspect({"version": 1, "items": [item()]},
                                 min_records=1, baseline_types={"note": 1})
         self.assertTrue(report["valid"])
+    def test_rejects_blank_title(self):
+        record = item()
+        record["title"] = "   "
+        self.assertFalse(module.inspect({"version": 1, "items": [record]})["valid"])
     def test_rejects_invalid_schema(self):
         self.assertFalse(module.inspect({"schemaVersion": 1, "pages": []})["valid"])
 
