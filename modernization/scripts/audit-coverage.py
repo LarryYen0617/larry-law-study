@@ -24,6 +24,8 @@ def summarize(items):
 
 if __name__ == "__main__":
     data = json.loads(SOURCE.read_text(encoding="utf-8"))
+    if data.get("version") != 1 or not isinstance(data.get("items"), list) or len(data["items"]) < 3602:
+        raise SystemExit("Invalid or truncated production index; coverage report not generated")
     summary = summarize(data["items"])
     print(json.dumps(summary, ensure_ascii=False, indent=2))
     output = ROOT / "coverage-report.json"
