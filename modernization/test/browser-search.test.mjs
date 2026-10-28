@@ -88,7 +88,14 @@ try{
   await page.locator("#query").fill("行政法");
   await page.selectOption("#subject","admin");
   await page.selectOption("#kind","");
-  await page.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("找到"),null,{timeout:5000});
+  // The previous no-match query also displays "找到"; wait until the
+  // debounced mobile query is actually applied before testing pager focus.
+  await page.waitForFunction(()=>{
+    const params=new URLSearchParams(location.search);
+    return params.get("q")==="行政法" && params.get("subject")==="admin"
+      && document.querySelector("#status")?.textContent?.includes("找到")
+      && !document.querySelector("#pager").hidden;
+  },null,{timeout:5000});
   assert.ok(await page.locator("#results article").count()>0,"mobile search returned no results");
   const width=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,viewport:window.innerWidth}));
   assert.ok(width.scroll<=width.viewport+2,"mobile horizontal overflow: "+JSON.stringify(width));
