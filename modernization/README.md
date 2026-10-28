@@ -35,7 +35,12 @@ const hits = searchLawNotes(notes, "物權", { subject: "民法物權" });
 
 - `site/search-preview.html` 直接讀取既有 `site/search-index.json`，不覆蓋原始資料。正式索引目前有 3,602 筆：筆記、重點卡片、題目、教師教材、資料庫、閱讀、申論及小說。
 - 支援科目／類型篩選、AND 關鍵字搜尋、分頁、手機版版面、結果網址白名單與失敗重試；所有結果文字使用 `textContent`，避免把資料內容當 HTML 執行。
-- `site/courses.html` 提供搜尋入口；仍需實際手機與瀏覽器 E2E 驗收，**尚未合併正式站**。
+- `site/courses.html` 提供搜尋入口；已在 GitHub Actions 的 Chromium E2E 驗證桌面及 390px 手機視窗搜尋；仍需實機與無障礙驗收，**尚未合併正式站**。
 - `modernization/scripts/audit-production-index.py` 以只讀方式檢查原有資料結構、至少 3,602 筆記錄、唯一 ID 與安全連結。
 - `modernization/scripts/build-search-index.py` 仍可產生九個 HTML 頁面的輕量預覽索引，供開發驗證；產物 `site/search-preview-index.json` **不納入 Git**，CI 每次重新產生、檢查並確認一致性，不再使用過期的手工 JSON。
 - 請勿放入私人講義、個資、未授權教師教材或 API 金鑰。搜尋只是檢索既有內容，**不代表法條與答案已全部查核**。
+
+## 部署流程（尚未啟用正式部署）
+- `.github/workflows/deploy-pages.yml` 提供 main 分支限定的 GitHub Pages 發布流程，包含 TypeScript、Chromium E2E、正式索引及預覽索引驗證。
+- 合併 main 後的站點相關變更會觸發驗證及部署；若 GitHub Pages 未設定為 GitHub Actions 發布來源，仍需在儲存庫設定中調整。不得以工作流程存在推定已部署。
+- 回復方法：將 main 還原至上一次已驗收提交，再由同一工作流程重新部署；保留舊版原始資料及備份。
