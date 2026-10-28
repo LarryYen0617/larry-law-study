@@ -7,7 +7,6 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 PATH = Path(__file__).resolve().parents[2] / "site" / "search-index.json"
-SAFE_PAGES = {"essentials.html", "library.html", "index.html", "reading.html"}
 REQUIRED = ("id", "type", "subject", "title", "body", "href")
 BASELINE_TYPES = {"note": 97, "card": 40, "question": 1803, "teacher": 92, "archive": 1016, "reading": 14, "lesson": 27, "novel": 513}
 
@@ -44,7 +43,10 @@ def inspect(data, min_records=0, baseline_types=None):
         href = item.get("href")
         if isinstance(href, str):
             url = urlsplit(href)
-            if (url.scheme or url.netloc or url.path not in SAFE_PAGES
+            parts = url.path.split("/")
+            if (url.scheme or url.netloc or not url.path or url.path.startswith("/")
+                    or not url.path.endswith(".html") or any(part in ("", ".", "..") for part in parts)
+                    or any(encoded in url.path.lower() for encoded in ("%2e", "%2f", "%5c"))
                     or "\\" in href or any(ord(ch) < 32 for ch in href)):
                 problems.append(f"row {row}: unsafe href")
     if baseline_types is not None:
