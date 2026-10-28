@@ -17,7 +17,7 @@ button:disabled{opacity:.5;cursor:default}
 article{border:1px solid #8886;border-radius:.75rem;padding:1rem;margin:.8rem 0;overflow-wrap:anywhere}
 article h2{font-size:1.1rem;margin:0 0 .25rem}article p{margin:.5rem 0 0;white-space:normal}
 .meta{font-size:.87rem;opacity:.82}
-#status{min-height:1.6rem}#pager{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:center;margin:1rem 0}
+#status{min-height:1.6rem;color:var(--ink);font-size:1rem}#pager{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:center;margin:1rem 0}
 a{overflow-wrap:anywhere}h2:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #2c8bd8;outline-offset:2px}
 @media(max-width:700px){.search-grid{grid-template-columns:1fr}.search-grid label{width:100%}article{padding:.85rem}}
 </style>
@@ -168,8 +168,9 @@ input.addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(search,
 subject.addEventListener("change",search);kind.addEventListener("change",search);
 function changePage(offset){
   page+=offset;draw();
-  results.querySelector("h2")?.focus({preventScroll:true});
-  window.scrollTo({top:0,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"instant":"smooth"});
+  const firstHeading=results.querySelector("h2");
+  firstHeading?.focus({preventScroll:true});
+  firstHeading?.scrollIntoView({block:"start",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"instant":"smooth"});
 }
 $("#previous").addEventListener("click",()=>changePage(-1));
 $("#next").addEventListener("click",()=>changePage(1));

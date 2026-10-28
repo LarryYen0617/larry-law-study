@@ -5,6 +5,7 @@ import { existsSync } from "node:fs";
 import { resolve, extname, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright-core";
+import AxeBuilder from "@axe-core/playwright";
 
 const site=resolve(dirname(fileURLToPath(import.meta.url)),"../../site");
 const types={".html":"text/html; charset=utf-8",".css":"text/css; charset=utf-8",
@@ -23,11 +24,16 @@ await new Promise((ok,fail)=>server.once("error",fail).listen(0,"127.0.0.1",ok))
 const port=server.address().port;
 const candidates=[process.env.CHROME_PATH,"/usr/bin/google-chrome","/usr/bin/google-chrome-stable","/usr/bin/chromium","/usr/bin/chromium-browser"];
 const executablePath=candidates.find(p=>p&&existsSync(p));
+async function checkAccessibility(page,label){
+  const audit=await new AxeBuilder({page}).withTags(["wcag2a","wcag2aa","wcag21a","wcag21aa","wcag22aa"]).analyze();
+  assert.deepEqual(audit.violations.map(item=>({id:item.id,impact:item.impact,targets:item.nodes.map(node=>node.target)})),[],label+" accessibility violations");
+}
 let browser;
 try{
   assert.ok(executablePath,"Chromium/Chrome executable not found on CI runner");
   browser=await chromium.launch({executablePath,headless:true,args:["--no-sandbox"]});
-  const page=await browser.newPage({viewport:{width:1280,height:800}});
+  const context=await browser.newContext({viewport:{width:1280,height:800}});
+  const page=await context.newPage();
   const errors=[];
   page.on("pageerror",error=>errors.push(error.message));
   await page.goto("http://127.0.0.1:"+port+"/search-preview.html",{waitUntil:"domcontentloaded"});
@@ -40,6 +46,7 @@ try{
   assert.ok(await page.locator("#results article").count()>0,"no initial results");
   assert.equal(await page.getByRole("search",{name:"教材搜尋條件"}).count(),1);
   assert.equal(await page.locator("#results").getAttribute("aria-busy"),"false");
+  await checkAccessibility(page,"desktop");
   await page.emulateMedia({reducedMotion:"reduce"});
   await page.locator("#query").fill("物權");
   await page.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("找到"),null,{timeout:5000});
@@ -61,8 +68,8 @@ try{
   await page.waitForFunction(count=>document.querySelector("#status")?.textContent?.includes("目前顯示 "+count+" 筆"),expectedCount,{timeout:12000});
   const expectedPages=Math.ceil(expectedCount/20);
   await page.evaluate(()=>{
-    const original=window.scrollTo.bind(window);
-    window.scrollTo=options=>{window.lastSearchScroll=options;original(options)};
+    const original=Element.prototype.scrollIntoView;
+    Element.prototype.scrollIntoView=function(options){window.lastSearchScroll=options;original.call(this,options)};
   });
   await page.locator("#next").focus();
   await page.keyboard.press("Enter");
@@ -87,6 +94,14 @@ try{
   assert.ok(width.scroll<=width.viewport+2,"mobile horizontal overflow: "+JSON.stringify(width));
   const buttonSize=await page.locator("#next").boundingBox();
   assert.ok(buttonSize&&buttonSize.height>=44&&buttonSize.width>=44,"pager touch target too small");
+  await page.locator("#next").focus();
+  await page.keyboard.press("Enter");
+  assert.equal(await page.locator("#results h2").first().evaluate(el=>el===document.activeElement),true,"mobile paging lost focus");
+  const focusedBox=await page.locator("#results h2").first().boundingBox();
+  assert.ok(focusedBox&&focusedBox.y>=0&&focusedBox.y+focusedBox.height<=700,"mobile paging left focused result outside viewport");
+  await checkAccessibility(page,"320px mobile");
+  await page.emulateMedia({colorScheme:"dark"});
+  await checkAccessibility(page,"mobile dark preference");
   assert.deepEqual(errors,[],"uncaught browser errors");
   const failurePage=await browser.newPage();
   await failurePage.route("**/search-index.json",route=>route.abort("failed"));
@@ -109,7 +124,7 @@ try{
     assert.equal(await practice.locator("#"+id).count(),1,"missing dynamic practice field "+id);
   }
   await practice.close();
-  console.log("Chromium E2E PASS: "+expectedCount+" records, filters, share URL restore, pagination, no-match, offline/retry, mobile width, essay anchors.");
+  console.log("Chromium E2E PASS: "+expectedCount+" records, filters, share URL restore, pagination, no-match, offline/retry, mobile width, visible paging focus, axe accessibility scans, essay anchors.");
 }finally{
   if(browser)await browser.close();
   await new Promise(resolve=>server.close(resolve));

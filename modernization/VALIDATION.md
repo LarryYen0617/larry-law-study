@@ -31,7 +31,7 @@ python3 modernization/scripts/audit-site.py site-audit.json
 ```
 
 ## 上線門檻
-正式資料無破壞、CI 綠燈、實機手機與無障礙驗收、法規來源核對、部署與回滾路徑明確後才可合併 main。未達條件保持草稿 PR。
+依實際變更範圍驗收：正式資料無破壞、最新 CI 綠燈、相關操作與無障礙自動檢查通過，並確認既有部署與回滾路徑後可合併。新增或修改法律內容須另做法規來源核對；介面修正不以全部教材查核為前置。真實手機與螢幕閱讀器測試另行追蹤，未完成時不得聲稱已完成實機或完整無障礙認證。
 
 ## 早期線上站點檢查（歷史觀察，非目前部署狀態）
 - GitHub Pages：`https://larryyen0617.github.io/larry-law-study/` 可讀取首頁、`courses.html`、`discover.html`、`search-index.json`、物權期中筆記頁。
@@ -66,3 +66,15 @@ python3 modernization/scripts/audit-site.py site-audit.json
 - PR： https://github.com/LarryYen0617/larry-law-study/pull/3 。每次更新須查看最新 head 的 Modernization checks。
 - PR #2 的正式發布與自動檢查已成功；早期 404 觀察僅保留作歷史紀錄，不能代表目前站點狀態。
 - 本批不代表完整 WCAG 符合性或真實手機／螢幕閱讀器驗收完成，也不代表教材法律內容全面查核完成。
+
+
+## 2026-10-29 搜尋頁最終驗收補修
+
+- 後續工作採完成一批後統一提交；前段 20% 紀錄僅代表先前批次。
+- 修正換頁後焦點已移動、畫面卻捲回頁首的問題；現在直接捲到第一筆結果，減少動畫設定仍會生效。
+- 自動無障礙掃描發現狀態文字對比僅 4.38:1；已在搜尋頁改為主要文字色並增加字級，避免影響其他頁面的樣式。
+- 已以本機 Chromium 完成 3,796 筆資料 E2E，新增 320px 換頁後焦點可見性驗證。
+- 新增 axe-core 掃描至既有 E2E，在桌面、320px 及深色偏好三種狀態檢查 WCAG 2 A/AA、2.1 A/AA 與 2.2 AA 可自動判定項目；本機掃描均無 violations，另行抽查的 incomplete 亦為空。
+- 只提交搜尋頁、E2E、測試依賴及本紀錄，教材及產生的搜尋索引保持不變。
+- 發布前以 PR 最新提交的 Modernization checks 為準，發布後另確認原有 Pages 工作與正式搜尋頁內容。
+- 自動掃描無違規不等於完整 WCAG 符合性認證；真實 iOS／Android 與螢幕閱讀器驗收仍未完成。
