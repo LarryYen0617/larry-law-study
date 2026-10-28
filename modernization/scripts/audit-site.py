@@ -27,7 +27,7 @@ def audit(root=ROOT):
     root = root.resolve()
     files = sorted(root.rglob("*.html"))
     if not files:
-        return {"pages_checked": 0, "problem_count": 1, "problems": [{"page": ".", "type": "no_html_files"}]}
+        return {"pages_checked": 0, "problem_count": 1, "blocking_problem_count": 1, "problems": [{"page": ".", "type": "no_html_files"}]}
     problems = []
     titles = {}
     for file in files:
@@ -60,11 +60,19 @@ def audit(root=ROOT):
             if path and not dest.exists():
                 problems.append({"page": rel, "type": "missing_local_resource", "detail": href})
             elif target.fragment and dest.is_file() and dest == file and target.fragment not in parser.ids:
-                problems.append({"page": rel, "type": "missing_same_page_anchor", "detail": href})
+                if target.fragment.startswith("/"):
+                    continue  # SPA hash router; not a DOM anchor
+                dynamic = (rel == "practice.html" and "practiceFields" in parser.ids
+                           and target.fragment in {"practice-issue", "practice-rule", "practice-debate",
+                                                   "practice-application", "practice-conclusion"})
+                kind = "dynamic_anchor_unverified" if dynamic else "missing_same_page_anchor"
+                problems.append({"page": rel, "type": kind, "detail": href})
     for title, locations in titles.items():
         if len(locations) > 1:
             problems.append({"page": ", ".join(locations), "type": "duplicate_title", "detail": title})
-    return {"pages_checked": len(files), "problem_count": len(problems), "problems": problems}
+    return {"pages_checked": len(files), "problem_count": len(problems),
+            "blocking_problem_count": sum(p["type"] != "dynamic_anchor_unverified" for p in problems),
+            "problems": problems}
 
 if __name__ == "__main__":
     report = audit()
@@ -73,6 +81,8 @@ if __name__ == "__main__":
     if output:
         output.write_text(payload + "\n", encoding="utf-8")
         counts = Counter(item["type"] for item in report["problems"])
-        print(json.dumps({"pages_checked": report["pages_checked"], "problem_count": report["problem_count"], "problem_types": dict(counts), "sample": report["problems"][:8]}, ensure_ascii=False))
+        print(json.dumps({"pages_checked": report["pages_checked"], "problem_count": report["problem_count"], "blocking_problem_count": report["blocking_problem_count"], "problem_types": dict(counts), "sample": report["problems"][:8]}, ensure_ascii=False))
     else: print(payload)
-    # Audit is informative: pre-existing issues do not break deployment.
+    # Dynamically generated anchors remain warnings; broken resources and static anchors fail CI.
+    if report["blocking_problem_count"]:
+        sys.exit(1)
