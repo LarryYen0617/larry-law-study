@@ -41,6 +41,8 @@ def audit(root=ROOT):
         title = " ".join(parser.title).strip()
         if not title:
             problems.append({"page": rel, "type": "missing_title"})
+        if len(title) > 150:
+            problems.append({"page": rel, "type": "long_title", "detail": str(len(title))})
         else:
             titles.setdefault(title, []).append(rel)
         for ident, count in Counter(parser.ids).items():
