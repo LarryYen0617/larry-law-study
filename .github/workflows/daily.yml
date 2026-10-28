@@ -68,6 +68,16 @@ jobs:
           node scripts/build_search_index.cjs
           node tests/discover.cjs
           node tests/course-catalog.cjs
+      - name: 升級版搜尋、資料安全及 Chromium 實測
+        run: |
+          cd modernization
+          npm install --no-audit --no-fund
+          npm test
+          npm run test:e2e
+          cd ..
+          python3 modernization/scripts/audit-production-index.py
+          python3 modernization/scripts/audit-site.py site-audit.json
+          python3 modernization/scripts/audit-coverage.py
       - name: 上傳網站（不包含教材原始檔、腳本或任何秘密）
         uses: actions/upload-pages-artifact@v4
         with:
