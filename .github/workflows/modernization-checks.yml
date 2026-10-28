@@ -17,3 +17,5 @@ jobs:
         with:
           node-version: '22'
       - run: cd modernization && npm install --no-audit --no-fund && npm test && npm run validate -- examples/notes.sample.json
+      - run: python3 modernization/scripts/build-search-index.py
+      - run: python3 -c 'import json; d=json.load(open("site/search-index.json")); assert d["schemaVersion"]==1 and len(d["pages"])==9'
