@@ -2,7 +2,7 @@
 """Build a bounded static search index from verified HTML pages; stdlib only."""
 from html.parser import HTMLParser
 from pathlib import Path
-import json, re, sys
+import json, re
 
 ROOT = Path(__file__).resolve().parents[2] / "site"
 PAGES = {
@@ -19,22 +19,22 @@ PAGES = {
 class Extractor(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True)
-        self.skip = 0
+        self.skip_stack = []
         self.title_depth = 0
         self.title = []
         self.body = []
     def handle_starttag(self, tag, attrs):
         if tag in ("script", "style", "nav", "footer", "noscript"):
-            self.skip += 1
-        elif tag == "title" and not self.skip:
+            self.skip_stack.append(tag)
+        elif tag == "title" and not self.skip_stack:
             self.title_depth += 1
     def handle_endtag(self, tag):
-        if tag in ("script", "style", "nav", "footer", "noscript"):
-            self.skip = max(0, self.skip - 1)
+        if self.skip_stack and tag == self.skip_stack[-1]:
+            self.skip_stack.pop()
         elif tag == "title" and self.title_depth:
             self.title_depth -= 1
     def handle_data(self, data):
-        if self.skip: return
+        if self.skip_stack: return
         if self.title_depth: self.title.append(data)
         else: self.body.append(data)
 def compact(value):
