@@ -1,92 +1,161 @@
 <!doctype html>
 <html lang="zh-Hant">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>法律教材搜尋預覽｜Larry Law Study</title>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#162b47">
+<title>全站教材搜尋｜法域中樞 LEX NEXUS</title>
 <link rel="stylesheet" href="design-system.css">
 <style>
-body{font-family:system-ui,"Noto Sans TC",sans-serif;max-width:900px;margin:auto;padding:1.5rem;line-height:1.7}
-input,select{width:100%;box-sizing:border-box;padding:.8rem;font:inherit;border:1px solid #777;border-radius:.5rem;margin-bottom:1rem}
-article{border:1px solid #bbb;border-radius:.7rem;padding:1rem;margin:1rem 0}
-small{opacity:.8}a{overflow-wrap:anywhere}button{padding:.5rem}#status{min-height:1.5em}
-</style></head>
-<body><main>
-<nav><a href="courses.html">返回課程入口</a></nav>
-<h1>法律教材搜尋（預覽版）</h1>
-<p>目前涵蓋九個已確認存在的頁面，尚未涵蓋全部教材。優先載入預先建立的索引；若尚未產生索引，改用逐頁讀取。查詢在瀏覽器本機執行。</p>
-<label for="query">輸入科目、法條或關鍵字</label>
-<input id="query" type="search" placeholder="例如：物權 757" autocomplete="off">
-<label for="subject-filter">依科目／類別篩選</label>
-<select id="subject-filter"><option value="">全部類別</option></select>
-<p id="status" role="status aria-live="polite">正在載入教材索引……</p>
-<div id="results"></div>
+:root{color-scheme:light dark}
+body{font-family:system-ui,"Noto Sans TC",sans-serif;max-width:980px;margin:0 auto;padding:clamp(1rem,3vw,2rem);line-height:1.65}
+main{min-width:0}h1{font-size:clamp(1.5rem,4vw,2.3rem)}
+.search-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:.75rem;align-items:end}
+label{display:block;font-weight:600}input,select{width:100%;box-sizing:border-box;padding:.75rem;font:inherit;border:1px solid #888;border-radius:.55rem;min-height:2.8rem;background:Canvas;color:CanvasText}
+button{font:inherit;padding:.5rem .9rem;border:1px solid #888;border-radius:.5rem;background:Canvas;color:CanvasText;cursor:pointer}
+button:disabled{opacity:.5;cursor:default}
+article{border:1px solid #8886;border-radius:.75rem;padding:1rem;margin:.8rem 0;overflow-wrap:anywhere}
+article h2{font-size:1.1rem;margin:0 0 .25rem}article p{margin:.5rem 0 0;white-space:normal}
+.meta{font-size:.87rem;opacity:.82}
+#status{min-height:1.6rem}#pager{display:flex;gap:1rem;align-items:center;justify-content:center;margin:1rem 0}
+a{overflow-wrap:anywhere}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #2c8bd8;outline-offset:2px}
+@media(max-width:700px){.search-grid{grid-template-columns:1fr}.search-grid label{width:100%}article{padding:.85rem}}
+</style>
+</head>
+<body>
+<main>
+<nav aria-label="返回"><a href="courses.html">← 返回課程與筆記</a> · <a href="discover.html">原有搜尋與複習</a></nav>
+<h1>全站教材搜尋</h1>
+<p>直接查詢原有的 3,602 筆筆記、題目、教師教材、閱讀及小說索引。此頁不會修改原始資料，查詢只在本機瀏覽器進行。</p>
+<div class="search-grid">
+<label for="query">關鍵字<input id="query" type="search" placeholder="例如：物權 757、強盜、法學英文" autocomplete="off"></label>
+<label for="subject">科目<select id="subject"><option value="">全部科目</option></select></label>
+<label for="kind">資料類型<select id="kind"><option value="">全部類型</option></select></label>
+</div>
+<p id="status" role="status" aria-live="polite">正在讀取教材資料庫……</p>
+<button id="retry" type="button" hidden>重新載入</button>
+<section id="results" aria-label="搜尋結果"></section>
+<div id="pager" hidden><button id="previous" type="button">上一頁</button><span id="page-label"></span><button id="next" type="button">下一頁</button></div>
 </main>
 <script type="module">
-const pages = [
-  {url:"index.html",subject:"首頁",label:"網站首頁"},
-  {url:"reading.html",subject:"閱讀",label:"閱讀專區"},
-  {url:"discover.html",subject:"探索",label:"探索專區"},
-  {url:"questions.html",subject:"題庫",label:"練習題庫"},
-  {url:"legal-english.html",subject:"法學英文",label:"法學英文"},
-  {url:"photonics.html",subject:"跨領域",label:"跨領域筆記"},
-  {url:"courses.html",subject:"課程",label:"課程入口"},
-  {url:"essentials.html",subject:"筆記",label:"各科筆記"},
-  {url:"class-notes/property-midterm-1151.html",subject:"民法物權",label:"物權期中考整理"}
-];
-const input=document.querySelector("#query"),results=document.querySelector("#results"),status=document.querySelector("#status"),filter=document.querySelector("#subject-filter");
-const allowedUrls=new Set(pages.map(p=>p.url));
-let index=[];
-let loading=true;
-let failedCount=0;
-const normalize=s=>s.normalize("NFKC").toLocaleLowerCase("zh-TW").replace(/\s+/g," ").trim();
-const load=async page=>{
-  const response=await fetch(page.url,{cache:"no-cache"});
-  if(!response.ok)throw new Error(String(response.status));
-  const doc=new DOMParser().parseFromString(await response.text(),"text/html");
-  doc.querySelectorAll("script,style,nav,footer").forEach(n=>n.remove());
-  return {...page,title:doc.title||page.label,body:doc.body?.textContent?.replace(/\s+/g," ").trim()||""};
-};
-function render(){
+const $=selector=>document.querySelector(selector);
+const input=$("#query"),subject=$("#subject"),kind=$("#kind"),status=$("#status"),results=$("#results"),pager=$("#pager");
+const subjectNames={criminalgeneral:"刑法總則",civilgeneral:"民法總則",constitution:"憲法",crime:"刑法分則",family:"親屬法",debt:"債權",property:"物權",admin:"行政法",tax:"租稅法","繼承法":"繼承法","":"小說／未分類"};
+const kindNames={note:"筆記",card:"重點卡片",question:"題目",teacher:"教師教材",archive:"資料庫",reading:"閱讀",lesson:"申論練習",novel:"小說"};
+const safePages=new Set(["essentials.html","library.html","index.html","reading.html"]);
+const normalize=value=>String(value||"").normalize("NFKC").toLocaleLowerCase("zh-TW").replace(/\s+/g," ").trim();
+const label=(table,key)=>table[key]||key||"未分類";
+const pageSize=20;
+let records=[],hits=[],page=0,timer;
+function safeHref(href){
+  if(typeof href!=="string"||href.includes("\\")||/[\u0000-\u001f]/.test(href))return null;
+  try{
+    const target=new URL(href,location.href);
+    const source=new URL(location.href);
+    const path=target.pathname.split("/").pop();
+    if(target.origin!==source.origin||!safePages.has(path)||target.pathname!==new URL(path,location.href).pathname)return null;
+    return href;
+  }catch{return null}
+}
+function updateLink(){
+  const params=new URLSearchParams();
+  if(input.value.trim())params.set("q",input.value.trim().slice(0,200));
+  if(subject.value)params.set("subject",subject.value);
+  if(kind.value)params.set("type",kind.value);
+  const query=params.toString();
+  history.replaceState(null,"",location.pathname+(query?"?"+query:""));
+}
+function fillOptions(element,values,labels){
+  for(const key of [...values].sort((a,b)=>label(labels,a).localeCompare(label(labels,b),"zh-TW"))){
+    const option=document.createElement("option");
+    option.value=key;option.textContent=label(labels,key);element.append(option);
+  }
+}
+function snippet(record,terms){
+  const body=record.body||"";
+  if(!body)return "";
+  const normalized=normalize(body);
+  let position=terms.length?normalized.indexOf(terms[0]):-1;
+  if(position<0)position=0;
+  const start=Math.max(0,position-65),end=Math.min(body.length,start+220);
+  return (start?"…":"")+body.slice(start,end)+(end<body.length?"…":"");
+}
+function draw(){
   results.replaceChildren();
+  const totalPages=Math.max(1,Math.ceil(hits.length/pageSize));
+  page=Math.min(page,totalPages-1);
   const terms=normalize(input.value).split(" ").filter(Boolean);
-  if(!terms.length){const available=index.filter(page=>!filter.value||page.subject===filter.value);status.textContent=loading?"正在載入教材索引……":`目前可搜尋 ${available.length} 個頁面；輸入關鍵字開始搜尋。${failedCount?` ${failedCount} 個頁面讀取失敗。`:""}`;return;}
-  const hits=index.filter(page=>!filter.value||page.subject===filter.value).map(page=>{
-    const title=normalize(page.title),body=normalize(page.body);
-    if(!terms.every(term=>title.includes(term)||body.includes(term)||normalize(page.subject).includes(term)))return null;
-    return {...page,score:terms.reduce((sum,term)=>sum+(title.includes(term)?8:0)+(body.includes(term)?1:0),0)};
-  }).filter(Boolean).sort((a,b)=>b.score-a.score);
-  status.textContent=`找到 ${hits.length} 個符合的頁面（索引範圍：${index.length} 頁）。${loading?" 索引仍在載入中。":""}${failedCount?` ${failedCount} 個頁面讀取失敗。`:""}`;
-  for(const hit of hits){
-    const card=document.createElement("article"),link=document.createElement("a"),detail=document.createElement("p"),meta=document.createElement("small");
-    link.href=hit.url;link.textContent=hit.title;meta.textContent=hit.subject;
-    const body=hit.body;
-    const at=Math.max(0,normalize(body).indexOf(terms[0]));
-    detail.textContent=body.slice(Math.max(0,at-45),Math.min(body.length,at+155))+(body.length>at+155?"…":"");
-    card.append(link,meta,detail);results.append(card);
+  const start=page*pageSize;
+  for(const item of hits.slice(start,start+pageSize)){
+    const article=document.createElement("article");
+    const heading=document.createElement("h2");
+    const link=document.createElement("a");
+    link.href=item.href;link.textContent=item.title;
+    heading.append(link);
+    const meta=document.createElement("div");meta.className="meta";
+    meta.textContent=label(subjectNames,item.subject)+" · "+label(kindNames,item.type);
+    const detail=document.createElement("p");detail.textContent=snippet(item,terms);
+    article.append(heading,meta,detail);results.append(article);
   }
+  status.textContent=records.length+" 筆資料已載入；"+(terms.length?"找到 ":"目前顯示 ")+hits.length+" 筆"+(hits.length?"，每頁 "+pageSize+" 筆。":"。");
+  pager.hidden=hits.length<=pageSize;
+  $("#page-label").textContent="第 "+(page+1)+"／"+totalPages+" 頁";
+  $("#previous").disabled=page===0;$("#next").disabled=page>=totalPages-1;
 }
-async function initialize(){
-  try {
-    const response=await fetch("search-preview-index.json");
-    if(!response.ok)throw new Error("Index unavailable");
-    const data=await response.json();
-    if(data.schemaVersion!==1||!Array.isArray(data.pages))throw new Error("Unsupported index");
-    index=data.pages.filter(page=>page && allowedUrls.has(page.url) && typeof page.title==="string" && typeof page.body==="string" && typeof page.subject==="string");
-    failedCount=data.pages.length-index.length;
-  } catch {
-    const all=await Promise.allSettled(pages.map(load));
-    index=all.filter(x=>x.status==="fulfilled").map(x=>x.value);
-    failedCount=all.length-index.length;
-  } finally {
-    loading=false;
-    for(const subject of [...new Set(index.map(page=>page.subject))].sort((a,b)=>a.localeCompare(b,"zh-TW"))){
-      const option=document.createElement("option");option.value=subject;option.textContent=subject;filter.append(option);
+function search(){
+  const terms=normalize(input.value.slice(0,200)).split(" ").filter(Boolean);
+  const selectedSubject=subject.value,selectedKind=kind.value;
+  hits=records.filter(item=>(!selectedSubject||item.subject===selectedSubject)&&(!selectedKind||item.type===selectedKind)).map(item=>{
+    if(!terms.length)return {item,score:0};
+    let score=0;
+    for(const term of terms){
+      const inTitle=item._title.includes(term),inSubject=item._subject.includes(term),inBody=item._body.includes(term);
+      if(!inTitle&&!inSubject&&!inBody)return null;
+      score+=(inTitle?9:0)+(inSubject?4:0)+(inBody?1:0);
     }
-    render();
-  }
+    return {item,score};
+  }).filter(Boolean).sort((a,b)=>b.score-a.score||a.item.title.localeCompare(b.item.title,"zh-TW")).map(x=>x.item);
+  page=0;draw();updateLink();
 }
-const initialQuery=new URLSearchParams(location.search).get("q");
-if(initialQuery)input.value=initialQuery.slice(0,200);
-initialize();
-input.addEventListener("input",render);
-filter.addEventListener("change",render);
-</script></body></html>
+async function load(){
+  $("#retry").hidden=true;status.textContent="正在讀取教材資料庫……";
+  const controller=new AbortController();
+  const timeout=setTimeout(()=>controller.abort(),15000);
+  try{
+    const response=await fetch("search-index.json",{signal:controller.signal,cache:"no-cache"});
+    if(!response.ok)throw new Error("HTTP "+response.status);
+    const data=await response.json();
+    if(data.version!==1||!Array.isArray(data.items))throw new Error("不支援的資料格式");
+    const seen=new Set();
+    const clean=[];
+    for(const item of data.items){
+      if(!item||["id","type","subject","title","body","href"].some(key=>typeof item[key]!=="string"))continue;
+      const href=safeHref(item.href);
+      if(!href||!item.id||seen.has(item.id))continue;
+      seen.add(item.id);
+      clean.push({...item,href,_title:normalize(item.title),_subject:normalize(label(subjectNames,item.subject)),_body:normalize(item.body)});
+    }
+    if(!clean.length)throw new Error("資料庫沒有可用的記錄");
+    records=clean;
+    fillOptions(subject,new Set(records.map(x=>x.subject)),subjectNames);
+    fillOptions(kind,new Set(records.map(x=>x.type)),kindNames);
+    const params=new URLSearchParams(location.search);
+    input.value=(params.get("q")||"").slice(0,200);
+    if([...subject.options].some(x=>x.value===params.get("subject")))subject.value=params.get("subject")||"";
+    if([...kind.options].some(x=>x.value===params.get("type")))kind.value=params.get("type")||"";
+    search();
+    if(clean.length!==data.items.length)status.textContent+=" 注意：部分不安全或無效記錄已排除。";
+  }catch(error){
+    status.textContent="資料載入失敗："+(error.name==="AbortError"?"連線逾時":error.message)+"。可重新載入。";
+    $("#retry").hidden=false;
+  }finally{clearTimeout(timeout)}
+}
+input.addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(search,130)});
+subject.addEventListener("change",search);kind.addEventListener("change",search);
+$("#previous").addEventListener("click",()=>{page--;draw();window.scrollTo({top:0,behavior:"smooth"})});
+$("#next").addEventListener("click",()=>{page++;draw();window.scrollTo({top:0,behavior:"smooth"})});
+$("#retry").addEventListener("click",load);
+load();
+</script>
+</body>
+</html>
