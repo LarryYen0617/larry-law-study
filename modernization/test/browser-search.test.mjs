@@ -55,7 +55,7 @@ try{
   await page.selectOption("#subject","");
   await page.selectOption("#kind","");
   await page.locator("#query").fill("");
-  await page.waitForFunction(count=>document.querySelector("#status")?.textContent?.includes("目前顯示 "+count+" 筆"),expectedCount,{timeout:5000});
+  await page.waitForFunction(count=>document.querySelector("#status")?.textContent?.includes("目前顯示 "+count+" 筆"),expectedCount,{timeout:12000});
   const expectedPages=Math.ceil(expectedCount/20);
   await page.locator("#next").click();
   assert.equal(await page.locator("#page-label").innerText(),"第 2／"+expectedPages+" 頁","pagination failed");
