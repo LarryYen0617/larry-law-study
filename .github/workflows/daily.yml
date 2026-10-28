@@ -78,6 +78,8 @@ jobs:
           python3 modernization/scripts/audit-production-index.py
           python3 modernization/test/production-index-audit.test.py
           python3 modernization/test/search-page.test.py
+          python3 modernization/test/coverage-audit.test.py
+          python3 modernization/test/production-audit.test.py
           python3 modernization/scripts/audit-site.py site-audit.json
           python3 modernization/scripts/audit-coverage.py
       - name: 上傳網站（不包含教材原始檔、腳本或任何秘密）
