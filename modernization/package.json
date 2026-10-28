@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && node --test test/*.test.mjs",
+    "test": "npm run build && node --test test/legal-search.test.mjs",
     "validate": "node scripts/validate-notes.mjs",
     "test:e2e": "node test/browser-search.test.mjs"
   },
