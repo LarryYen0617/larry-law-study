@@ -34,6 +34,7 @@ jobs:
       - run: python3 modernization/test/production-audit.test.py
       - run: python3 modernization/test/search-page.test.py
       - run: python3 modernization/test/coverage-audit.test.py
+      - run: python3 modernization/test/coverage-audit.test.py
       # Preview index is generated in CI; the production index remains read-only.
       - run: python3 modernization/scripts/build-search-index.py
       - run: python3 modernization/scripts/audit-index.py
