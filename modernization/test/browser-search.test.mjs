@@ -99,6 +99,7 @@ try{
   assert.equal(await malformed.locator("#retry").isVisible(),true,"malformed JSON did not show retry");
   await malformed.close();
   const invalidRecord=await browser.newPage();
+  // An invalid record must not be silently dropped from the complete corpus.
   await invalidRecord.route("**/search-index.json",async route=>{
     const response=await route.fetch();
     const payload=await response.json();
