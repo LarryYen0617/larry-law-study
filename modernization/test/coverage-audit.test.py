@@ -18,6 +18,8 @@ class CoverageTests(unittest.TestCase):
         self.assertEqual(report["tax"]["teacher"],1)
         self.assertEqual(report["crime"]["notes"],1)
         self.assertEqual(report["family"]["total"],0)
+        self.assertEqual(sum(row["total"] for row in report.values()),3)
+        self.assertEqual(report["tax"]["questions"],1)
 
 if __name__=="__main__":
     unittest.main()
