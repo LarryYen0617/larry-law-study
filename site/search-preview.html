@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="design-system.css">
 <style>
 body{font-family:system-ui,"Noto Sans TC",sans-serif;max-width:900px;margin:auto;padding:1.5rem;line-height:1.7}
-input{width:100%;box-sizing:border-box;padding:.8rem;font:inherit;border:1px solid #777;border-radius:.5rem}
+input,select{width:100%;box-sizing:border-box;padding:.8rem;font:inherit;border:1px solid #777;border-radius:.5rem;margin-bottom:1rem}
 article{border:1px solid #bbb;border-radius:.7rem;padding:1rem;margin:1rem 0}
 small{opacity:.8}a{overflow-wrap:anywhere}button{padding:.5rem}#status{min-height:1.5em}
 </style></head>
@@ -15,7 +15,9 @@ small{opacity:.8}a{overflow-wrap:anywhere}button{padding:.5rem}#status{min-heigh
 <p>目前涵蓋九個已確認存在的頁面，尚未涵蓋全部教材。優先載入預先建立的索引；若尚未產生索引，改用逐頁讀取。查詢在瀏覽器本機執行。</p>
 <label for="query">輸入科目、法條或關鍵字</label>
 <input id="query" type="search" placeholder="例如：物權 757" autocomplete="off">
-<p id="status" role="status" aria-live="polite">正在載入教材索引……</p>
+<label for="subject-filter">依科目／類別篩選</label>
+<select id="subject-filter"><option value="">全部類別</option></select>
+<p id="status" role="status aria-live="polite">正在載入教材索引……</p>
 <div id="results"></div>
 </main>
 <script type="module">
@@ -30,7 +32,7 @@ const pages = [
   {url:"essentials.html",subject:"筆記",label:"各科筆記"},
   {url:"class-notes/property-midterm-1151.html",subject:"民法物權",label:"物權期中考整理"}
 ];
-const input=document.querySelector("#query"),results=document.querySelector("#results"),status=document.querySelector("#status");
+const input=document.querySelector("#query"),results=document.querySelector("#results"),status=document.querySelector("#status"),filter=document.querySelector("#subject-filter");
 const allowedUrls=new Set(pages.map(p=>p.url));
 let index=[];
 let loading=true;
@@ -47,7 +49,7 @@ function render(){
   results.replaceChildren();
   const terms=normalize(input.value).split(" ").filter(Boolean);
   if(!terms.length){status.textContent=loading?"正在載入教材索引……":`已索引 ${index.length} 個頁面；輸入關鍵字開始搜尋。${failedCount?` ${failedCount} 個頁面讀取失敗。`:""}`;return;}
-  const hits=index.map(page=>{
+  const hits=index.filter(page=>!filter.value||page.subject===filter.value).map(page=>{
     const title=normalize(page.title),body=normalize(page.body);
     if(!terms.every(term=>title.includes(term)||body.includes(term)||normalize(page.subject).includes(term)))return null;
     return {...page,score:terms.reduce((sum,term)=>sum+(title.includes(term)?8:0)+(body.includes(term)?1:0),0)};
@@ -76,9 +78,13 @@ async function initialize(){
     failedCount=all.length-index.length;
   } finally {
     loading=false;
+    for(const subject of [...new Set(index.map(page=>page.subject))].sort((a,b)=>a.localeCompare(b,"zh-TW"))){
+      const option=document.createElement("option");option.value=subject;option.textContent=subject;filter.append(option);
+    }
     render();
   }
 }
 initialize();
 input.addEventListener("input",render);
+filter.addEventListener("change",render);
 </script></body></html>
