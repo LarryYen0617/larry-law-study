@@ -55,11 +55,12 @@ try{
   await page.selectOption("#subject","");
   await page.selectOption("#kind","");
   await page.locator("#query").fill("");
-  await page.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("目前顯示 3602 筆"),null,{timeout:5000});
+  await page.waitForFunction(count=>document.querySelector("#status")?.textContent?.includes("目前顯示 "+count+" 筆"),expectedCount,{timeout:5000});
+  const expectedPages=Math.ceil(expectedCount/20);
   await page.locator("#next").click();
-  assert.match(await page.locator("#page-label").innerText(),/第 2／181 頁/,"pagination failed");
+  assert.equal(await page.locator("#page-label").innerText(),"第 2／"+expectedPages+" 頁","pagination failed");
   await page.locator("#previous").click();
-  assert.match(await page.locator("#page-label").innerText(),/第 1／181 頁/,"previous page failed");
+  assert.equal(await page.locator("#page-label").innerText(),"第 1／"+expectedPages+" 頁","previous page failed");
   await page.locator("#query").fill("zzzxxyy-no-match");
   await page.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("找到 0 筆"),null,{timeout:5000});
   assert.equal(await page.locator("#results article").count(),0,"no-match query returned results");
@@ -83,7 +84,7 @@ try{
   assert.equal(await failurePage.locator("#retry").isVisible(),true,"retry button missing");
   await failurePage.unroute("**/search-index.json");
   await failurePage.locator("#retry").click();
-  await failurePage.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("3602 筆資料已載入"),null,{timeout:20000});
+  await failurePage.waitForFunction(count=>document.querySelector("#status")?.textContent?.includes(count+" 筆資料已載入"),expectedCount,{timeout:20000});
   assert.ok(await failurePage.locator("#results article").count()>0,"retry did not restore results");
   await failurePage.close();
   const practice=await browser.newPage({viewport:{width:1280,height:800}});
@@ -93,7 +94,7 @@ try{
     assert.equal(await practice.locator("#"+id).count(),1,"missing dynamic practice field "+id);
   }
   await practice.close();
-  console.log("Chromium E2E PASS: 3602 records, filters, share URL restore, pagination, no-match, offline/retry, mobile width, essay anchors.");
+  console.log("Chromium E2E PASS: "+expectedCount+" records, filters, share URL restore, pagination, no-match, offline/retry, mobile width, essay anchors.");
 }finally{
   if(browser)await browser.close();
   await new Promise(resolve=>server.close(resolve));
