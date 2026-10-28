@@ -31,6 +31,9 @@ class SearchPageTests(unittest.TestCase):
         self.assertTrue({"query", "subject", "kind", "status", "results", "retry", "pager"}.issubset(self.parser.ids))
         self.assertTrue({"query", "subject", "kind"}.issubset(self.parser.labels))
         self.assertIn('aria-live="polite"', self.html)
+        self.assertIn('aria-atomic="true"', self.html)
+        self.assertIn('aria-busy="true"', self.html)
+        self.assertIn('results.setAttribute("aria-busy","false")', self.html)
 
     def test_reads_existing_corpus_without_mutation(self):
         self.assertIn('fetch("search-index.json"', self.html)
