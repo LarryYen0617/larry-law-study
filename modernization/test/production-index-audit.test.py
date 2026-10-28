@@ -25,6 +25,16 @@ class ProductionIndexAuditTests(unittest.TestCase):
         self.assertFalse(module.inspect({"version": 1, "items": [item(href="https://evil.example/")]})["valid"])
     def test_rejects_traversal_href(self):
         self.assertFalse(module.inspect({"version": 1, "items": [item(href="../index.html")]})["valid"])
+    def test_rejects_javascript_href(self):
+        self.assertFalse(module.inspect({"version": 1, "items": [item(href="javascript:alert(1)")]})["valid"])
+    def test_rejects_missing_required_field(self):
+        record = item()
+        del record["body"]
+        self.assertFalse(module.inspect({"version": 1, "items": [record]})["valid"])
+    def test_rejects_empty_id(self):
+        self.assertFalse(module.inspect({"version": 1, "items": [item(key="")]})["valid"])
+    def test_rejects_non_object_record(self):
+        self.assertFalse(module.inspect({"version": 1, "items": [None]})["valid"])
     def test_rejects_invalid_schema(self):
         self.assertFalse(module.inspect({"schemaVersion": 1, "pages": []})["valid"])
 
