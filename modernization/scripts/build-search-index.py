@@ -56,6 +56,6 @@ def build(root=ROOT):
     return entries
 if __name__ == "__main__":
     result = build()
-    output = ROOT / "search-index.json"
+    output = ROOT / "search-preview-index.json"
     output.write_text(json.dumps({"schemaVersion": 1, "pages": result}, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     print(f"Wrote {len(result)} pages to {output}")
