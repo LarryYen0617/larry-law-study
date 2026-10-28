@@ -12,13 +12,13 @@ body{font-family:system-ui,"Noto Sans TC",sans-serif;max-width:980px;margin:0 au
 main{min-width:0}h1{font-size:clamp(1.5rem,4vw,2.3rem)}
 .search-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:.75rem;align-items:end}
 label{display:block;font-weight:600}input,select{width:100%;box-sizing:border-box;padding:.75rem;font:inherit;border:1px solid #888;border-radius:.55rem;min-height:2.8rem;background:Canvas;color:CanvasText}
-button{font:inherit;padding:.5rem .9rem;border:1px solid #888;border-radius:.5rem;background:Canvas;color:CanvasText;cursor:pointer}
+button{min-height:44px;min-width:44px;font:inherit;padding:.5rem .9rem;border:1px solid #888;border-radius:.5rem;background:Canvas;color:CanvasText;cursor:pointer}
 button:disabled{opacity:.5;cursor:default}
 article{border:1px solid #8886;border-radius:.75rem;padding:1rem;margin:.8rem 0;overflow-wrap:anywhere}
 article h2{font-size:1.1rem;margin:0 0 .25rem}article p{margin:.5rem 0 0;white-space:normal}
 .meta{font-size:.87rem;opacity:.82}
-#status{min-height:1.6rem}#pager{display:flex;gap:1rem;align-items:center;justify-content:center;margin:1rem 0}
-a{overflow-wrap:anywhere}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #2c8bd8;outline-offset:2px}
+#status{min-height:1.6rem}#pager{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:center;margin:1rem 0}
+a{overflow-wrap:anywhere}h2:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #2c8bd8;outline-offset:2px}
 @media(max-width:700px){.search-grid{grid-template-columns:1fr}.search-grid label{width:100%}article{padding:.85rem}}
 </style>
 </head>
@@ -36,7 +36,7 @@ a{overflow-wrap:anywhere}a:focus-visible,button:focus-visible,input:focus-visibl
 <p id="status" role="status" aria-live="polite">正在讀取教材資料庫……</p>
 <button id="retry" type="button" hidden>重新載入</button>
 <section id="results" aria-label="搜尋結果" aria-busy="true"></section>
-<div id="pager" hidden><button id="previous" type="button">上一頁</button><span id="page-label"></span><button id="next" type="button">下一頁</button></div>
+<div id="pager" hidden><button id="previous" type="button">上一頁</button><span id="page-label" aria-live="polite" aria-atomic="true"></span><button id="next" type="button">下一頁</button></div>
 </main>
 <script type="module">
 const $=selector=>document.querySelector(selector);
@@ -90,7 +90,7 @@ function draw(){
   const start=page*pageSize;
   for(const item of hits.slice(start,start+pageSize)){
     const article=document.createElement("article");
-    const heading=document.createElement("h2");
+    const heading=document.createElement("h2");heading.tabIndex=-1;
     const link=document.createElement("a");
     link.href=item.href;link.textContent=item.title;
     heading.append(link);
@@ -166,8 +166,13 @@ async function load(){
 }
 input.addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(search,130)});
 subject.addEventListener("change",search);kind.addEventListener("change",search);
-$("#previous").addEventListener("click",()=>{page--;draw();window.scrollTo({top:0,behavior:"smooth"})});
-$("#next").addEventListener("click",()=>{page++;draw();window.scrollTo({top:0,behavior:"smooth"})});
+function changePage(offset){
+  page+=offset;draw();
+  results.querySelector("h2")?.focus({preventScroll:true});
+  window.scrollTo({top:0,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"instant":"smooth"});
+}
+$("#previous").addEventListener("click",()=>changePage(-1));
+$("#next").addEventListener("click",()=>changePage(1));
 $("#retry").addEventListener("click",load);
 load();
 </script>
