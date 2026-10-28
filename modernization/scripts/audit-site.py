@@ -26,6 +26,8 @@ class PageParser(HTMLParser):
 def audit(root=ROOT):
     root = root.resolve()
     files = sorted(root.rglob("*.html"))
+    if not files:
+        return {"pages_checked": 0, "problem_count": 1, "problems": [{"page": ".", "type": "no_html_files"}]}
     problems = []
     titles = {}
     for file in files:
