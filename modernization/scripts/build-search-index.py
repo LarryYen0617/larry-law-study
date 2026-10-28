@@ -21,14 +21,17 @@ class Extractor(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.skip_stack = []
         self.title_depth = 0
+        self.in_head = False
         self.title = []
         self.body = []
     def handle_starttag(self, tag, attrs):
+        if tag == "head": self.in_head = True
         if tag in ("script", "style", "nav", "footer", "noscript"):
             self.skip_stack.append(tag)
         elif tag == "title" and not self.skip_stack:
             self.title_depth += 1
     def handle_endtag(self, tag):
+        if tag == "head": self.in_head = False
         if self.skip_stack and tag == self.skip_stack[-1]:
             self.skip_stack.pop()
         elif tag == "title" and self.title_depth:
@@ -36,7 +39,7 @@ class Extractor(HTMLParser):
     def handle_data(self, data):
         if self.skip_stack: return
         if self.title_depth: self.title.append(data)
-        else: self.body.append(data)
+        elif not self.in_head: self.body.append(data)
 def compact(value):
     return re.sub(r"\s+", " ", value).strip()
 def build(root=ROOT):
