@@ -25,6 +25,7 @@ jobs:
         with:
           node-version: '22'
       - run: cd modernization && npm install --no-audit --no-fund && npm test && npm run validate -- examples/notes.sample.json
+      - run: cd modernization && npm run test:e2e
       - run: python3 modernization/test/index-builder.test.py
       - run: python3 modernization/test/site-audit.test.py
       - run: python3 modernization/test/index-audit.test.py
