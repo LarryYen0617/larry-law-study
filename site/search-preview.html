@@ -107,6 +107,7 @@ function draw(){
   $("#previous").disabled=page===0;$("#next").disabled=page>=totalPages-1;
 }
 function search(){
+  clearTimeout(timer);
   if(!ready)return;
   const terms=normalize(input.value.slice(0,200)).split(" ").filter(Boolean);
   const selectedSubject=subject.value,selectedKind=kind.value;
