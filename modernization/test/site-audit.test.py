@@ -16,6 +16,11 @@ class SiteAuditTests(unittest.TestCase):
             kinds = {p["type"] for p in report["problems"]}
             self.assertIn("missing_local_resource", kinds)
             self.assertIn("duplicate_id", kinds)
+    def test_empty_site_reports_problem(self):
+        with tempfile.TemporaryDirectory() as temp:
+            report = audit_module.audit(Path(temp))
+            self.assertEqual(report["pages_checked"], 0)
+            self.assertEqual(report["problems"][0]["type"], "no_html_files")
     def test_valid_page(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
