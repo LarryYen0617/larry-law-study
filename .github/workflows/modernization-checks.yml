@@ -1,0 +1,19 @@
+name: Modernization checks
+on:
+  push:
+    paths:
+      - 'modernization/**'
+      - '.github/workflows/modernization-checks.yml'
+  pull_request:
+    paths:
+      - 'modernization/**'
+      - '.github/workflows/modernization-checks.yml'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test modernization/test/*.test.mjs
