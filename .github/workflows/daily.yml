@@ -67,6 +67,8 @@ jobs:
         run: |
           node scripts/build_search_index.cjs
           node tests/discover.cjs
+          node tests/search-index-links.cjs --self-test
+          node tests/search-index-links.cjs
           node tests/course-catalog.cjs
       - name: 升級版搜尋、資料安全及 Chromium 實測
         run: |
