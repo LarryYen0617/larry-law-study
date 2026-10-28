@@ -140,7 +140,7 @@ async function load(){
       seen.add(item.id);
       clean.push({...item,href,_title:normalize(item.title),_subject:normalize(label(subjectNames,item.subject)),_body:normalize(item.body)});
     }
-    if(!clean.length)throw new Error("資料庫沒有可用的記錄");
+    if(clean.length<3602)throw new Error("有效資料不足 3,602 筆，請重新載入");
     records=clean;
     ready=true;
     subject.replaceChildren(new Option("全部科目", ""));
