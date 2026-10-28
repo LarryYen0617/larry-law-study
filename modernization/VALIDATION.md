@@ -15,7 +15,7 @@
 
 ## 待驗證（不可視為已通過）
 - GitHub Actions 完整測試成功、Python 腳本實際執行結果。
-- `check-search-index.py` 全文一致性。手動建立的初始 JSON 與後續修改過的 Python 擷取規則可能有差異，須重新產生 `site/search-index.json` 並提交。
+- `check-search-index.py` 全文一致性。手動建立的初始 JSON 與後續修改過的 Python 擷取規則可能有差異，須重新產生 `site/search-preview-index.json` 並提交。
 - 全站所有頁面、題庫題目與答案、教材版權與授權、最新法律條文及實務見解。
 - 瀏覽器端行為、手機操作、效能及正式部署。
 
