@@ -34,6 +34,8 @@ try{
   await page.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("筆資料已載入"),null,{timeout:20000});
   assert.match(await page.locator("#status").innerText(),/3602 筆資料已載入/);
   assert.ok(await page.locator("#results article").count()>0,"no initial results");
+  assert.equal(await page.locator("#results").getAttribute("aria-busy"),"false","loading state not cleared");
+  assert.equal(await page.locator("#status").getAttribute("aria-atomic"),"true","screen reader status not atomic");
   await page.locator("#query").fill("物權");
   await page.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("找到"),null,{timeout:5000});
   assert.ok(await page.locator("#results article").count()>0,"keyword query returned no results");
@@ -77,6 +79,7 @@ try{
   await failurePage.waitForTimeout(250);
   assert.match(await failurePage.locator("#status").innerText(),/資料載入失敗/,"search input erased the load error");
   assert.equal(await failurePage.locator("#retry").isVisible(),true,"retry button missing");
+  assert.equal(await failurePage.locator("#results").getAttribute("aria-busy"),"false","failed load left results busy");
   await failurePage.unroute("**/search-index.json");
   await failurePage.locator("#retry").click();
   await failurePage.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("3602 筆資料已載入"),null,{timeout:20000});
