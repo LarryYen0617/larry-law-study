@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Validate structure, URL safety, and content quality of a static search index."""
 import json
-import re
 import sys
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -33,6 +32,10 @@ def validate(data, site_root=ROOT / "site"):
         elif not target.is_file():
             issues.append(f"Row {row}: missing source HTML {url}")
         if url in seen: issues.append(f"Row {row}: duplicate URL {url}")
+        if isinstance(item.get("title"), str) and len(item["title"]) > 300:
+            issues.append(f"Row {row}: title too long")
+        if isinstance(item.get("subject"), str) and len(item["subject"]) > 100:
+            issues.append(f"Row {row}: subject too long")
         seen.add(url)
         if isinstance(item.get("body"), str) and len(item["body"]) > 100000:
             issues.append(f"Row {row}: body too long")
