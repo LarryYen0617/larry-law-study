@@ -4,7 +4,6 @@ on:
     paths:
       - 'modernization/**'
       - 'site/search-preview.html'
-      - 'site/search-preview-index.json'
       - 'site/**/*.html'
       - '.github/workflows/modernization-checks.yml'
   pull_request:
@@ -23,11 +22,13 @@ jobs:
       - run: python3 modernization/test/index-builder.test.py
       - run: python3 modernization/test/site-audit.test.py
       - run: python3 modernization/test/index-audit.test.py
+      - run: python3 modernization/scripts/build-search-index.py
       - run: python3 modernization/scripts/audit-index.py
       - run: python3 modernization/scripts/audit-production-index.py
       - run: python3 modernization/scripts/check-search-index.py
 
       - run: python3 modernization/scripts/audit-site.py site-audit.json
+      - run: node --check modernization/test/legal-search.test.mjs
       - uses: actions/upload-artifact@v4
         with:
           name: site-audit
