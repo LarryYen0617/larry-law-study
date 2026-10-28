@@ -74,9 +74,11 @@ function fillOptions(element,values,labels){
   }
 }
 function snippet(record,terms){
-  const body=record.body||"";
+  // Normalize display text before computing offsets: NFKC and whitespace
+  // collapsing change character positions in the original body.
+  const body=String(record.body||"").normalize("NFKC").replace(/\s+/g," ").trim();
   if(!body)return "";
-  const normalized=normalize(body);
+  const normalized=body.toLocaleLowerCase("zh-TW");
   let position=terms.length?normalized.indexOf(terms[0]):-1;
   if(position<0)position=0;
   const start=Math.max(0,position-65),end=Math.min(body.length,start+220);
