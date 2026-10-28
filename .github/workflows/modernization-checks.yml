@@ -22,6 +22,8 @@ jobs:
       - run: python3 modernization/test/index-builder.test.py
       - run: python3 modernization/test/site-audit.test.py
       - run: python3 modernization/test/index-audit.test.py
+      - run: python3 modernization/test/production-audit.test.py
+      - run: python3 modernization/test/search-page.test.py
       - run: python3 modernization/scripts/build-search-index.py
       - run: python3 modernization/scripts/audit-index.py
       - run: python3 modernization/scripts/audit-production-index.py
