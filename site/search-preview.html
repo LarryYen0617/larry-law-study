@@ -137,6 +137,8 @@ async function load(){
     }
     if(!clean.length)throw new Error("資料庫沒有可用的記錄");
     records=clean;
+    subject.replaceChildren(new Option("全部科目", ""));
+    kind.replaceChildren(new Option("全部類型", ""));
     fillOptions(subject,new Set(records.map(x=>x.subject)),subjectNames);
     fillOptions(kind,new Set(records.map(x=>x.type)),kindNames);
     const params=new URLSearchParams(location.search);
@@ -146,6 +148,7 @@ async function load(){
     search();
     if(clean.length!==data.items.length)status.textContent+=" 注意：部分不安全或無效記錄已排除。";
   }catch(error){
+    records=[];hits=[];results.replaceChildren();pager.hidden=true;
     status.textContent="資料載入失敗："+(error.name==="AbortError"?"連線逾時":error.message)+"。可重新載入。";
     $("#retry").hidden=false;
   }finally{clearTimeout(timeout)}
