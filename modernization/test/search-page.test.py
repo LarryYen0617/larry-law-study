@@ -41,6 +41,10 @@ class SearchPageTests(unittest.TestCase):
         self.assertNotIn("localStorage.setItem", self.html)
         self.assertNotIn("innerHTML", self.html)
 
+    def test_rejects_blank_titles_in_browser(self):
+        self.assertIn("!item.title.trim()", self.html)
+        self.assertIn("input.value.slice(0,200)", self.html)
+
     def test_course_link(self):
         catalog = PAGE.with_name("courses.html").read_text(encoding="utf-8")
         self.assertIn('href="search-preview.html"', catalog)
