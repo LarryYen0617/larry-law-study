@@ -38,3 +38,9 @@ python3 modernization/scripts/audit-site.py site-audit.json
 - `search-preview.html` 在正式站回傳 404，符合尚未部署的現況；本 PR 中已建立此頁，但不應聲稱正式上線。
 - `https://larry-law-study.larry20070617.chatgpt.site/` 回傳 HTTP 401，不能當成公開可用的正式站。
 - 儲存庫 main 沒有根目錄 `index.html`、也沒有找到常見的 `deploy.yml`／`pages.yml` 工作流程；GitHub Pages 目前如何從 `site/` 發布尚待確認，不能直接假設合併 main 就會自動部署。
+
+## 租稅法源抽樣查核（2026-10-29）
+- 中華民國憲法第19條：「人民有依法律納稅之義務。」來源：總統府憲法本文 https://www.president.gov.tw/Page/94 。
+- 實質課稅原則及課稅事實舉證責任：現行依《納稅者權利保護法》第7條，官方法條 https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0340142&flno=7 。
+- 《稅捐稽徵法》第12條之1已刪除，不得作為現行法條引用；來源：https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0340001&flno=12-1 。既有租稅筆記已提醒此事，本次未覆蓋原筆記。
+- 這是特定條文的抽樣核對，**不是**九科所有題目、法條與實務見解全面查核完成。
