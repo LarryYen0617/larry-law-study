@@ -7,6 +7,8 @@ on:
       - 'site/search-preview-index.json'
       - 'site/search-index.json'
       - 'site/**/*.html'
+      - 'tests/search-index-links.cjs'
+      - 'tests/discover.cjs'
       - '.github/workflows/modernization-checks.yml'
   pull_request:
     paths:
@@ -15,6 +17,8 @@ on:
       - 'site/search-preview-index.json'
       - 'site/search-index.json'
       - 'site/**/*.html'
+      - 'tests/search-index-links.cjs'
+      - 'tests/discover.cjs'
       - '.github/workflows/modernization-checks.yml'
 jobs:
   test:
@@ -38,6 +42,8 @@ jobs:
       - run: python3 modernization/scripts/build-search-index.py
       - run: python3 modernization/scripts/audit-index.py
       - run: python3 modernization/scripts/audit-production-index.py
+      - run: node tests/search-index-links.cjs --self-test
+      - run: node tests/search-index-links.cjs
       - run: python3 modernization/scripts/check-search-index.py
 
       - run: python3 modernization/scripts/audit-coverage.py
