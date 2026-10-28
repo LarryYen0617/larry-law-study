@@ -22,6 +22,8 @@ jobs:
       - run: cd modernization && npm install --no-audit --no-fund && npm test && npm run validate -- examples/notes.sample.json
       - run: python3 modernization/test/index-builder.test.py
       - run: python3 modernization/test/site-audit.test.py
+      - run: python3 modernization/test/index-audit.test.py
+      - run: python3 modernization/scripts/audit-index.py
       - run: python3 modernization/scripts/check-search-index.py
 
       - run: python3 modernization/scripts/audit-site.py site-audit.json
