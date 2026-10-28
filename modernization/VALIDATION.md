@@ -10,7 +10,7 @@
 
 ## 需要持續核實
 - GitHub Actions 必須完整成功；請檢查 PR 最新 commit 的 `Modernization checks`。
-- 實際瀏覽器端搜尋、手機操作、長文效能與無障礙鍵盤流程尚未做 E2E 測試。
+- 已在 GitHub Actions 的 Chromium E2E（run #40756354647）驗證 3,602 筆資料載入、關鍵字、科目／類型篩選、分享網址、390px 手機寬度及無未捕捉 JavaScript 錯誤；尚未驗證真實手機觸控、長文效能與完整鍵盤／螢幕閱讀器流程。
 - 教師教材授權、法規版本、考試答案及申論品質尚未逐筆查核；資料結構通過不代表內容正確。
 - 正式網站部署管道、域名解析、回復版本與線上實際操作須在合併前確認。
 
@@ -31,7 +31,7 @@ python3 modernization/scripts/audit-site.py site-audit.json
 ```
 
 ## 上線門檻
-正式資料無破壞、CI 綠燈、瀏覽器/手機 E2E 驗收、法規來源核對、部署與回滾路徑明確後才可合併 main。未達條件保持草稿 PR。
+正式資料無破壞、CI 綠燈、實機手機與無障礙驗收、法規來源核對、部署與回滾路徑明確後才可合併 main。未達條件保持草稿 PR。
 
 ## 線上站點檢查（2026-10-29 臺灣時間）
 - GitHub Pages：`https://larryyen0617.github.io/larry-law-study/` 可讀取首頁、`courses.html`、`discover.html`、`search-index.json`、物權期中筆記頁。
