@@ -113,6 +113,8 @@ try{
   // Locator.press re-establishes page focus after the mobile viewport resize,
   // while still exercising keyboard activation (not a mouse click).
   await page.locator("#next").press("Enter");
+  // A pending keyword debounce must not reset pagination after an immediate filter search.
+  await page.waitForTimeout(250);
   const mobilePagingState=await page.evaluate(()=>({
     focused:document.querySelector("#results h2")===document.activeElement,
     activeTag:document.activeElement?.tagName,
@@ -172,7 +174,20 @@ try{
     assert.equal(await practice.locator("#"+id).count(),1,"missing dynamic practice field "+id);
   }
   await practice.close();
-  console.log("Chromium E2E PASS: "+expectedCount+" records, filters, share URL restore, pagination, no-match, offline/retry, mobile width, visible paging focus, axe accessibility scans, essay anchors.");
+  const discipline=await context.newPage();
+  await discipline.setViewportSize({width:320,height:800});
+  await discipline.goto("http://127.0.0.1:"+port+"/class-notes/administrative-discipline-remedies.html",{waitUntil:"domcontentloaded"});
+  await discipline.waitForFunction(()=>document.body.classList.contains("has-site-sidebar"));
+  assert.equal(await discipline.getByRole("heading",{name:"實務補充｜釋字第785號",exact:true}).count(),1);
+  assert.ok(await discipline.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),"discipline page horizontal overflow");
+  for(const region of await discipline.locator(".scroll").all()){
+    assert.equal(await region.getAttribute("tabindex"),"0");
+    await region.focus();await region.press("ArrowRight");
+    await discipline.waitForFunction(el=>el.scrollLeft>0,await region.elementHandle(),{timeout:5000});
+  }
+  await checkAccessibility(discipline,"administrative discipline mobile page");
+  await discipline.close();
+  console.log("Chromium E2E PASS: "+expectedCount+" records, filters, share URL restore, pagination, no-match, offline/retry, mobile width, visible paging focus, axe accessibility scans, essay anchors, administrative discipline keyboard tables.");
 }finally{
   if(browser)await browser.close();
   await new Promise(resolve=>server.close(resolve));

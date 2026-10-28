@@ -3,6 +3,10 @@ from pathlib import Path
 import json
 ROOT=Path(__file__).resolve().parents[1]
 def build():
+ # Curated summary only; raw transcripts, restricted exams and drafts stay outside site/.
+ for name in ("administrative-discipline-remedies.html",):
+  source=ROOT/"class-notes"/name
+  (ROOT/"site/class-notes"/name).write_text(source.read_text(encoding="utf-8"),encoding="utf-8")
  c=json.loads((ROOT/'content/course-catalog.json').read_text(encoding='utf-8'))
  p=json.loads((ROOT/'content/personal-notes.json').read_text(encoding='utf-8'))
  e=json.loads((ROOT/'content/legal-english.json').read_text(encoding='utf-8'))
