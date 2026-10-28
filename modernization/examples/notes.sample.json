@@ -1,0 +1,25 @@
+[
+  {
+    "id": "civil-property-757",
+    "subject": "民法物權",
+    "title": "物權法定原則",
+    "statute": "民法第757條",
+    "body": "示範資料，正式使用前應核對現行法條。",
+    "tags": [
+      "物權",
+      "期中考"
+    ],
+    "examPriority": 5
+  },
+  {
+    "id": "criminal-theft-320",
+    "subject": "刑法分則",
+    "title": "竊盜罪",
+    "statute": "刑法第320條",
+    "body": "示範索引項目，非正式法律解說。",
+    "tags": [
+      "財產犯罪"
+    ],
+    "examPriority": 4
+  }
+]
