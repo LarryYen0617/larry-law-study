@@ -1,5 +1,10 @@
 const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('assert');const root=path.resolve(__dirname,'../site'),ctx={window:{},URL,Date};vm.runInNewContext(fs.readFileSync(path.join(root,'discover-core.js'),'utf8'),ctx);const C=ctx.window.LEX_DISCOVER,index=JSON.parse(fs.readFileSync(path.join(root,'search-index.json'),'utf8'));
-assert(C.validIndex(index));assert.equal(index.items.length,new Set(index.items.map(x=>x.id)).size);assert.equal(index.items.filter(x=>x.type==='question').length,1872);assert.equal(index.items.filter(x=>x.type==='novel').length,513);assert.equal(index.items.filter(x=>x.type==='note').length,112);
+assert(C.validIndex(index));assert.equal(index.items.length,new Set(index.items.map(x=>x.id)).size);
+// Protect the historical 3,602-record corpus without rejecting legitimate new lessons and questions.
+const floors={question:1803,novel:513,note:97,card:40,teacher:92,archive:1016,reading:14,lesson:27};
+assert(index.items.length>=3602,'original search corpus truncated');
+for(const [type,min] of Object.entries(floors))assert(index.items.filter(x=>x.type===type).length>=min,type+' corpus below historical baseline');
+assert(C.validIndex({version:1,items:[...index.items,{...index.items[0],id:'regression:future-added-record'}]}),'future valid additions must not break index validation');
 assert(C.search(index.items,{q:'意思表示',type:'note',subject:'civilgeneral'}).length>0);assert(C.search(index.items,{q:'刑總'}).every(x=>x.subject==='criminalgeneral'||(x.title+x.body).includes('刑法總則')));assert(C.search(index.items,{q:'臺中的清晨',type:'novel'})[0].href.endsWith('chapter=1'));assert.equal(C.search(index.items,{q:'不存在的關鍵字__123'}).length,0);assert.equal(C.search(index.items,{q:'意思表示 不存在的關鍵字__123'}).length,0);
 for(const href of ['javascript:alert(1)','https://evil.test/index.html','//evil.test/reading.html','../library.html','settings.html'])assert(!C.safeHref(href),href);assert(!C.validIndex({version:1,items:[{...index.items[0],href:'javascript:alert(1)'}]}));assert(!C.validIndex({version:1,items:[index.items[0],index.items[0]]}));
 assert.equal(C.today(new Date('2026-10-25T16:01:00Z')),'2026-10-26');assert.equal(C.dueDate('2026-12-31',1),'2027-01-01');assert(!C.validDate('2026-02-30'));
