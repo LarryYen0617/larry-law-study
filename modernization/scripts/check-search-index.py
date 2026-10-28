@@ -9,7 +9,7 @@ here = Path(__file__).resolve()
 spec = spec_from_file_location("search_index_builder", here.with_name("build-search-index.py"))
 module = module_from_spec(spec)
 spec.loader.exec_module(module)
-index_file = module.ROOT / "search-index.json"
+index_file = module.ROOT / "search-preview-index.json"
 try:
     actual = json.loads(index_file.read_text(encoding="utf-8"))
     expected = {"schemaVersion": 1, "pages": module.build()}
