@@ -98,6 +98,17 @@ try{
   await malformed.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("資料載入失敗"),null,{timeout:10000});
   assert.equal(await malformed.locator("#retry").isVisible(),true,"malformed JSON did not show retry");
   await malformed.close();
+  const invalidRecord=await browser.newPage();
+  await invalidRecord.route("**/search-index.json",async route=>{
+    const response=await route.fetch();
+    const payload=await response.json();
+    payload.items[0].href="https://unsafe.example/";
+    await route.fulfill({status:200,contentType:"application/json",body:JSON.stringify(payload)});
+  });
+  await invalidRecord.goto("http://127.0.0.1:"+port+"/search-preview.html",{waitUntil:"domcontentloaded"});
+  await invalidRecord.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("資料載入失敗"),null,{timeout:10000});
+  assert.match(await invalidRecord.locator("#status").innerText(),/有效資料不足/,"unsafe record silently reduced corpus");
+  await invalidRecord.close();
   const practice=await browser.newPage({viewport:{width:1280,height:800}});
   await practice.goto("http://127.0.0.1:"+port+"/practice.html",{waitUntil:"domcontentloaded"});
   await practice.waitForSelector("#practice-issue",{timeout:12000});
