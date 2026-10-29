@@ -5,12 +5,24 @@
  * 使用 Unicode code points（含標點與空白）統計正文 text，不含章名。
  */
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const base = path.join(__dirname, '..', 'site', 'books', 'wan-jie-fa-shen');
 const manifest = JSON.parse(fs.readFileSync(path.join(base, 'manifest.json'), 'utf8'));
 assert(Array.isArray(manifest.chapters), 'manifest.chapters must be an array');
 assert.equal(manifest.chapterCount, manifest.chapters.length, 'manifest chapterCount mismatch');
+// SHA-256 of published chapter bodies, independently generated from the
+// preserved revision ZIP (excluding the chapter title). This prevents a
+// web-only edit from silently diverging from the reviewed master manuscript.
+const revisionHashes = new Map([
+  [421, '0dd87324b1d3aa8e67c8842767c61956e0b12cf58c89dde6af550c55fd53d7ac'],
+  [422, 'db449a97f17ec3b19b05d89d8755528f309958f23ff3c58bbbb0c34e5dfcfab7'],
+  [423, '5d39567d9bbe8351923ee0d1876e933d2f46c98a71dbcaf5aab1d7aa5ca194e6'],
+  [424, '77d881b7d2f2217d91f98f1865bd0ae736cc570390158a955ee9b237c39b988e'],
+  [425, 'e7174dc61f1184bfc2bc398074fdf77cf65be81f36a7577094bac5ac74fa7e1e'],
+  [426, 'fc80347e00ee6ec8b20acdbd997eef07d31375a89d6f791f904d654eb40e6123'],
+]);
 const files = new Map();
 const allNumbers = new Set();
 let under2500 = 0;
@@ -38,8 +50,13 @@ for (let i = 0; i < manifest.chapters.length; i++) {
   // Effective length excludes whitespace and punctuation; keep this gate in
   // sync with the last chapter published from the revised master archive.
   const effective = [...chapter.text].filter(ch => /[\p{L}\p{N}]/u.test(ch)).length;
-  if (chapter.number >= 376 && chapter.number <= 420) {
+  if (chapter.number >= 376 && chapter.number <= 426) {
     assert(effective >= 2500, 'revised chapter below 2500 effective characters: ' + chapter.number);
+  }
+  if (revisionHashes.has(chapter.number)) {
+    const actualHash = crypto.createHash('sha256').update(chapter.text, 'utf8').digest('hex');
+    assert.equal(actualHash, revisionHashes.get(chapter.number),
+      'published chapter diverges from reviewed master archive: ' + chapter.number);
   }
   if (effective < 2500) under2500Effective++;
   totalCharacters += length;
