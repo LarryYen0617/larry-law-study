@@ -3,6 +3,14 @@ on:
   push:
     paths:
       - 'modernization/**'
+      - 'site/class-document.*'
+      - 'site/review-layer.js'
+      - 'tests/review-provenance.cjs'
+      - 'tests/test_statute_verification.py'
+      - 'scripts/verify_statute_quotes.py'
+      - 'scripts/public_learning.py'
+      - 'scripts/build_legal_english.py'
+      - 'scripts/publish_note_expansions.py'
       - 'site/search-preview.html'
       - 'site/search-preview-index.json'
       - 'site/search-index.json'
@@ -13,6 +21,14 @@ on:
   pull_request:
     paths:
       - 'modernization/**'
+      - 'site/class-document.*'
+      - 'site/review-layer.js'
+      - 'tests/review-provenance.cjs'
+      - 'tests/test_statute_verification.py'
+      - 'scripts/verify_statute_quotes.py'
+      - 'scripts/public_learning.py'
+      - 'scripts/build_legal_english.py'
+      - 'scripts/publish_note_expansions.py'
       - 'site/search-preview.html'
       - 'site/search-preview-index.json'
       - 'site/search-index.json'
@@ -29,6 +45,9 @@ jobs:
         with:
           node-version: '22'
       - run: cd modernization && npm install --no-audit --no-fund && npm test && npm run validate -- examples/notes.sample.json
+      - run: node tests/review-provenance.cjs
+      - run: python3 -m unittest discover -s tests -p test_statute_verification.py
+      - run: python3 -m unittest discover -s tests -p test_note_expansions.py
       - run: node scripts/build_search_index.cjs
       - run: cd modernization && npm run test:e2e
       - run: python3 modernization/test/index-builder.test.py

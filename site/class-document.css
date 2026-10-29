@@ -1,2 +1,42 @@
 body.has-site-sidebar>main>header{background:transparent;color:var(--ink);padding:0 0 24px;margin:0;border-bottom:1px solid var(--line)}body.has-site-sidebar>main>header h1{color:var(--ink)}body.has-site-sidebar>main section{background:var(--paper);color:var(--ink);box-shadow:none;border:1px solid var(--line)}body.has-site-sidebar>main h2,body.has-site-sidebar>main h3{color:var(--ink)}body.has-site-sidebar>main th{background:var(--soft)}.site-sidebar .sidebar-group{background:transparent;box-shadow:none;border-radius:0;padding:13px 0 8px;border:0;border-top:1px solid #ffffff16}.site-sidebar .sidebar-group h2{border:0;padding:0}.site-sidebar nav{display:block}.site-sidebar .sidebar-brand{color:#f5f1e5}body.has-site-sidebar>main a{color:var(--accent)}body.has-site-sidebar>main table{display:table}body.has-site-sidebar>main .scroll{overflow-x:auto}@media(max-width:700px){body.has-site-sidebar>main table{font-size:13px}body.has-site-sidebar>main td,body.has-site-sidebar>main th{padding:8px}}
 body.has-site-sidebar>main :is(.note,.caution,blockquote){background:var(--soft);color:var(--ink)}
+
+/* A consistent reading surface, independent of each imported page's old styles. */
+body.document-page{--title-font:"Noto Serif TC","Noto Sans TC","Microsoft JhengHei","PingFang TC",serif}
+body.document-page>main{font-size:17px;line-height:1.95;letter-spacing:.015em}
+body.document-page>main>:is(header,section,footer,nav,p){max-width:1040px;margin-inline:auto}
+body.document-page>main>header{padding-bottom:30px!important;margin-bottom:30px!important}
+body.document-page>main>header h1{font-family:var(--title-font);font-size:clamp(1.85rem,3.5vw,2.8rem);line-height:1.45;letter-spacing:.035em;max-width:24em;margin:0 0 16px}
+body.document-page>main>header p{font-size:1rem;line-height:1.8;color:var(--ink)!important;max-width:72ch}
+body.document-page>main small{color:var(--ink);font-size:.88rem}
+body.document-page>main>header small{color:var(--ink)}
+body.document-page>main>section{padding:clamp(22px,3vw,38px);margin-block:22px;border-radius:18px;box-shadow:0 6px 24px #253a3105}
+body.document-page>main h2{font-family:var(--title-font);font-size:1.42rem;line-height:1.6;letter-spacing:.02em;padding:0 0 14px;margin:0 0 20px;border-bottom:1px solid var(--line)}
+body.document-page>main h3{font-size:1.1rem;line-height:1.7;margin:24px 0 12px}
+body.document-page>main p{margin-block:14px;overflow-wrap:anywhere}
+body.document-page>main li{margin-block:8px;line-height:1.9}
+body.document-page>main :is(.source,.notice,.alert,.exam,.note,.caution,blockquote){font-size:1rem;line-height:1.85;color:var(--ink);background:var(--soft);border:0;border-inline-start:3px solid var(--accent);border-radius:0 10px 10px 0;padding:16px 20px}
+body.document-page>main nav{display:flex;flex-wrap:wrap;gap:10px;border:0}
+body.document-page>main nav a{display:inline-flex;align-items:center;min-height:44px;padding:8px 14px;margin:0;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--accent);font-size:.9rem;text-decoration:none}
+body.document-page>main nav a:hover{background:var(--soft);border-color:var(--accent)}
+body.document-page>main details{border:0;border-bottom:1px solid var(--line);padding:14px 0}
+body.document-page>main .document-provenance{padding:0 0 12px;margin-bottom:14px}
+body.document-page>main summary{font-size:1rem;line-height:1.75;min-height:44px;gap:12px}
+body.document-page>main .document-table-scroll{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;border:1px solid var(--line);border-radius:10px;margin-block:20px;scrollbar-width:thin}
+body.document-page>main table{width:100%;border-collapse:collapse;font-size:.94rem;line-height:1.75;margin:0}
+body.document-page>main :is(th,td){padding:14px 16px!important;text-align:start;vertical-align:top;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+body.document-page>main th{background:var(--soft);font-weight:600;color:var(--ink)}
+body.document-page>main tr:last-child td{border-bottom:0}
+body.document-page>main :is(section,[id]){scroll-margin-top:24px}
+body.document-page>main :focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+body.document-page>main footer{font-size:.9rem;line-height:1.85;color:var(--ink);padding:24px 0;margin-top:26px;border-top:1px solid var(--line)}
+@media(max-width:700px){
+ body.document-page>main{font-size:16px;line-height:1.9}
+ body.document-page>main>header{padding-bottom:24px!important;margin-bottom:24px!important}
+ body.document-page>main>header h1{font-size:1.85rem;line-height:1.5}
+ body.document-page>main>section{padding:20px 18px;margin-block:16px;border-radius:14px}
+ body.document-page>main h2{font-size:1.25rem;margin-bottom:16px}
+ body.document-page>main :is(.source,.notice,.alert,.exam,.note,.caution,blockquote){padding:14px 16px}
+ body.document-page>main :is(th,td){padding:12px!important}
+}
+@media print{body.document-page>main>section{box-shadow:none;border:0;padding:12px 0;break-inside:auto}body.document-page>main .document-table-scroll{overflow:visible;border:0}body.document-page>main table{min-width:0!important}}

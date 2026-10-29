@@ -2,6 +2,7 @@
 import json,re,html,hashlib
 from pathlib import Path
 from urllib.parse import urlparse
+from public_learning import public_knowledge
 ROOT=Path(__file__).resolve().parents[1]
 NAMES={'B0000001':'民法','C0000001':'刑法','A0030055':'行政程序法','G0340142':'納稅者權利保護法','A0000001':'憲法','A0000002':'憲法增修條文'}
 def compile_expansions(root=ROOT):
@@ -55,7 +56,10 @@ def compile_expansions(root=ROOT):
   base['references']=first['references']
  (root/'site').mkdir(exist_ok=True)
  (root/'site/personal-notes-data.js').write_text('window.LEX_PERSONAL_NOTES='+json.dumps(personal,ensure_ascii=False)+';\n',encoding='utf-8')
- (root/'site/knowledge-data.js').write_text('window.LEX_KNOWLEDGE = '+json.dumps(kb,ensure_ascii=False)+';\n',encoding='utf-8')
+ # Keep verbatim exam source fields in canonical content, not website assets.
+ # A rebuild must not undo the redaction already present in committed site data.
+ public_kb=public_knowledge(kb)
+ (root/'site/knowledge-data.js').write_text('window.LEX_KNOWLEDGE = '+json.dumps(public_kb,ensure_ascii=False)+';\n',encoding='utf-8')
  (root/'site/essay-template-data.js').write_text('window.LEX_ESSAY_TEMPLATES='+json.dumps({'version':1,'subjects':bases,'topics':essay_topics},ensure_ascii=False)+';\n',encoding='utf-8')
  return len(units)
 if __name__=='__main__':print('Compiled deep-note chapters:',compile_expansions())
