@@ -36,7 +36,7 @@ for (let i = 0; i < manifest.chapters.length; i++) {
   const length = [...chapter.text].length;
   // Editorial acceptance for this revised release uses effective text,
   // excluding whitespace and punctuation (not the looser raw length).
-  if (chapter.number >= 376 && chapter.number <= 400) {
+  if (chapter.number >= 376 && chapter.number <= 405) {
     const effective = [...chapter.text].filter(ch => /[\p{L}\p{N}]/u.test(ch)).length;
     assert(effective >= 2500, 'revised chapter below 2500 effective characters: ' + chapter.number);
   }
