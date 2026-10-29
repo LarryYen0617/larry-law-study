@@ -1,0 +1,48 @@
+/* Shared study experience. Loaded last; content and application state stay in their own modules. */
+:root{--body-font:"Noto Sans TC","Microsoft JhengHei","PingFang TC",system-ui,sans-serif;--title-font:"Noto Serif TC","Noto Sans TC","Microsoft JhengHei","PingFang TC",serif;--muted:#58685e;--line:#dce3da;--paper:#fffefa;--bg:#f3f5f0;--soft:#eaf0e5;--accent:#28503e;--ink:#233b30;--radius-panel:16px;--shadow-panel:0 5px 22px #19362906}
+body{font-size:16px;line-height:1.85;-webkit-font-smoothing:antialiased}
+body:not(.dark){background:var(--bg)}
+h1,h2,h3{font-family:var(--title-font);letter-spacing:.015em;overflow-wrap:anywhere}
+h1{font-size:clamp(29px,3.2vw,44px);line-height:1.42}h2{font-size:24px;line-height:1.55}h3{font-size:19px;line-height:1.65}
+p{line-height:1.9}button,input,select,textarea{font-family:var(--body-font)}
+a,button,input,select,summary{scroll-margin-block:100px}
+:is(button,input[type=search],input[type=text],select){min-height:46px}
+button{border-radius:9px;font-size:14px}input[type=search],input[type=text],select,textarea{border-radius:9px;font-size:16px;border-color:#bdcbbd}
+:is(a,button,input,select,textarea,summary):focus-visible{outline:3px solid #9b742d;outline-offset:4px}
+body.has-site-sidebar:not(.has-main-app)>main{max-width:1400px;padding:40px clamp(22px,4vw,64px) 70px}
+main>header:not(.reader-toolbar){padding-bottom:26px;margin-bottom:28px;border-bottom:1px solid var(--line)}
+main>header h1{margin:12px 0 14px}main>header>p:last-child{max-width:66ch;color:var(--muted)}
+.eyebrow{font:600 11px/1.7 var(--body-font);letter-spacing:.16em;color:#765d30}
+main :is(.source,.muted,.subtle){color:var(--muted)}
+/* Navigation remains visible as a distinct layer; tabs wrap instead of clipping. */
+.site-sidebar :is(#mainNav,#siteNavigation) .sidebar-link{min-height:46px;padding:11px 13px;font-size:13px!important}
+.site-sidebar .sidebar-group{padding-block:18px 12px}.site-sidebar .sidebar-group h2{letter-spacing:.08em}
+:is(.study-tabs,.mode-tabs,.collection-tabs,.question-tabs,main>nav[aria-label="內容類型"]){display:flex;flex-wrap:wrap;gap:8px;padding:10px;background:#e8ede5;border:1px solid var(--line);border-radius:12px;margin-block:22px}
+:is(.study-tabs,.mode-tabs,.collection-tabs,.question-tabs) button{border-color:transparent;background:transparent;padding:10px 16px}
+:is(.study-tabs,.mode-tabs,.collection-tabs,.question-tabs) button[aria-pressed=true],main>nav button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+:is(.controls,.discover-search,.catalog-search,.teacher-tools){padding:22px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-panel);gap:16px}
+.controls{display:flex;flex-wrap:wrap;align-items:end}.controls label{display:grid;gap:6px;flex:1 1 180px;font-size:14px;font-weight:600}.controls input[type=checkbox]{width:18px;height:18px;min-height:0}.controls #wrongLabel{display:flex;align-items:center;flex:0 1 auto}
+:is(.filter-row,.subject-switcher){gap:8px;flex-wrap:wrap}.filter-row button{font-size:13px;min-height:44px}
+#status,#courseStatus,#discoverStatus,#readerStatus{font-size:14px;color:var(--muted);padding-block:8px}
+/* Course collection and reading cards share spacing, without flattening their functions. */
+.learning-grid{gap:24px}.course-card{border-radius:var(--radius-panel);padding:28px;box-shadow:var(--shadow-panel);border-top:3px solid #69836a}.course-card h2{font-size:25px}.course-card>p{font-size:15px}.course-resources>a{padding-block:13px;font-size:14px;align-items:center}.course-actions>a{border-radius:8px;text-decoration:none}
+:is(.collection-section,.science-box,.desk-card,.book-card,.exam-card,.discover-result){border-radius:var(--radius-panel);box-shadow:var(--shadow-panel)}
+:is(.collection-section,.science-box){padding:28px}.collection-links a{min-height:46px;display:inline-flex;align-items:center}
+/* Long-form learning: clear titles, restrained emphasis, and readable line lengths. */
+.personal-body,.prose-reader{font-size:17px;line-height:2;overflow-wrap:anywhere}.personal-body p,.prose-reader p{margin-block:1em}
+.personal-body :is(h2,h3),.prose-reader :is(h2,h3){margin-top:1.9em;margin-bottom:.7em}
+:is(.trap,.notice,.integration-notice,.science-model){border-radius:0 10px 10px 0;padding:18px 22px;border-left:3px solid #92723d;background:#f3f0e5;line-height:1.85}
+:is(.answer-step,.feedback){line-height:1.9}.options{display:grid;gap:10px}.options button{text-align:left;line-height:1.8;padding:14px 18px;white-space:normal}
+main :is(th,td){padding:13px 16px;line-height:1.8}main th{background:#eaf0e5;color:var(--ink);font-weight:600}main tbody tr:nth-child(even){background:#f6f8f3}
+:is(.table-scroll,.deep-table,.science-table,.document-table-scroll){border-radius:10px;border:1px solid var(--line);overflow-x:auto}
+main details>summary{line-height:1.7;padding-block:14px}main details[open]>summary{color:var(--accent)}
+:is(.bank-pager,.pager,.chapter-pagination){display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:22px;margin-block:16px;border-top:1px solid var(--line)}
+main footer{margin-top:44px;padding-block:24px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+main footer a,main footer span{color:var(--muted)!important;font-size:13px!important}
+/* A consistent mobile rhythm; embedded question panels retain their compact frame. */
+@media(max-width:980px){body.has-site-sidebar:not(.has-main-app)>main{padding:28px 24px 60px}.learning-grid{gap:18px}.personal-body{font-size:16px}}
+@media(max-width:620px){body{font-size:16px}body.has-site-sidebar:not(.has-main-app)>main{padding:24px 18px 64px}main>header:not(.reader-toolbar){padding-bottom:22px;margin-bottom:24px}h1{font-size:29px}h2{font-size:23px}h3{font-size:19px}.course-card,.collection-section,.science-box{padding:22px}.course-card h2{font-size:23px}:is(.controls,.discover-search,.catalog-search,.teacher-tools){padding:18px}.controls label{flex-basis:100%}:is(.study-tabs,.mode-tabs,.collection-tabs,.question-tabs){gap:6px;padding:7px}:is(.study-tabs,.mode-tabs,.collection-tabs,.question-tabs) button{flex:1 1 auto;padding:10px 12px;font-size:13px}.personal-body,.prose-reader{font-size:16px;line-height:1.95}main :is(th,td){padding:11px 13px}.options button{padding:13px 14px}.course-resources>a{gap:12px}}
+html[data-embedded] main{padding:12px!important}html[data-embedded] .controls{padding:16px}html[data-embedded] main>header{display:none}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+@media print{body{background:white!important}main{max-width:none!important}main :is(.course-card,.book-card,.exam-card,.discover-result){box-shadow:none}main>header{padding-bottom:12px}.personal-body,.prose-reader{font-size:12pt}}
+.practice-case-list button small{color:#526257;opacity:1;font-size:13px}.practice-case-list button[aria-pressed=true] small{color:#fff}
