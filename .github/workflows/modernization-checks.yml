@@ -20,6 +20,8 @@ on:
       - 'site/search-index.json'
       - 'site/**/*.html'
       - 'tests/search-index-links.cjs'
+      - 'site/discover-core.js'
+      - 'site/discover.js'
       - 'tests/discover.cjs'
       - '.github/workflows/modernization-checks.yml'
   pull_request:
@@ -42,6 +44,8 @@ on:
       - 'site/search-index.json'
       - 'site/**/*.html'
       - 'tests/search-index-links.cjs'
+      - 'site/discover-core.js'
+      - 'site/discover.js'
       - 'tests/discover.cjs'
       - '.github/workflows/modernization-checks.yml'
 jobs:
@@ -57,6 +61,7 @@ jobs:
       - run: python3 -m unittest discover -s tests -q
       - run: python3 scripts/check_public_learning.py
       - run: node tests/library.cjs
+      - run: node tests/discover.cjs
       - run: node scripts/build_search_index.cjs
       - run: cd modernization && npm run test:e2e
       - run: python3 modernization/test/index-builder.test.py
