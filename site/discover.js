@@ -13,7 +13,9 @@
   $('subjectFilters').innerHTML=[['','全部科目'],...Object.entries(C.subjects)].map(([id,name])=>`<button type="button" data-subject="${id}" aria-pressed="${id===subject}">${esc(name)}</button>`).join('');
   $('resultsTitle').textContent=({search:'全站內容',saved:'我的收藏',due:'今日複習'})[view];
   if(!loaded)return;
-  const q=$('discoverQuery').value.trim(),cacheKey=JSON.stringify([view,type,subject,q]);
+  // A due-list cached yesterday is stale after the Taipei calendar day changes.
+  // Keep the fast pagination cache for ordinary searches and saved items.
+  const q=$('discoverQuery').value.trim(),cacheKey=JSON.stringify([view,type,subject,q,view==='due'?day:null]);
   if(searchCache.key!==cacheKey){
    const base=index.filter(x=>view==='search'||collection.items[x.id]&&(view!=='due'||collection.items[x.id].dueOn<=day));
    const rows=C.search(base,{q,type,subject});
