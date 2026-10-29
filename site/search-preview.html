@@ -79,7 +79,13 @@ function snippet(record,terms){
   const body=String(record.body||"").normalize("NFKC").replace(/\s+/g," ").trim();
   if(!body)return "";
   const normalized=body.toLocaleLowerCase("zh-TW");
-  let position=terms.length?normalized.indexOf(terms[0]):-1;
+  // A query term may match only the title/subject; use the first term
+  // actually present in the body so the excerpt shows a real body match.
+  let position=-1;
+  for(const term of terms){
+    position=normalized.indexOf(term);
+    if(position>=0)break;
+  }
   if(position<0)position=0;
   const start=Math.max(0,position-65),end=Math.min(body.length,start+220);
   return (start?"…":"")+body.slice(start,end)+(end<body.length?"…":"");
