@@ -93,6 +93,24 @@ api.setQuery('第759條之10');api.search();
 assert.deepEqual(Array.from(api.getHits(),x=>x.id),['next-inserted']);
 const excerpt={body:'第759條之10 '+('背景'.repeat(120))+' 第759條之1：應顯示此處'};
 assert.ok(api.snippet(excerpt,api.queryGroups('第759條之1')).includes('應顯示此處'),'excerpt must highlight the exact article rather than a prefix');
+// Teacher notes frequently cite an inserted article as "民法759-1" with
+// neither 第...條 nor §. The index must match that text, but not longer
+// article suffixes or unrelated numeric prefixes.
+const bareCitationRows=[
+  ['raw-exact','民法759-1：登記推定'],
+  ['raw-next','民法759-10：其他條文'],
+  ['raw-prefix','民法1759-1：不同條號'],
+  ['raw-hyphen','民法759-1-2：非單一條號']
+].map(([id,body])=>({id,title:'民法物權案例',body,subject:'property',type:'note',href:'index.html',
+  _title:normalize('民法物權案例'),_body:normalize(body),_subject:normalize('物權')}));
+api.setRecords(bareCitationRows);
+for(const spelling of ['759-1','§759-1','第759條之1','民法第759條之1']){
+  api.setQuery(spelling);api.search();
+  assert.deepEqual(Array.from(api.getHits(),x=>x.id),['raw-exact'],
+    'bare source citations must match exact inserted article: '+spelling);
+}
+assert.ok(api.snippet(bareCitationRows[0],api.queryGroups('759-1')).includes('759-1'),
+  'snippet must locate the exact bare citation');
 api.setRecords(rows);
 
 assert.equal(api.queryGroups('刑總').length,1,'alias variants count as one query term');
