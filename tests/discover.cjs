@@ -10,6 +10,12 @@ for(const href of ['javascript:alert(1)','https://evil.test/index.html','//evil.
 assert.equal(C.today(new Date('2026-10-25T16:01:00Z')),'2026-10-26');assert.equal(C.dueDate('2026-12-31',1),'2027-01-01');assert(!C.validDate('2026-02-30'));
 const id=index.items[0].id,r={id,addedOn:'2026-10-26',dueOn:'2026-10-26',stage:0};let s={version:1,items:{[id]:r}};assert(C.validCollection(s));let next=C.review(r,'2026-10-26');assert.equal(next.dueOn,'2026-10-27');assert.equal(next.stage,1);assert.equal(C.review(next,'2026-10-27').dueOn,'2026-10-30');assert.equal(C.review(next,'2026-10-27',true).stage,1);assert.equal(r.stage,0);
 assert(!C.validCollection({version:1,items:{[id]:{...r,stage:-1}}}));assert(!C.validCollection({version:1,items:{[id]:{...r,dueOn:'2026-02-30'}}}));assert(C.validCollection({version:1,items:{'note:missing-in-new-index':{...r,id:'note:missing-in-new-index'}}}));let stored='keep';assert.throws(()=>C.persist({setItem(){throw Error('quota');}},s));assert.equal(stored,'keep');C.persist({setItem:(k,v)=>{assert.equal(k,C.key);stored=v;}},s);assert.equal(JSON.parse(stored).items[id].stage,0);
+// NFKC expansion and full-width whitespace must not shift excerpt offsets.
+const expanded='㍿'.repeat(120)+'關鍵字'+'結尾'.repeat(80);
+assert(C.excerpt(expanded,'關鍵字').includes('關鍵字'),'excerpt should locate terms after NFKC expansion');
+assert(C.excerpt('　'.repeat(80)+'刑法總則'+'後續'.repeat(80),'刑總').includes('刑法總則'),'search aliases should work in excerpts');
+assert(C.excerpt('ＡＢＣ'.repeat(80)+'物權'+'結尾'.repeat(80),'物權').includes('物權'),'full-width characters should not misalign excerpts');
+assert.equal(C.excerpt(null,'物權'),'');
 // End-to-end controller behavior without a browser: failed fetch, retry, save failure, and review mutation.
 (async()=>{
  const nodes={},listeners={},saved=new Map();let fetchFail=true,quota=false;const node=id=>nodes[id]??={value:'',innerHTML:'',textContent:'',hidden:false,setAttribute(){},scrollIntoView(){}};
