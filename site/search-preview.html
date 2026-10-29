@@ -90,7 +90,7 @@ function fillOptions(element,values,labels){
 function snippet(record,terms){
   // Normalize display text before computing offsets: NFKC and whitespace
   // collapsing change character positions in the original body.
-  const body=String(record.body||"").normalize("NFKC").replace(/\s+/g," ").trim();
+  const body=String(record.body||"").normalize("NFKC").replace(/第\s*(\d+)\s*條/g,"第$1條").replace(/§\s*(\d+)/g,"§$1").replace(/\s+/g," ").trim();
   if(!body)return "";
   const normalized=body.toLocaleLowerCase("zh-TW");
   // A query term may match only the title/subject; use the first term
