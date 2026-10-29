@@ -54,6 +54,7 @@ assert.equal(api.getHits().length,0,'unrelated statute name cannot match by arti
 api.setQuery('７５７');api.search();
 assert.deepEqual(Array.from(api.getHits(),x=>x.id),['civil'],'NFKC digits still match');
 assert.ok(api.snippet(rows[0],api.queryGroups('刑總')).includes('刑法總則'),'excerpt includes the actual full-name hit');
+assert.ok(api.snippet(rows[2],api.queryGroups('第757條')).includes('第757條'),'excerpt keeps the normalized legal citation visible');
 assert.equal(api.queryGroups('刑總').length,1,'alias variants count as one query term');
 // All terms must count. Previously the ninth term was silently ignored,
 // returning documents that did not satisfy the user's AND query.
