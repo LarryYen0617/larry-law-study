@@ -46,4 +46,12 @@ api.setQuery('７５７');api.search();
 assert.deepEqual(Array.from(api.getHits(),x=>x.id),['civil'],'NFKC digits still match');
 assert.ok(api.snippet(rows[0],api.queryGroups('刑總')).includes('刑法總則'),'excerpt includes the actual full-name hit');
 assert.equal(api.queryGroups('刑總').length,1,'alias variants count as one query term');
-console.log('PASS: preview search aliases, AND semantics, NFKC, and excerpt visibility');
+// All terms must count. Previously the ninth term was silently ignored,
+// returning documents that did not satisfy the user's AND query.
+const nineTerms='刑總 故意 故意 故意 故意 故意 故意 故意 不存在';
+assert.equal(api.queryGroups(nineTerms).length,9,'all nine search terms are retained');
+api.setQuery(nineTerms);api.search();
+assert.equal(api.getHits().length,0,'the ninth unmatched term must exclude results');
+api.setQuery('刑總 故意 故意 故意 故意 故意 故意 故意 故意');api.search();
+assert.equal(api.getHits().length,2,'nine matching terms still return both records');
+console.log('PASS: preview search aliases, AND semantics, NFKC, and excerpt visibility, and all query terms');
