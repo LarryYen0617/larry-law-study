@@ -2,7 +2,7 @@ const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('ass
 const root=path.resolve(__dirname,'../site'),nodes=new Map(),events={},saved=new Map();
 const el=s=>{if(!nodes.has(s))nodes.set(s,{innerHTML:'',value:'',textContent:'',dataset:{},addEventListener(t,f){this[t]=f;}});return nodes.get(s);};
 const ctx=vm.createContext({window:{print(){}},URL,Blob,setTimeout,localStorage:{getItem:k=>saved.get(k),setItem:(k,v)=>saved.set(k,v)},document:{querySelector:el,querySelectorAll:()=>[],addEventListener(t,f){(events[t]??=[]).push(f);},createElement:()=>({click(){}})}});
-vm.runInContext(fs.readFileSync(path.join(root,'knowledge-data.js'),'utf8')+'\n'+fs.readFileSync(path.join(root,'essentials.js'),'utf8'),ctx);
+vm.runInContext(fs.readFileSync(path.join(root,'knowledge-data.js'),'utf8')+'\n'+fs.readFileSync(path.join(root,'property-midterm-cards.js'),'utf8')+'\n'+fs.readFileSync(path.join(root,'essentials.js'),'utf8'),ctx);
 const run=s=>vm.runInContext(s,ctx),click=dataset=>{for(const f of events.click||[])f({target:{closest:()=>({dataset})}});};
 assert.equal(run('knowledge.subjects.length'),9);assert.equal(run('knowledgeMode'),'notes');assert.ok(!el('#knowledgeContent').innerHTML.includes('查看完整自編擬答'));
 assert.equal(run('knowledge.cases.length'),4);assert.equal(run('knowledge.quizzes.length'),6);
@@ -15,6 +15,22 @@ click({knowledgeAnswer:'family-reviewed-1:0'});assert.ok(el('#knowledgeContent')
 for(const f of events.input)f({target:{dataset:{caseDraft:'debt115-1'},value:'我的涵攝草稿'}});
 assert.equal(JSON.parse(saved.get('lex-nexus-study-v1')).drafts['debt115-1'],'我的涵攝草稿');assert.ok(!saved.has('larry-law-midterm-v1'));
 click({mode:'inventory'});assert.ok(el('#knowledgeContent').innerHTML.includes('並非所有創課教材'));assert.ok(el('#knowledgeContent').innerHTML.includes('尚未取得課程清單'));
-const json=JSON.parse(fs.readFileSync(path.join(root,'../content/knowledge-base.json'),'utf8'));for(const c of json.cases||[]){for(const key of ["originalQuestion","originalQuestionSha256","originalQuestionLocation","originalFileSha256","hasOriginalAnswer"])delete c[key];}assert.equal(JSON.stringify(ctx.window.LEX_KNOWLEDGE),JSON.stringify(json));
+const json=JSON.parse(fs.readFileSync(path.join(root,'../content/knowledge-base.json'),'utf8'));for(const c of json.cases||[]){for(const key of ["originalQuestion","originalQuestionSha256","originalQuestionLocation","originalFileSha256","hasOriginalAnswer"])delete c[key];}const supplement=JSON.parse(fs.readFileSync(path.join(root,'../content/property-midterm-cards.json'),'utf8'));
+assert.equal(supplement.cards.length,5);
+assert.equal(JSON.stringify(ctx.window.LEX_PROPERTY_MIDTERM_CARDS),JSON.stringify(supplement),
+  'published midterm supplement must equal public-law-only source');
+const published=JSON.parse(JSON.stringify(ctx.window.LEX_KNOWLEDGE));
+const property=published.subjects.find(subject=>subject.id==='property');
+assert.equal(property.cards.length,8,'three original cards plus five verified midterm cards');
+for(const card of supplement.cards){
+  assert.ok(property.cards.some(x=>x.id===card.id),'missing public-law card '+card.id);
+  assert.ok(card.refs.some(r=>r.url.includes('law.moj.gov.tw/LawClass/LawSingle.aspx')),
+    'every supplement card must cite an official statute');
+}
+property.cards=property.cards.filter(card=>!card.id.startsWith('property-midterm-'));
+property.status='基礎整理；待對應完整課堂教材';
+assert.equal(JSON.stringify(published),JSON.stringify(json),'baseline public knowledge must stay privacy-sanitized');
+assert.ok(!JSON.stringify(ctx.window.LEX_KNOWLEDGE).includes('originalQuestionSha256'),
+  'teacher original-question hashes must not enter the published page');
 assert.ok(!JSON.stringify(json).includes('C:\\Users'));assert.ok(!JSON.stringify(json).includes('陳宜'));assert.deepEqual(json.exclusions,[]);
 console.log('PASS: pure-summary separation, nine subject filtering, four source-mapped cases, reviewed quizzes, wrong-answer filter, local drafts, honest coverage, privacy, data consistency.');
