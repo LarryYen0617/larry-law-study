@@ -16,6 +16,15 @@ assert(C.excerpt(expanded,'關鍵字').includes('關鍵字'),'excerpt should loc
 assert(C.excerpt('　'.repeat(80)+'刑法總則'+'後續'.repeat(80),'刑總').includes('刑法總則'),'search aliases should work in excerpts');
 assert(C.excerpt('ＡＢＣ'.repeat(80)+'物權'+'結尾'.repeat(80),'物權').includes('物權'),'full-width characters should not misalign excerpts');
 assert.equal(C.excerpt(null,'物權'),'');
+ // All query words must participate in AND matching; abbreviations match both
+ // abbreviated-only records and the corresponding full course name.
+const fixture={id:'note:term-regression',type:'note',subject:'criminalgeneral',title:'刑總',body:'甲 乙 丙 丁 戊 己 庚 辛'};
+assert.equal(C.search([fixture],{q:'甲 乙 丙 丁 戊 己 庚 辛 壬'}).length,0,'ninth term cannot be ignored');
+assert.equal(C.search([fixture],{q:'甲 乙 丙 丁 戊 己 庚 辛'}).length,1);
+assert.equal(C.search([fixture],{q:'刑總'}).length,1,'abbreviated-only title must match');
+assert.equal(C.search([{...fixture,title:'其他',body:'刑法總則'}],{q:'刑總'}).length,1,'full course name must match abbreviation');
+assert(C.excerpt('前文'.repeat(120)+'物權','刑總 物權').includes('物權'),'excerpt should locate a later body term');
+
 // End-to-end controller behavior without a browser: failed fetch, retry, save failure, and review mutation.
 (async()=>{
  const nodes={},listeners={},saved=new Map();let fetchFail=true,quota=false;const node=id=>nodes[id]??={value:'',innerHTML:'',textContent:'',hidden:false,setAttribute(){},scrollIntoView(){}};
