@@ -2,6 +2,11 @@ name: Modernization checks
 on:
   push:
     paths:
+      # Run pre-merge checks for every site, script, test and workflow change.
+      - 'site/**'
+      - 'scripts/**'
+      - 'tests/**'
+      - '.github/workflows/**'
       - 'modernization/**'
       - 'site/class-document.*'
       - 'site/review-layer.js'
@@ -36,6 +41,11 @@ on:
       - '.github/workflows/modernization-checks.yml'
   pull_request:
     paths:
+      # Run pre-merge checks for every site, script, test and workflow change.
+      - 'site/**'
+      - 'scripts/**'
+      - 'tests/**'
+      - '.github/workflows/**'
       - 'modernization/**'
       - 'site/class-document.*'
       - 'site/review-layer.js'
@@ -68,6 +78,9 @@ on:
       - 'tests/discover.cjs'
       - 'tests/search-preview.cjs'
       - '.github/workflows/modernization-checks.yml'
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest

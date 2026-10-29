@@ -47,7 +47,7 @@ const normalize=value=>String(value||"").normalize("NFKC").toLocaleLowerCase("zh
 const label=(table,key)=>table[key]||key||"未分類";
 // AND between words; OR between a course abbreviation and its full name.
 const aliases={刑總:"刑法總則",民總:"民法總則",債總:"債權",刑分:"刑法分則"};
-const queryGroups=value=>normalize(value).split(" ").filter(Boolean).slice(0,8).map(term=>aliases[term]?[term,aliases[term]]:[term]);
+const queryGroups=value=>normalize(value).split(" ").filter(Boolean).map(term=>aliases[term]?[term,aliases[term]]:[term]);
 const pageSize=20;
 let records=[],hits=[],page=0,timer,ready=false;
 function safeHref(href){
