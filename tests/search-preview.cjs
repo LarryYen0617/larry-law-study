@@ -71,6 +71,23 @@ for(const spelling of ['第759條之1','§759-1','§ ７５９－１','民法第
 api.setQuery('刑法第759條之1');api.search();
 assert.equal(api.getHits().length,0,'compound inserted article must still match the statute name');
 assert.ok(api.snippet(inserted,api.queryGroups('§759-1')).includes('第759條之1'),'excerpt normalizes inserted article spelling');
+// Prefix matches are incorrect for statute articles, even when the
+// requested number appears at the beginning of a longer inserted article.
+const nextInserted={...inserted,id:'next-inserted',body:'民法第759條之10：另一增訂條文',
+  _body:normalize('民法第759條之10：另一增訂條文')};
+api.setRecords([inserted,nextInserted]);
+for(const spelling of ['第759條','§759']){
+  api.setQuery(spelling);api.search();
+  assert.equal(api.getHits().length,0,'base article must not match inserted articles: '+spelling);
+}
+for(const spelling of ['第759條之1','§759-1']){
+  api.setQuery(spelling);api.search();
+  assert.deepEqual(Array.from(api.getHits(),x=>x.id),['inserted'],'article suffix must not match a longer suffix: '+spelling);
+}
+api.setQuery('第759條之10');api.search();
+assert.deepEqual(Array.from(api.getHits(),x=>x.id),['next-inserted']);
+const excerpt={body:'第759條之10 '+('背景'.repeat(120))+' 第759條之1：應顯示此處'};
+assert.ok(api.snippet(excerpt,api.queryGroups('第759條之1')).includes('應顯示此處'),'excerpt must highlight the exact article rather than a prefix');
 api.setRecords(rows);
 
 assert.equal(api.queryGroups('刑總').length,1,'alias variants count as one query term');

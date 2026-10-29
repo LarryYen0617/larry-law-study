@@ -70,6 +70,21 @@ const queryGroups=value=>normalize(value).split(" ").filter(Boolean).flatMap(tok
     return aliases[term]?[term,aliases[term]]:[term];
   });
 });
+// Article references must match whole article numbers: §759 is not §759-1,
+// and 第759條之1 is not 第759條之10. Other keywords retain substring search.
+function termIndex(text,term){
+  const named=term.match(/^第(\d+)條(?:之(\d+))?$/);
+  if(named){
+    const pattern="第"+named[1]+"條"+(named[2]?"之"+named[2]+"(?!\\d)":"(?!之\\d)");
+    return text.search(new RegExp(pattern));
+  }
+  const section=term.match(/^§(\d+)(?:-(\d+))?$/);
+  if(section){
+    const pattern="§"+section[1]+(section[2]?"-"+section[2]+"(?!\\d)":"(?![-\\d])");
+    return text.search(new RegExp(pattern));
+  }
+  return text.indexOf(term);
+}
 const pageSize=20;
 let records=[],hits=[],page=0,timer,ready=false;
 function safeHref(href){
@@ -109,7 +124,7 @@ function snippet(record,terms){
   let position=-1;
   for(const variants of terms){
     for(const term of variants){
-      position=normalized.indexOf(term);
+      position=termIndex(normalized,term);
       if(position>=0)break;
     }
     if(position>=0)break;
@@ -160,7 +175,7 @@ function search(){
     if(!terms.length)return {item,score:0};
     let score=0;
     for(const variants of terms){
-      const inTitle=variants.some(term=>item._title.includes(term)),inSubject=variants.some(term=>item._subject.includes(term)),inBody=variants.some(term=>item._body.includes(term));
+      const inTitle=variants.some(term=>termIndex(item._title,term)>=0),inSubject=variants.some(term=>termIndex(item._subject,term)>=0),inBody=variants.some(term=>termIndex(item._body,term)>=0);
       if(!inTitle&&!inSubject&&!inBody)return null;
       score+=(inTitle?9:0)+(inSubject?4:0)+(inBody?1:0);
     }

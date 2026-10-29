@@ -14,6 +14,7 @@ assert.equal(manifest.chapterCount, manifest.chapters.length, 'manifest chapterC
 const files = new Map();
 const allNumbers = new Set();
 let under2500 = 0;
+let under2500Effective = 0;
 let under1500 = 0;
 let totalCharacters = 0;
 for (let i = 0; i < manifest.chapters.length; i++) {
@@ -34,12 +35,13 @@ for (let i = 0; i < manifest.chapters.length; i++) {
   assert(!allNumbers.has(chapter.number), 'duplicate chapter number ' + chapter.number);
   allNumbers.add(chapter.number);
   const length = [...chapter.text].length;
-  // Editorial acceptance for this revised release uses effective text,
-  // excluding whitespace and punctuation (not the looser raw length).
-  if (chapter.number >= 376 && chapter.number <= 405) {
-    const effective = [...chapter.text].filter(ch => /[\p{L}\p{N}]/u.test(ch)).length;
+  // Effective length excludes whitespace and punctuation; keep this gate in
+  // sync with the last chapter published from the revised master archive.
+  const effective = [...chapter.text].filter(ch => /[\p{L}\p{N}]/u.test(ch)).length;
+  if (chapter.number >= 376 && chapter.number <= 411) {
     assert(effective >= 2500, 'revised chapter below 2500 effective characters: ' + chapter.number);
   }
+  if (effective < 2500) under2500Effective++;
   totalCharacters += length;
   if (length < 2500) under2500++;
   if (length < 1500) under1500++;
@@ -52,6 +54,7 @@ console.log(JSON.stringify({
   totalCharacters,
   averageCharacters: Math.round(totalCharacters / manifest.chapterCount),
   under2500,
+  under2500Effective,
   under1500,
   target: 2500,
   note: '字數不足為待編修警示，不視為通過品質審查。'
