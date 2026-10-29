@@ -34,6 +34,12 @@ for (let i = 0; i < manifest.chapters.length; i++) {
   assert(!allNumbers.has(chapter.number), 'duplicate chapter number ' + chapter.number);
   allNumbers.add(chapter.number);
   const length = [...chapter.text].length;
+  // Editorial acceptance for this revised release uses effective text,
+  // excluding whitespace and punctuation (not the looser raw length).
+  if (chapter.number >= 376 && chapter.number <= 400) {
+    const effective = [...chapter.text].filter(ch => /[\\p{L}\\p{N}]/u.test(ch)).length;
+    assert(effective >= 2500, 'revised chapter below 2500 effective characters: ' + chapter.number);
+  }
   totalCharacters += length;
   if (length < 2500) under2500++;
   if (length < 1500) under1500++;
