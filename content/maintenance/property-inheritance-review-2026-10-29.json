@@ -1,0 +1,127 @@
+{
+  "date": "2026-10-29",
+  "scope": "物權教材的繼承案例與可定位授課段落；非全站完成聲明",
+  "page": "site/class-notes/property-midterm-1151.html",
+  "reviewedCases": [
+    "inheritance-before-registration",
+    "estate-simple-repair",
+    "post-death-counter-withdrawal"
+  ],
+  "teacherSource": {
+    "name": "2026-10-22 18_46_10.docx",
+    "libraryFileId": "libfile_3df5983291808191a9c429b959472c74",
+    "extractedPages": 18,
+    "readLineRanges": [
+      [
+        375,
+        419
+      ],
+      [
+        690,
+        719
+      ],
+      [
+        715,
+        914
+      ],
+      [
+        1560,
+        1618
+      ]
+    ],
+    "findings": [
+      {
+        "pages": [
+          5,
+          17
+        ],
+        "claim": "考試後方寫AI比較摘要及結論、25題；未見固定加分分數"
+      },
+      {
+        "pages": [
+          8
+        ],
+        "claim": "占有章留待期末"
+      },
+      {
+        "pages": [
+          9
+        ],
+        "claim": "物權變動連讀、繼承公同共有、三種觀念交付與取得時效"
+      },
+      {
+        "pages": [
+          5
+        ],
+        "claim": "期末以8選4為例；與大綱整理9選4並列，不推為期中安排"
+      }
+    ]
+  },
+  "statutes": [
+    {
+      "code": "B0000001",
+      "article": "759",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=759"
+    },
+    {
+      "code": "B0000001",
+      "article": "1147",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=1147"
+    },
+    {
+      "code": "B0000001",
+      "article": "1148",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=1148"
+    },
+    {
+      "code": "B0000001",
+      "article": "1151",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=1151"
+    },
+    {
+      "code": "B0000001",
+      "article": "828",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=828"
+    },
+    {
+      "code": "B0000001",
+      "article": "820",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=820"
+    },
+    {
+      "code": "B0000001",
+      "article": "831",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=831"
+    },
+    {
+      "code": "B0000001",
+      "article": "550",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=550"
+    },
+    {
+      "code": "C0000001",
+      "article": "210",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=210"
+    },
+    {
+      "code": "C0000001",
+      "article": "216",
+      "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=C0000001&flno=216"
+    }
+  ],
+  "judgment": {
+    "court": "臺灣高等法院臺中分院",
+    "number": "114年度上訴字第1275號",
+    "date": "2026-01-14",
+    "url": "https://judgment.judicial.gov.tw/FJUD/printData.aspx?id=TCHM%2C114%2C%E4%B8%8A%E8%A8%B4%2C1275%2C20260114%2C1",
+    "readScope": "犯罪事實與理由二㈠⒉；不宣稱已核其上訴後續或確定狀態",
+    "supremeCitation": "110年度台上字第3566號僅經本判決援引查讀，未另核原判決全文"
+  },
+  "remaining": [
+    "本批未重讀黑板及大綱照片",
+    "實際案例授權事實不能由法條證明",
+    "未擴張期中考範圍",
+    "全站案例與教師考試範圍仍須逐項續審"
+  ],
+  "allSiteReviewed": false
+}
