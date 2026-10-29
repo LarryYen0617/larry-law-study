@@ -26,13 +26,13 @@ const context={
   URL,URLSearchParams,AbortController,setTimeout,clearTimeout,
   matchMedia:()=>({matches:false}),Option:class {},fetch:async()=>{throw Error('not expected')}
 };
-vm.runInNewContext(script+'\nwindow.previewTest={queryGroups,snippet,search,subjectLabel:key=>label(subjectNames,key),setRecords(value){records=value;ready=true},getHits(){return hits},setQuery(value){input.value=value}};',context);
+vm.runInNewContext(script+'\nwindow.previewTest={queryGroups,snippet,search,load,subjectLabel:key=>label(subjectNames,key),setRecords(value){records=value;ready=true},getHits(){return hits},setQuery(value){input.value=value}};',context);
 const api=context.window.previewTest;
 const normalize=value=>String(value).normalize('NFKC').toLocaleLowerCase('zh-TW').replace(/\s+/g,' ').trim();
 const rows=[
  {id:'full',title:'刑法總則故意',body:'前言'.repeat(120)+'刑法總則：故意',subject:'criminalgeneral',type:'note',href:'index.html'},
  {id:'short',title:'刑總小考',body:'故意案例',subject:'criminalgeneral',type:'note',href:'index.html'},
- {id:'civil',title:'民法總則',body:'物權第７５７條',subject:'civilgeneral',type:'note',href:'index.html'}
+ {id:'civil',title:'民法總則',body:'物權第 ７５７ 條',subject:'civilgeneral',type:'note',href:'index.html'}
 ].map(row=>({...row,_title:normalize(row.title),_body:normalize(row.body),
  _subject:normalize(row.subject==='criminalgeneral'?'刑法總則':'民法總則')}));
 api.setRecords(rows);
@@ -42,6 +42,15 @@ api.setQuery('刑總 故意');api.search();
 assert.equal(api.getHits().length,2,'multiple terms retain AND semantics');
 api.setQuery('刑總 物權');api.search();
 assert.equal(api.getHits().length,0,'AND terms must not match different records');
+api.setQuery('第７５７條');api.search();
+assert.deepEqual(Array.from(api.getHits(),x=>x.id),['civil'],'spaced legal article is normalized');
+api.setQuery('§７５７');api.search();
+assert.deepEqual(Array.from(api.getHits(),x=>x.id),['civil'],'section symbol finds equivalent article reference');
+api.setQuery('民法第 ７５７ 條');api.search();
+assert.deepEqual(Array.from(api.getHits(),x=>x.id),['civil'],'compound statute reference uses AND semantics');
+assert.equal(api.queryGroups('民法第 ７５７ 條').length,2,'compound statute splits into two AND terms');
+api.setQuery('刑法第 ７５７ 條');api.search();
+assert.equal(api.getHits().length,0,'unrelated statute name cannot match by article number alone');
 api.setQuery('７５７');api.search();
 assert.deepEqual(Array.from(api.getHits(),x=>x.id),['civil'],'NFKC digits still match');
 assert.ok(api.snippet(rows[0],api.queryGroups('刑總')).includes('刑法總則'),'excerpt includes the actual full-name hit');
@@ -75,4 +84,11 @@ nodes.get('#reset').onclick();
 assert.equal(api.getHits().length,5,'reset restores all records without refetching the index');
 assert.equal(nodes.get('#reset').hidden,true,'reset hides after clearing all filters');
 assert.equal(nodes.get('#query').focused,true,'keyboard focus returns to search input');
-console.log('PASS: preview search aliases, AND semantics, NFKC, and excerpt visibility, and all query terms');
+// A corrupted/partial live index must show an error and a retry option,
+ // rather than claiming that a tiny subset is the full production corpus.
+context.fetch=async()=>({ok:true,json:async()=>({version:1,items:rows})});
+api.load().then(()=>{
+  assert.match(nodes.get('#status').textContent,/資料載入失敗.*資料庫筆數低於完整基準/);
+  assert.equal(nodes.get('#retry').hidden,false,'partial corpus offers retry');
+  console.log('PASS: legal citations, AND semantics, aliases, and partial-corpus guard');
+}).catch(error=>{console.error(error);process.exitCode=1});
