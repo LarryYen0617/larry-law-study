@@ -28,7 +28,13 @@ const context={
 };
 vm.runInNewContext(script+'\nwindow.previewTest={queryGroups,snippet,search,load,subjectLabel:key=>label(subjectNames,key),setRecords(value){records=value;ready=true},getHits(){return hits},setQuery(value){input.value=value}};',context);
 const api=context.window.previewTest;
-const normalize=value=>String(value).normalize('NFKC').toLocaleLowerCase('zh-TW').replace(/第\s*(\d+)\s*條/g,'第$1條').replace(/§\s*(\d+)/g,'§$1').replace(/\s+/g,' ').trim();
+const normalize=value=>String(value).normalize('NFKC').toLocaleLowerCase('zh-TW')
+ .replace(/第\s*(\d+)\s*-\s*(\d+)\s*條/g,'第$1條之$2')
+ .replace(/第\s*(\d+)\s*條\s*之\s*(\d+)/g,'第$1條之$2')
+ .replace(/第\s*(\d+)\s*條/g,'第$1條')
+ .replace(/§\s*(\d+)\s*(?:-\s*(\d+)|之\s*(\d+))/g,(_,n,a,b)=>'§'+n+'-'+(a||b))
+ .replace(/§\s*(\d+)/g,'§$1')
+ .replace(/\s+/g,' ').trim();
 const rows=[
  {id:'full',title:'刑法總則故意',body:'前言'.repeat(120)+'刑法總則：故意',subject:'criminalgeneral',type:'note',href:'index.html'},
  {id:'short',title:'刑總小考',body:'故意案例',subject:'criminalgeneral',type:'note',href:'index.html'},
@@ -55,6 +61,18 @@ api.setQuery('７５７');api.search();
 assert.deepEqual(Array.from(api.getHits(),x=>x.id),['civil'],'NFKC digits still match');
 assert.ok(api.snippet(rows[0],api.queryGroups('刑總')).includes('刑法總則'),'excerpt includes the actual full-name hit');
 assert.ok(api.snippet(rows[2],api.queryGroups('第757條')).includes('第757條'),'excerpt keeps the normalized legal citation visible');
+const inserted={id:'inserted',title:'民法物權登記',body:'民法第 759-1 條：善意第三人信賴登記',subject:'property',type:'note',href:'index.html',
+  _title:normalize('民法物權登記'),_body:normalize('民法第 759-1 條：善意第三人信賴登記'),_subject:normalize('物權')};
+api.setRecords([...rows,inserted]);
+for(const spelling of ['第759條之1','§759-1','§ ７５９－１','民法第759條之1','民法第759-1條']){
+  api.setQuery(spelling);api.search();
+  assert.deepEqual(Array.from(api.getHits(),x=>x.id),['inserted'],'inserted article lookup failed: '+spelling);
+}
+api.setQuery('刑法第759條之1');api.search();
+assert.equal(api.getHits().length,0,'compound inserted article must still match the statute name');
+assert.ok(api.snippet(inserted,api.queryGroups('§759-1')).includes('第759條之1'),'excerpt normalizes inserted article spelling');
+api.setRecords(rows);
+
 assert.equal(api.queryGroups('刑總').length,1,'alias variants count as one query term');
 // All terms must count. Previously the ninth term was silently ignored,
 // returning documents that did not satisfy the user's AND query.
