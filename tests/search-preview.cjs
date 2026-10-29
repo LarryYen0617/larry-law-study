@@ -55,6 +55,18 @@ api.setQuery('７５７');api.search();
 assert.deepEqual(Array.from(api.getHits(),x=>x.id),['civil'],'NFKC digits still match');
 assert.ok(api.snippet(rows[0],api.queryGroups('刑總')).includes('刑法總則'),'excerpt includes the actual full-name hit');
 assert.ok(api.snippet(rows[2],api.queryGroups('第757條')).includes('第757條'),'excerpt keeps the normalized legal citation visible');
+const inserted={id:'inserted',title:'民法物權登記',body:'民法第 759-1 條：善意第三人信賴登記',subject:'property',type:'note',href:'index.html',
+  _title:normalize('民法物權登記'),_body:normalize('民法第 759-1 條：善意第三人信賴登記'),_subject:normalize('物權')};
+api.setRecords([...rows,inserted]);
+for(const spelling of ['第759條之1','§759-1','§ ７５９－１','民法第759條之1','民法第759-1條']){
+  api.setQuery(spelling);api.search();
+  assert.deepEqual(Array.from(api.getHits(),x=>x.id),['inserted'],'inserted article lookup failed: '+spelling);
+}
+api.setQuery('刑法第759條之1');api.search();
+assert.equal(api.getHits().length,0,'compound inserted article must still match the statute name');
+assert.ok(api.snippet(inserted,api.queryGroups('§759-1')).includes('第759條之1'),'excerpt normalizes inserted article spelling');
+api.setRecords(rows);
+
 assert.equal(api.queryGroups('刑總').length,1,'alias variants count as one query term');
 // All terms must count. Previously the ninth term was silently ignored,
 // returning documents that did not satisfy the user's AND query.
