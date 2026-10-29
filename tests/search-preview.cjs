@@ -20,13 +20,13 @@ const document={
     tagName:tag,textContent:'',children:[],append(...items){this.children.push(...items)}
   })
 };
-const history={replaceState(){}};
+const history={lastURL:"",replaceState(_state,_title,url){this.lastURL=url}};
 const context={
   document,window:{},history,location:{pathname:'/search-preview.html',href:'https://example.test/search-preview.html'},
   URL,URLSearchParams,AbortController,setTimeout,clearTimeout,
   matchMedia:()=>({matches:false}),Option:class {},fetch:async()=>{throw Error('not expected')}
 };
-vm.runInNewContext(script+'\nwindow.previewTest={queryGroups,snippet,search,load,subjectLabel:key=>label(subjectNames,key),setRecords(value){records=value;ready=true},getHits(){return hits},setQuery(value){input.value=value}};',context);
+vm.runInNewContext(script+'\nwindow.previewTest={queryGroups,snippet,search,load,changePage,pageFromUrl,getPage:()=>page,subjectLabel:key=>label(subjectNames,key),setRecords(value){records=value;ready=true},getHits(){return hits},setQuery(value){input.value=value}};',context);
 const api=context.window.previewTest;
 const normalize=value=>String(value).normalize('NFKC').toLocaleLowerCase('zh-TW')
  .replace(/第\s*(\d+)\s*-\s*(\d+)\s*條/g,'第$1條之$2')
@@ -120,6 +120,27 @@ nodes.get('#reset').onclick();
 assert.equal(api.getHits().length,5,'reset restores all records without refetching the index');
 assert.equal(nodes.get('#reset').hidden,true,'reset hides after clearing all filters');
 assert.equal(nodes.get('#query').focused,true,'keyboard focus returns to search input');
+// Shared search links should reopen the same result page, while a new query
+// resets to page one. Invalid page parameters must not create out-of-range state.
+const many=Array.from({length:45},(_,i)=>({...rows[0],id:'page-'+i,title:'刑總範例'+i,_title:normalize('刑總範例'+i)}));
+api.setRecords(many);api.setQuery('');api.search();
+api.changePage(1);
+assert.equal(api.getPage(),1,'next button advances to second page');
+assert.match(history.lastURL,/\\bpage=2\\b/,'shareable URL records page two');
+api.changePage(1);
+assert.equal(api.getPage(),2,'third page remains reachable');
+assert.match(history.lastURL,/\\bpage=3\\b/);
+api.changePage(1);
+assert.equal(api.getPage(),2,'page navigation clamps at the final page');
+assert.equal(api.pageFromUrl(new URLSearchParams('page=3')),2,'URL page restores zero-based offset');
+for(const invalid of ['0','-1','abc','10000','2.5']){
+  assert.equal(api.pageFromUrl(new URLSearchParams('page='+invalid)),0,'invalid page is ignored: '+invalid);
+}
+api.setQuery('不存在');api.search();
+assert.equal(api.getPage(),0,'new search resets to first page');
+assert.doesNotMatch(history.lastURL,/page=/,'reset query drops stale page from URL');
+api.setRecords(rows);
+
 // A corrupted/partial live index must show an error and a retry option,
  // rather than claiming that a tiny subset is the full production corpus.
 context.fetch=async()=>({ok:true,json:async()=>({version:1,items:rows})});
