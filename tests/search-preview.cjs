@@ -126,10 +126,10 @@ const many=Array.from({length:45},(_,i)=>({...rows[0],id:'page-'+i,title:'刑總
 api.setRecords(many);api.setQuery('');api.search();
 api.changePage(1);
 assert.equal(api.getPage(),1,'next button advances to second page');
-assert.match(history.lastURL,/\\bpage=2\\b/,'shareable URL records page two');
+assert.match(history.lastURL,/\bpage=2\b/,'shareable URL records page two');
 api.changePage(1);
 assert.equal(api.getPage(),2,'third page remains reachable');
-assert.match(history.lastURL,/\\bpage=3\\b/);
+assert.match(history.lastURL,/\bpage=3\b/);
 api.changePage(1);
 assert.equal(api.getPage(),2,'page navigation clamps at the final page');
 assert.equal(api.pageFromUrl(new URLSearchParams('page=3')),2,'URL page restores zero-based offset');
