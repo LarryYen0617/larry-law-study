@@ -22,6 +22,9 @@ class CommittedOriginalTests(unittest.TestCase):
             self.assertEqual(idx[0]['id'],guides[0]['id'])
             self.assertTrue((root/'site/updates/readings/2026-10-23.json').exists())
             self.assertTrue((root/'site/updates/readings/2026-10-26.json').exists())
+            payload=(root/'site/knowledge-data.js').read_text(encoding='utf-8')
+            public=json.loads(payload.removeprefix('window.LEX_KNOWLEDGE = ').rstrip().removesuffix(';'))
+            self.assertTrue(all('originalQuestion' not in case for case in public['cases']))
     def test_real_article_and_quotes_validate_offline(self):
         articles=p.load_originals();self.assertGreaterEqual(len(articles),1)
         self.assertEqual(articles[0]['kind'],'agent_original')

@@ -5,6 +5,7 @@ import re
 from hashlib import sha256
 from update_daily import ROOT, TAIPEI, atomic_json, safe_link, utc_iso
 from generate_editorial import normalize
+from public_learning import public_knowledge
 
 def validate_article(a):
     if not isinstance(a,dict) or a.get('kind')!='agent_original' or not re.fullmatch(r'\d{4}-\d{2}-\d{2}',a.get('date','')):
@@ -79,7 +80,7 @@ def publish(root=ROOT,now=None):
     knowledge_path=root/'content/knowledge-base.json'
     if knowledge_path.exists():
         kb=json.loads(knowledge_path.read_text(encoding='utf-8-sig'))
-        (root/'site/knowledge-data.js').write_text('window.LEX_KNOWLEDGE = '+json.dumps(kb,ensure_ascii=False)+';\n',encoding='utf-8')
+        (root/'site/knowledge-data.js').write_text('window.LEX_KNOWLEDGE = '+json.dumps(public_knowledge(kb),ensure_ascii=False)+';\n',encoding='utf-8')
     law_links=root/'content/note-law-links.json'
     if law_links.exists():(root/'site/note-law-data.js').write_text('window.LEX_NOTE_LAWS='+json.dumps(json.loads(law_links.read_text(encoding='utf-8')),ensure_ascii=False)+';\n',encoding='utf-8')
     resources=root/'content/study-resources.json'
