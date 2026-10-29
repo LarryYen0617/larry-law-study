@@ -111,6 +111,20 @@ for(const spelling of ['759-1','§759-1','第759條之1','民法第759條之1'])
 }
 assert.ok(api.snippet(bareCitationRows[0],api.queryGroups('759-1')).includes('759-1'),
   'snippet must locate the exact bare citation');
+// Compound shorthand citations must match a fully written article while
+// preserving the statute name as a separate AND term.
+const fullCitation={id:'full-citation',title:'登記推定與善意信賴',
+  body:'民法第759條之1：不動產登記的推定與信賴保護',subject:'property',type:'note',href:'index.html',
+  _title:normalize('登記推定與善意信賴'),
+  _body:normalize('民法第759條之1：不動產登記的推定與信賴保護'),_subject:normalize('物權')};
+api.setRecords([fullCitation]);
+for(const spelling of ['民法759-1','民法759之1','民法759條之1','民法７５９－１']){
+  assert.equal(api.queryGroups(spelling).length,2,'compound shorthand must be an AND query: '+spelling);
+  api.setQuery(spelling);api.search();
+  assert.deepEqual(Array.from(api.getHits(),x=>x.id),['full-citation'],'compound shorthand failed: '+spelling);
+}
+api.setQuery('刑法759-1');api.search();
+assert.equal(api.getHits().length,0,'shorthand must not match a different statute');
 api.setRecords(rows);
 
 assert.equal(api.queryGroups('刑總').length,1,'alias variants count as one query term');
