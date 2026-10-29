@@ -1,7 +1,7 @@
 /* Visible subject navigation reuses the existing change handlers and storage. */
 (()=>{
  if(typeof MutationObserver==='undefined')return;
- for(const id of ['knowledgeSubject','courseSelector','subject']){
+ for(const id of ['courseSelector','subject']){
   const select=document.getElementById(id);if(!select)continue;
   const nav=document.createElement('div');nav.className='subject-switcher';nav.setAttribute('role','group');nav.setAttribute('aria-label','切換科目');
   select.after(nav);select.hidden=true;select.setAttribute('aria-hidden','true');

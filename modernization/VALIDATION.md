@@ -123,3 +123,11 @@ python3 modernization/scripts/audit-site.py site-audit.json
 Introduce `experience.css` as the final presentation layer on all 25 root/classroom HTML pages and the canonical discipline summary. Unify readable font fallbacks, title hierarchy, sage/forest palette, navigation tabs, filter panels, course cards, long-form reading, question options, tables, pagination, mobile spacing and print rules. Keep existing application state, source data and routes intact. Fix low-contrast practice-list subtitles found during QA.
 
 Validation: frontend render/interaction suite, question routing, discovery controller, course catalog after index regeneration, classroom links/anchors, 33 Python tests and whitespace checks. Browser QA covers 14 main destinations at 1280/390/320px, including embedded question routes and two classroom summaries. Desktop/mobile course screenshots inspected. Search index remains a generated publication artifact.
+
+## 2026-10-29 — GitHub main-site structure and duplicate removal
+
+Canonical user-facing site: https://larryyen0617.github.io/larry-law-study/ (repository LarryYen0617/larry-law-study). The separate chatgpt.site project is not this publication target.
+
+Remove the homepage's redundant three-entry card row, duplicate course-overview link and extra sidebar-equivalent bookshelf/saved links. Keep one searchable course collection and a compact continuation area. In essentials, retain one native subject selector instead of transforming it into buttons and repeating those subjects in the empty-state content; remove redundant header navigation. Fold download, print and backup into a labelled disclosure. Bump edited asset URLs at every consumer, including the canonical classroom source.
+
+Validation: frontend interaction suite, 33 Python tests, classroom links, regenerated course catalog/search checks. Chromium covers homepage, essentials and question routing at 1280/390/320px. Verify 11 course links and no duplicated primary-card row; select property, read a chapter, switch to statutes and back, and retain one subject control. Fix chapter-index text contrast exposed by this expanded state. Generated search artifacts remain publication outputs.
