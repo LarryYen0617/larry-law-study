@@ -30,4 +30,13 @@ class NoteExpansionTests(unittest.TestCase):
  def test_missing_target_rejected(self):
   p=self.root/'content/note-expansions.json';d=json.loads(p.read_text(encoding='utf-8'));d['units'][0]['chapterId']='missing';p.write_text(json.dumps(d),encoding='utf-8')
   with self.assertRaisesRegex(ValueError,'chapter targets'):compile_expansions(self.root)
+ def test_rebuild_does_not_publish_verbatim_source_fields(self):
+  before=json.loads((self.root/'content/knowledge-base.json').read_text(encoding='utf-8'))
+  originals={case['id']:case.get('originalQuestion') for case in before['cases']}
+  compile_expansions(self.root)
+  payload=(self.root/'site/knowledge-data.js').read_text(encoding='utf-8')
+  public=json.loads(payload.removeprefix('window.LEX_KNOWLEDGE = ').rstrip().removesuffix(';'))
+  self.assertTrue(all('originalQuestion' not in case and 'originalQuestionSha256' not in case for case in public['cases']))
+  after=json.loads((self.root/'content/knowledge-base.json').read_text(encoding='utf-8'))
+  self.assertEqual(originals,{case['id']:case.get('originalQuestion') for case in after['cases']})
 if __name__=='__main__':unittest.main()

@@ -5,7 +5,10 @@
  for(const q of c.questions){
   const r=revisions.get(q.id);
   if(r){q.originalVersion={question:q.question,options:[...q.options],answer:q.answer,explanations:[...q.explanations]};const {id,...fields}=r;Object.assign(q,fields);}
-  q.status='source-checked';q.checkedAt='2026-10-24';q.currentReview='2026-10-24 AI法源對照';
+  // Loading the reader is not a review. Preserve the original item's evidence
+  // and date; only an explicit authored revision may change that metadata.
+  if(r){q.status=r.status||'reviewed';q.checkedAt=r.checkedAt||'2026-10-24';q.currentReview=q.checkedAt+' 校訂解析';}
+  else q.currentReview=q.currentReview||'原附解析；本批未作個別法律審定';
  }
  const teacher=new Map((window.LEX_TEACHER_CORRECTIONS||[]).map(x=>[x.id,x]));
  for(const q of c.teacherQuestions){const r=teacher.get(q.id);if(r)q.correction=r;}

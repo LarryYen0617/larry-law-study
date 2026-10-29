@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { resolve, extname, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -187,6 +187,22 @@ try{
   }
   await checkAccessibility(discipline,"administrative discipline mobile page");
   await discipline.close();
+  for(const readingWidth of [1280,320]){
+    const readingContext=await browser.newContext({viewport:{width:readingWidth,height:900},reducedMotion:"reduce"});
+    for(const filename of (await readdir(resolve(site,"class-notes"))).filter(name=>name.endsWith(".html"))){
+      const reading=await readingContext.newPage();
+      await reading.goto("http://127.0.0.1:"+port+"/class-notes/"+filename,{waitUntil:"domcontentloaded"});
+      if(filename==="study-hub.html"){
+        await reading.waitForURL("**/courses.html");
+      }else{
+        await reading.waitForFunction(()=>document.body.classList.contains("document-page"));
+        assert.ok(await reading.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),filename+" overflows at "+readingWidth);
+        await checkAccessibility(reading,filename+" at "+readingWidth);
+      }
+      await reading.close();
+    }
+    await readingContext.close();
+  }
   console.log("Chromium E2E PASS: "+expectedCount+" records, filters, share URL restore, pagination, no-match, offline/retry, mobile width, visible paging focus, axe accessibility scans, essay anchors, administrative discipline keyboard tables.");
 }finally{
   if(browser)await browser.close();

@@ -1,0 +1,1 @@
+window.LEX_VERIFICATION={"checkedAt": "2026-10-29", "questionsInCorpus": 1981, "quoteQuestionsMatched": 693, "citationTextComparisonsMatched": 2897, "statuteSnapshots": 127, "correction": "憲法增修條文第12條引文已移除網站導覽混入文字；取消題庫載入時一律標示已查核。", "scope": "本次為逐字引文與來源比對；案例、學說、裁判、考試範圍與實際契約登記事實另行逐項審定。"};

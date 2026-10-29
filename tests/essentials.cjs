@@ -15,6 +15,6 @@ click({knowledgeAnswer:'family-reviewed-1:0'});assert.ok(el('#knowledgeContent')
 for(const f of events.input)f({target:{dataset:{caseDraft:'debt115-1'},value:'我的涵攝草稿'}});
 assert.equal(JSON.parse(saved.get('lex-nexus-study-v1')).drafts['debt115-1'],'我的涵攝草稿');assert.ok(!saved.has('larry-law-midterm-v1'));
 click({mode:'inventory'});assert.ok(el('#knowledgeContent').innerHTML.includes('並非所有創課教材'));assert.ok(el('#knowledgeContent').innerHTML.includes('尚未取得課程清單'));
-const json=JSON.parse(fs.readFileSync(path.join(root,'../content/knowledge-base.json'),'utf8'));assert.equal(JSON.stringify(ctx.window.LEX_KNOWLEDGE),JSON.stringify(json));
+const json=JSON.parse(fs.readFileSync(path.join(root,'../content/knowledge-base.json'),'utf8'));for(const c of json.cases||[]){for(const key of ["originalQuestion","originalQuestionSha256","originalQuestionLocation","originalFileSha256","hasOriginalAnswer"])delete c[key];}assert.equal(JSON.stringify(ctx.window.LEX_KNOWLEDGE),JSON.stringify(json));
 assert.ok(!JSON.stringify(json).includes('C:\\Users'));assert.ok(!JSON.stringify(json).includes('陳宜'));assert.deepEqual(json.exclusions,[]);
 console.log('PASS: pure-summary separation, nine subject filtering, four source-mapped cases, reviewed quizzes, wrong-answer filter, local drafts, honest coverage, privacy, data consistency.');

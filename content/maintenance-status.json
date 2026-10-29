@@ -1,5 +1,5 @@
 {
-  "checkedDate": "2026-10-27",
+  "checkedDate": "2026-10-29",
   "timezone": "Asia/Taipei",
   "editorialMode": "official_rss_first",
   "classroomMaterials": {
@@ -15,7 +15,7 @@
       "民法總則",
       "憲法"
     ],
-    "note": "純重點38卡、97個筆記單元；舊版1,770題已完成欄位檢查，其中693題完成本次官方引文比對。情境題與教師原附擬答尚未全部逐題審定。",
+    "note": "本次盤點1,872題及109則教師／課堂題目區塊，693題法條填空逐字比對相符、2,897處來源引文完成比對。127條筆記法條快照已更新；案例、學說與完整教師範圍仍須個別審定，不再由載入程式統一標記已查核。",
     "exclusions": [],
     "exclusionPolicy": "只有原始教材或教師筆記明確說不考且附可追溯位置才加入。",
     "latestScan": {
@@ -28,8 +28,14 @@
   },
   "latestOriginal": "2026-10-26",
   "nextActions": [
+    "逐題核對案例涵攝、各選項法律效果與教師最新考試公告，保留可追溯來源，不以引文相符代替法律適用審定",
     "同步近期官方原始資訊，保留原發布時間與連結",
     "增量檢查教材；僅新增確認相關的去識別摘要",
     "維護歷史研讀文章與統一題庫，不強制每日自編文章"
-  ]
+  ],
+  "verification": {
+    "date": "2026-10-29",
+    "report": "content/maintenance/verification-2026-10-29.json",
+    "allLegalApplicationsReviewed": false
+  }
 }
