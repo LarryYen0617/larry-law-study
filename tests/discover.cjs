@@ -46,5 +46,12 @@ assert.equal(C.search([englishFixture],{q:'法英 不存在'}).length,0,'English
  C.search=originalSearch;
  const novel=index.items.find(x=>x.type==='novel'&&x.href.endsWith('chapter=1'));
  const click=dataset=>{for(const fn of listeners.click||[])fn({target:{closest:()=>({dataset})}});};quota=true;click({save:novel.id});assert(!saved.has(C.key));assert(node('collectionStatus').textContent.includes('未儲存'));quota=false;click({save:novel.id});assert.equal(JSON.parse(saved.get(C.key)).items[novel.id].stage,0);click({review:novel.id});assert.equal(JSON.parse(saved.get(C.key)).items[novel.id].stage,1);click({view:'due'});assert(node('discoverResults').innerHTML.includes('今天的複習已完成'));
+ // A tab left open overnight must not reuse yesterday's empty due-list cache.
+ // No storage event is needed: pagination or any rerender should refresh it.
+ const due=JSON.parse(saved.get(C.key)).items[novel.id].dueOn;
+ const originalToday=C.today;C.today=()=>due;
+ node('discoverNext').onclick();
+ assert(node('discoverResults').innerHTML.includes('chapter=1'),'due-list cache must invalidate on the new Taipei date');
+ C.today=originalToday;
  console.log('PASS: full search corpus, Chinese filters, safe links, Taipei dates, spaced review, invalid backups, quota handling, fetch retry and controller mutations.');
 })().catch(e=>{console.error(e);process.exitCode=1;});
