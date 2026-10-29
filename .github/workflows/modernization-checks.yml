@@ -101,6 +101,8 @@ jobs:
       - run: node tests/search-preview.cjs
       - run: node scripts/build_search_index.cjs
       - run: node tests/course-catalog.cjs
+      # Match the mandatory novel integrity gate used before the live Pages release.
+      - run: node tests/novel-integrity.cjs
       - run: cd modernization && npm run test:e2e
       - run: python3 modernization/test/index-builder.test.py
       - run: python3 modernization/test/site-audit.test.py
