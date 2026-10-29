@@ -37,6 +37,9 @@ class SearchPageTests(unittest.TestCase):
         self.assertNotIn('fetch("search-preview-index.json"', self.html)
         self.assertNotIn("localStorage.setItem", self.html)
         self.assertNotIn("innerHTML", self.html)
+        self.assertIn("const minRecords=3602", self.html)
+        self.assertIn("clean.length<minRecords", self.html)
+        self.assertIn("第757條", self.html)
 
     def test_course_link(self):
         catalog = PAGE.with_name("courses.html").read_text(encoding="utf-8")
