@@ -8,7 +8,7 @@ const nodes=new Map();
 function element(name){
   if(!nodes.has(name))nodes.set(name,{
     value:'',textContent:'',hidden:false,disabled:false,children:[],
-    addEventListener(){},setAttribute(){},querySelector(){return null},
+    addEventListener(type,handler){this["on"+type]=handler},focus(){this.focused=true},setAttribute(){},querySelector(){return null},
     replaceChildren(...items){this.children=items},
     append(...items){this.children.push(...items)}
   });
@@ -66,4 +66,13 @@ api.setQuery('法英 不存在');api.search();
 assert.equal(api.getHits().length,0,'unmatched terms must still exclude Legal English records');
 assert.equal(api.subjectLabel('legalenglish'),'法學英文','Legal English filter label must be localized');
 assert.equal(api.subjectLabel('photonics'),'光電科技','Photonics filter label must be localized');
+// Empty results should explain the state and offer a one-action mobile-friendly reset.
+api.setQuery('不存在的組合');api.search();
+assert.equal(api.getHits().length,0);
+assert.ok(nodes.get('#results').children[0].textContent.includes('找不到符合條件'),'empty search must be explained');
+assert.equal(nodes.get('#reset').hidden,false,'reset appears when a filter is active');
+nodes.get('#reset').onclick();
+assert.equal(api.getHits().length,5,'reset restores all records without refetching the index');
+assert.equal(nodes.get('#reset').hidden,true,'reset hides after clearing all filters');
+assert.equal(nodes.get('#query').focused,true,'keyboard focus returns to search input');
 console.log('PASS: preview search aliases, AND semantics, NFKC, and excerpt visibility, and all query terms');
