@@ -4,7 +4,7 @@
  const subjects={criminalgeneral:'刑法總則',civilgeneral:'民法總則',constitution:'憲法',crime:'刑法分則',family:'親屬法',debt:'債權',property:'物權',admin:'行政法',tax:'租稅法',legalenglish:'法學英文',photonics:'光電科技'};
  const normalize=s=>String(s??'').normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim();
  const terms=s=>normalize(s).split(' ').filter(Boolean);
- const aliases={刑總:'刑法總則',民總:'民法總則',債總:'債權',刑分:'刑法分則'};
+ const aliases={刑總:'刑法總則',民總:'民法總則',債總:'債權',刑分:'刑法分則',法英:'法學英文'};
  const variants=term=>aliases[term]?[term,aliases[term]]:[term];
  const today=(at=new Date())=>new Date(at).toLocaleDateString('sv-SE',{timeZone:'Asia/Taipei'});
  const validDate=s=>typeof s==='string'&&/^20\d\d-\d{2}-\d{2}$/.test(s)&&!isNaN(Date.parse(s+'T00:00:00Z'))&&new Date(s+'T00:00:00Z').toISOString().slice(0,10)===s;

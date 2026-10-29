@@ -24,6 +24,11 @@ assert.equal(C.search([fixture],{q:'甲 乙 丙 丁 戊 己 庚 辛'}).length,1)
 assert.equal(C.search([fixture],{q:'刑總'}).length,1,'abbreviated-only title must match');
 assert.equal(C.search([{...fixture,title:'其他',body:'刑法總則'}],{q:'刑總'}).length,1,'full course name must match abbreviation');
 assert(C.excerpt('前文'.repeat(120)+'物權','刑總 物權').includes('物權'),'excerpt should locate a later body term');
+// Legal English is a real course: its abbreviation must find entries even when only the subject names it.
+const englishFixture={id:'note:legalenglish-regression',type:'note',subject:'legalenglish',title:'Court structure',body:'Jurisdiction and appeal'};
+assert.equal(C.search([englishFixture],{q:'法英'}).length,1,'法英 should match 法學英文 subject');
+assert.equal(C.search([englishFixture],{q:'法英 jurisdiction'}).length,1,'abbreviation and English body term must both match');
+assert.equal(C.search([englishFixture],{q:'法英 不存在'}).length,0,'English abbreviation must retain AND semantics');
 
 // End-to-end controller behavior without a browser: failed fetch, retry, save failure, and review mutation.
 (async()=>{

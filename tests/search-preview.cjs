@@ -26,7 +26,7 @@ const context={
   URL,URLSearchParams,AbortController,setTimeout,clearTimeout,
   matchMedia:()=>({matches:false}),Option:class {},fetch:async()=>{throw Error('not expected')}
 };
-vm.runInNewContext(script+'\nwindow.previewTest={queryGroups,snippet,search,setRecords(value){records=value;ready=true},getHits(){return hits},setQuery(value){input.value=value}};',context);
+vm.runInNewContext(script+'\nwindow.previewTest={queryGroups,snippet,search,subjectLabel:key=>label(subjectNames,key),setRecords(value){records=value;ready=true},getHits(){return hits},setQuery(value){input.value=value}};',context);
 const api=context.window.previewTest;
 const normalize=value=>String(value).normalize('NFKC').toLocaleLowerCase('zh-TW').replace(/\s+/g,' ').trim();
 const rows=[
@@ -54,4 +54,16 @@ api.setQuery(nineTerms);api.search();
 assert.equal(api.getHits().length,0,'the ninth unmatched term must exclude results');
 api.setQuery('刑總 故意 故意 故意 故意 故意 故意 故意 故意');api.search();
 assert.equal(api.getHits().length,2,'nine matching terms still return both records');
+// The live corpus includes Legal English and Photonics, not only the original nine law courses.
+const english={id:'english',title:'Court structure',body:'Jurisdiction and appeal',subject:'legalenglish',type:'note',href:'legal-english.html',_title:normalize('Court structure'),_body:normalize('Jurisdiction and appeal'),_subject:normalize('法學英文')};
+const photonics={id:'photonics',title:'Solar cells',body:'Photovoltaic conversion',subject:'photonics',type:'note',href:'photonics.html',_title:normalize('Solar cells'),_body:normalize('Photovoltaic conversion'),_subject:normalize('光電科技')};
+api.setRecords([...rows,english,photonics]);
+api.setQuery('法英');api.search();
+assert.deepEqual(Array.from(api.getHits(),x=>x.id),['english'],'法英 must find the Legal English course via subject label');
+api.setQuery('法英 jurisdiction');api.search();
+assert.deepEqual(Array.from(api.getHits(),x=>x.id),['english'],'abbreviation + English term must retain AND semantics');
+api.setQuery('法英 不存在');api.search();
+assert.equal(api.getHits().length,0,'unmatched terms must still exclude Legal English records');
+assert.equal(api.subjectLabel('legalenglish'),'法學英文','Legal English filter label must be localized');
+assert.equal(api.subjectLabel('photonics'),'光電科技','Photonics filter label must be localized');
 console.log('PASS: preview search aliases, AND semantics, NFKC, and excerpt visibility, and all query terms');
