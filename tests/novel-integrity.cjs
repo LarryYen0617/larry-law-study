@@ -34,6 +34,12 @@ const revisionHashes = new Map([
   [436, '375dc8094cdd824d6ee1f14d34d8089cd73c965675ce62f3e5484c594aa7b5ea'],
   [437, '1c04e22656c0f108ad1e76bd6604ca37dc68072422ee98dbca6e74d6bcc2b56d'],
   [438, 'b07d75765b2655b1d3e10e3d5e900986b50ac4e82dd9f2678b3853c8e34fd248'],
+  [439, 'bb261d42ea67fb4a29f374507e1fe3fc69b96501ecaa70accc78bea21b4fb40b'],
+  [440, 'ff9af0dc5dec152b91e793426a42db1e268e6c2493bd613b5ef6b51218b02982'],
+  [441, '4d4f98705b7927931ad13c14e3b7aa80d10389e1b946be69a9d054e24c5433a2'],
+  [442, '8f8503319923649c931856b55e897a6fb6c9dc46895fad762684535e5806bd76'],
+  [443, '596591ef3a57b78e696fa76de6f97f506b29f898c0e7aa57cd39ddd1d4f7442b'],
+  [444, '40e2b432b4c02d385555ea0abb3336e9064ff67329ee5b82e73082be53042da6'],
 ]);
 const files = new Map();
 const allNumbers = new Set();
@@ -62,7 +68,7 @@ for (let i = 0; i < manifest.chapters.length; i++) {
   // Effective length excludes whitespace and punctuation; keep this gate in
   // sync with the last chapter published from the revised master archive.
   const effective = [...chapter.text].filter(ch => /[\p{L}\p{N}]/u.test(ch)).length;
-  if (chapter.number >= 376 && chapter.number <= 438) {
+  if (chapter.number >= 376 && chapter.number <= 444) {
     assert(effective >= 2500, 'revised chapter below 2500 effective characters: ' + chapter.number);
   }
   if (revisionHashes.has(chapter.number)) {
