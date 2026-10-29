@@ -28,3 +28,25 @@ html[data-palette=gold] .home-primary-card:before{background:var(--foil)!importa
 @media(max-width:620px){.is-dashboard .hero{padding:24px!important;min-height:0!important}.is-dashboard .hero h1{font-size:28px!important;max-width:100%}.is-dashboard .hero p{font-size:13px!important}.is-dashboard .hero:after{display:none!important}.home-search{display:block;padding:18px}.home-search label{margin-bottom:12px}.home-search>div{display:flex;flex-direction:column}.home-search>a{display:inline-block;margin-top:12px}.home-primary-grid{grid-template-columns:1fr;gap:12px}.home-primary-card{min-height:0;padding:22px}.home-primary-card h2{margin-top:12px;font-size:23px}.home-primary-card p{margin-bottom:16px}.entry-symbol{width:28px;height:28px;top:20px;right:22px}.course-pills{grid-template-columns:repeat(2,minmax(0,1fr))}.course-pills a{padding:14px;min-height:104px}.course-pills strong{font-size:14px}.desk-links{grid-template-columns:1fr}.resume-card .solid-link{margin-top:12px}.bank-summary span{flex:1 1 40%}.bank-summary strong{display:block}.personal-body :is(th,td){padding:10px 12px}.palette-open{right:12px;bottom:12px}.question-shell{padding-bottom:80px!important}}
 @media(prefers-reduced-motion:reduce){.home-primary-card:hover{transform:none}.home-primary-card,.course-pills a{transition:none}}
 @media print{.is-dashboard .hero{background:white!important;min-height:0!important;padding:0!important}.is-dashboard .hero:after{display:none!important}.question-tabs{position:static}.personal-body{max-width:none}.home-primary-card{box-shadow:none}}
+
+/* 2026-10-29: clearer study desk hierarchy and comfortable touch navigation. */
+.is-dashboard .home-primary-grid{gap:20px;margin-block:28px}
+.is-dashboard .home-primary-card{border-radius:16px;border:1px solid var(--line);box-shadow:0 4px 18px #18302708;padding:28px;transition:border-color .18s,box-shadow .18s,transform .18s}
+.is-dashboard .home-primary-card:first-child{border-top:4px solid var(--accent)}
+.is-dashboard .home-primary-card h2{font-family:var(--title-font);font-size:26px;line-height:1.5;letter-spacing:.025em}
+.is-dashboard .home-primary-card p{font-size:15px;line-height:1.85;max-width:38em}
+.is-dashboard .home-primary-card .card-link{font-size:14px;min-height:44px;display:inline-flex;align-items:center;gap:10px}
+.is-dashboard .home-search{border-radius:14px;border-color:#b5c3b3;box-shadow:0 3px 16px #18302706;padding:24px}
+.is-dashboard .home-search input{min-height:50px;font-size:16px;background:#fffefa}
+.is-dashboard .desk-card{border-radius:14px;padding:26px}
+.is-dashboard .desk-card h2{font-size:20px;line-height:1.6}
+.is-dashboard .course-pills a{border-radius:12px;padding:20px;min-height:112px}
+.is-dashboard .course-pills strong{font-size:16px;line-height:1.6}
+.site-sidebar :is(#mainNav,#siteNavigation) .sidebar-link{font-size:13px!important;min-height:44px;line-height:1.6!important}
+@media(hover:hover){.is-dashboard .home-primary-card:hover{border-color:#8fa58b;box-shadow:0 10px 26px #18302710;transform:translateY(-2px)}}
+@media(max-width:620px){.is-dashboard .home-primary-grid{gap:16px;margin-block:22px}.is-dashboard .home-primary-card{padding:24px}.is-dashboard .home-primary-card h2{font-size:24px}.is-dashboard .home-search{padding:20px}.is-dashboard .desk-card{padding:22px}.is-dashboard .course-pills a{padding:16px}.is-dashboard .home-primary-card p{font-size:15px}}
+@media(prefers-reduced-motion:reduce){.is-dashboard .home-primary-card{transition:none}.is-dashboard .home-primary-card:hover{transform:none}}
+@media print{.is-dashboard .home-primary-card,.is-dashboard .home-search{box-shadow:none;transform:none}}
+.has-main-app .shell>footer,.has-main-app .shell>footer a{color:#526257;font-size:12px}
+body.has-main-app footer :is(span,a){color:#526257!important;font-size:12px!important}
+.is-dashboard :is(.hero h1,.home-primary-card h2,.section-heading h2){font-family:"Noto Serif TC","Noto Sans TC","Microsoft JhengHei","PingFang TC",serif}
