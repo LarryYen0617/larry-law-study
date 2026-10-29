@@ -166,6 +166,23 @@ try{
   const excerptText=await excerptRecord.locator("p").innerText();
   assert.match(excerptText,/定位詞/,"search excerpt omitted the matching term after collapsed whitespace");
   assert.match(excerptText,/ABC/,"search excerpt did not normalize full-width characters");
+  // Regression: first query term is in the title, second is deep in the body.
+  // The snippet must show the actual body match, not the opening 220 chars.
+  await excerptPage.route("**/search-index.json",async route=>{
+    const fixture=JSON.parse(await readFile(resolve(site,"search-index.json"),"utf8"));
+    fixture.items.push({
+      id:"note:multi-term-body-match",type:"note",subject:"property",
+      title:"只在標題的詞",body:"前".repeat(180)+"內容關鍵字"+"後".repeat(40),
+      href:"courses.html"
+    });
+    await route.fulfill({status:200,contentType:"application/json; charset=utf-8",body:JSON.stringify(fixture)});
+  });
+  await excerptPage.reload({waitUntil:"domcontentloaded"});
+  await excerptPage.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("筆資料已載入"),null,{timeout:20000});
+  await excerptPage.locator("#query").fill("只在標題的詞 內容關鍵字");
+  const multiTermRecord=excerptPage.locator("#results article").filter({has:excerptPage.getByRole("heading",{name:"只在標題的詞"})});
+  await multiTermRecord.waitFor({timeout:5000});
+  assert.match(await multiTermRecord.locator("p").innerText(),/內容關鍵字/,"multi-term excerpt omitted the body match when the first term matched only the title");
   await excerptPage.close();
   const practice=await browser.newPage({viewport:{width:1280,height:800}});
   await practice.goto("http://127.0.0.1:"+port+"/practice.html",{waitUntil:"domcontentloaded"});
