@@ -68,6 +68,11 @@ for(const spelling of ['第759條之1','§759-1','§ ７５９－１','民法第
   api.setQuery(spelling);api.search();
   assert.deepEqual(Array.from(api.getHits(),x=>x.id),['inserted'],'inserted article lookup failed: '+spelling);
 }
+// Common shorthand without 第/§ must resolve to the same *exact* inserted article.
+for(const spelling of ['759-1','759之1','759條之1','７５９－１']){
+  api.setQuery(spelling);api.search();
+  assert.deepEqual(Array.from(api.getHits(),x=>x.id),['inserted'],'bare inserted article lookup failed: '+spelling);
+}
 api.setQuery('刑法第759條之1');api.search();
 assert.equal(api.getHits().length,0,'compound inserted article must still match the statute name');
 assert.ok(api.snippet(inserted,api.queryGroups('§759-1')).includes('第759條之1'),'excerpt normalizes inserted article spelling');
@@ -80,7 +85,7 @@ for(const spelling of ['第759條','§759']){
   api.setQuery(spelling);api.search();
   assert.equal(api.getHits().length,0,'base article must not match inserted articles: '+spelling);
 }
-for(const spelling of ['第759條之1','§759-1']){
+for(const spelling of ['第759條之1','§759-1','759-1','759之1']){
   api.setQuery(spelling);api.search();
   assert.deepEqual(Array.from(api.getHits(),x=>x.id),['inserted'],'article suffix must not match a longer suffix: '+spelling);
 }
