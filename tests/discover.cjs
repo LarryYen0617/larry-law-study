@@ -35,7 +35,16 @@ assert.equal(C.search([englishFixture],{q:'法英 不存在'}).length,0,'English
  const nodes={},listeners={},saved=new Map();let fetchFail=true,quota=false;const node=id=>nodes[id]??={value:'',innerHTML:'',textContent:'',hidden:false,setAttribute(){},scrollIntoView(){}};
  const document={hidden:false,getElementById:node,querySelectorAll:()=>[],addEventListener:(type,fn)=>{(listeners[type]??=[]).push(fn);}};
  const location={hash:'#q='+encodeURIComponent('臺中的清晨')};const storage={getItem:k=>saved.get(k)??null,setItem:(k,v)=>{if(quota)throw Error('quota');saved.set(k,v);}};
- const context={window:{LEX_DISCOVER:C,addEventListener(){}},URLSearchParams,document,location,history:{replaceState(){}},localStorage:storage,fetch:async()=>{if(fetchFail)throw Error('offline');return {ok:true,json:async()=>index};},Date,console};vm.runInNewContext(fs.readFileSync(path.join(root,'discover.js'),'utf8'),context);await new Promise(r=>setImmediate(r));assert(node('discoverStatus').textContent.includes('無法載入'));assert(!node('retrySearch').hidden);fetchFail=false;await node('retrySearch').onclick();assert(node('discoverResults').innerHTML.includes('chapter=1'));const novel=index.items.find(x=>x.type==='novel'&&x.href.endsWith('chapter=1'));
+ const context={window:{LEX_DISCOVER:C,addEventListener(){}},URLSearchParams,document,location,history:{replaceState(){}},localStorage:storage,fetch:async()=>{if(fetchFail)throw Error('offline');return {ok:true,json:async()=>index};},Date,console};vm.runInNewContext(fs.readFileSync(path.join(root,'discover.js'),'utf8'),context);await new Promise(r=>setImmediate(r));assert(node('discoverStatus').textContent.includes('無法載入'));assert(!node('retrySearch').hidden);fetchFail=false;await node('retrySearch').onclick();assert(node('discoverResults').innerHTML.includes('chapter=1'));
+ // Paging must not rescan all 3,602 indexed records when search criteria are unchanged.
+ const originalSearch=C.search;let searchCalls=0;
+ C.search=(...args)=>{searchCalls++;return originalSearch(...args);};
+ node('discoverQuery').value='';node('discoverForm').onsubmit({preventDefault(){}});
+ assert(node('discoverResults').innerHTML.includes('discover-card'));
+ const callsBeforePaging=searchCalls;
+ node('discoverNext').onclick();assert.equal(searchCalls,callsBeforePaging,'pagination should reuse cached search results');
+ C.search=originalSearch;
+ const novel=index.items.find(x=>x.type==='novel'&&x.href.endsWith('chapter=1'));
  const click=dataset=>{for(const fn of listeners.click||[])fn({target:{closest:()=>({dataset})}});};quota=true;click({save:novel.id});assert(!saved.has(C.key));assert(node('collectionStatus').textContent.includes('未儲存'));quota=false;click({save:novel.id});assert.equal(JSON.parse(saved.get(C.key)).items[novel.id].stage,0);click({review:novel.id});assert.equal(JSON.parse(saved.get(C.key)).items[novel.id].stage,1);click({view:'due'});assert(node('discoverResults').innerHTML.includes('今天的複習已完成'));
  console.log('PASS: full search corpus, Chinese filters, safe links, Taipei dates, spaced review, invalid backups, quota handling, fetch retry and controller mutations.');
 })().catch(e=>{console.error(e);process.exitCode=1;});
