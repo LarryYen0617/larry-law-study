@@ -33,6 +33,7 @@ a{overflow-wrap:anywhere}h2:focus-visible,a:focus-visible,button:focus-visible,i
 <label for="kind">資料類型<select id="kind"><option value="">全部類型</option></select></label>
 </div>
 <p id="search-help">可輸入多個關鍵字，以空白分隔；結果須同時符合所有關鍵字。最多輸入 200 個字元。</p>
+<button id="reset" type="button" hidden>清除搜尋與篩選條件</button>
 <p id="status" role="status" aria-live="polite">正在讀取教材資料庫……</p>
 <button id="retry" type="button" hidden>重新載入</button>
 <section id="results" aria-label="搜尋結果" aria-busy="true"></section>
@@ -98,6 +99,13 @@ function snippet(record,terms){
 }
 function draw(){
   results.replaceChildren();
+  if(!hits.length){
+    const empty=document.createElement("p");
+    empty.className="meta";
+    empty.textContent="找不到符合條件的教材。請縮短關鍵字或清除篩選條件。";
+    results.append(empty);
+  }
+  $("#reset").hidden=!input.value.trim()&&!subject.value&&!kind.value;
   const totalPages=Math.max(1,Math.ceil(hits.length/pageSize));
   page=Math.min(page,totalPages-1);
   const terms=queryGroups(input.value);
@@ -190,6 +198,10 @@ function changePage(offset){
 $("#previous").addEventListener("click",()=>changePage(-1));
 $("#next").addEventListener("click",()=>changePage(1));
 $("#retry").addEventListener("click",load);
+$("#reset").addEventListener("click",()=>{
+  input.value="";subject.value="";kind.value="";
+  search();input.focus();
+});
 load();
 </script>
 </body>
