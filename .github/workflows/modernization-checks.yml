@@ -19,6 +19,15 @@ on:
       - 'site/search-preview-index.json'
       - 'site/search-index.json'
       - 'site/**/*.html'
+      - 'site/**/*.css'
+      - 'site/**/*.js'
+      - 'scripts/build_search_index.cjs'
+      - 'scripts/build_learning_catalog.py'
+      - 'tests/frontend.cjs'
+      - 'tests/course-catalog.cjs'
+      - 'tests/class-notes.cjs'
+      - 'tests/questions.cjs'
+      - '.github/workflows/daily.yml'
       - 'tests/search-index-links.cjs'
       - 'site/discover-core.js'
       - 'site/discover.js'
@@ -43,6 +52,15 @@ on:
       - 'site/search-preview-index.json'
       - 'site/search-index.json'
       - 'site/**/*.html'
+      - 'site/**/*.css'
+      - 'site/**/*.js'
+      - 'scripts/build_search_index.cjs'
+      - 'scripts/build_learning_catalog.py'
+      - 'tests/frontend.cjs'
+      - 'tests/course-catalog.cjs'
+      - 'tests/class-notes.cjs'
+      - 'tests/questions.cjs'
+      - '.github/workflows/daily.yml'
       - 'tests/search-index-links.cjs'
       - 'site/discover-core.js'
       - 'site/discover.js'
@@ -61,8 +79,12 @@ jobs:
       - run: python3 -m unittest discover -s tests -q
       - run: python3 scripts/check_public_learning.py
       - run: node tests/library.cjs
+      - run: node tests/frontend.cjs
+      - run: node tests/questions.cjs
+      - run: node tests/class-notes.cjs
       - run: node tests/discover.cjs
       - run: node scripts/build_search_index.cjs
+      - run: node tests/course-catalog.cjs
       - run: cd modernization && npm run test:e2e
       - run: python3 modernization/test/index-builder.test.py
       - run: python3 modernization/test/site-audit.test.py
