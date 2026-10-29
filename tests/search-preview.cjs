@@ -28,7 +28,7 @@ const context={
 };
 vm.runInNewContext(script+'\nwindow.previewTest={queryGroups,snippet,search,load,subjectLabel:key=>label(subjectNames,key),setRecords(value){records=value;ready=true},getHits(){return hits},setQuery(value){input.value=value}};',context);
 const api=context.window.previewTest;
-const normalize=value=>String(value).normalize('NFKC').toLocaleLowerCase('zh-TW').replace(/\s+/g,' ').trim();
+const normalize=value=>String(value).normalize('NFKC').toLocaleLowerCase('zh-TW').replace(/第\s*(\d+)\s*條/g,'第$1條').replace(/§\s*(\d+)/g,'§$1').replace(/\s+/g,' ').trim();
 const rows=[
  {id:'full',title:'刑法總則故意',body:'前言'.repeat(120)+'刑法總則：故意',subject:'criminalgeneral',type:'note',href:'index.html'},
  {id:'short',title:'刑總小考',body:'故意案例',subject:'criminalgeneral',type:'note',href:'index.html'},
