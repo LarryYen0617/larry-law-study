@@ -12,8 +12,8 @@ class PropertyMidtermCardsTests(unittest.TestCase):
         script = SITE.read_text(encoding="utf-8")
         prefix = "window.LEX_PROPERTY_MIDTERM_CARDS="
         self.assertIn(prefix, script)
-        payload = script.split(prefix, 1)[1].split(";\\n(function(){", 1)[0]
-        self.assertEqual(json.loads(payload), source)
+        payload = script.split(prefix, 1)[1]
+        self.assertEqual(json.JSONDecoder().raw_decode(payload)[0], source)
 
     def test_current_statute_status_and_provenance(self):
         source = json.loads(SOURCE.read_text(encoding="utf-8"))
