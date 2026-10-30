@@ -106,6 +106,21 @@ const revisionHashes = new Map([
   [508, '79ef4ac67c9a085b488ce512a67bd5cb111bed0cc82815a2ca72987f85146f4e'],
   [509, '237caa86b835fc872cd0b23f70cbf2bbf0b69e51acac6aa928f3d872009cf2d3'],
   [510, '7e0580b8a02730ded6b456ced99569b4955c9ab6780db01812d6f7b031c52c25'],
+  [511, '82c5f119b3447ffebee5120b9e6c9450a2a000afa2c8682033ad26124187624e'],
+  [512, '65d9d49711041060d3bfbc1602806e1ee2935052e3944b744f214b6547665742'],
+  [513, '4f05c671a1138e76dd63af1829829e3c7b2061d8793c5ed69572c039e9b6e180'],
+  [514, 'f8617181adfaea89f0342808b6c8a78c2c8212f46362b0b3c383747cc16fcc43'],
+  [515, '7068fca3bcbcbccaeae22ca31d2ec8a86df6dceddb364801c0a59f213b300664'],
+  [516, 'be21f1e9d1e21718d268e2bfad7d4747095e98ec0782fd6ebf1df83f3de75eb0'],
+  [517, '884db3032fa34a2795cd642a9d10622a27cbc2cc339d36d9a4c9dc665187be97'],
+  [518, 'f127652fc4992cd81ee500984066f8afda29f947f7d3afe3299e38c60fb8d334'],
+  [519, '5a658f62987694c77bb250814b5c0b25843a7511a6f2bf184d05ab89e788b33b'],
+  [520, 'a4a882e1c4aba030f261a0e3660759680342985d25ad92fc5f3599b7f35928d8'],
+  [521, '5fdca90642c4535bd56db930d422bf5ea651da4be87aff834086314cfadf67d5'],
+  [522, 'c142a70963718f247e591867c49a2b7a247251169c8e23515d8f12d49f7e2103'],
+  [523, '1eefac4c99c37b94460268673ec109ab5323108878ad6e471f78535794a55a89'],
+  [524, '50b89135070a67039f09d7b71f7bd818d3a40ff5a0bd37c64b98504d78e18a14'],
+  [525, 'f9a4359e7b8bbe589d6c64e40ec9db775f77dfb7c4ace4af8d27ba756b6caa3c'],
 ]);
 const files = new Map();
 const allNumbers = new Set();
@@ -134,7 +149,7 @@ for (let i = 0; i < manifest.chapters.length; i++) {
   // Effective length excludes whitespace and punctuation; keep this gate in
   // sync with the last chapter published from the revised master archive.
   const effective = [...chapter.text].filter(ch => /[\p{L}\p{N}]/u.test(ch)).length;
-  if (chapter.number >= 376 && chapter.number <= 510) {
+  if (chapter.number >= 376 && chapter.number <= 525) {
     assert(effective >= 2500, 'revised chapter below 2500 effective characters: ' + chapter.number);
   }
   if (revisionHashes.has(chapter.number)) {
