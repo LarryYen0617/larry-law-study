@@ -27,7 +27,7 @@ const context={
   URL,URLSearchParams,AbortController,setTimeout,clearTimeout,
   matchMedia:()=>({matches:false}),Option:class {},fetch:async()=>{throw Error('not expected')}
 };
-vm.runInNewContext(script+'\nwindow.previewTest={queryGroups,snippet,search,load,changePage,pageFromUrl,getPage:()=>page,subjectLabel:key=>label(subjectNames,key),setRecords(value){records=value;ready=true},getHits(){return hits},setQuery(value){input.value=value}};',context);
+vm.runInNewContext(script+'\nwindow.previewTest={queryGroups,snippet,search,load,changePage,pageFromUrl,getPage:()=>page,subjectLabel:key=>label(subjectNames,key),kindLabel:key=>label(kindNames,key),setRecords(value){records=value;ready=true},getHits(){return hits},setQuery(value){input.value=value}};',context);
 const api=context.window.previewTest;
 const normalize=value=>String(value).normalize('NFKC').toLocaleLowerCase('zh-TW')
  .replace(/第\s*(\d+)\s*-\s*(\d+)\s*條/g,'第$1條之$2')
@@ -149,6 +149,8 @@ api.setQuery('法英 不存在');api.search();
 assert.equal(api.getHits().length,0,'unmatched terms must still exclude Legal English records');
 assert.equal(api.subjectLabel('legalenglish'),'法學英文','Legal English filter label must be localized');
 assert.equal(api.subjectLabel('photonics'),'光電科技','Photonics filter label must be localized');
+assert.equal(api.kindLabel('teacher'),'自編案例','public teacher-type entries must be labelled as authored cases, not original teacher materials');
+assert.match(html,/教師限制閱覽原題不列入公開搜尋/,'public search page must clarify source-only teacher questions are excluded');
 // Empty results should explain the state and offer a one-action mobile-friendly reset.
 api.setQuery('不存在的組合');api.search();
 assert.equal(api.getHits().length,0);
@@ -164,9 +166,11 @@ const many=Array.from({length:45},(_,i)=>({...rows[0],id:'page-'+i,title:'刑總
 api.setRecords(many);api.setQuery('');api.search();
 api.changePage(1);
 assert.equal(api.getPage(),1,'next button advances to second page');
+assert.match(nodes.get('#status').textContent,/目前顯示第 21–40 筆/,'screen-reader status announces the visible result range');
 assert.match(history.lastURL,/\bpage=2\b/,'shareable URL records page two');
 api.changePage(1);
 assert.equal(api.getPage(),2,'third page remains reachable');
+assert.match(nodes.get('#status').textContent,/目前顯示第 41–45 筆/,'last page announces its actual range');
 assert.match(history.lastURL,/\bpage=3\b/);
 api.changePage(1);
 assert.equal(api.getPage(),2,'page navigation clamps at the final page');
