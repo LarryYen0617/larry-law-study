@@ -16,7 +16,7 @@ button{font:inherit;min-height:44px;padding:.65rem 1rem;border:1px solid #777;bo
 button.primary{background:#174b7a;color:white;border-color:#174b7a}
 .explanation{border-inline-start:4px solid #2877a6;padding:.55rem .85rem;margin-top:.8rem;background:color-mix(in srgb,Canvas 90%,#83b6e0)}
 .correct{border-color:#23825e}.incorrect{border-color:#b65b49}
-.muted{opacity:.8}.review-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(8rem,1fr));gap:.45rem 1rem;padding-inline-start:1.4rem}.review-links a{display:inline-flex;align-items:center;min-height:44px;padding:.3rem .1rem}.summary{padding:1rem;border:1px solid #888;border-radius:.7rem}
+.muted{color:CanvasText;opacity:1}.review-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(8rem,1fr));gap:.45rem 1rem;padding-inline-start:1.4rem}.review-links a{display:inline-flex;align-items:center;min-height:44px;padding:.3rem .1rem}.summary{padding:1rem;border:1px solid #888;border-radius:.7rem}
 details{border:1px solid #8886;border-radius:.65rem;padding:.7rem 1rem;margin:.8rem 0}
 summary{cursor:pointer;font-weight:600}#result:focus{outline:3px solid #257fca}
 @media(max-width:600px){fieldset{padding:.7rem}.choice{padding:.65rem .3rem}.actions button{flex:1 1 140px}}
@@ -53,16 +53,36 @@ function updateProgress(){
  const answered=bank.reduce((count,_row,i)=>count+Number(Boolean(form.querySelector('input[name="q'+i+'"]:checked'))),0);
  progress.textContent="已作答 "+answered+"／"+bank.length+" 題，尚有"+(bank.length-answered)+"題未作答。";
 }
-form.addEventListener("change",updateProgress);
+let graded=false;
+function resetFeedback(message){
+ area.querySelectorAll("fieldset").forEach(box=>{
+  box.classList.remove("correct","incorrect");
+  box.querySelector(".explanation").hidden=true;
+ });
+ result.textContent=message;
+}
+function articleLabel(value){
+ return String(value).split("、").map(part=>{
+  const match=part.match(/^(\d+)(?:-(\d+))?$/);
+  return match?"第"+match[1]+"條"+(match[2]?"之"+match[2]:""):part;
+ }).join("、");
+}
+form.addEventListener("change",()=>{
+ updateProgress();
+ if(graded){
+  graded=false;
+  resetFeedback("答案已變更，原成績失效；請重新交卷查看更新結果。");
+ }
+});
 form.addEventListener("submit",event=>{
- event.preventDefault();let correct=0,answered=0;const missed=[];
+ event.preventDefault();graded=true;let correct=0,answered=0;const missed=[];
  bank.forEach((row,i)=>{
   const box=document.getElementById("question-"+(i+1)),selected=form.querySelector('input[name="q'+i+'"]:checked');
   const actual=selected?Number(selected.value):-1;
   if(selected)answered++;if(actual===row[2])correct++;else missed.push({number:i+1,unanswered:actual<0});
   box.classList.toggle("correct",actual===row[2]);box.classList.toggle("incorrect",actual!==row[2]);
   const explanation=box.querySelector(".explanation");explanation.hidden=false;
-  explanation.textContent="正解 "+letters[row[2]]+"（民法第"+row[3]+"條）｜"+row[4]+(actual<0?"｜本題未作答。":"");
+  explanation.textContent="正解 "+letters[row[2]]+"（民法"+articleLabel(row[3])+"）｜"+row[4]+(actual<0?"｜本題未作答。":"");
  });
  result.replaceChildren();
  const p=document.createElement("p");p.textContent="得分："+(correct*4)+"／100；答對 "+correct+" 題，已作答 "+answered+"／25 題。";
@@ -83,9 +103,8 @@ form.addEventListener("submit",event=>{
  result.focus({preventScroll:true});result.scrollIntoView({block:"start"});
 });
 document.getElementById("clear").addEventListener("click",()=>{
- form.reset();area.querySelectorAll("fieldset").forEach(box=>{
-  box.classList.remove("correct","incorrect");box.querySelector(".explanation").hidden=true;
- });
- result.textContent="已清除答案，請重新作答。";updateProgress();document.querySelector("#question-1 input").focus();
+ graded=false;form.reset();
+ resetFeedback("已清除答案，請重新作答。");
+ updateProgress();document.querySelector("#question-1 input").focus();
 });
 </script></body></html>

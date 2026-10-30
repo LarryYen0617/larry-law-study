@@ -38,7 +38,10 @@ class PropertyMidtermPracticeTests(unittest.TestCase):
 
     def test_answer_progress_and_review_navigation(self):
         self.assertIn('id="progress"', self.html)
-        self.assertIn('form.addEventListener("change",updateProgress)', self.html)
+        self.assertIn('form.addEventListener("change",()=>{', self.html)
+        self.assertIn('if(graded){', self.html)
+        self.assertIn('resetFeedback("答案已變更，原成績失效；請重新交卷查看更新結果。")', self.html)
+        self.assertIn('articleLabel(row[3])', self.html)
         self.assertIn('updateProgress();document.querySelector("#question-1 input").focus()', self.html)
         self.assertIn('nav.setAttribute("aria-label","待複習題目")', self.html)
         self.assertIn('link.href="#question-"+item.number', self.html)
