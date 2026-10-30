@@ -45,6 +45,16 @@ class ProductionIndexAuditTests(unittest.TestCase):
         report = module.inspect({"version": 1, "items": [item()]},
                                 min_records=1, baseline_types={"note": 1})
         self.assertTrue(report["valid"])
+    def test_public_teacher_baseline_counts_authored_cases_not_private_originals(self):
+        self.assertEqual(module.BASELINE_TYPES["teacher"], 18)
+        rows = [item(f"teacher:authored-{i}") for i in range(18)]
+        for row in rows:
+            row["type"] = "teacher"
+        self.assertTrue(module.inspect({"version": 1, "items": rows},
+                                       min_records=18, baseline_types={"teacher": 18})["valid"])
+        self.assertFalse(module.inspect({"version": 1, "items": rows[:-1]},
+                                        min_records=17, baseline_types={"teacher": 18})["valid"])
+
     def test_rejects_blank_title(self):
         record = item()
         record["title"] = "   "
