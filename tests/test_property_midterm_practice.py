@@ -48,6 +48,18 @@ class PropertyMidtermPracticeTests(unittest.TestCase):
         self.assertIn('missed.push({number:i+1,unanswered:actual<0})', self.html)
         self.assertIn('min-height:44px', self.html)
 
+    def test_question_map_is_accessible_and_tracks_answered_state(self):
+        self.assertIn('id="question-map"', self.html)
+        self.assertIn('aria-label="題目快速導覽"', self.html)
+        self.assertIn('id="next-unanswered"', self.html)
+        self.assertIn('grid-template-columns:repeat(auto-fill,minmax(3.25rem,1fr))', self.html)
+        self.assertIn('jump.href="#question-"+(i+1)', self.html)
+        self.assertIn('jump.dataset.answered=String(done)', self.html)
+        self.assertIn('jump.setAttribute("aria-label","跳至第"+(i+1)+"題（"+(done?"已作答":"未作答")+"）")', self.html)
+        self.assertIn('target.querySelector("input").focus({preventScroll:true})', self.html)
+        self.assertIn('if(first<0){form.querySelector(\'button[type="submit"]\').focus();return;}', self.html)
+        self.assertIn('updateProgress();\n</script>', self.html)
+
     def test_accessible_and_privacy_safe(self):
         self.assertIn('<form id="exam">', self.html)
         self.assertIn('radio.type="radio"', self.html)
