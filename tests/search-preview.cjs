@@ -8,6 +8,7 @@ const nodes=new Map();
 function element(name){
   if(!nodes.has(name))nodes.set(name,{
     value:'',textContent:'',hidden:false,disabled:false,children:[],
+    get options(){return this.children},
     addEventListener(type,handler){this["on"+type]=handler},focus(){this.focused=true},setAttribute(){},querySelector(){return null},
     replaceChildren(...items){this.children=items},
     append(...items){this.children.push(...items)}
@@ -198,5 +199,32 @@ api.load().then(async()=>{
   assert.match(nodes.get('#status').textContent,/資料載入失敗.*無效或重複記錄/,
     'blank title must not be counted as a valid searchable record');
   assert.equal(nodes.get('#retry').hidden,false);
-  console.log('PASS: legal citations, AND semantics, aliases, and atomic index guard');
+  // A retry can finish before the original request. Late success or failure
+  // must not replace the newer complete index or show a stale error.
+  let finishOld;
+  const oldResponse=new Promise(resolve=>{finishOld=resolve});
+  context.fetch=async()=>oldResponse;
+  const staleSuccess=api.load();
+  context.fetch=async()=>({ok:true,json:async()=>({version:1,items:complete})});
+  await api.load();
+  assert.match(nodes.get('#status').textContent,/3602 筆資料已載入/);
+  assert.equal(nodes.get('#retry').hidden,true);
+  finishOld({ok:true,json:async()=>({version:1,items:rows})});
+  await staleSuccess;
+  assert.match(nodes.get('#status').textContent,/3602 筆資料已載入/,
+    'late partial response must not overwrite successful retry');
+  assert.equal(nodes.get('#retry').hidden,true);
+
+  let rejectOld;
+  const oldFailure=new Promise((_resolve,reject)=>{rejectOld=reject});
+  context.fetch=async()=>oldFailure;
+  const staleFailure=api.load();
+  context.fetch=async()=>({ok:true,json:async()=>({version:1,items:complete})});
+  await api.load();
+  rejectOld(new Error('stale connection failed'));
+  await staleFailure;
+  assert.match(nodes.get('#status').textContent,/3602 筆資料已載入/,
+    'late network error must not hide the valid index');
+  assert.equal(nodes.get('#retry').hidden,true);
+  console.log('PASS: legal citations, AND semantics, atomic index guard, and overlapping retry safety');
 }).catch(error=>{console.error(error);process.exitCode=1});
