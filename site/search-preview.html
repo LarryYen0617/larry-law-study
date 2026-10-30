@@ -18,7 +18,7 @@ article{border:1px solid #8886;border-radius:.75rem;padding:1rem;margin:.8rem 0;
 article h2{font-size:1.1rem;margin:0 0 .25rem}article p{margin:.5rem 0 0;white-space:normal}
 .meta{font-size:.87rem;opacity:.82}
 #status{min-height:1.6rem;color:var(--ink);font-size:1rem}#pager{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:center;margin:1rem 0}
-a{overflow-wrap:anywhere}h2:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #2c8bd8;outline-offset:2px}
+#page-jump{width:5rem;max-width:100%;min-height:44px}#pager label{display:inline-flex;align-items:center;gap:.35rem}a{overflow-wrap:anywhere}h2:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #2c8bd8;outline-offset:2px}
 @media(max-width:700px){.search-grid{grid-template-columns:1fr}.search-grid label{width:100%}article{padding:.85rem}}
 </style>
 <link rel="stylesheet" href="experience.css?v=20261029-structure"></head>
@@ -37,7 +37,7 @@ a{overflow-wrap:anywhere}h2:focus-visible,a:focus-visible,button:focus-visible,i
 <p id="status" role="status" aria-live="polite">正在讀取教材資料庫……</p>
 <button id="retry" type="button" hidden>重新載入</button>
 <section id="results" aria-label="搜尋結果" aria-busy="true"></section>
-<div id="pager" hidden><button id="previous" type="button">上一頁</button><span id="page-label" aria-live="polite" aria-atomic="true"></span><button id="next" type="button">下一頁</button></div>
+<div id="pager" hidden><button id="previous" type="button">上一頁</button><span id="page-label" aria-live="polite" aria-atomic="true"></span><button id="next" type="button">下一頁</button><label for="page-jump">跳至頁碼</label><input id="page-jump" type="number" min="1" step="1" inputmode="numeric" aria-describedby="page-label"><button id="go-page" type="button">前往</button></div>
 </main>
 <script type="module">
 const $=selector=>document.querySelector(selector);
@@ -181,6 +181,7 @@ function draw(){
   pager.hidden=hits.length<=pageSize;
   $("#page-label").textContent="第 "+(page+1)+"／"+totalPages+" 頁";
   $("#previous").disabled=page===0;$("#next").disabled=page>=totalPages-1;
+  $("#page-jump").max=String(totalPages);$("#page-jump").value=String(page+1);
 }
 function search(options={}){
   const preservePage=options?.preservePage===true;
@@ -281,6 +282,18 @@ function changePage(offset){
 }
 $("#previous").addEventListener("click",()=>changePage(-1));
 $("#next").addEventListener("click",()=>changePage(1));
+function jumpToPage(){
+  const control=$("#page-jump"),target=Number(control.value);
+  const maxPage=Math.max(1,Math.ceil(hits.length/pageSize));
+  if(!control.value.trim()||!Number.isSafeInteger(target)||target<1||target>maxPage){
+    control.value=String(page+1);control.focus();return;
+  }
+  changePage(target-page-1);
+}
+$("#go-page").addEventListener("click",jumpToPage);
+$("#page-jump").addEventListener("keydown",event=>{
+  if(event.key==="Enter"){event.preventDefault();jumpToPage();}
+});
 $("#retry").addEventListener("click",load);
 $("#reset").addEventListener("click",()=>{
   input.value="";subject.value="";kind.value="";
