@@ -6,7 +6,7 @@
 :root{color-scheme:light dark}*{box-sizing:border-box}
 body{max-width:920px;margin:auto;padding:clamp(1rem,3vw,2rem);font-family:system-ui,"Noto Sans TC",sans-serif;line-height:1.7}
 h1{font-size:clamp(1.55rem,4vw,2.4rem)}h2{font-size:1.25rem}
-a{color:LinkText}fieldset{border:1px solid #8887;border-radius:.8rem;margin:1rem 0;padding:1rem;min-width:0}
+a{color:LinkText}fieldset{border:1px solid #8887;border-radius:.8rem;margin:1rem 0;padding:1rem;min-width:0;scroll-margin-top:1rem}
 legend{font-weight:700;padding:0 .25rem;max-width:100%;white-space:normal}
 .choice{display:flex;align-items:flex-start;gap:.65rem;padding:.5rem;border-radius:.5rem;cursor:pointer}
 .choice:has(input:focus-visible){outline:3px solid #257fca;outline-offset:1px}
@@ -16,7 +16,12 @@ button{font:inherit;min-height:44px;padding:.65rem 1rem;border:1px solid #777;bo
 button.primary{background:#174b7a;color:white;border-color:#174b7a}
 .explanation{border-inline-start:4px solid #2877a6;padding:.55rem .85rem;margin-top:.8rem;background:color-mix(in srgb,Canvas 90%,#83b6e0)}
 .correct{border-color:#23825e}.incorrect{border-color:#b65b49}
-.muted{color:CanvasText;opacity:1}.review-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(8rem,1fr));gap:.45rem 1rem;padding-inline-start:1.4rem}.review-links a{display:inline-flex;align-items:center;min-height:44px;padding:.3rem .1rem}.summary{padding:1rem;border:1px solid #888;border-radius:.7rem}
+.muted{color:CanvasText;opacity:1}
+.question-map{display:grid;grid-template-columns:repeat(auto-fill,minmax(3.25rem,1fr));gap:.5rem;margin:.7rem 0 1rem}
+.question-map a{display:flex;align-items:center;justify-content:center;min-height:44px;border:1px solid #777;border-radius:.5rem;background:Canvas;color:CanvasText;text-decoration:none;font-weight:700}
+.question-map a[data-answered="true"]{background:#174b7a;color:#fff;border-color:#174b7a}
+.question-map a:focus-visible{outline:3px solid #257fca;outline-offset:2px}
+.review-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(8rem,1fr));gap:.45rem 1rem;padding-inline-start:1.4rem}.review-links a{display:inline-flex;align-items:center;min-height:44px;padding:.3rem .1rem}.summary{padding:1rem;border:1px solid #888;border-radius:.7rem}
 details{border:1px solid #8886;border-radius:.65rem;padding:.7rem 1rem;margin:.8rem 0}
 summary{cursor:pointer;font-weight:600}#result:focus{outline:3px solid #257fca}
 @media(max-width:600px){fieldset{padding:.7rem}.choice{padding:.65rem .3rem}.actions button{flex:1 1 140px}}
@@ -26,7 +31,7 @@ summary{cursor:pointer;font-weight:600}#result:focus{outline:3px solid #257fca}
 <h1>民法物權期中｜25題單選模擬</h1>
 <p>依提供的期中範圍自編，涵蓋物的分類、主從物、孳息、物權法定、登記與動產交付。<strong>本頁不是教師原題或官方標準答案</strong>；每題僅一個最佳答案。答題只在目前頁面處理，不上傳作答。</p>
 <p class="muted">法條基準：中華民國民法第66–70、757–761條；查核日期2026-10-30。<a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=B0000001" rel="noopener noreferrer" target="_blank">全國法規資料庫：民法</a>。如法規修正，應以最新官方版本為準。</p>
-<form id="exam"><p id="progress" class="muted" role="status" aria-live="polite">已作答 0／25 題，尚有25題未作答。</p><div id="questions"></div><div class="actions"><button class="primary" type="submit">交卷並查看詳解</button><button type="button" id="clear">重新作答</button></div></form>
+<form id="exam"><p id="progress" class="muted" role="status" aria-live="polite">已作答 0／25 題，尚有25題未作答。</p><nav aria-label="題目快速導覽"><p class="muted">點選題號跳轉；深色表示已作答。</p><div id="question-map" class="question-map"></div><button id="next-unanswered" type="button">跳至下一題未作答</button></nav><div id="questions"></div><div class="actions"><button class="primary" type="submit">交卷並查看詳解</button><button type="button" id="clear">重新作答</button></div></form>
 <section id="result" class="summary" aria-live="polite" aria-atomic="true" tabindex="-1"><p>尚未交卷。共25題，每題4分，滿分100分。</p></section>
 <section aria-label="申論練習"><h2>申論延伸（原創案例）</h2>
 <details><summary>案例一：土地買賣、繼承與登記</summary><p>甲與乙簽訂土地買賣契約但尚未辦移轉登記，甲死亡，丙為繼承人。試比較乙之買賣契約地位、丙因繼承取得物權的時點，以及丙再處分土地的登記要件。</p><p><strong>答題架構：</strong>爭點（買賣債權與物權、繼承取得）→第758、759條→分別涵攝甲乙買賣、甲死亡與丙處分→結論。須區分丙繼承後承受契約義務等其他問題，不能以繼承一詞直接否定乙的債權。</p></details>
@@ -36,9 +41,11 @@ summary{cursor:pointer;font-weight:600}#result:focus{outline:3px solid #257fca}
 <script>
 "use strict";
 const bank=JSON.parse(document.getElementById("question-bank").textContent);
-const area=document.getElementById("questions"),form=document.getElementById("exam"),result=document.getElementById("result"),progress=document.getElementById("progress");
+const area=document.getElementById("questions"),form=document.getElementById("exam"),result=document.getElementById("result"),progress=document.getElementById("progress"),questionMap=document.getElementById("question-map");
 const letters=["A","B","C","D"];
 bank.forEach((row,i)=>{
+ const jump=document.createElement("a");jump.href="#question-"+(i+1);jump.textContent=String(i+1);
+ jump.dataset.answered="false";jump.setAttribute("aria-label","跳至第"+(i+1)+"題（未作答）");questionMap.append(jump);
  const box=document.createElement("fieldset");box.id="question-"+(i+1);
  const legend=document.createElement("legend");legend.textContent=(i+1)+". "+row[0];box.append(legend);
  row[1].forEach((option,j)=>{
@@ -52,6 +59,11 @@ bank.forEach((row,i)=>{
 function updateProgress(){
  const answered=bank.reduce((count,_row,i)=>count+Number(Boolean(form.querySelector('input[name="q'+i+'"]:checked'))),0);
  progress.textContent="已作答 "+answered+"／"+bank.length+" 題，尚有"+(bank.length-answered)+"題未作答。";
+ questionMap.querySelectorAll("a").forEach((jump,i)=>{
+  const done=Boolean(form.querySelector('input[name="q'+i+'"]:checked'));
+  jump.dataset.answered=String(done);
+  jump.setAttribute("aria-label","跳至第"+(i+1)+"題（"+(done?"已作答":"未作答")+"）");
+ });
 }
 let graded=false;
 function resetFeedback(message){
@@ -102,9 +114,17 @@ form.addEventListener("submit",event=>{
  }
  result.focus({preventScroll:true});result.scrollIntoView({block:"start"});
 });
+document.getElementById("next-unanswered").addEventListener("click",()=>{
+ const first=bank.findIndex((_row,i)=>!form.querySelector('input[name="q'+i+'"]:checked'));
+ if(first<0){form.querySelector('button[type="submit"]').focus();return;}
+ const target=document.getElementById("question-"+(first+1));
+ target.scrollIntoView({block:"start"});
+ target.querySelector("input").focus({preventScroll:true});
+});
 document.getElementById("clear").addEventListener("click",()=>{
  graded=false;form.reset();
  resetFeedback("已清除答案，請重新作答。");
  updateProgress();document.querySelector("#question-1 input").focus();
 });
+updateProgress();
 </script></body></html>
