@@ -34,6 +34,9 @@ class PropertyMidtermPracticeTests(unittest.TestCase):
         deleted = [q for q in self.questions if str(q[3]) == "760"]
         self.assertEqual(len(deleted), 1)
         self.assertIn("刪除", deleted[0][1][deleted[0][2]])
+        for article in ("817", "827", "828", "1148", "1151"):
+            self.assertIn(article, cited, "coownership/inheritance coverage missing: " + article)
+        self.assertIn("案例三：兩名繼承人", self.html)
         self.assertIn("全國法規資料庫", self.html)
 
     def test_answer_progress_and_review_navigation(self):
