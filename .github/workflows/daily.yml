@@ -71,11 +71,14 @@ jobs:
         run: python scripts/publish_editorials.py
       - name: 重建全站搜尋並驗證收藏複習流程
         run: |
-          python scripts/prepare_public_teacher_archive.py
+          # Source-dependent tests run against the preserved canonical corpus.
+          node scripts/build_search_index.cjs
           node tests/discover.cjs
+          node tests/course-catalog.cjs
+          # Only after source tests, rewrite the ephemeral Pages artifact.
+          python scripts/prepare_public_teacher_archive.py
           node tests/search-index-links.cjs --self-test
           node tests/search-index-links.cjs
-          node tests/course-catalog.cjs
       - name: 升級版搜尋、資料安全及 Chromium 實測
         run: |
           cd modernization
