@@ -60,6 +60,25 @@ class PublicSourceLeakTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate_public_site_text(self.source, self.root)
 
+    def test_nested_url_encoding_does_not_bypass_source_check(self):
+        (self.root / "data.json").write_text(
+            quote(quote(self.prompt, safe=""), safe=""), encoding="utf-8")
+        with self.assertRaises(ValueError):
+            validate_public_site_text(self.source, self.root)
+
+    def test_nested_html_entities_do_not_bypass_source_check(self):
+        import html
+        entities = "".join("&#%d;" % ord(ch) for ch in self.prompt)
+        (self.root / "data.html").write_text(html.escape(entities), encoding="utf-8")
+        with self.assertRaises(ValueError):
+            validate_public_site_text(self.source, self.root)
+
+    def test_mixed_nested_encodings_do_not_bypass_source_check(self):
+        entities = "".join("&#%d;" % ord(ch) for ch in self.prompt)
+        (self.root / "data.js").write_text(quote(entities, safe=""), encoding="utf-8")
+        with self.assertRaises(ValueError):
+            validate_public_site_text(self.source, self.root)
+
     def test_inventory_fingerprint_does_not_bypass_source_check(self):
         self.source["inventory"] = [{"id": "private-teacher-file", "sha256": "b" * 64}]
         (self.root / "data.js").write_text("b" * 64, encoding="utf-8")
