@@ -53,16 +53,36 @@ function updateProgress(){
  const answered=bank.reduce((count,_row,i)=>count+Number(Boolean(form.querySelector('input[name="q'+i+'"]:checked'))),0);
  progress.textContent="已作答 "+answered+"／"+bank.length+" 題，尚有"+(bank.length-answered)+"題未作答。";
 }
-form.addEventListener("change",updateProgress);
+let graded=false;
+function resetFeedback(message){
+ area.querySelectorAll("fieldset").forEach(box=>{
+  box.classList.remove("correct","incorrect");
+  box.querySelector(".explanation").hidden=true;
+ });
+ result.textContent=message;
+}
+function articleLabel(value){
+ return String(value).split("、").map(part=>{
+  const match=part.match(/^(\d+)(?:-(\d+))?$/);
+  return match?"第"+match[1]+"條"+(match[2]?"之"+match[2]:""):part;
+ }).join("、");
+}
+form.addEventListener("change",()=>{
+ updateProgress();
+ if(graded){
+  graded=false;
+  resetFeedback("答案已變更，原成績失效；請重新交卷查看更新結果。");
+ }
+});
 form.addEventListener("submit",event=>{
- event.preventDefault();let correct=0,answered=0;const missed=[];
+ event.preventDefault();graded=true;let correct=0,answered=0;const missed=[];
  bank.forEach((row,i)=>{
   const box=document.getElementById("question-"+(i+1)),selected=form.querySelector('input[name="q'+i+'"]:checked');
   const actual=selected?Number(selected.value):-1;
   if(selected)answered++;if(actual===row[2])correct++;else missed.push({number:i+1,unanswered:actual<0});
   box.classList.toggle("correct",actual===row[2]);box.classList.toggle("incorrect",actual!==row[2]);
   const explanation=box.querySelector(".explanation");explanation.hidden=false;
-  explanation.textContent="正解 "+letters[row[2]]+"（民法第"+row[3]+"條）｜"+row[4]+(actual<0?"｜本題未作答。":"");
+  explanation.textContent="正解 "+letters[row[2]]+"（民法"+articleLabel(row[3])+"）｜"+row[4]+(actual<0?"｜本題未作答。":"");
  });
  result.replaceChildren();
  const p=document.createElement("p");p.textContent="得分："+(correct*4)+"／100；答對 "+correct+" 題，已作答 "+answered+"／25 題。";
@@ -83,9 +103,8 @@ form.addEventListener("submit",event=>{
  result.focus({preventScroll:true});result.scrollIntoView({block:"start"});
 });
 document.getElementById("clear").addEventListener("click",()=>{
- form.reset();area.querySelectorAll("fieldset").forEach(box=>{
-  box.classList.remove("correct","incorrect");box.querySelector(".explanation").hidden=true;
- });
- result.textContent="已清除答案，請重新作答。";updateProgress();document.querySelector("#question-1 input").focus();
+ graded=false;form.reset();
+ resetFeedback("已清除答案，請重新作答。");
+ updateProgress();document.querySelector("#question-1 input").focus();
 });
 </script></body></html>
