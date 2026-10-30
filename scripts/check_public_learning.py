@@ -10,6 +10,6 @@ prefix = "window.LEX_KNOWLEDGE = "
 if not payload.startswith(prefix) or not payload.endswith(";"):
     raise ValueError("Unexpected public knowledge format")
 validate_public_knowledge(json.loads(payload[len(prefix):-1]))
-source = json.loads((path.parents[0] / "content/knowledge-base.json").read_text(encoding="utf-8"))
+source = json.loads((path.parent.parent / "content/knowledge-base.json").read_text(encoding="utf-8"))
 checked = validate_public_site_text(source, path.parent)
 print(f"PASS: public knowledge fields and {checked} published text artifacts contain no private source-only case material.")
