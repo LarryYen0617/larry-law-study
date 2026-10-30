@@ -20,6 +20,7 @@ def sample(count=525):
 class PublishedNovelIndexTests(unittest.TestCase):
     def test_complete_index(self):
         self.assertEqual(validate_novel_index(*sample()), 525)
+        self.assertEqual(validate_novel_index(*sample(526)), 526)
 
     def test_missing_chapter_rejected(self):
         manifest, index = sample()
