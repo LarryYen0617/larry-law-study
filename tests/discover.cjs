@@ -16,6 +16,27 @@ assert(C.excerpt(expanded,'關鍵字').includes('關鍵字'),'excerpt should loc
 assert(C.excerpt('　'.repeat(80)+'刑法總則'+'後續'.repeat(80),'刑總').includes('刑法總則'),'search aliases should work in excerpts');
 assert(C.excerpt('ＡＢＣ'.repeat(80)+'物權'+'結尾'.repeat(80),'物權').includes('物權'),'full-width characters should not misalign excerpts');
 assert.equal(C.excerpt(null,'物權'),'');
+// The primary search must support the same exact statute citation spellings as
+// the preview search. A base article cannot match its inserted successors.
+const citeFixture=(id,body)=>({id:'note:'+id,type:'note',subject:'property',title:'登記推定',body,href:'index.html'});
+const citeRows=[
+ citeFixture('exact','民法第759條之1：登記推定'),
+ citeFixture('long','民法第759條之10：其他條文'),
+ citeFixture('bare','民法759-1：課堂簡寫'),
+ citeFixture('base','民法第759條：非法律行為取得')
+];
+const citeIds=q=>C.search(citeRows,{q}).map(x=>x.id).sort().join(',');
+for(const q of ['第759條之1','§759-1','759-1','民法759-1','民法第 ７５９－１ 條'])
+ assert.equal(citeIds(q),'note:bare,note:exact','inserted article must match exact canonical and shorthand citations: '+q);
+for(const q of ['第759條','§759'])
+ assert.equal(citeIds(q),'note:base','base article must not match inserted articles: '+q);
+assert.equal(citeIds('第759條之10'),'note:long');
+assert.equal(citeIds('刑法759-1'),'','compound law name must remain an AND term');
+assert(C.excerpt('第759條之10 '+('背景'.repeat(120))+' 第759條之1：正確內容','第759條之1').includes('正確內容'),
+ 'excerpt must locate the exact article, not a longer inserted article prefix');
+assert(!C.validIndex({version:1,items:[{...index.items[0],title:'   '}]}),
+ 'a blank title must not count as a valid production index record');
+
  // All query words must participate in AND matching; abbreviations match both
  // abbreviated-only records and the corresponding full course name.
 const fixture={id:'note:term-regression',type:'note',subject:'criminalgeneral',title:'刑總',body:'甲 乙 丙 丁 戊 己 庚 辛'};
