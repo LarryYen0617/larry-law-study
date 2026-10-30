@@ -218,11 +218,14 @@ async function load(){
     for(const item of data.items){
       if(!item||["id","type","subject","title","body","href"].some(key=>typeof item[key]!=="string"))continue;
       const href=safeHref(item.href);
-      if(!href||!item.id||seen.has(item.id))continue;
+      if(!href||!item.id.trim()||!item.title.trim()||seen.has(item.id))continue;
       seen.add(item.id);
       clean.push({...item,href,_title:normalize(item.title),_subject:normalize(label(subjectNames,item.subject)),_body:normalize(item.body)});
     }
     if(clean.length<minRecords)throw new Error("有效資料筆數低於完整基準（至少 "+minRecords+" 筆）");
+    // An index with extra malformed/duplicate rows must not be shown as complete.
+    // Fail atomically instead of quietly discarding records above the minimum.
+    if(clean.length!==data.items.length)throw new Error("資料庫包含無效或重複記錄，已停止載入以避免漏列");
     records=clean;
     ready=true;
     subject.replaceChildren(new Option("全部科目", ""));
@@ -235,7 +238,7 @@ async function load(){
     if([...subject.options].some(x=>x.value===params.get("subject")))subject.value=params.get("subject")||"";
     if([...kind.options].some(x=>x.value===params.get("type")))kind.value=params.get("type")||"";
     search({preservePage:true});
-    if(clean.length!==data.items.length)status.textContent+=" 注意：部分不安全或無效記錄已排除。";
+    
   }catch(error){
     ready=false;
     records=[];hits=[];results.replaceChildren();pager.hidden=true;
