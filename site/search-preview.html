@@ -97,6 +97,7 @@ function termIndex(text,term){
 }
 const pageSize=20;
 let records=[],hits=[],page=0,timer,ready=false;
+let loadSequence=0,activeLoadController=null;
 function safeHref(href){
   if(typeof href!=="string"||href.includes("\\")||/[\u0000-\u001f]/.test(href))return null;
   const rawPath=href.split(/[?#]/)[0];
@@ -200,15 +201,20 @@ function search(options={}){
   if(!preservePage)page=0;draw();updateLink();
 }
 async function load(){
+  // A slower previous request must never overwrite a successful retry.
+  const requestId=++loadSequence;
+  activeLoadController?.abort();
   ready=false;
   results.setAttribute("aria-busy","true");
   $("#retry").hidden=true;status.textContent="正在讀取教材資料庫……";
   const controller=new AbortController();
+  activeLoadController=controller;
   const timeout=setTimeout(()=>controller.abort(),15000);
   try{
     const response=await fetch("search-index.json",{signal:controller.signal,cache:"no-cache"});
     if(!response.ok)throw new Error("HTTP "+response.status);
     const data=await response.json();
+    if(requestId!==loadSequence)return;
     if(data.version!==1||!Array.isArray(data.items))throw new Error("不支援的資料格式");
     // Do not silently present a partial production corpus as complete.
     const minRecords=3602;
@@ -240,11 +246,18 @@ async function load(){
     search({preservePage:true});
     
   }catch(error){
+    if(requestId!==loadSequence)return;
     ready=false;
     records=[];hits=[];results.replaceChildren();pager.hidden=true;
     status.textContent="資料載入失敗："+(error.name==="AbortError"?"連線逾時":error.message)+"。可重新載入。";
     $("#retry").hidden=false;
-  }finally{clearTimeout(timeout);results.setAttribute("aria-busy","false")}
+  }finally{
+    clearTimeout(timeout);
+    if(requestId===loadSequence){
+      activeLoadController=null;
+      results.setAttribute("aria-busy","false");
+    }
+  }
 }
 input.addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(search,130)});
 subject.addEventListener("change",search);kind.addEventListener("change",search);
