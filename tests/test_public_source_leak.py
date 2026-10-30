@@ -1,5 +1,6 @@
 """Regression tests for source-only teacher material in Pages artifacts."""
 import sys
+from urllib.parse import quote
 import tempfile
 import unittest
 from pathlib import Path
@@ -40,6 +41,37 @@ class PublicSourceLeakTests(unittest.TestCase):
     def test_non_deployed_source_types_are_ignored(self):
         (self.root / "draft.py").write_text(self.prompt, encoding="utf-8")
         self.assertEqual(validate_public_site_text(self.source, self.root), 0)
+
+
+    def test_html_entities_do_not_bypass_source_check(self):
+        encoded = "".join("&#%d;" % ord(ch) for ch in self.prompt)
+        (self.root / "index.html").write_text(encoded, encoding="utf-8")
+        with self.assertRaises(ValueError):
+            validate_public_site_text(self.source, self.root)
+
+    def test_unicode_escaped_js_does_not_bypass_source_check(self):
+        encoded = "".join("\\u%04x" % ord(ch) for ch in self.prompt)
+        (self.root / "data.js").write_text(encoded, encoding="utf-8")
+        with self.assertRaises(ValueError):
+            validate_public_site_text(self.source, self.root)
+
+    def test_url_encoded_question_does_not_bypass_source_check(self):
+        (self.root / "data.json").write_text(quote(self.prompt, safe=""), encoding="utf-8")
+        with self.assertRaises(ValueError):
+            validate_public_site_text(self.source, self.root)
+
+    def test_inventory_fingerprint_does_not_bypass_source_check(self):
+        self.source["inventory"] = [{"id": "private-teacher-file", "sha256": "b" * 64}]
+        (self.root / "data.js").write_text("b" * 64, encoding="utf-8")
+        with self.assertRaises(ValueError) as caught:
+            validate_public_site_text(self.source, self.root)
+        self.assertIn("private-teacher-file", str(caught.exception))
+
+    def test_safe_public_fingerprint_is_not_rejected(self):
+        self.source["inventory"] = [{"id": "private-teacher-file", "sha256": "b" * 64}]
+        (self.root / "index.html").write_text("<p>概念複習</p>", encoding="utf-8")
+        self.assertEqual(validate_public_site_text(self.source, self.root), 1)
+
 
 
 if __name__ == "__main__":
