@@ -41,5 +41,22 @@ class PropertyMidtermCardsTests(unittest.TestCase):
             for ref in card["refs"]:
                 self.assertTrue(ref["url"].startswith("https://law.moj.gov.tw/LawClass/LawSingle.aspx?"))
 
+
+    def test_inheritance_and_coownership_midterm_scope(self):
+        source = json.loads(SOURCE.read_text(encoding="utf-8"))
+        cards = {card["id"]: card for card in source["cards"]}
+        required = (817, 827, 828, 1148, 1151)
+        for article in required:
+            key = f"property-midterm-{article}-20261031"
+            self.assertIn(key, cards)
+            self.assertTrue(any(f"flno={article}" in ref["url"] for ref in cards[key]["refs"]))
+        case = cards["property-midterm-case-inheritance-20261031"]
+        self.assertIn("自編申論案例", case["title"])
+        self.assertIn("公同共有", " ".join(case["points"]))
+        self.assertIn("第759條", " ".join(case["points"]))
+        self.assertEqual(len(source["cards"]), len(set(card["id"] for card in source["cards"])))
+        for card in [*(cards[f"property-midterm-{n}-20261031"] for n in required), case]:
+            self.assertIn("非教師原題", card["source"])
+
 if __name__ == "__main__":
     unittest.main()
