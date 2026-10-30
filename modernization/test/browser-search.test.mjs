@@ -80,6 +80,20 @@ try{
   await page.keyboard.press("Enter");
   assert.equal(await page.locator("#results h2").first().evaluate(el=>el===document.activeElement),true,"previous page lost keyboard focus");
   assert.equal(await page.locator("#page-label").innerText(),"第 1／"+expectedPages+" 頁","previous page failed");
+  // Direct navigation avoids hundreds of repeated taps on long mobile lists.
+  await page.locator("#page-jump").fill("3");
+  await page.locator("#go-page").click();
+  assert.equal(await page.locator("#page-label").innerText(),"第 3／"+expectedPages+" 頁");
+  assert.match(await page.locator("#status").innerText(),/目前顯示第 41–60 筆/);
+  assert.ok(page.url().includes("page=3"),"direct jump must update share URL");
+  await page.locator("#page-jump").fill("0");
+  await page.locator("#go-page").click();
+  assert.equal(await page.locator("#page-label").innerText(),"第 3／"+expectedPages+" 頁","invalid page must not navigate");
+  assert.equal(await page.locator("#page-jump").inputValue(),"3","invalid page restores current value");
+  await page.locator("#page-jump").fill("1");
+  await page.locator("#page-jump").press("Enter");
+  assert.equal(await page.locator("#page-label").innerText(),"第 1／"+expectedPages+" 頁","keyboard jump returns to first page");
+  assert.equal(await page.locator("#results h2").first().evaluate(el=>el===document.activeElement),true,"keyboard jump preserves result focus");
   await page.locator("#query").fill("zzzxxyy-no-match");
   await page.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("找到 0 筆"),null,{timeout:5000});
   assert.equal(await page.locator("#results article").count(),0,"no-match query returned results");
