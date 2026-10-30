@@ -89,8 +89,8 @@ jobs:
           python3 modernization/scripts/audit-production-index.py
           python3 modernization/scripts/audit-site.py site-audit.json
           python3 modernization/scripts/audit-coverage.py
-      - name: 驗證最終網站資料隔離
-        run: python3 scripts/check_public_learning.py
+      - name: 驗證最終網站資料隔離及完整小說索引
+        run: python3 scripts/check_public_learning.py --final
       - name: 若所有消息來源失敗，明確回報（網站仍保留可用內容）
         run: python -c "import json,sys; d=json.load(open('site/updates/daily.json')); print('News status:',d['newsState']); print('Editorial status:',d.get('editorial',{}).get('status')); sys.exit(1 if d['newsState']=='error' or d.get('editorial',{}).get('status') in ('rejected','error','no_sources','not_configured') else 0)"
       - name: 上傳網站（不包含教材原始檔、腳本或任何秘密）
