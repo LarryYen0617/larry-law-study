@@ -56,6 +56,12 @@ class PublishedNovelIndexTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'metadata'):
             validate_novel_index(manifest, index)
 
+    def test_out_of_order_chapters_rejected(self):
+        manifest, index = sample()
+        index['items'][0], index['items'][1] = index['items'][1], index['items'][0]
+        with self.assertRaisesRegex(ValueError, 'order differs'):
+            validate_novel_index(manifest, index)
+
     def test_truncated_manifest_rejected(self):
         manifest, index = sample(513)
         with self.assertRaisesRegex(ValueError, 'count dropped'):
