@@ -50,6 +50,25 @@ function audit(index, siteRoot) {
   return { total: index.items.length, problems };
 }
 
+function auditPropertyCards(index, cards) {
+  const problems = [];
+  const byId = new Map(index.items.map(row => [row.id, row]));
+  for (const card of cards) {
+    const id = 'card:' + card.id;
+    const hit = byId.get(id);
+    if (!hit) { problems.push('missing property midterm card: ' + id); continue; }
+    const expected = 'essentials.html?subject=property&card=' + encodeURIComponent(card.id)
+      + '&focus=' + encodeURIComponent(card.title);
+    if (hit.type !== 'card' || hit.subject !== 'property' || hit.title !== card.title || hit.href !== expected) {
+      problems.push('incorrect property midterm card metadata: ' + id);
+    }
+    if (hit.body.includes('originalQuestion') || hit.body.includes('originalAnswer')) {
+      problems.push('private teacher source marker in property midterm card: ' + id);
+    }
+  }
+  return problems;
+}
+
 function selfTest() {
   const os = require('node:os');
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'search-index-links-'));
@@ -63,6 +82,13 @@ function selfTest() {
     }
     assert.ok(audit({ version: 1, items: [entry('a', 'index.html'), entry('a', 'index.html')] }, temp).problems.length);
     assert.ok(audit({ version: 2, items: [] }, temp).problems.length);
+    const card = {id:'property-midterm-demo',title:'民法第828條：公同共有'};
+    const good = {version:1,items:[{id:'card:'+card.id,type:'card',subject:'property',
+      title:card.title,body:'自編卡片',href:'essentials.html?subject=property&card=property-midterm-demo&focus='+encodeURIComponent(card.title)}]};
+    assert.deepEqual(auditPropertyCards(good,[card]),[],'published property card is searchable');
+    assert.ok(auditPropertyCards({version:1,items:[]},[card]).length,'missing property card must fail');
+    assert.ok(auditPropertyCards({version:1,items:[{...good.items[0],href:'wrong.html'}]},[card]).length,
+      'incorrect property card target must fail');
     console.log('PASS: search link audit rejects missing, external, traversal, duplicate and malformed entries');
   } finally {
     fs.rmSync(temp, { recursive: true, force: true });
@@ -75,6 +101,8 @@ if (require.main === module) {
     const root = path.resolve(__dirname, '../site');
     const index = JSON.parse(fs.readFileSync(path.join(root, 'search-index.json'), 'utf8'));
     const report = audit(index, root);
+    const propertyCards = JSON.parse(fs.readFileSync(path.resolve(__dirname,'../content/property-midterm-cards.json'),'utf8')).cards;
+    report.problems.push(...auditPropertyCards(index, propertyCards));
     console.log('Search link audit: ' + report.total + ' entries; ' + report.problems.length + ' problems');
     if (report.problems.length) {
       console.error(report.problems.slice(0, 30).join('\n'));
