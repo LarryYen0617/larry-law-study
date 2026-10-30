@@ -98,6 +98,8 @@ function termIndex(text,term){
 const pageSize=20;
 let records=[],hits=[],page=0,timer,ready=false;
 let loadSequence=0,activeLoadController=null;
+// Preserve edits made before the initial fetch or a retry finishes.
+let pendingUserEdits=false;
 function safeHref(href){
   if(typeof href!=="string"||href.includes("\\")||/[\u0000-\u001f]/.test(href))return null;
   const rawPath=href.split(/[?#]/)[0];
@@ -234,15 +236,20 @@ async function load(){
     if(clean.length!==data.items.length)throw new Error("資料庫包含無效或重複記錄，已停止載入以避免漏列");
     records=clean;
     ready=true;
+    const draft={query:input.value,subject:subject.value,kind:kind.value};
+    const restoreDraft=pendingUserEdits;
     subject.replaceChildren(new Option("全部科目", ""));
     kind.replaceChildren(new Option("全部類型", ""));
     fillOptions(subject,new Set(records.map(x=>x.subject)),subjectNames);
     fillOptions(kind,new Set(records.map(x=>x.type)),kindNames);
     const params=new URLSearchParams(location.search);
-    page=pageFromUrl(params);
-    input.value=(params.get("q")||"").slice(0,200);
-    if([...subject.options].some(x=>x.value===params.get("subject")))subject.value=params.get("subject")||"";
-    if([...kind.options].some(x=>x.value===params.get("type")))kind.value=params.get("type")||"";
+    page=restoreDraft?0:pageFromUrl(params);
+    input.value=restoreDraft?draft.query:(params.get("q")||"").slice(0,200);
+    const chosenSubject=restoreDraft?draft.subject:params.get("subject");
+    const chosenKind=restoreDraft?draft.kind:params.get("type");
+    if([...subject.options].some(x=>x.value===chosenSubject))subject.value=chosenSubject||"";
+    if([...kind.options].some(x=>x.value===chosenKind))kind.value=chosenKind||"";
+    pendingUserEdits=false;
     search({preservePage:true});
     
   }catch(error){
@@ -259,8 +266,9 @@ async function load(){
     }
   }
 }
-input.addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(search,130)});
-subject.addEventListener("change",search);kind.addEventListener("change",search);
+input.addEventListener("input",()=>{if(!ready)pendingUserEdits=true;clearTimeout(timer);timer=setTimeout(search,130)});
+subject.addEventListener("change",()=>{if(!ready)pendingUserEdits=true;search()});
+kind.addEventListener("change",()=>{if(!ready)pendingUserEdits=true;search()});
 function changePage(offset){
   page=Math.max(0,Math.min(page+offset,Math.max(0,Math.ceil(hits.length/pageSize)-1)));
   draw();updateLink();
