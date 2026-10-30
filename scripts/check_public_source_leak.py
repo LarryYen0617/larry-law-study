@@ -3,9 +3,25 @@
 Only the site/ tree is deployed. The original source stays unchanged; error
 messages intentionally contain file paths and case IDs, never private prompts.
 """
+import html
+import re
 from pathlib import Path
+from urllib.parse import unquote
 
 TEXT_EXTENSIONS = frozenset({".html", ".js", ".json", ".txt", ".xml", ".md", ".css"})
+JS_HEX_ESCAPE = re.compile(r"\\u\{([0-9a-fA-F]{1,6})\}|\\u([0-9a-fA-F]{4})|\\x([0-9a-fA-F]{2})")
+
+
+def _decoded_public_text(content):
+    """Inspect escaped public strings without executing or evaluating scripts."""
+    decoded = unquote(html.unescape(content))
+    def replace_hex(match):
+        code = int(next(group for group in match.groups() if group is not None), 16)
+        return chr(code) if code <= 0x10FFFF else match.group(0)
+    decoded = JS_HEX_ESCAPE.sub(replace_hex, decoded)
+    return (decoded.replace(r'\"', '"').replace(r"\'", "'")
+            .replace(r"\/", "/").replace(r"\n", "\n")
+            .replace(r"\r", "\r").replace(r"\t", "\t"))
 
 
 def validate_public_site_text(source, site_root):
@@ -22,6 +38,14 @@ def validate_public_site_text(source, site_root):
             if (isinstance(digest, str) and len(digest) == 64
                     and all(ch in "0123456789abcdefABCDEF" for ch in digest)):
                 markers.append((case_id, digest))
+    # Source inventory fingerprints must also remain outside the Pages artifact.
+    for entry in source.get("inventory", []):
+        if not isinstance(entry, dict):
+            continue
+        digest = entry.get("sha256")
+        if (isinstance(digest, str) and len(digest) == 64
+                and all(ch in "0123456789abcdefABCDEF" for ch in digest)):
+            markers.append((str(entry.get("id", "inventory-unknown")), digest))
     if not markers:
         return 0
     root = Path(site_root)
@@ -31,8 +55,10 @@ def validate_public_site_text(source, site_root):
             continue
         content = path.read_text(encoding="utf-8")
         checked += 1
+        # Escaped text must not bypass the final Pages privacy check.
+        decoded = _decoded_public_text(content)
         for case_id, needle in markers:
-            if needle in content:
+            if needle in content or needle in decoded:
                 relative = path.relative_to(root)
                 raise ValueError(
                     f"Private source-only case material in public artifact {relative} (case {case_id})"
