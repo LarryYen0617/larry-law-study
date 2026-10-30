@@ -16,12 +16,12 @@ for(const f of events.input)f({target:{dataset:{caseDraft:'debt115-1'},value:'�
 assert.equal(JSON.parse(saved.get('lex-nexus-study-v1')).drafts['debt115-1'],'我的涵攝草稿');assert.ok(!saved.has('larry-law-midterm-v1'));
 click({mode:'inventory'});assert.ok(el('#knowledgeContent').innerHTML.includes('並非所有創課教材'));assert.ok(el('#knowledgeContent').innerHTML.includes('尚未取得課程清單'));
 const json=JSON.parse(fs.readFileSync(path.join(root,'../content/knowledge-base.json'),'utf8'));for(const c of json.cases||[]){for(const key of ["originalQuestion","originalQuestionSha256","originalQuestionLocation","originalFileSha256","hasOriginalAnswer"])delete c[key];}const supplement=JSON.parse(fs.readFileSync(path.join(root,'../content/property-midterm-cards.json'),'utf8'));
-assert.equal(supplement.cards.length,5);
+assert.equal(supplement.cards.length,7);
 assert.equal(JSON.stringify(ctx.window.LEX_PROPERTY_MIDTERM_CARDS),JSON.stringify(supplement),
   'published midterm supplement must equal public-law-only source');
 const published=JSON.parse(JSON.stringify(ctx.window.LEX_KNOWLEDGE));
 const property=published.subjects.find(subject=>subject.id==='property');
-assert.equal(property.cards.length,8,'three original cards plus five verified midterm cards');
+assert.equal(property.cards.length,3+supplement.cards.length,'three original cards plus all verified midterm cards');
 for(const card of supplement.cards){
   assert.ok(property.cards.some(x=>x.id===card.id),'missing public-law card '+card.id);
   assert.ok(card.refs.some(r=>r.url.includes('law.moj.gov.tw/LawClass/LawSingle.aspx')),
