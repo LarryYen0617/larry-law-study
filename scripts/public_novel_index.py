@@ -20,6 +20,7 @@ def validate_novel_index(manifest, index):
         expected[f'novel:{book}-{number}'] = (
             chapter['title'], f'reading.html?book={book}&chapter={number}')
     found = {}
+    found_order = []
     for row in index['items']:
         if not isinstance(row, dict):
             raise ValueError('Invalid published index row')
@@ -28,6 +29,7 @@ def validate_novel_index(manifest, index):
             if key in found:
                 raise ValueError(f'Duplicate published novel entry: {key}')
             found[key] = (row.get('title'), row.get('href'))
+            found_order.append(key)
             if row.get('type') != 'novel' or row.get('subject') != '':
                 raise ValueError(f'Invalid published novel classification: {key}')
     missing = sorted(set(expected) - set(found))
@@ -36,4 +38,6 @@ def validate_novel_index(manifest, index):
                        if expected[key] != found[key])
     if missing or extra or incorrect:
         raise ValueError(f'Published novel index mismatch: missing={missing[:5]}, extra={extra[:5]}, incorrect={incorrect[:5]}')
+    if found_order != list(expected):
+        raise ValueError('Published novel chapter order differs from manifest')
     return len(found)
