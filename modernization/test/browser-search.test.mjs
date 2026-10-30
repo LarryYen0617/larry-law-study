@@ -185,7 +185,8 @@ try{
   assert.match(await multiTermRecord.locator("p").innerText(),/內容關鍵字/,"multi-term excerpt omitted the body match when the first term matched only the title");
   await excerptPage.close();
   // Property midterm: grades must not remain stale after changing an answer.
-  const propertyQuiz=await browser.newPage({viewport:{width:320,height:800}});
+  const propertyQuiz=await context.newPage();
+  await propertyQuiz.setViewportSize({width:320,height:800});
   await propertyQuiz.goto("http://127.0.0.1:"+port+"/property-midterm-practice.html",{waitUntil:"domcontentloaded"});
   assert.equal(await propertyQuiz.locator("#questions fieldset").count(),25,"property quiz lost questions");
   assert.ok(await propertyQuiz.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),"property quiz overflows mobile viewport");
