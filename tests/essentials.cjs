@@ -15,7 +15,7 @@ click({knowledgeAnswer:'family-reviewed-1:0'});assert.ok(el('#knowledgeContent')
 for(const f of events.input)f({target:{dataset:{caseDraft:'debt115-1'},value:'我的涵攝草稿'}});
 assert.equal(JSON.parse(saved.get('lex-nexus-study-v1')).drafts['debt115-1'],'我的涵攝草稿');assert.ok(!saved.has('larry-law-midterm-v1'));
 click({mode:'inventory'});assert.ok(el('#knowledgeContent').innerHTML.includes('並非所有創課教材'));assert.ok(el('#knowledgeContent').innerHTML.includes('尚未取得課程清單'));
-const json=JSON.parse(fs.readFileSync(path.join(root,'../content/knowledge-base.json'),'utf8'));for(const c of json.cases||[]){for(const key of ["originalQuestion","originalQuestionSha256","originalQuestionLocation","originalFileSha256","hasOriginalAnswer"])delete c[key];}const supplement=JSON.parse(fs.readFileSync(path.join(root,'../content/property-midterm-cards.json'),'utf8'));
+const json=JSON.parse(fs.readFileSync(path.join(root,'../content/knowledge-base.json'),'utf8'));for(const c of json.cases||[]){for(const key of ["originalQuestion","originalQuestionSha256","originalQuestionLocation","originalFileSha256","hasOriginalAnswer"])delete c[key];}for(const entry of json.inventory||[])delete entry.sha256;const supplement=JSON.parse(fs.readFileSync(path.join(root,'../content/property-midterm-cards.json'),'utf8'));
 const expectedPropertyArticles=['66','67','68','69','70','757','758','759','759-1','760','761'];
 for(const article of expectedPropertyArticles){
   assert.ok(supplement.cards.some(card=>card.id.startsWith('property-midterm-'+article+'-20261030')),
