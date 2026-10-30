@@ -185,7 +185,7 @@ api.changePage(1);
 assert.equal(api.getPage(),1,'next button advances to second page');
 nodes.get('#page-jump').value='3';nodes.get('#go-page').onclick();
 assert.equal(api.getPage(),2,'direct jump reaches the requested page');
-assert.match(history.lastURL,/\\bpage=3\\b/,'direct jump updates the shareable URL');
+assert.match(history.lastURL,/\bpage=3\b/,'direct jump updates the shareable URL');
 assert.equal(nodes.get('#page-jump').max,'3','jump control uses the actual page count');
 nodes.get('#page-jump').value='0';nodes.get('#go-page').onclick();
 assert.equal(api.getPage(),2,'out-of-range jump must not change the page');
