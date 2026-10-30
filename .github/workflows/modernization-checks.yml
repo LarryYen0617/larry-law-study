@@ -123,6 +123,10 @@ jobs:
       - run: python3 modernization/scripts/audit-coverage.py
       - run: python3 modernization/scripts/audit-site.py site-audit.json
       - run: node --check modernization/test/legal-search.test.mjs
+      # Exercise the exact public-only teacher isolation used by Pages after source tests.
+      - run: python3 scripts/prepare_public_teacher_archive.py
+      - run: python3 scripts/check_public_learning.py
+      - run: node tests/search-index-links.cjs
       - uses: actions/upload-artifact@v4
         with:
           name: site-audit

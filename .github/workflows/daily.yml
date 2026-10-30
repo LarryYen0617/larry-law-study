@@ -71,7 +71,7 @@ jobs:
         run: python scripts/publish_editorials.py
       - name: 重建全站搜尋並驗證收藏複習流程
         run: |
-          node scripts/build_search_index.cjs
+          python scripts/prepare_public_teacher_archive.py
           node tests/discover.cjs
           node tests/search-index-links.cjs --self-test
           node tests/search-index-links.cjs
