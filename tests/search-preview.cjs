@@ -181,8 +181,22 @@ api.setRecords(rows);
 // A corrupted/partial live index must show an error and a retry option,
  // rather than claiming that a tiny subset is the full production corpus.
 context.fetch=async()=>({ok:true,json:async()=>({version:1,items:rows})});
-api.load().then(()=>{
+api.load().then(async()=>{
   assert.match(nodes.get('#status').textContent,/資料載入失敗.*資料庫筆數低於完整基準/);
   assert.equal(nodes.get('#retry').hidden,false,'partial corpus offers retry');
-  console.log('PASS: legal citations, AND semantics, aliases, and partial-corpus guard');
+  // Even when 3,602 valid rows remain, one malformed or duplicate row
+  // means the original production index was not loaded in full.
+  const complete=Array.from({length:3602},(_,i)=>({...rows[0],id:'complete-'+i}));
+  const badRows=[...complete,{...rows[0],id:'complete-0'}];
+  context.fetch=async()=>({ok:true,json:async()=>({version:1,items:badRows})});
+  await api.load();
+  assert.match(nodes.get('#status').textContent,/資料載入失敗.*無效或重複記錄/,
+    'duplicate row must not be silently dropped just because minimum remains');
+  assert.equal(nodes.get('#retry').hidden,false,'corrupt corpus offers retry');
+  context.fetch=async()=>({ok:true,json:async()=>({version:1,items:[...complete,{...rows[0],id:'blank-title',title:'   '}]})});
+  await api.load();
+  assert.match(nodes.get('#status').textContent,/資料載入失敗.*無效或重複記錄/,
+    'blank title must not be counted as a valid searchable record');
+  assert.equal(nodes.get('#retry').hidden,false);
+  console.log('PASS: legal citations, AND semantics, aliases, and atomic index guard');
 }).catch(error=>{console.error(error);process.exitCode=1});
