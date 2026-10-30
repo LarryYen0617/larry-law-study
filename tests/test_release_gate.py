@@ -30,6 +30,17 @@ class ReleaseGateTests(unittest.TestCase):
         self.assertIn("newsState", gate_body)
         self.assertIn("no_sources", gate_body)
 
+    def test_teacher_source_tests_precede_public_only_sanitization(self):
+        build = self.workflow.index("          node scripts/build_search_index.cjs")
+        discover = self.workflow.index("          node tests/discover.cjs")
+        catalog = self.workflow.index("          node tests/course-catalog.cjs")
+        isolate = self.workflow.index("          python scripts/prepare_public_teacher_archive.py")
+        links = self.workflow.index("          node tests/search-index-links.cjs --self-test")
+        self.assertLess(build, discover)
+        self.assertLess(discover, isolate)
+        self.assertLess(catalog, isolate)
+        self.assertLess(isolate, links)
+
     def test_privacy_and_index_checks_precede_release(self):
         privacy = self.step("驗證最終網站資料隔離")
         audit = self.step("升級版搜尋、資料安全及 Chromium 實測")
