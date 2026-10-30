@@ -1,5 +1,5 @@
 const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('assert');const root=path.resolve(__dirname,'../site'),ctx={window:{},URL,Date};vm.runInNewContext(fs.readFileSync(path.join(root,'discover-core.js'),'utf8'),ctx);const C=ctx.window.LEX_DISCOVER,index=JSON.parse(fs.readFileSync(path.join(root,'search-index.json'),'utf8'));
-assert(C.validIndex(index));assert.equal(index.items.length,new Set(index.items.map(x=>x.id)).size);
+assert(C.validIndex(index));assert(fs.readFileSync(path.join(root,'discover.html'),'utf8').includes('id="discoverPage" aria-live="polite"'),'page status must announce changes to screen readers');assert.equal(index.items.length,new Set(index.items.map(x=>x.id)).size);
 // Protect the historical 3,602-record corpus without rejecting legitimate new lessons and questions.
 const floors={question:1803,novel:513,note:97,card:40,teacher:92,archive:1016,reading:14,lesson:27};
 assert(index.items.length>=3602,'original search corpus truncated');
@@ -34,8 +34,8 @@ assert.equal(C.search([englishFixture],{q:'法英 不存在'}).length,0,'English
 (async()=>{
  const nodes={},listeners={},saved=new Map();let fetchFail=true,quota=false;const node=id=>nodes[id]??={value:'',innerHTML:'',textContent:'',hidden:false,setAttribute(){},scrollIntoView(){}};
  const document={hidden:false,getElementById:node,querySelectorAll:()=>[],addEventListener:(type,fn)=>{(listeners[type]??=[]).push(fn);}};
- const location={hash:'#q='+encodeURIComponent('臺中的清晨')};const storage={getItem:k=>saved.get(k)??null,setItem:(k,v)=>{if(quota)throw Error('quota');saved.set(k,v);}};
- const context={window:{LEX_DISCOVER:C,addEventListener(){}},URLSearchParams,document,location,history:{replaceState(){}},localStorage:storage,fetch:async()=>{if(fetchFail)throw Error('offline');return {ok:true,json:async()=>index};},Date,console};vm.runInNewContext(fs.readFileSync(path.join(root,'discover.js'),'utf8'),context);await new Promise(r=>setImmediate(r));assert(node('discoverStatus').textContent.includes('無法載入'));assert(!node('retrySearch').hidden);fetchFail=false;await node('retrySearch').onclick();assert(node('discoverResults').innerHTML.includes('chapter=1'));
+ const location={hash:'#q='+encodeURIComponent('臺中的清晨')};const windowEvents={};const history={lastURL:'',replaceState(_state,_title,url){this.lastURL=url}};const storage={getItem:k=>saved.get(k)??null,setItem:(k,v)=>{if(quota)throw Error('quota');saved.set(k,v);}};
+ const context={window:{LEX_DISCOVER:C,addEventListener(type,fn){windowEvents[type]=fn}},URLSearchParams,document,location,history,localStorage:storage,fetch:async()=>{if(fetchFail)throw Error('offline');return {ok:true,json:async()=>index};},Date,console};vm.runInNewContext(fs.readFileSync(path.join(root,'discover.js'),'utf8'),context);await new Promise(r=>setImmediate(r));assert(node('discoverStatus').textContent.includes('無法載入'));assert(!node('retrySearch').hidden);fetchFail=false;await node('retrySearch').onclick();assert(node('discoverResults').innerHTML.includes('chapter=1'));
  // Paging must not rescan all 3,602 indexed records when search criteria are unchanged.
  const originalSearch=C.search;let searchCalls=0;
  C.search=(...args)=>{searchCalls++;return originalSearch(...args);};
@@ -43,6 +43,11 @@ assert.equal(C.search([englishFixture],{q:'法英 不存在'}).length,0,'English
  assert(node('discoverResults').innerHTML.includes('discover-card'));
  const callsBeforePaging=searchCalls;
  node('discoverNext').onclick();assert.equal(searchCalls,callsBeforePaging,'pagination should reuse cached search results');
+ assert(history.lastURL.includes('page=2'),'next-page URL must be shareable');
+ location.hash='#page=3';windowEvents.hashchange();assert(node('discoverPage').textContent.startsWith('3 / '),'opening a shared page must restore pagination');
+ location.hash='#page=9999';windowEvents.hashchange();assert(node('discoverPage').textContent.startsWith(Math.ceil(index.items.length/24)+' / '),'out-of-range page must clamp to last page');assert(history.lastURL.includes('page='+Math.ceil(index.items.length/24)),'clamped page must update shared URL');
+ location.hash='#page=-1';windowEvents.hashchange();assert(node('discoverPage').textContent.startsWith('1 / '),'invalid page must reset to first page');
+ location.hash='#page=2';windowEvents.hashchange();assert(node('discoverPage').textContent.startsWith('2 / '),'valid page must restore after invalid input');
  C.search=originalSearch;
  const novel=index.items.find(x=>x.type==='novel'&&x.href.endsWith('chapter=1'));
  const click=dataset=>{for(const fn of listeners.click||[])fn({target:{closest:()=>({dataset})}});};quota=true;click({save:novel.id});assert(!saved.has(C.key));assert(node('collectionStatus').textContent.includes('未儲存'));quota=false;click({save:novel.id});assert.equal(JSON.parse(saved.get(C.key)).items[novel.id].stage,0);click({review:novel.id});assert.equal(JSON.parse(saved.get(C.key)).items[novel.id].stage,1);click({view:'due'});assert(node('discoverResults').innerHTML.includes('今天的複習已完成'));
