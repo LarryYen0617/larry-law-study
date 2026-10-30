@@ -73,6 +73,10 @@ class PublicSourceLeakTests(unittest.TestCase):
         self.assertEqual(validate_public_site_text(self.source, self.root), 1)
 
 
+    def test_published_library_inventory_has_no_source_hashes(self):
+        public = (Path(__file__).resolve().parents[1] / "site/library-data.js").read_text(encoding="utf-8")
+        self.assertNotIn('"sha256":', public)
+
 
 if __name__ == "__main__":
     unittest.main()
