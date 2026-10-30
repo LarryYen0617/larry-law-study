@@ -95,6 +95,8 @@ function termIndex(text,term){
   if(bare)return text.search(new RegExp("(?:^|[^\\d-])"+bare[1]+"-"+bare[2]+"(?![\\d-])"));
   return text.indexOf(term);
 }
+// Empty subject is a real indexed category (novel/uncategorized), not "all".
+const uncategorizedSubject="__uncategorized__";
 const pageSize=20;
 let records=[],hits=[],page=0,timer,ready=false;
 let loadSequence=0,activeLoadController=null;
@@ -186,11 +188,12 @@ function search(options={}){
   if(!ready)return;
   const terms=queryGroups(input.value.slice(0,200));
   const selectedSubject=subject.value,selectedKind=kind.value;
+  const matchesFilters=item=>(!selectedSubject||item.subject===(selectedSubject===uncategorizedSubject?"":selectedSubject))&&(!selectedKind||item.type===selectedKind);
   if(!terms.length){
-    hits=records.filter(item=>(!selectedSubject||item.subject===selectedSubject)&&(!selectedKind||item.type===selectedKind));
+    hits=records.filter(matchesFilters);
     if(!preservePage)page=0;draw();updateLink();return;
   }
-  hits=records.filter(item=>(!selectedSubject||item.subject===selectedSubject)&&(!selectedKind||item.type===selectedKind)).map(item=>{
+  hits=records.filter(matchesFilters).map(item=>{
     if(!terms.length)return {item,score:0};
     let score=0;
     for(const variants of terms){
@@ -240,7 +243,7 @@ async function load(){
     const restoreDraft=pendingUserEdits;
     subject.replaceChildren(new Option("全部科目", ""));
     kind.replaceChildren(new Option("全部類型", ""));
-    fillOptions(subject,new Set(records.map(x=>x.subject)),subjectNames);
+    fillOptions(subject,new Set(records.map(x=>x.subject||uncategorizedSubject)),{...subjectNames,[uncategorizedSubject]:"小說／未分類"});
     fillOptions(kind,new Set(records.map(x=>x.type)),kindNames);
     const params=new URLSearchParams(location.search);
     page=restoreDraft?0:pageFromUrl(params);
