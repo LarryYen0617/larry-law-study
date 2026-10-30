@@ -226,5 +226,26 @@ api.load().then(async()=>{
   assert.match(nodes.get('#status').textContent,/3602 筆資料已載入/,
     'late network error must not hide the valid index');
   assert.equal(nodes.get('#retry').hidden,true);
-  console.log('PASS: legal citations, AND semantics, atomic index guard, and overlapping retry safety');
+  // A shared link restores its query and page when the user has not edited the form.
+  context.location.search='?q=%E5%88%91%E7%B8%BD&page=2';
+  nodes.get('#query').value='';
+  context.fetch=async()=>({ok:true,json:async()=>({version:1,items:complete})});
+  await api.load();
+  assert.equal(nodes.get('#query').value,'刑總','untouched shared link restores its search');
+  assert.equal(api.getPage(),1,'untouched shared link restores its page');
+  // Typing while an initial/retry fetch is pending must not be overwritten
+  // by the old URL parameters when the response eventually arrives.
+  let finishDraft;
+  const draftResponse=new Promise(resolve=>{finishDraft=resolve});
+  context.fetch=async()=>draftResponse;
+  const draftLoad=api.load();
+  nodes.get('#query').value='物權';
+  nodes.get('#query').oninput();
+  finishDraft({ok:true,json:async()=>({version:1,items:complete})});
+  await draftLoad;
+  assert.equal(nodes.get('#query').value,'物權','pending user input survives completed fetch');
+  assert.equal(api.getPage(),0,'edited search starts at first page');
+  assert.match(history.lastURL,/q=%E7%89%A9%E6%AC%8A/,'shared URL follows the user's new query');
+  assert.doesNotMatch(history.lastURL,/page=/,'stale page is removed after editing during load');
+  console.log('PASS: legal citations, AND semantics, atomic index guard, retry safety and pending-input restoration');
 }).catch(error=>{console.error(error);process.exitCode=1});
