@@ -2,6 +2,7 @@
  const C=window.LEX_DISCOVER,$=id=>document.getElementById(id),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  let index=[],loaded=false,view='search',type='',subject='',page=0,collection={version:1,items:{}},storageError=false;
  let searchCache={key:null,rows:[]}; // Reuse filtered results across page navigation.
+ let loadSequence=0,activeLoadController=null; // Ignore stale retry responses.
  function readCollection(){searchCache.key=null;try{const raw=localStorage.getItem(C.key);if(raw===null){collection={version:1,items:{}};storageError=false;return;}const value=JSON.parse(raw);if(!C.validCollection(value))throw Error();collection=value;storageError=false;}catch{storageError=true;$('collectionStatus').textContent='收藏紀錄暫時無法讀取，原有資料已保留。可到「資料與備份」下載副本。';}}
  function hash(){const params=new URLSearchParams(location.hash.slice(1));view=['search','saved','due'].includes(params.get('view'))?params.get('view'):'search';type=Object.hasOwn(C.types,params.get('type'))?params.get('type'):'';subject=Object.hasOwn(C.subjects,params.get('subject'))?params.get('subject'):'';$('discoverQuery').value=(params.get('q')||'').slice(0,150);const rawPage=params.get('page')||'';page=/^[1-9]\d{0,3}$/.test(rawPage)?Number(rawPage)-1:0;}
  function url(){const p=new URLSearchParams();if(view!=='search')p.set('view',view);if($('discoverQuery').value.trim())p.set('q',$('discoverQuery').value.trim());if(type)p.set('type',type);if(subject)p.set('subject',subject);if(page>0)p.set('page',String(page+1));history.replaceState(null,'','#'+p);}
@@ -32,6 +33,37 @@
  $('discoverForm').onsubmit=e=>{e.preventDefault();page=0;url();render();};$('clearFilters').onclick=()=>{type='';subject='';$('discoverQuery').value='';page=0;url();render();};
  document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.view!==undefined){view=b.dataset.view;page=0;url();render();}if(b.dataset.type!==undefined){type=b.dataset.type;page=0;url();render();}if(b.dataset.subject!==undefined){subject=b.dataset.subject;page=0;url();render();}for(const action of ['save','review','snooze'])if(b.dataset[action])update(b.dataset[action],action);});
  $('discoverPrev').onclick=()=>{page=Math.max(0,page-1);url();render();$('resultsTitle').scrollIntoView({block:'start'});};$('discoverNext').onclick=()=>{page++;url();render();$('resultsTitle').scrollIntoView({block:'start'});};
- async function load(){loaded=false;$('retrySearch').hidden=true;$('discoverResults').setAttribute('aria-busy','true');$('discoverStatus').textContent='正在讀取搜尋資料…';try{const r=await fetch('search-index.json',{credentials:'omit',cache:'no-cache'});if(!r.ok)throw Error();const d=await r.json();if(!C.validIndex(d))throw Error();index=d.items;searchCache.key=null;loaded=true;render();}catch{$('discoverStatus').textContent='搜尋資料暫時無法載入，請重試。';$('retrySearch').hidden=false;}finally{$('discoverResults').setAttribute('aria-busy','false');}}
+ async function load(){
+  // Do not let an earlier, slower fetch (or its failure) overwrite a successful retry.
+  const requestId=++loadSequence;
+  activeLoadController?.abort();
+  const controller=new AbortController();
+  activeLoadController=controller;
+  loaded=false;
+  $('retrySearch').hidden=true;
+  $('discoverResults').setAttribute('aria-busy','true');
+  $('discoverStatus').textContent='正在讀取搜尋資料…';
+  try{
+   const r=await fetch('search-index.json',{credentials:'omit',cache:'no-cache',signal:controller.signal});
+   if(!r.ok)throw Error('HTTP '+r.status);
+   const d=await r.json();
+   if(requestId!==loadSequence)return;
+   // The preview search already protects the original 3,602-record baseline.
+   // Apply the same release floor here; a valid but truncated JSON must fail closed.
+   if(!C.validIndex(d)||d.items.length<3602)throw Error('索引格式錯誤或低於 3,602 筆完整基準');
+   index=d.items;searchCache.key=null;loaded=true;render();
+  }catch(error){
+   if(requestId!==loadSequence)return;
+   index=[];searchCache.key=null;
+   $('discoverResults').innerHTML='';
+   $('discoverStatus').textContent=error.message?.includes('3,602')?'搜尋索引不完整，已停止顯示以避免漏列；請重試。':'搜尋資料暫時無法載入，請重試。';
+   $('retrySearch').hidden=false;
+  }finally{
+   if(requestId===loadSequence){
+    activeLoadController=null;
+    $('discoverResults').setAttribute('aria-busy','false');
+   }
+  }
+ }
  $('retrySearch').onclick=load;window.addEventListener('hashchange',()=>{hash();render();});window.addEventListener('storage',e=>{if(e.key===C.key){readCollection();render();}});document.addEventListener('visibilitychange',()=>{if(!document.hidden){readCollection();render();}});readCollection();hash();render();load();
 })();
