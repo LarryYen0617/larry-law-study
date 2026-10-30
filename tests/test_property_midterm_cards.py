@@ -39,7 +39,9 @@ class PropertyMidtermCardsTests(unittest.TestCase):
             self.assertIn("非教師原題", card["source"])
             self.assertNotIn("originalQuestion", card)
             for ref in card["refs"]:
-                self.assertTrue(ref["url"].startswith("https://law.moj.gov.tw/LawClass/LawSingle.aspx?"))
+                self.assertTrue(ref["url"].startswith("https://"), ref["url"])
+                self.assertIn(ref["url"].split("/")[2], {"law.moj.gov.tw", "www.moj.gov.tw", "www.judicial.gov.tw"})
+                self.assertTrue(ref["label"].strip())
 
 
     def test_inheritance_and_coownership_midterm_scope(self):
@@ -57,6 +59,20 @@ class PropertyMidtermCardsTests(unittest.TestCase):
         self.assertEqual(len(source["cards"]), len(set(card["id"] for card in source["cards"])))
         for card in [*(cards[f"property-midterm-{n}-20261031"] for n in required), case]:
             self.assertIn("非教師原題", card["source"])
+
+    def test_judgment_types_and_unregistered_inheritance_sale(self):
+        cards = {card["id"]: card for card in json.loads(SOURCE.read_text(encoding="utf-8"))["cards"]}
+        statute = cards["property-midterm-759-20261030"]
+        example = cards["property-midterm-case-inheritance-20261031"]
+        combined = " ".join(statute["points"])
+        self.assertIn("形成判決", combined)
+        self.assertIn("給付判決", combined)
+        self.assertIn("43年台上字第1016號", combined)
+        self.assertIn("74年台上字第2024號", combined)
+        self.assertIn("債權契約", " ".join(example["points"]))
+        self.assertIn("不因「尚未登記」即當然無效", " ".join(example["points"]))
+        self.assertTrue(any("judicial.gov.tw" in ref["url"] for ref in example["refs"]))
+        self.assertTrue(any("moj.gov.tw" in ref["url"] for ref in statute["refs"]))
 
 if __name__ == "__main__":
     unittest.main()
