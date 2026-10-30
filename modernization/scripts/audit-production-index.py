@@ -8,7 +8,7 @@ from urllib.parse import urlsplit
 
 PATH = Path(__file__).resolve().parents[2] / "site" / "search-index.json"
 REQUIRED = ("id", "type", "subject", "title", "body", "href")
-BASELINE_TYPES = {"note": 97, "card": 40, "question": 1803, "teacher": 92, "archive": 1016, "reading": 14, "lesson": 27, "novel": 513}
+# Public Pages contains 18 authored teacher-case summaries. The 91 source-only\n# teacher originals are checked separately before build and withheld from Pages.\nBASELINE_TYPES = {"note": 97, "card": 40, "question": 1803, "teacher": 18, "archive": 1016, "reading": 14, "lesson": 27, "novel": 513}
 
 def inspect(data, min_records=0, baseline_types=None):
     problems = []
