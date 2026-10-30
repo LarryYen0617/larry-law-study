@@ -140,6 +140,23 @@ assert.equal(api.getHits().length,2,'nine matching terms still return both recor
 // The live corpus includes Legal English and Photonics, not only the original nine law courses.
 const english={id:'english',title:'Court structure',body:'Jurisdiction and appeal',subject:'legalenglish',type:'note',href:'legal-english.html',_title:normalize('Court structure'),_body:normalize('Jurisdiction and appeal'),_subject:normalize('法學英文')};
 const photonics={id:'photonics',title:'Solar cells',body:'Photovoltaic conversion',subject:'photonics',type:'note',href:'photonics.html',_title:normalize('Solar cells'),_body:normalize('Photovoltaic conversion'),_subject:normalize('光電科技')};
+// The public novel index uses subject:"". Its filter must not collide with
+// the empty string used by the "all subjects" select option.
+const uncategorized={id:'uncategorized',title:'小說第一章',body:'故事正文',subject:'',type:'novel',href:'reading.html',
+ _title:normalize('小說第一章'),_body:normalize('故事正文'),_subject:normalize('小說／未分類')};
+api.setRecords([...rows,english,photonics,uncategorized]);
+nodes.get('#subject').value='__uncategorized__';
+api.setQuery('');api.search();
+assert.deepEqual(Array.from(api.getHits(),x=>x.id),['uncategorized'],
+  'uncategorized subject filter must exclude classified records');
+assert.match(history.lastURL,/subject=__uncategorized__/,
+  'uncategorized selection must be shareable in the URL');
+nodes.get('#kind').value='note';api.search();
+assert.equal(api.getHits().length,0,'subject and type filters must combine');
+nodes.get('#kind').value='novel';api.search();
+assert.deepEqual(Array.from(api.getHits(),x=>x.id),['uncategorized'],
+  'novel type and uncategorized subject must combine');
+nodes.get('#subject').value='';nodes.get('#kind').value='';
 api.setRecords([...rows,english,photonics]);
 api.setQuery('法英');api.search();
 assert.deepEqual(Array.from(api.getHits(),x=>x.id),['english'],'法英 must find the Legal English course via subject label');
