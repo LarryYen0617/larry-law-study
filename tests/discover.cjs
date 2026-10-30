@@ -32,10 +32,16 @@ assert.equal(C.search([englishFixture],{q:'法英 不存在'}).length,0,'English
 
 // End-to-end controller behavior without a browser: failed fetch, retry, save failure, and review mutation.
 (async()=>{
- const nodes={},listeners={},saved=new Map();let fetchFail=true,quota=false;const node=id=>nodes[id]??={value:'',innerHTML:'',textContent:'',hidden:false,setAttribute(){},scrollIntoView(){}};
+ const nodes={},listeners={},saved=new Map();let fetchFail=true,quota=false,partialIndex=false;const node=id=>nodes[id]??={value:'',innerHTML:'',textContent:'',hidden:false,setAttribute(){},scrollIntoView(){}};
  const document={hidden:false,getElementById:node,querySelectorAll:()=>[],addEventListener:(type,fn)=>{(listeners[type]??=[]).push(fn);}};
  const location={hash:'#q='+encodeURIComponent('臺中的清晨')};const windowEvents={};const history={lastURL:'',replaceState(_state,_title,url){this.lastURL=url}};const storage={getItem:k=>saved.get(k)??null,setItem:(k,v)=>{if(quota)throw Error('quota');saved.set(k,v);}};
- const context={window:{LEX_DISCOVER:C,addEventListener(type,fn){windowEvents[type]=fn}},URLSearchParams,document,location,history,localStorage:storage,fetch:async()=>{if(fetchFail)throw Error('offline');return {ok:true,json:async()=>index};},Date,console};vm.runInNewContext(fs.readFileSync(path.join(root,'discover.js'),'utf8'),context);await new Promise(r=>setImmediate(r));assert(node('discoverStatus').textContent.includes('無法載入'));assert(!node('retrySearch').hidden);fetchFail=false;await node('retrySearch').onclick();assert(node('discoverResults').innerHTML.includes('chapter=1'));
+ const context={window:{LEX_DISCOVER:C,addEventListener(type,fn){windowEvents[type]=fn}},URLSearchParams,document,location,history,localStorage:storage,fetch:async()=>{if(fetchFail)throw Error('offline');return {ok:true,json:async()=>partialIndex?{version:1,items:index.items.slice(0,12)}:index};},AbortController,Date,console};vm.runInNewContext(fs.readFileSync(path.join(root,'discover.js'),'utf8'),context);await new Promise(r=>setImmediate(r));assert(node('discoverStatus').textContent.includes('無法載入'));assert(!node('retrySearch').hidden);fetchFail=false;partialIndex=true;
+ await node('retrySearch').onclick();
+ assert(node('discoverStatus').textContent.includes('索引不完整'),'a structurally valid but truncated index must fail closed');
+ assert(!node('retrySearch').hidden,'partial corpus must offer a retry');
+ assert(!node('discoverResults').innerHTML.includes('discover-card'),'partial corpus must not render results');
+ partialIndex=false;
+ await node('retrySearch').onclick();assert(node('discoverResults').innerHTML.includes('chapter=1'));
  // Paging must not rescan all 3,602 indexed records when search criteria are unchanged.
  const originalSearch=C.search;let searchCalls=0;
  C.search=(...args)=>{searchCalls++;return originalSearch(...args);};
@@ -58,5 +64,20 @@ assert.equal(C.search([englishFixture],{q:'法英 不存在'}).length,0,'English
  node('discoverNext').onclick();
  assert(node('discoverResults').innerHTML.includes('chapter=1'),'due-list cache must invalidate on the new Taipei date');
  C.today=originalToday;
- console.log('PASS: full search corpus, Chinese filters, safe links, Taipei dates, spaced review, invalid backups, quota handling, fetch retry and controller mutations.');
+ // Simulate a slow first request that resolves after a newer successful retry.
+ // The old response must not clear results, status, or the successful retry state.
+ location.hash='#q='+encodeURIComponent('臺中的清晨');windowEvents.hashchange();
+ const pending=[];
+ context.fetch=(_url,opts)=>new Promise(resolve=>pending.push({resolve,signal:opts.signal}));
+ const slow=node('retrySearch').onclick();
+ const fresh=node('retrySearch').onclick();
+ assert(pending[0].signal.aborted,'new retry should abort the previous request');
+ pending[1].resolve({ok:true,json:async()=>index});
+ await fresh;
+ pending[0].resolve({ok:true,json:async()=>({version:1,items:index.items.slice(0,12)})});
+ await slow;
+ assert(node('discoverResults').innerHTML.includes('chapter=1'),'late partial response must not replace newer results');
+ assert(node('retrySearch').hidden,'late response must not expose the retry button');
+ assert(node('discoverStatus').textContent.includes('筆結果'),'late response must not overwrite successful status');
+ console.log('PASS: full search corpus, partial-index fail-closed, stale retry protection, Chinese filters, safe links, Taipei dates, spaced review, invalid backups, quota handling and controller mutations.');
 })().catch(e=>{console.error(e);process.exitCode=1;});
