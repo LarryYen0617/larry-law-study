@@ -38,7 +38,7 @@ class PropertyMidtermPracticeTests(unittest.TestCase):
 
     def test_accessible_and_privacy_safe(self):
         self.assertIn('<form id="exam">', self.html)
-        self.assertIn('type="radio"', self.html)
+        self.assertIn('radio.type="radio"', self.html)
         self.assertIn('aria-live="polite"', self.html)
         self.assertIn("不是教師原題", self.html)
         self.assertNotIn("localStorage", self.html)
