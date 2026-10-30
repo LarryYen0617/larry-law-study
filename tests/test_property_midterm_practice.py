@@ -36,6 +36,15 @@ class PropertyMidtermPracticeTests(unittest.TestCase):
         self.assertIn("刪除", deleted[0][1][deleted[0][2]])
         self.assertIn("全國法規資料庫", self.html)
 
+    def test_answer_progress_and_review_navigation(self):
+        self.assertIn('id="progress"', self.html)
+        self.assertIn('form.addEventListener("change",updateProgress)', self.html)
+        self.assertIn('updateProgress();document.querySelector("#question-1 input").focus()', self.html)
+        self.assertIn('nav.setAttribute("aria-label","待複習題目")', self.html)
+        self.assertIn('link.href="#question-"+item.number', self.html)
+        self.assertIn('missed.push({number:i+1,unanswered:actual<0})', self.html)
+        self.assertIn('min-height:44px', self.html)
+
     def test_accessible_and_privacy_safe(self):
         self.assertIn('<form id="exam">', self.html)
         self.assertIn('radio.type="radio"', self.html)

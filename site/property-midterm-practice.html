@@ -16,7 +16,7 @@ button{font:inherit;min-height:44px;padding:.65rem 1rem;border:1px solid #777;bo
 button.primary{background:#174b7a;color:white;border-color:#174b7a}
 .explanation{border-inline-start:4px solid #2877a6;padding:.55rem .85rem;margin-top:.8rem;background:color-mix(in srgb,Canvas 90%,#83b6e0)}
 .correct{border-color:#23825e}.incorrect{border-color:#b65b49}
-.muted{opacity:.8}.summary{padding:1rem;border:1px solid #888;border-radius:.7rem}
+.muted{opacity:.8}.review-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(8rem,1fr));gap:.45rem 1rem;padding-inline-start:1.4rem}.review-links a{display:inline-flex;align-items:center;min-height:44px;padding:.3rem .1rem}.summary{padding:1rem;border:1px solid #888;border-radius:.7rem}
 details{border:1px solid #8886;border-radius:.65rem;padding:.7rem 1rem;margin:.8rem 0}
 summary{cursor:pointer;font-weight:600}#result:focus{outline:3px solid #257fca}
 @media(max-width:600px){fieldset{padding:.7rem}.choice{padding:.65rem .3rem}.actions button{flex:1 1 140px}}
@@ -26,7 +26,7 @@ summary{cursor:pointer;font-weight:600}#result:focus{outline:3px solid #257fca}
 <h1>民法物權期中｜25題單選模擬</h1>
 <p>依提供的期中範圍自編，涵蓋物的分類、主從物、孳息、物權法定、登記與動產交付。<strong>本頁不是教師原題或官方標準答案</strong>；每題僅一個最佳答案。答題只在目前頁面處理，不上傳作答。</p>
 <p class="muted">法條基準：中華民國民法第66–70、757–761條；查核日期2026-10-30。<a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=B0000001" rel="noopener noreferrer" target="_blank">全國法規資料庫：民法</a>。如法規修正，應以最新官方版本為準。</p>
-<form id="exam"><div id="questions"></div><div class="actions"><button class="primary" type="submit">交卷並查看詳解</button><button type="button" id="clear">重新作答</button></div></form>
+<form id="exam"><p id="progress" class="muted" role="status" aria-live="polite">已作答 0／25 題，尚有25題未作答。</p><div id="questions"></div><div class="actions"><button class="primary" type="submit">交卷並查看詳解</button><button type="button" id="clear">重新作答</button></div></form>
 <section id="result" class="summary" aria-live="polite" aria-atomic="true" tabindex="-1"><p>尚未交卷。共25題，每題4分，滿分100分。</p></section>
 <section aria-label="申論練習"><h2>申論延伸（原創案例）</h2>
 <details><summary>案例一：土地買賣、繼承與登記</summary><p>甲與乙簽訂土地買賣契約但尚未辦移轉登記，甲死亡，丙為繼承人。試比較乙之買賣契約地位、丙因繼承取得物權的時點，以及丙再處分土地的登記要件。</p><p><strong>答題架構：</strong>爭點（買賣債權與物權、繼承取得）→第758、759條→分別涵攝甲乙買賣、甲死亡與丙處分→結論。須區分丙繼承後承受契約義務等其他問題，不能以繼承一詞直接否定乙的債權。</p></details>
@@ -36,7 +36,7 @@ summary{cursor:pointer;font-weight:600}#result:focus{outline:3px solid #257fca}
 <script>
 "use strict";
 const bank=JSON.parse(document.getElementById("question-bank").textContent);
-const area=document.getElementById("questions"),form=document.getElementById("exam"),result=document.getElementById("result");
+const area=document.getElementById("questions"),form=document.getElementById("exam"),result=document.getElementById("result"),progress=document.getElementById("progress");
 const letters=["A","B","C","D"];
 bank.forEach((row,i)=>{
  const box=document.createElement("fieldset");box.id="question-"+(i+1);
@@ -49,24 +49,43 @@ bank.forEach((row,i)=>{
  });
  const explanation=document.createElement("div");explanation.className="explanation";explanation.hidden=true;box.append(explanation);area.append(box);
 });
+function updateProgress(){
+ const answered=bank.reduce((count,_row,i)=>count+Number(Boolean(form.querySelector('input[name="q'+i+'"]:checked'))),0);
+ progress.textContent="已作答 "+answered+"／"+bank.length+" 題，尚有"+(bank.length-answered)+"題未作答。";
+}
+form.addEventListener("change",updateProgress);
 form.addEventListener("submit",event=>{
- event.preventDefault();let correct=0,answered=0;
+ event.preventDefault();let correct=0,answered=0;const missed=[];
  bank.forEach((row,i)=>{
   const box=document.getElementById("question-"+(i+1)),selected=form.querySelector('input[name="q'+i+'"]:checked');
   const actual=selected?Number(selected.value):-1;
-  if(selected)answered++;if(actual===row[2])correct++;
+  if(selected)answered++;if(actual===row[2])correct++;else missed.push({number:i+1,unanswered:actual<0});
   box.classList.toggle("correct",actual===row[2]);box.classList.toggle("incorrect",actual!==row[2]);
   const explanation=box.querySelector(".explanation");explanation.hidden=false;
   explanation.textContent="正解 "+letters[row[2]]+"（民法第"+row[3]+"條）｜"+row[4]+(actual<0?"｜本題未作答。":"");
  });
  result.replaceChildren();
  const p=document.createElement("p");p.textContent="得分："+(correct*4)+"／100；答對 "+correct+" 題，已作答 "+answered+"／25 題。";
- result.append(p);result.focus({preventScroll:true});result.scrollIntoView({block:"start"});
+ result.append(p);
+ if(missed.length){
+  const nav=document.createElement("nav");nav.setAttribute("aria-label","待複習題目");
+  const lead=document.createElement("p");lead.textContent="待複習 "+missed.length+" 題（答錯 "+(missed.length-(bank.length-answered))+" 題、未作答 "+(bank.length-answered)+" 題）。點選題號可直接查看詳解。";
+  const list=document.createElement("ol");list.className="review-links";
+  missed.forEach(item=>{
+   const li=document.createElement("li"),link=document.createElement("a");
+   link.href="#question-"+item.number;link.textContent="第"+item.number+"題"+(item.unanswered?"（未作答）":"（答錯）");
+   li.append(link);list.append(li);
+  });
+  nav.append(lead,list);result.append(nav);
+ }else{
+  const perfect=document.createElement("p");perfect.textContent="25題全對，建議接著練習下方申論案例。";result.append(perfect);
+ }
+ result.focus({preventScroll:true});result.scrollIntoView({block:"start"});
 });
 document.getElementById("clear").addEventListener("click",()=>{
  form.reset();area.querySelectorAll("fieldset").forEach(box=>{
   box.classList.remove("correct","incorrect");box.querySelector(".explanation").hidden=true;
  });
- result.textContent="已清除答案，請重新作答。";document.querySelector("#question-1 input").focus();
+ result.textContent="已清除答案，請重新作答。";updateProgress();document.querySelector("#question-1 input").focus();
 });
 </script></body></html>
