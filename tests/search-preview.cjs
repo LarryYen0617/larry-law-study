@@ -8,6 +8,7 @@ const nodes=new Map();
 function element(name){
   if(!nodes.has(name))nodes.set(name,{
     value:'',textContent:'',hidden:false,disabled:false,children:[],
+    get options(){return this.children},
     addEventListener(type,handler){this["on"+type]=handler},focus(){this.focused=true},setAttribute(){},querySelector(){return null},
     replaceChildren(...items){this.children=items},
     append(...items){this.children.push(...items)}
