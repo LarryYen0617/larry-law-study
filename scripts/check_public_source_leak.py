@@ -14,14 +14,24 @@ JS_HEX_ESCAPE = re.compile(r"\\u\{([0-9a-fA-F]{1,6})\}|\\u([0-9a-fA-F]{4})|\\x([
 
 def _decoded_public_text(content):
     """Inspect escaped public strings without executing or evaluating scripts."""
-    decoded = unquote(html.unescape(content))
+    # A source string may be wrapped more than once (for example, a URL-
+    # encoded HTML entity). Inspect up to four decoding layers so that a
+    # second layer cannot bypass the release gate; never evaluate JS.
     def replace_hex(match):
         code = int(next(group for group in match.groups() if group is not None), 16)
         return chr(code) if code <= 0x10FFFF else match.group(0)
-    decoded = JS_HEX_ESCAPE.sub(replace_hex, decoded)
-    return (decoded.replace(r'\"', '"').replace(r"\'", "'")
-            .replace(r"\/", "/").replace(r"\n", "\n")
-            .replace(r"\r", "\r").replace(r"\t", "\t"))
+
+    decoded = content
+    for _ in range(4):
+        next_text = unquote(html.unescape(decoded))
+        next_text = JS_HEX_ESCAPE.sub(replace_hex, next_text)
+        next_text = (next_text.replace(r'\"', '"').replace(r"\'", "'")
+                     .replace(r"\/", "/").replace(r"\n", "\n")
+                     .replace(r"\r", "\r").replace(r"\t", "\t"))
+        if next_text == decoded:
+            break
+        decoded = next_text
+    return decoded
 
 
 def validate_public_site_text(source, site_root):
