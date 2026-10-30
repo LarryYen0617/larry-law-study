@@ -183,6 +183,18 @@ const many=Array.from({length:45},(_,i)=>({...rows[0],id:'page-'+i,title:'刑總
 api.setRecords(many);api.setQuery('');api.search();
 api.changePage(1);
 assert.equal(api.getPage(),1,'next button advances to second page');
+nodes.get('#page-jump').value='3';nodes.get('#go-page').onclick();
+assert.equal(api.getPage(),2,'direct jump reaches the requested page');
+assert.match(history.lastURL,/\\bpage=3\\b/,'direct jump updates the shareable URL');
+assert.equal(nodes.get('#page-jump').max,'3','jump control uses the actual page count');
+nodes.get('#page-jump').value='0';nodes.get('#go-page').onclick();
+assert.equal(api.getPage(),2,'out-of-range jump must not change the page');
+assert.equal(nodes.get('#page-jump').value,'3','invalid jump restores current page');
+let prevented=false;
+nodes.get('#page-jump').value='2';
+nodes.get('#page-jump').onkeydown({key:'Enter',preventDefault(){prevented=true}});
+assert.equal(prevented,true,'Enter prevents accidental form navigation');
+assert.equal(api.getPage(),1,'keyboard jump reaches requested page');
 assert.match(nodes.get('#status').textContent,/目前顯示第 21–40 筆/,'screen-reader status announces the visible result range');
 assert.match(history.lastURL,/\bpage=2\b/,'shareable URL records page two');
 api.changePage(1);
