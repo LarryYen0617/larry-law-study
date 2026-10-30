@@ -184,6 +184,26 @@ try{
   await multiTermRecord.waitFor({timeout:5000});
   assert.match(await multiTermRecord.locator("p").innerText(),/內容關鍵字/,"multi-term excerpt omitted the body match when the first term matched only the title");
   await excerptPage.close();
+  // Property midterm: grades must not remain stale after changing an answer.
+  const propertyQuiz=await browser.newPage({viewport:{width:320,height:800}});
+  await propertyQuiz.goto("http://127.0.0.1:"+port+"/property-midterm-practice.html",{waitUntil:"domcontentloaded"});
+  assert.equal(await propertyQuiz.locator("#questions fieldset").count(),25,"property quiz lost questions");
+  assert.ok(await propertyQuiz.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),"property quiz overflows mobile viewport");
+  await propertyQuiz.locator('#question-1 input[value="2"]').check();
+  assert.match(await propertyQuiz.locator("#progress").innerText(),/已作答 1／25 題/,"quiz progress not updated");
+  await propertyQuiz.locator('#exam button[type="submit"]').click();
+  assert.match(await propertyQuiz.locator("#result").innerText(),/得分：4／100/,"correct answer not graded");
+  assert.match(await propertyQuiz.locator("#question-1 .explanation").innerText(),/民法第66條/,"citation format incorrect");
+  await propertyQuiz.locator('#question-1 input[value="1"]').check();
+  assert.match(await propertyQuiz.locator("#result").innerText(),/原成績失效/,"stale grade remained after changing answer");
+  assert.equal(await propertyQuiz.locator("#question-1 .explanation").isHidden(),true,"stale explanation not cleared");
+  await propertyQuiz.locator('#exam button[type="submit"]').click();
+  assert.match(await propertyQuiz.locator("#result").innerText(),/得分：0／100/,"changed answer not regraded");
+  await propertyQuiz.locator("#clear").click();
+  assert.match(await propertyQuiz.locator("#progress").innerText(),/已作答 0／25 題/,"reset did not clear progress");
+  assert.match(await propertyQuiz.locator("#result").innerText(),/已清除答案/,"reset did not clear score");
+  await checkAccessibility(propertyQuiz,"property quiz 320px");
+  await propertyQuiz.close();
   const practice=await browser.newPage({viewport:{width:1280,height:800}});
   await practice.goto("http://127.0.0.1:"+port+"/practice.html",{waitUntil:"domcontentloaded"});
   await practice.waitForSelector("#practice-issue",{timeout:12000});
