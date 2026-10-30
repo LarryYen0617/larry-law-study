@@ -245,7 +245,7 @@ api.load().then(async()=>{
   await draftLoad;
   assert.equal(nodes.get('#query').value,'物權','pending user input survives completed fetch');
   assert.equal(api.getPage(),0,'edited search starts at first page');
-  assert.match(history.lastURL,/q=%E7%89%A9%E6%AC%8A/,'shared URL follows the user's new query');
+  assert.match(history.lastURL,/q=%E7%89%A9%E6%AC%8A/,"shared URL follows the user's new query");
   assert.doesNotMatch(history.lastURL,/page=/,'stale page is removed after editing during load');
   console.log('PASS: legal citations, AND semantics, atomic index guard, retry safety and pending-input restoration');
 }).catch(error=>{console.error(error);process.exitCode=1});
