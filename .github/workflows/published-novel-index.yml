@@ -1,0 +1,39 @@
+name: Published novel search integrity
+on:
+  pull_request:
+    paths:
+      - 'scripts/public_novel_index.py'
+      - 'scripts/check_public_learning.py'
+      - 'tests/test_public_novel_index.py'
+      - 'site/books/wan-jie-fa-shen/**'
+      - '.github/workflows/published-novel-index.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Unit-test missing, duplicate and mismatched chapter entries
+        run: python -m unittest discover -s tests -p 'test_public_novel_index.py' -v
+      - name: Rebuild only ephemeral public index and validate all published chapters
+        run: |
+          python scripts/prepare_public_teacher_archive.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from scripts.public_novel_index import validate_novel_index
+          site = Path('site')
+          manifest = json.loads((site / 'books/wan-jie-fa-shen/manifest.json').read_text(encoding='utf-8'))
+          index = json.loads((site / 'search-index.json').read_text(encoding='utf-8'))
+          count = validate_novel_index(manifest, index)
+          print(f'PASS: all {count} published novel chapters are indexed')
+          PY
