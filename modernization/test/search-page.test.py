@@ -28,7 +28,8 @@ class SearchPageTests(unittest.TestCase):
         cls.parser.feed(cls.html)
 
     def test_accessible_controls(self):
-        self.assertTrue({"query", "subject", "kind", "status", "results", "retry", "pager"}.issubset(self.parser.ids))
+        self.assertTrue({"query", "subject", "kind", "status", "results", "retry", "pager", "page-jump", "go-page"}.issubset(self.parser.ids))
+        self.assertIn("page-jump", self.parser.labels)
         self.assertTrue({"query", "subject", "kind"}.issubset(self.parser.labels))
         self.assertIn('aria-live="polite"', self.html)
 
