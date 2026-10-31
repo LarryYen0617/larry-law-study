@@ -297,6 +297,8 @@ async function load(){
     search({preservePage:true});
     
   }catch(error){
+    // Stop any remaining network transfer after a rejected/oversized payload.
+    controller.abort();
     if(requestId!==loadSequence)return;
     ready=false;
     records=[];hits=[];results.replaceChildren();pager.hidden=true;
