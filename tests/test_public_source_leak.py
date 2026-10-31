@@ -38,6 +38,15 @@ class PublicSourceLeakTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate_public_site_text(self.source, self.root)
 
+    def test_encoded_source_text_in_svg_source_map_and_manifest_fails(self):
+        for filename in ("diagram.svg", "app.js.map", "site.webmanifest", "captions.vtt"):
+            with self.subTest(filename=filename):
+                path = self.root / filename
+                path.write_text(quote(self.prompt, safe=""), encoding="utf-8")
+                with self.assertRaises(ValueError):
+                    validate_public_site_text(self.source, self.root)
+                path.unlink()
+
     def test_non_deployed_source_types_are_ignored(self):
         (self.root / "draft.py").write_text(self.prompt, encoding="utf-8")
         self.assertEqual(validate_public_site_text(self.source, self.root), 0)
