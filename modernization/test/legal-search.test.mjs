@@ -41,3 +41,26 @@ test('non-finite limits cannot bypass the default result cap', () => {
   assert.equal(searchLawNotes(notes, '物權', {limit: Number.NaN}).length, 2);
   assert.equal(searchLawNotes(notes, '物權', {limit: Number.POSITIVE_INFINITY}).length, 2);
 });
+
+test('common Taiwan shorthand, spaced citations and course aliases are equivalent', () => {
+  for (const query of ['759條之1', '759之1', '７５９條之１', '第 ７５９ 條之 １', '§ ７５９－１']) {
+    assert.deepEqual(ids(query), ['b', 'd'], query);
+  }
+  for (const query of ['民法759條之1', '民法759之1', '民法第 759-1 條', '民法第 ７５９ 條之 １']) {
+    assert.deepEqual(ids(query), ['b'], query);
+  }
+  assert.deepEqual(ids('刑法759條之1'), []);
+  assert.equal(searchLawNotes(notes, '刑總').length, 0);
+  assert.equal(searchLawNotes(notes, '民法物權 第 ７５７ 條').length, 1);
+  assert.equal(searchLawNotes([{id:'alias',subject:'法學英文',title:'Jurisdiction',body:'appeal'}], '法英 jurisdiction').length, 1);
+});
+test('inserted article must not match longer hyphenated references', () => {
+  const extended = [
+    {id:'one',subject:'物權',title:'精確條號',statute:'§759-1-2',body:'只供邊界測試'},
+    {id:'two',subject:'物權',title:'精確條號',statute:'民法759-1-2',body:'只供邊界測試'},
+    {id:'three',subject:'物權',title:'精確條號',statute:'第759條之1-2',body:'只供邊界測試'},
+  ];
+  for (const query of ['759-1', '§759-1', '第759條之1']) {
+    assert.deepEqual(searchLawNotes(extended, query), [], query);
+  }
+});
