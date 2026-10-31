@@ -34,6 +34,22 @@ assert.equal(citeIds('第759條之10'),'note:long');
 assert.equal(citeIds('刑法759-1'),'','compound law name must remain an AND term');
 assert(C.excerpt('第759條之10 '+('背景'.repeat(120))+' 第759條之1：正確內容','第759條之1').includes('正確內容'),
  'excerpt must locate the exact article, not a longer inserted article prefix');
+// Malformed JSON rows must fail closed with a boolean, never crash the search loader.
+assert.equal(C.validIndex({version:1,items:[null]}),false);
+assert.equal(C.validIndex({version:1,items:[42]}),false);
+assert.equal(C.validIndex({version:1,items:[index.items[0],null]}),false);
+// Repeated searches reuse normalized text but must notice a changed record.
+const cacheFixture={id:'note:cache-regression',type:'note',subject:'property',title:'物權',body:'第一版',href:'index.html'};
+assert.equal(C.search([cacheFixture],{q:'第一版'}).length,1);
+assert.equal(C.search([cacheFixture],{q:'第一版'}).length,1);
+cacheFixture.body='第二版';
+assert.equal(C.search([cacheFixture],{q:'第一版'}).length,0,'cached text must not hide an edited record');
+assert.equal(C.search([cacheFixture],{q:'第二版'}).length,1);
+cacheFixture.subject='debt';
+assert.equal(C.search([cacheFixture],{q:'物權',subject:'property'}).length,0,'filter must reflect a changed subject');
+const discoverCss=fs.readFileSync(path.join(root,'discover.css'),'utf8');
+assert(discoverCss.includes('.filter-row button{padding:7px 12px;font-size:13px;min-height:44px}'),'mobile filters need 44px targets');
+assert(discoverCss.includes('.result-actions button,.result-actions a{font-size:13px;min-height:44px'),'card actions need 44px targets');
 assert(!C.validIndex({version:1,items:[{...index.items[0],title:'   '}]}),
  'a blank title must not count as a valid production index record');
 
