@@ -5,6 +5,7 @@
  // Canonicalize Taiwanese statute citations before tokenization, including full-width digits.
  const normalizeCitations=s=>String(s??'').normalize('NFKC')
   .replace(/第\s*(\d+)\s*-\s*(\d+)\s*條/g,'第$1條之$2')
+  .replace(/第\s*(\d+)\s*條\s*-\s*(\d+)/g,'第$1條之$2')
   .replace(/第\s*(\d+)\s*條\s*之\s*(\d+)/g,'第$1條之$2')
   .replace(/第\s*(\d+)\s*條/g,'第$1條')
   .replace(/§\s*(\d+)\s*(?:-\s*(\d+)|之\s*(\d+))/g,(_,n,a,b)=>'§'+n+'-'+(a||b))

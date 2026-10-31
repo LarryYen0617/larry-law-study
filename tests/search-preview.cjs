@@ -43,7 +43,8 @@ for(const href of ['https://example.test/index.html','//example.test/index.html'
 }
 const normalize=value=>String(value).normalize('NFKC').toLocaleLowerCase('zh-TW')
  .replace(/第\s*(\d+)\s*-\s*(\d+)\s*條/g,'第$1條之$2')
- .replace(/第\s*(\d+)\s*條\s*之\s*(\d+)/g,'第$1條之$2')
+ .replace(/第\s*(\d+)\s*條\s*-\s*(\d+)/g,"第$1條之$2")
+  .replace(/第\s*(\d+)\s*條\s*之\s*(\d+)/g,'第$1條之$2')
  .replace(/第\s*(\d+)\s*條/g,'第$1條')
  .replace(/§\s*(\d+)\s*(?:-\s*(\d+)|之\s*(\d+))/g,(_,n,a,b)=>'§'+n+'-'+(a||b))
  .replace(/§\s*(\d+)/g,'§$1')
@@ -140,6 +141,19 @@ for(const spelling of ['民法759-1','民法759之1','民法759條之1','民法�
 }
 api.setQuery('刑法759-1');api.search();
 assert.equal(api.getHits().length,0,'shorthand must not match a different statute');
+const postfixCitation={id:'postfix',title:'登記推定',body:'民法第759條-1：增訂條文',subject:'property',type:'note',href:'index.html',
+ _title:normalize('登記推定'),_body:normalize('民法第759條-1：增訂條文'),_subject:normalize('物權')};
+api.setRecords([postfixCitation]);
+for(const spelling of ['第759條之1','第759條-1','民法第759條-1','§759-1','759-1']){
+ api.setQuery(spelling);api.search();
+ assert.deepEqual(Array.from(api.getHits(),x=>x.id),['postfix'],'postfix-hyphen lookup failed: '+spelling);
+}
+for(const spelling of ['第759條','§759','第759條之10']){
+ api.setQuery(spelling);api.search();
+ assert.equal(api.getHits().length,0,'postfix-hyphen must not collide: '+spelling);
+}
+api.setRecords(rows);
+
 api.setRecords(rows);
 
 assert.equal(api.queryGroups('刑總').length,1,'alias variants count as one query term');

@@ -64,3 +64,13 @@ test('inserted article must not match longer hyphenated references', () => {
     assert.deepEqual(searchLawNotes(extended, query), [], query);
   }
 });
+
+test('postfix-hyphen article notation is equivalent but never matches base or longer article', () => {
+  const fixture=[{id:'postfix',subject:'民法物權',title:'登記推定',statute:'民法第759條-1',body:'信賴登記'}];
+  for (const query of ['第759條之1','第759條-1','民法第759條-1','§759-1','759-1']) {
+    assert.equal(searchLawNotes(fixture,query).length,1,query);
+  }
+  for (const query of ['第759條','§759','第759條之10']) {
+    assert.equal(searchLawNotes(fixture,query).length,0,query);
+  }
+});
