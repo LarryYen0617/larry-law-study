@@ -50,8 +50,10 @@ class PublicSourceLeakTests(unittest.TestCase):
 
     def test_base64_encoded_source_question_blocks_release(self):
         raw = self.prompt.encode("utf-8")
-        for encoded in (base64.b64encode(raw).decode("ascii"),
-                        base64.urlsafe_b64encode(raw).decode("ascii")):
+        standard = base64.b64encode(raw).decode("ascii")
+        urlsafe = base64.urlsafe_b64encode(raw).decode("ascii")
+        self.assertNotEqual(standard, standard.rstrip("="), "fixture must require padding")
+        for encoded in (standard, urlsafe, standard.rstrip("="), urlsafe.rstrip("=")):
             with self.subTest(encoding=encoded[:10]):
                 path = self.root / "payload.js"
                 path.write_text('const hidden = "' + encoded + '";', encoding="utf-8")
