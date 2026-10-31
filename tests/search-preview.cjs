@@ -287,7 +287,8 @@ api.load().then(async()=>{
       'malformed preview row must fail the entire corpus: '+bad.id);
     assert.equal(nodes.get('#retry').hidden,false);
   }
-  const overLimit=Array.from({length:20001},(_,i)=>({...complete[0],id:'note:limit-'+i}));
+  // Keep this fixture below the byte cap so the independent record-count gate is exercised.
+  const overLimit=Array.from({length:20001},(_,i)=>({id:'note:limit-'+i,type:'note',subject:'property',title:'短標題',body:'短內文',href:'index.html'}));
   context.fetch=async()=>mockIndex(overLimit);
   await api.load();
   assert.match(nodes.get('#status').textContent,/資料載入失敗.*安全筆數上限/,
