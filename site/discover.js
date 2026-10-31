@@ -50,6 +50,8 @@
   activeLoadController?.abort();
   const controller=new AbortController();
   activeLoadController=controller;
+  // Slow mobile connections must offer a retry instead of waiting indefinitely.
+  const timeout=setTimeout(()=>controller.abort(),15000);
   loaded=false;
   $('retrySearch').hidden=true;
   $('discoverResults').setAttribute('aria-busy','true');
@@ -67,9 +69,10 @@
    if(requestId!==loadSequence)return;
    index=[];searchCache.key=null;
    $('discoverResults').innerHTML='';
-   $('discoverStatus').textContent=error.message?.includes('3,602')?'搜尋索引不完整，已停止顯示以避免漏列；請重試。':'搜尋資料暫時無法載入，請重試。';
+   $('discoverStatus').textContent=error?.name==='AbortError'?'搜尋連線逾時，請重新載入。':error?.message?.includes('3,602')?'搜尋索引不完整，已停止顯示以避免漏列；請重試。':'搜尋資料暫時無法載入，請重試。';
    $('retrySearch').hidden=false;
   }finally{
+   clearTimeout(timeout);
    if(requestId===loadSequence){
     activeLoadController=null;
     $('discoverResults').setAttribute('aria-busy','false');
