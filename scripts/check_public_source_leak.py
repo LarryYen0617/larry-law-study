@@ -42,8 +42,11 @@ def _decoded_public_text(content):
 def _encoded_needles(value):
     """Exact UTF-8 text and common Base64 encodings; no private text in errors."""
     raw = value.encode("utf-8")
-    return set((value, base64.b64encode(raw).decode("ascii"),
-                base64.urlsafe_b64encode(raw).decode("ascii")))
+    standard = base64.b64encode(raw).decode("ascii")
+    urlsafe = base64.urlsafe_b64encode(raw).decode("ascii")
+    # JavaScript atob(), Python and many web decoders accept omitted padding.
+    # Checking only padded forms leaves those published strings undetected.
+    return {value, standard, urlsafe, standard.rstrip("="), urlsafe.rstrip("=")}
 
 
 def validate_public_site_text(source, site_root):
