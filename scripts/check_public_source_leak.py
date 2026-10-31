@@ -3,6 +3,7 @@
 Only the site/ tree is deployed. The original source stays unchanged; error
 messages intentionally contain file paths and case IDs, never private prompts.
 """
+import base64
 import html
 import re
 from pathlib import Path
@@ -38,6 +39,13 @@ def _decoded_public_text(content):
     return decoded
 
 
+def _encoded_needles(value):
+    """Exact UTF-8 text and common Base64 encodings; no private text in errors."""
+    raw = value.encode("utf-8")
+    return set((value, base64.b64encode(raw).decode("ascii"),
+                base64.urlsafe_b64encode(raw).decode("ascii")))
+
+
 def validate_public_site_text(source, site_root):
     markers = []
     for case in source.get("cases", []):
@@ -46,12 +54,12 @@ def validate_public_site_text(source, site_root):
         case_id = str(case.get("id", "unknown"))
         prompt = case.get("originalQuestion")
         if isinstance(prompt, str) and len(prompt.strip()) >= 40:
-            markers.append((case_id, prompt.strip()))
+            markers.extend((case_id, text) for text in _encoded_needles(prompt.strip()))
         for field in ("originalQuestionSha256", "originalFileSha256"):
             digest = case.get(field)
             if (isinstance(digest, str) and len(digest) == 64
                     and all(ch in "0123456789abcdefABCDEF" for ch in digest)):
-                markers.append((case_id, digest))
+                markers.extend((case_id, text) for text in _encoded_needles(digest))
     # Source inventory fingerprints must also remain outside the Pages artifact.
     for entry in source.get("inventory", []):
         if not isinstance(entry, dict):
@@ -59,7 +67,7 @@ def validate_public_site_text(source, site_root):
         digest = entry.get("sha256")
         if (isinstance(digest, str) and len(digest) == 64
                 and all(ch in "0123456789abcdefABCDEF" for ch in digest)):
-            markers.append((str(entry.get("id", "inventory-unknown")), digest))
+            markers.extend((str(entry.get("id", "inventory-unknown")), text) for text in _encoded_needles(digest))
     if not markers:
         return 0
     root = Path(site_root)
