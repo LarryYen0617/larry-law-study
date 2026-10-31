@@ -1,5 +1,6 @@
 """Release-only teacher source isolation: no canonical imports are removed."""
 import json
+from urllib.parse import quote
 import tempfile
 import unittest
 from pathlib import Path
@@ -62,6 +63,22 @@ class TeacherPublicReleaseTests(unittest.TestCase):
         (self.site / "leak.js").write_text(originals[0]["question"], encoding="utf-8")
         with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
             validate_public(self.site, originals)
+
+    def test_escaped_original_answer_in_public_assets_blocks_release(self):
+        originals = sanitize(self.site)
+        self.index()
+        answer = originals[0]["answer"]
+        for filename, encoded in (
+            ("data.js", "".join("\\u%04x" % ord(ch) for ch in answer)),
+            ("diagram.svg", quote(answer, safe="")),
+            ("app.js.map", quote(quote(answer, safe=""), safe="")),
+        ):
+            with self.subTest(filename=filename):
+                path = self.site / filename
+                path.write_text(encoded, encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
+                    validate_public(self.site, originals)
+                path.unlink()
 
     def test_inventory_changes_fail_closed(self):
         (self.site / "library-teacher-05.js").write_text(
