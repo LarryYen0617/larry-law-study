@@ -53,8 +53,8 @@ assert.equal(C.search([englishFixture],{q:'法英 不存在'}).length,0,'English
 
 // End-to-end controller behavior without a browser: failed fetch, retry, save failure, and review mutation.
 (async()=>{
- const nodes={},listeners={},saved=new Map();let fetchFail=true,quota=false,partialIndex=false;const node=id=>nodes[id]??={value:'',innerHTML:'',textContent:'',hidden:false,setAttribute(){},scrollIntoView(){}};
- const document={hidden:false,getElementById:node,querySelectorAll:()=>[],addEventListener:(type,fn)=>{(listeners[type]??=[]).push(fn);}};
+ const nodes={},listeners={},saved=new Map();let fetchFail=true,quota=false,partialIndex=false;const node=id=>nodes[id]??={value:'',innerHTML:'',textContent:'',hidden:false,setAttribute(){},scrollIntoView(){this.scrolled=true;},focus(){this.focused=true;}};
+ const document={hidden:false,getElementById:node,querySelector:selector=>selector==='#discoverResults h3'?node('firstResultHeading'):null,querySelectorAll:()=>[],addEventListener:(type,fn)=>{(listeners[type]??=[]).push(fn);}};
  const location={hash:'#q='+encodeURIComponent('臺中的清晨')};const windowEvents={};const history={lastURL:'',replaceState(_state,_title,url){this.lastURL=url}};const storage={getItem:k=>saved.get(k)??null,setItem:(k,v)=>{if(quota)throw Error('quota');saved.set(k,v);}};
  const timers=new Map();let timerId=0;
  const context={window:{LEX_DISCOVER:C,addEventListener(type,fn){windowEvents[type]=fn}},URLSearchParams,document,location,history,localStorage:storage,fetch:async()=>{if(fetchFail)throw Error('offline');return {ok:true,json:async()=>partialIndex?{version:1,items:index.items.slice(0,12)}:index};},AbortController,Date,console,setTimeout:fn=>{const id=++timerId;timers.set(id,fn);return id;},clearTimeout:id=>timers.delete(id)};vm.runInNewContext(fs.readFileSync(path.join(root,'discover.js'),'utf8'),context);await new Promise(r=>setImmediate(r));assert(node('discoverStatus').textContent.includes('無法載入'));assert(!node('retrySearch').hidden);fetchFail=false;partialIndex=true;
@@ -71,10 +71,15 @@ assert.equal(C.search([englishFixture],{q:'法英 不存在'}).length,0,'English
  assert(node('discoverResults').innerHTML.includes('discover-card'));
  const callsBeforePaging=searchCalls;
  node('discoverNext').onclick();assert.equal(searchCalls,callsBeforePaging,'pagination should reuse cached search results');
+ assert(node('firstResultHeading').focused&&node('firstResultHeading').scrolled,'keyboard pagination should focus and scroll to the first result');
+ assert(node('discoverResults').innerHTML.includes('<h3 tabindex="-1">'),'new result headings must accept programmatic focus');
  assert(node('discoverStatus').textContent.includes('目前顯示第 25–48 筆'),'visible result range should be announced');
  node('discoverPageJump').value='3';node('discoverGoPage').onclick();
  assert(node('discoverPage').textContent.startsWith('3 / '),'direct jump reaches page three');
  assert(history.lastURL.includes('page=3'),'direct jump must update the shareable URL');
+ node('firstResultHeading').focused=false;node('discoverPageJump').value='2';node('discoverPageJump').onkeydown({key:'Enter',preventDefault(){}});
+ assert(node('firstResultHeading').focused,'keyboard page jump must move focus to the newly displayed results');
+ node('discoverPageJump').value='3';node('discoverGoPage').onclick();
  assert.equal(node('discoverPageJump').max,String(Math.ceil(index.items.length/24)),'jump input must use the current page count');
  assert.equal(searchCalls,callsBeforePaging,'direct jump must reuse cached results');
  node('discoverPageJump').value='9999';node('discoverGoPage').onclick();
