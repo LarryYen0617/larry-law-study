@@ -216,11 +216,13 @@ async function load(){
   activeLoadController=controller;
   const timeout=setTimeout(()=>controller.abort(),15000);
   try{
-    const response=await fetch("search-index.json",{signal:controller.signal,cache:"no-cache"});
+    const response=await fetch("search-index.json",{signal:controller.signal,cache:"no-cache",credentials:"omit"});
     if(!response.ok)throw new Error("HTTP "+response.status);
     const data=await response.json();
     if(requestId!==loadSequence)return;
-    if(data.version!==1||!Array.isArray(data.items))throw new Error("不支援的資料格式");
+    if(data?.version!==1||!Array.isArray(data.items))throw new Error("不支援的資料格式");
+    // Match the main search index safety ceiling; never process an unbounded payload.
+    if(data.items.length>20000)throw new Error("資料庫超過安全筆數上限");
     // Do not silently present a partial production corpus as complete.
     const minRecords=3602;
     if(data.items.length<minRecords)throw new Error("資料庫筆數低於完整基準（至少 "+minRecords+" 筆）");
@@ -228,8 +230,13 @@ async function load(){
     const clean=[];
     for(const item of data.items){
       if(!item||["id","type","subject","title","body","href"].some(key=>typeof item[key]!=="string"))continue;
+      // Reject malformed entries atomically, even if 3,602 other records remain.
+      if(!/^[a-z]+:[A-Za-z0-9_-]{1,150}$/.test(item.id)
+        ||!Object.hasOwn(kindNames,item.type)
+        ||!item.title.trim()||item.title.length>1000||item.body.length>100000
+        ||seen.has(item.id))continue;
       const href=safeHref(item.href);
-      if(!href||!item.id.trim()||!item.title.trim()||seen.has(item.id))continue;
+      if(!href)continue;
       seen.add(item.id);
       clean.push({...item,href,_title:normalize(item.title),_subject:normalize(label(subjectNames,item.subject)),_body:normalize(item.body)});
     }
@@ -285,8 +292,12 @@ function jumpToPage(){
   const control=$("#page-jump"),target=Number(control.value);
   const maxPage=Math.max(1,Math.ceil(hits.length/pageSize));
   if(!control.value.trim()||!Number.isSafeInteger(target)||target<1||target>maxPage){
-    control.value=String(page+1);control.focus();return;
+    control.value=String(page+1);
+    control.setAttribute("aria-invalid","true");
+    status.textContent="頁碼超出範圍，請輸入 1 至 "+maxPage+" 頁。";
+    control.focus();return;
   }
+  control.setAttribute("aria-invalid","false");
   changePage(target-page-1);
 }
 $("#go-page").addEventListener("click",jumpToPage);
