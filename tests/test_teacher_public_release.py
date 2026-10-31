@@ -86,13 +86,15 @@ class TeacherPublicReleaseTests(unittest.TestCase):
         self.index()
         for field in ("question", "answer"):
             for encoder in (base64.b64encode, base64.urlsafe_b64encode):
-                with self.subTest(field=field, encoder=encoder.__name__):
-                    path = self.site / "leak.js"
-                    path.write_text(encoder(originals[0][field].encode("utf-8")).decode("ascii"),
-                                    encoding="utf-8")
-                    with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
-                        validate_public(self.site, originals)
-                    path.unlink()
+                padded = encoder(originals[0][field].encode("utf-8")).decode("ascii")
+                self.assertNotEqual(padded, padded.rstrip("="), "fixture must require padding")
+                for encoded in (padded, padded.rstrip("=")):
+                    with self.subTest(field=field, encoder=encoder.__name__, padded=encoded == padded):
+                        path = self.site / "leak.js"
+                        path.write_text(encoded, encoding="utf-8")
+                        with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
+                            validate_public(self.site, originals)
+                        path.unlink()
 
     def test_inventory_changes_fail_closed(self):
         (self.site / "library-teacher-05.js").write_text(
