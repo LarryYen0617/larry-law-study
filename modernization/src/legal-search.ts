@@ -16,14 +16,54 @@ export type SearchHit = { note: LawNote; score: number; matchedFields: string[] 
 const normalize = (value: string): string =>
   value.normalize("NFKC").toLocaleLowerCase("zh-TW").replace(/\s+/g, " ").trim();
 const tokens = (value: string): string[] => normalize(value).split(/\s+/).filter(Boolean);
+
+// Keep inserted article numbers exact: 759, 759-1 and 759-10 are distinct.
+// Queries may use 第759條之1, §759-1, 759-1, or 民法759-1.
+function variants(term: string): string[] {
+  const named = term.match(/^第(\d+)條(?:之(\d+))?$/);
+  const section = term.match(/^§(\d+)(?:-(\d+))?$/);
+  const bare = term.match(/^(\d{1,4})-(\d{1,3})$/);
+  if (!named && !section && !bare) return [term];
+  const number = named?.[1] ?? section?.[1] ?? bare?.[1] ?? "";
+  const suffix = named?.[2] ?? section?.[2] ?? bare?.[2];
+  return suffix
+    ? ["第" + number + "條之" + suffix, "§" + number + "-" + suffix, number + "-" + suffix]
+    : ["第" + number + "條", "§" + number];
+}
+function queryGroups(query: string): string[][] {
+  return tokens(query).flatMap(token => {
+    const compound = token.match(/^(.+?)(第\d+條(?:之\d+)?|§\d+(?:-\d+)?)$/)
+      || token.match(/^(.+?法)(\d{1,4}-\d{1,3})$/);
+    return (compound ? [compound[1], compound[2]] : [token]).map(variants);
+  });
+}
+function containsTerm(text: string, term: string): boolean {
+  const named = term.match(/^第(\d+)條(?:之(\d+))?$/);
+  if (named) {
+    const pattern = "第" + named[1] + "條" +
+      (named[2] ? "之" + named[2] + "(?!\\d)" : "(?!之\\d)");
+    return new RegExp(pattern).test(text);
+  }
+  const section = term.match(/^§(\d+)(?:-(\d+))?$/);
+  if (section) {
+    const pattern = "§" + section[1] +
+      (section[2] ? "-" + section[2] + "(?!\\d)" : "(?![-\\d])");
+    return new RegExp(pattern).test(text);
+  }
+  const bare = term.match(/^(\d+)-(\d+)$/);
+  if (bare) return new RegExp("(?:^|[^\\d-])" + bare[1] + "-" + bare[2] + "(?![\\d-])").test(text);
+  return text.includes(term);
+}
 export function searchLawNotes(
   notes: readonly LawNote[],
   query: string,
   options: { subject?: string; limit?: number } = {},
 ): SearchHit[] {
-  const terms = tokens(query);
+  const terms = queryGroups(query);
   if (!terms.length) return [];
-  const limit = Math.max(0, Math.min(500, Math.trunc(options.limit ?? 30)));
+  const requestedLimit = options.limit ?? 30;
+  const limit = Number.isFinite(requestedLimit)
+    ? Math.max(0, Math.min(500, Math.trunc(requestedLimit))) : 30;
   return notes.flatMap((note) => {
     if (options.subject && note.subject !== options.subject) return [];
     const fields = {
@@ -35,10 +75,10 @@ export function searchLawNotes(
     };
     const matchedFields = new Set<string>();
     let score = 0;
-    for (const term of terms) {
+    for (const alternatives of terms) {
       let found = false;
       for (const [field, value] of Object.entries(fields)) {
-        if (value.includes(term)) {
+        if (alternatives.some(term => containsTerm(value, term))) {
           found = true;
           matchedFields.add(field);
           score += ({ title: 8, statute: 7, tags: 5, subject: 3, body: 1 } as Record<string, number>)[field];
