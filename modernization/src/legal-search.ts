@@ -39,17 +39,19 @@ function variants(term: string): string[] {
   const section = term.match(/^§(\d+)(?:-(\d+))?$/);
   // Students also write 759-1, 759之1, or 759條之1 without 第/§.
   const bare = term.match(/^(\d{1,4})(?:-|條之|之)(\d{1,3})$/);
-  if (!named && !section && !bare) return aliases[term] ? [term, aliases[term]] : [term];
-  const number = named?.[1] ?? section?.[1] ?? bare?.[1] ?? "";
+  const bareBase = term.match(/^(\d{1,4})條$/);
+  if (!named && !section && !bare && !bareBase) return aliases[term] ? [term, aliases[term]] : [term];
+  const number = named?.[1] ?? section?.[1] ?? bare?.[1] ?? bareBase?.[1] ?? "";
   const suffix = named?.[2] ?? section?.[2] ?? bare?.[2];
   return suffix
     ? ["第" + number + "條之" + suffix, "§" + number + "-" + suffix, number + "-" + suffix]
-    : ["第" + number + "條", "§" + number];
+    : ["第" + number + "條", "§" + number, number + "條"];
 }
 function queryGroups(query: string): string[][] {
   return tokens(query).flatMap(token => {
     const compound = token.match(/^(.+?)(第\d+條(?:之\d+)?|§\d+(?:-\d+)?)$/)
-      || token.match(/^(.+?法)(\d{1,4}(?:-|條之|之)\d{1,3})$/);
+      || token.match(/^(.+?法)(\d{1,4}(?:-|條之|之)\d{1,3})$/)
+      || token.match(/^(.+?法)(\d{1,4}條)$/);
     return (compound ? [compound[1], compound[2]] : [token]).map(variants);
   });
 }
@@ -66,6 +68,8 @@ function containsTerm(text: string, term: string): boolean {
       (section[2] ? "-" + section[2] + "(?![\\d-])" : "(?![-\\d])");
     return new RegExp(pattern).test(text);
   }
+  const bareBase = term.match(/^(\d{1,4})條$/);
+  if (bareBase) return new RegExp("(?:^|[^\\d])" + bareBase[1] + "條(?!之\\d)").test(text);
   const bare = term.match(/^(\d+)-(\d+)$/);
   if (bare) return new RegExp("(?:^|[^\\d-])" + bare[1] + "-" + bare[2] + "(?![\\d-])").test(text);
   return text.includes(term);

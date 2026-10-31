@@ -152,6 +152,14 @@ for(const spelling of ['第759條','§759','第759條之10']){
  api.setQuery(spelling);api.search();
  assert.equal(api.getHits().length,0,'postfix-hyphen must not collide: '+spelling);
 }
+const baseArticle={...inserted,id:'base-article',body:'民法第759條：繼承取得',_body:normalize('民法第759條：繼承取得')};
+api.setRecords([baseArticle,inserted,nextInserted]);
+for(const spelling of ['759條','７５９條','民法759條','民法７５９條']){
+  api.setQuery(spelling);api.search();
+  assert.deepEqual(Array.from(api.getHits(),x=>x.id),['base-article'],'bare base article lookup failed: '+spelling);
+}
+api.setQuery('刑法759條');api.search();
+assert.equal(api.getHits().length,0,'bare base citation must not match an unrelated law');
 api.setRecords(rows);
 
 api.setRecords(rows);

@@ -33,6 +33,9 @@ for(const q of ['第759條之1','§759-1','759-1','民法759-1','民法第 ７�
 for(const q of ['第759條','§759'])
  assert.equal(citeIds(q),'note:base','base article must not match inserted articles: '+q);
 assert.equal(citeIds('第759條之10'),'note:long');
+for(const q of ['759條','７５９條','民法759條','民法７５９條'])
+ assert.equal(citeIds(q),'note:base','bare base article must match exactly: '+q);
+assert.equal(citeIds('刑法759條'),'','bare base article must preserve statute-name AND semantics');
 const postfixCitation=citeFixture('postfix','民法第759條-1：增訂條文另一種寫法');
 for(const q of ['第759條之1','第759條-1','民法第759條-1','§759-1','759-1']){
  assert.equal(C.search([postfixCitation],{q}).length,1,'postfix-hyphen article must normalize: '+q);
