@@ -160,6 +160,36 @@ try{
   await failurePage.waitForFunction(count=>document.querySelector("#status")?.textContent?.includes(count+" 筆資料已載入"),expectedCount,{timeout:20000});
   assert.ok(await failurePage.locator("#results article").count()>0,"retry did not restore results");
   await failurePage.close();
+  // Reject oversized responses before JSON.parse: both a declared length
+  // and an unannounced streaming payload must fail without rendering results.
+  for(const mode of ["declared","streamed"]){
+    const oversized=await browser.newPage();
+    await oversized.addInitScript(mode=>{
+      const original=window.fetch.bind(window);
+      window.fetch=(resource,options)=>{
+        if(!String(resource).includes("search-index.json"))return original(resource,options);
+        if(mode==="declared"){
+          return Promise.resolve(new Response("{}",{
+            headers:{"content-length":String(16*1024*1024+1)}
+          }));
+        }
+        return Promise.resolve(new Response(new ReadableStream({
+          start(controller){
+            controller.enqueue(new Uint8Array(16*1024*1024+1));
+            controller.close();
+          }
+        }),{headers:{"content-type":"application/json"}}));
+      };
+    },mode);
+    await oversized.goto("http://127.0.0.1:"+port+"/search-preview.html",{waitUntil:"domcontentloaded"});
+    await oversized.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("資料載入失敗"),null,{timeout:10000});
+    assert.match(await oversized.locator("#status").innerText(),/超過安全大小上限/,mode+" index must be rejected");
+    assert.equal(await oversized.locator("#results article").count(),0,mode+" index leaked partial results");
+    assert.equal(await oversized.locator("#results").getAttribute("aria-busy"),"false",mode+" failure left results busy");
+    assert.equal(await oversized.locator("#retry").isVisible(),true,mode+" failure must offer retry");
+    await oversized.close();
+  }
+
   // Regression: collapsed whitespace used to shift excerpt offsets and hide
   // the matching term from the result preview.
   const excerptPage=await browser.newPage();
