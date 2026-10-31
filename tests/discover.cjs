@@ -56,7 +56,8 @@ assert.equal(C.search([englishFixture],{q:'法英 不存在'}).length,0,'English
  const nodes={},listeners={},saved=new Map();let fetchFail=true,quota=false,partialIndex=false;const node=id=>nodes[id]??={value:'',innerHTML:'',textContent:'',hidden:false,setAttribute(){},scrollIntoView(){}};
  const document={hidden:false,getElementById:node,querySelectorAll:()=>[],addEventListener:(type,fn)=>{(listeners[type]??=[]).push(fn);}};
  const location={hash:'#q='+encodeURIComponent('臺中的清晨')};const windowEvents={};const history={lastURL:'',replaceState(_state,_title,url){this.lastURL=url}};const storage={getItem:k=>saved.get(k)??null,setItem:(k,v)=>{if(quota)throw Error('quota');saved.set(k,v);}};
- const context={window:{LEX_DISCOVER:C,addEventListener(type,fn){windowEvents[type]=fn}},URLSearchParams,document,location,history,localStorage:storage,fetch:async()=>{if(fetchFail)throw Error('offline');return {ok:true,json:async()=>partialIndex?{version:1,items:index.items.slice(0,12)}:index};},AbortController,Date,console};vm.runInNewContext(fs.readFileSync(path.join(root,'discover.js'),'utf8'),context);await new Promise(r=>setImmediate(r));assert(node('discoverStatus').textContent.includes('無法載入'));assert(!node('retrySearch').hidden);fetchFail=false;partialIndex=true;
+ const timers=new Map();let timerId=0;
+ const context={window:{LEX_DISCOVER:C,addEventListener(type,fn){windowEvents[type]=fn}},URLSearchParams,document,location,history,localStorage:storage,fetch:async()=>{if(fetchFail)throw Error('offline');return {ok:true,json:async()=>partialIndex?{version:1,items:index.items.slice(0,12)}:index};},AbortController,Date,console,setTimeout:fn=>{const id=++timerId;timers.set(id,fn);return id;},clearTimeout:id=>timers.delete(id)};vm.runInNewContext(fs.readFileSync(path.join(root,'discover.js'),'utf8'),context);await new Promise(r=>setImmediate(r));assert(node('discoverStatus').textContent.includes('無法載入'));assert(!node('retrySearch').hidden);fetchFail=false;partialIndex=true;
  await node('retrySearch').onclick();
  assert(node('discoverStatus').textContent.includes('索引不完整'),'a structurally valid but truncated index must fail closed');
  assert(!node('retrySearch').hidden,'partial corpus must offer a retry');
@@ -112,5 +113,19 @@ assert.equal(C.search([englishFixture],{q:'法英 不存在'}).length,0,'English
  assert(node('discoverResults').innerHTML.includes('chapter=1'),'late partial response must not replace newer results');
  assert(node('retrySearch').hidden,'late response must not expose the retry button');
  assert(node('discoverStatus').textContent.includes('筆結果'),'late response must not overwrite successful status');
+ // A request that never responds must time out, show a retry, and recover.
+ context.fetch=(_url,opts)=>new Promise((_resolve,reject)=>{
+  opts.signal.addEventListener('abort',()=>{const error=new Error('aborted');error.name='AbortError';reject(error);},{once:true});
+ });
+ const hanging=node('retrySearch').onclick();
+ assert.equal(timers.size,1,'a loading request must register a timeout');
+ [...timers.values()][0]();await hanging;
+ assert(node('discoverStatus').textContent.includes('連線逾時'),'aborted request must explain the timeout');
+ assert(!node('retrySearch').hidden,'timeout must expose a retry action');
+ assert.equal(timers.size,0,'completed request must release its timer');
+ context.fetch=async()=>({ok:true,json:async()=>index});
+ await node('retrySearch').onclick();
+ assert(node('discoverResults').innerHTML.includes('chapter=1'),'retry after timeout must recover');
+ assert.equal(timers.size,0,'successful retry must also release its timer');
  console.log('PASS: full search corpus, partial-index fail-closed, stale retry protection, Chinese filters, safe links, Taipei dates, spaced review, invalid backups, quota handling and controller mutations.');
 })().catch(e=>{console.error(e);process.exitCode=1;});
