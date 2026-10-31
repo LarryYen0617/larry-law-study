@@ -56,13 +56,13 @@ function containsTerm(text: string, term: string): boolean {
   const named = term.match(/^第(\d+)條(?:之(\d+))?$/);
   if (named) {
     const pattern = "第" + named[1] + "條" +
-      (named[2] ? "之" + named[2] + "(?!\\d)" : "(?!之\\d)");
+      (named[2] ? "之" + named[2] + "(?![\\d-])" : "(?!之\\d)");
     return new RegExp(pattern).test(text);
   }
   const section = term.match(/^§(\d+)(?:-(\d+))?$/);
   if (section) {
     const pattern = "§" + section[1] +
-      (section[2] ? "-" + section[2] + "(?!\\d)" : "(?![-\\d])");
+      (section[2] ? "-" + section[2] + "(?![\\d-])" : "(?![-\\d])");
     return new RegExp(pattern).test(text);
   }
   const bare = term.match(/^(\d+)-(\d+)$/);
