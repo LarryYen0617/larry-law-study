@@ -50,6 +50,31 @@
  $('discoverGoPage').onclick=jumpToPage;
  $('discoverPageJump').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();jumpToPage();}};
  $('discoverNext').onclick=()=>{page++;url();render();focusPageResult();};
+ // Bound the main search download just like search-preview.html; validating
+ // record count after response.json() is too late for an oversized payload.
+ async function readBoundedIndex(response){
+  const maxBytes=16*1024*1024;
+  const tooLarge='搜尋索引超過安全大小上限（16 MiB）';
+  const declared=Number(response.headers?.get('content-length')??0);
+  if(declared>maxBytes)throw Error(tooLarge);
+  if(!response.body?.getReader)throw Error('瀏覽器無法驗證搜尋索引大小');
+  const reader=response.body.getReader(),decoder=new TextDecoder('utf-8',{fatal:true});
+  let received=0,payload='';
+  try{
+   while(true){
+    const {done,value}=await reader.read();
+    if(done)break;
+    received+=value.byteLength;
+    if(received>maxBytes){
+     await reader.cancel();
+     throw Error(tooLarge);
+    }
+    payload+=decoder.decode(value,{stream:true});
+   }
+   payload+=decoder.decode();
+  }finally{reader.releaseLock();}
+  return JSON.parse(payload);
+ }
  async function load(){
   // Do not let an earlier, slower fetch (or its failure) overwrite a successful retry.
   const requestId=++loadSequence;
@@ -65,17 +90,18 @@
   try{
    const r=await fetch('search-index.json',{credentials:'omit',cache:'no-cache',signal:controller.signal});
    if(!r.ok)throw Error('HTTP '+r.status);
-   const d=await r.json();
+   const d=await readBoundedIndex(r);
    if(requestId!==loadSequence)return;
    // The preview search already protects the original 3,602-record baseline.
    // Apply the same release floor here; a valid but truncated JSON must fail closed.
    if(!C.validIndex(d)||d.items.length<3602)throw Error('索引格式錯誤或低於 3,602 筆完整基準');
    index=d.items;searchCache.key=null;loaded=true;render();
   }catch(error){
+   controller.abort(); // Stop an oversized or rejected transfer immediately.
    if(requestId!==loadSequence)return;
    index=[];searchCache.key=null;
    $('discoverResults').innerHTML='';
-   $('discoverStatus').textContent=error?.name==='AbortError'?'搜尋連線逾時，請重新載入。':error?.message?.includes('3,602')?'搜尋索引不完整，已停止顯示以避免漏列；請重試。':'搜尋資料暫時無法載入，請重試。';
+   $('discoverStatus').textContent=error?.name==='AbortError'?'搜尋連線逾時，請重新載入。':error?.message?.includes('安全大小上限')?'搜尋索引超過安全大小上限（16 MiB），已停止下載；請重試。':error?.message?.includes('3,602')?'搜尋索引不完整，已停止顯示以避免漏列；請重試。':'搜尋資料暫時無法載入，請重試。';
    $('retrySearch').hidden=false;
   }finally{
    clearTimeout(timeout);
