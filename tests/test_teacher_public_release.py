@@ -112,7 +112,7 @@ class TeacherPublicReleaseTests(unittest.TestCase):
         originals = sanitize(self.site)
         self.index()
         originals[0]["question"] = "START" + "Q" * 100 + "MIDDLE" + "R" * 100 + "END"
-        excerpt = originals[0]["question"][70:170]
+        excerpt = originals[0]["question"][60:160]
         (self.site / "excerpt.js").write_text(excerpt, encoding="utf-8")
         with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
             validate_public(self.site, originals)
