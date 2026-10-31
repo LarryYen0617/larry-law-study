@@ -1,5 +1,5 @@
 const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('assert');const root=path.resolve(__dirname,'../site'),ctx={window:{},URL,Date};vm.runInNewContext(fs.readFileSync(path.join(root,'discover-core.js'),'utf8'),ctx);const C=ctx.window.LEX_DISCOVER,index=JSON.parse(fs.readFileSync(path.join(root,'search-index.json'),'utf8'));
-assert(C.validIndex(index));assert(fs.readFileSync(path.join(root,'discover.html'),'utf8').includes('id="discoverPage" aria-live="polite"'),'page status must announce changes to screen readers');assert.equal(index.items.length,new Set(index.items.map(x=>x.id)).size);
+assert(C.validIndex(index));assert(fs.readFileSync(path.join(root,'discover.html'),'utf8').includes('aria-describedby="discoverPage collectionStatus"'),'page input must reference its status messages');assert(fs.readFileSync(path.join(root,'discover.html'),'utf8').includes('id="discoverPage" aria-live="polite"'),'page status must announce changes to screen readers');assert.equal(index.items.length,new Set(index.items.map(x=>x.id)).size);
 // Protect the historical 3,602-record corpus without rejecting legitimate new lessons and questions.
 const floors={question:1803,novel:513,note:97,card:40,teacher:92,archive:1016,reading:14,lesson:27};
 assert(index.items.length>=3602,'original search corpus truncated');
@@ -79,7 +79,7 @@ assert.equal(C.search([englishFixture],{q:'法英 不存在'}).length,0,'English
 
 // End-to-end controller behavior without a browser: failed fetch, retry, save failure, and review mutation.
 (async()=>{
- const nodes={},listeners={},saved=new Map();let fetchFail=true,quota=false,partialIndex=false;const node=id=>nodes[id]??={value:'',innerHTML:'',textContent:'',hidden:false,setAttribute(){},scrollIntoView(){this.scrolled=true;},focus(){this.focused=true;}};
+ const nodes={},listeners={},saved=new Map();let fetchFail=true,quota=false,partialIndex=false;const node=id=>nodes[id]??={value:'',innerHTML:'',textContent:'',hidden:false,setAttribute(name,value){this[name]=value;},scrollIntoView(){this.scrolled=true;},focus(){this.focused=true;}};
  const document={hidden:false,getElementById:node,querySelector:selector=>selector==='#discoverResults h3'?node('firstResultHeading'):null,querySelectorAll:()=>[],addEventListener:(type,fn)=>{(listeners[type]??=[]).push(fn);}};
  const location={hash:'#q='+encodeURIComponent('臺中的清晨')};const windowEvents={};const history={lastURL:'',replaceState(_state,_title,url){this.lastURL=url}};const storage={getItem:k=>saved.get(k)??null,setItem:(k,v)=>{if(quota)throw Error('quota');saved.set(k,v);}};
  const timers=new Map();let timerId=0;
@@ -112,8 +112,11 @@ assert.equal(C.search([englishFixture],{q:'法英 不存在'}).length,0,'English
  assert(node('discoverPage').textContent.startsWith('3 / '),'out-of-range page jump must not navigate');
  assert.equal(node('discoverPageJump').value,'3','invalid page jump must restore current page');
  assert(node('collectionStatus').textContent.includes('頁碼超出範圍'),'invalid page jump must explain its failure');
+ assert.equal(node('discoverPageJump')['aria-invalid'],'true','invalid page must be marked for assistive technology');
+ assert.equal(node('discoverPageJump').focused,true,'invalid jump keeps focus on the page input');
  let jumpPrevented=false;node('discoverPageJump').value='2';node('discoverPageJump').onkeydown({key:'Enter',preventDefault(){jumpPrevented=true;}});
  assert(jumpPrevented&&node('discoverPage').textContent.startsWith('2 / '),'Enter should navigate directly');
+ assert.equal(node('discoverPageJump')['aria-invalid'],'false','valid page jump clears invalid state');
  assert(history.lastURL.includes('page=2'),'next-page URL must be shareable');
  location.hash='#page=3';windowEvents.hashchange();assert(node('discoverPage').textContent.startsWith('3 / '),'opening a shared page must restore pagination');
  location.hash='#page=9999';windowEvents.hashchange();assert(node('discoverPage').textContent.startsWith(Math.ceil(index.items.length/24)+' / '),'out-of-range page must clamp to last page');assert(history.lastURL.includes('page='+Math.ceil(index.items.length/24)),'clamped page must update shared URL');
