@@ -96,6 +96,27 @@ class TeacherPublicReleaseTests(unittest.TestCase):
                             validate_public(self.site, originals)
                         path.unlink()
 
+    def test_medium_length_originals_are_not_exempt(self):
+        originals = sanitize(self.site)
+        self.index()
+        for field in ("question", "answer"):
+            # Previously these 50-character originals bypassed the 80-char gate.
+            originals[0][field] = ("Private " + field + " ") + "X" * 50
+            (self.site / "short-leak.js").write_text(
+                originals[0][field], encoding="utf-8")
+            with self.subTest(field=field), self.assertRaisesRegex(ValueError, "Restricted teacher text"):
+                validate_public(self.site, originals)
+            (self.site / "short-leak.js").unlink()
+
+    def test_long_original_excerpts_block_release(self):
+        originals = sanitize(self.site)
+        self.index()
+        originals[0]["question"] = "START" + "Q" * 100 + "MIDDLE" + "R" * 100 + "END"
+        excerpt = originals[0]["question"][70:170]
+        (self.site / "excerpt.js").write_text(excerpt, encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
+            validate_public(self.site, originals)
+
     def test_inventory_changes_fail_closed(self):
         (self.site / "library-teacher-05.js").write_text(
             "window.LEX_LIBRARY.teacherQuestions.push(...[]);", encoding="utf-8")
