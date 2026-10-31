@@ -22,6 +22,8 @@ const citeFixture=(id,body)=>({id:'note:'+id,type:'note',subject:'property',titl
 const citeRows=[
  citeFixture('exact','民法第759條之1：登記推定'),
  citeFixture('long','民法第759條之10：其他條文'),
+ citeFixture('hyphenated','民法第759條之1-2：延伸編號不應命中'),
+ citeFixture('section-hyphenated','民法§759-1-2：延伸編號不應命中'),
  citeFixture('bare','民法759-1：課堂簡寫'),
  citeFixture('base','民法第759條：非法律行為取得')
 ];
