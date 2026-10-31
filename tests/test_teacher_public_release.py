@@ -1,4 +1,5 @@
 """Release-only teacher source isolation: no canonical imports are removed."""
+import base64
 import json
 from urllib.parse import quote
 import tempfile
@@ -79,6 +80,19 @@ class TeacherPublicReleaseTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
                     validate_public(self.site, originals)
                 path.unlink()
+
+    def test_base64_encoded_teacher_question_and_answer_block_release(self):
+        originals = sanitize(self.site)
+        self.index()
+        for field in ("question", "answer"):
+            for encoder in (base64.b64encode, base64.urlsafe_b64encode):
+                with self.subTest(field=field, encoder=encoder.__name__):
+                    path = self.site / "leak.js"
+                    path.write_text(encoder(originals[0][field].encode("utf-8")).decode("ascii"),
+                                    encoding="utf-8")
+                    with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
+                        validate_public(self.site, originals)
+                    path.unlink()
 
     def test_inventory_changes_fail_closed(self):
         (self.site / "library-teacher-05.js").write_text(
