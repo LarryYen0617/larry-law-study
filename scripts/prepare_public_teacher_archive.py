@@ -7,7 +7,7 @@ import json
 import re
 import subprocess
 from pathlib import Path
-from check_public_source_leak import TEXT_EXTENSIONS, _decoded_public_text
+from check_public_source_leak import TEXT_EXTENSIONS, _decoded_public_text, _encoded_needles
 
 EXPECTED_ORIGINALS = 91
 MIN_PUBLIC_SEARCH_ITEMS = 3602
@@ -73,9 +73,9 @@ def validate_public(site, originals):
     authored = [item for item in items if item.get("type") == "teacher"]
     if len(authored) != 18:
         raise ValueError(f"Expected 18 authored public teacher-case summaries, found {len(authored)}")
-    needles = [(row["id"], text) for row in originals
+    needles = [(row["id"], needle) for row in originals
                for text in (row["question"].strip(), row["answer"].strip())
-               if len(text) >= 80]
+               if len(text) >= 80 for needle in _encoded_needles(text)]
     checked = 0
     for path in site.rglob("*"):
         if not path.is_file() or path.is_symlink() or path.suffix.lower() not in TEXT_EXTENSIONS:
