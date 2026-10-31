@@ -40,7 +40,7 @@ def _decoded_public_text(content):
     # "first half" + "second half".  Joining literal boundaries is a
     # conservative static check, not JavaScript evaluation.  This also catches
     # split Base64 strings before they are decoded by a browser.
-    return re.sub(r"""['"`][ \\t\\r\\n]*\\+[ \\t\\r\\n]*['"`]""", "", decoded)
+    return re.sub(r"""['"`][ \t\r\n]*\+[ \t\r\n]*['"`]""", "", decoded)
 
 
 def _encoded_needles(value):
