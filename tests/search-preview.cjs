@@ -304,7 +304,7 @@ api.load().then(async()=>{
   await api.load();
   assert.match(nodes.get('#status').textContent,/3602 筆資料已載入/);
   assert.equal(nodes.get('#retry').hidden,true);
-  finishOldmockIndex(rows);
+  finishOld(mockIndex(rows));
   await staleSuccess;
   assert.match(nodes.get('#status').textContent,/3602 筆資料已載入/,
     'late partial response must not overwrite successful retry');
@@ -336,7 +336,7 @@ api.load().then(async()=>{
   const draftLoad=api.load();
   nodes.get('#query').value='物權';
   nodes.get('#query').oninput();
-  finishDraftmockIndex(complete);
+  finishDraft(mockIndex(complete));
   await draftLoad;
   assert.equal(nodes.get('#query').value,'物權','pending user input survives completed fetch');
   assert.equal(api.getPage(),0,'edited search starts at first page');
