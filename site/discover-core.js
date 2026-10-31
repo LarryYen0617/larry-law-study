@@ -17,13 +17,16 @@
  // AND across terms; OR across spellings of the same legal citation or course alias.
  function queryGroups(value){return terms(value).flatMap(token=>{
   const compound=token.match(/^(.+?)(第\d+條(?:之\d+)?|§\d+(?:-\d+)?)$/)
-   ||token.match(/^(.+?法)(\d{1,4}(?:-|條之|之)\d{1,3})$/);
+   ||token.match(/^(.+?法)(\d{1,4}(?:-|條之|之)\d{1,3})$/)
+   ||token.match(/^(.+?法)(\d{1,4}條)$/);
   return (compound?[compound[1],compound[2]]:[token]).map(term=>{
+   const bareBase=term.match(/^(\d{1,4})條$/);
+   if(bareBase)return ['第'+bareBase[1]+'條','§'+bareBase[1],bareBase[1]+'條'];
    const bare=term.match(/^(\d{1,4})(?:-|條之|之)(\d{1,3})$/);
    if(bare)return ['第'+bare[1]+'條之'+bare[2],'§'+bare[1]+'-'+bare[2],bare[1]+'-'+bare[2]];
    const article=term.match(/^(?:第(\d+)條(?:之(\d+))?|§(\d+)(?:-(\d+))?)$/);
    if(article){const n=article[1]||article[3],suffix=article[2]||article[4];
-    return suffix?['第'+n+'條之'+suffix,'§'+n+'-'+suffix,n+'-'+suffix]:['第'+n+'條','§'+n];
+    return suffix?['第'+n+'條之'+suffix,'§'+n+'-'+suffix,n+'-'+suffix]:['第'+n+'條','§'+n,n+'條'];
    }
    return aliases[term]?[term,aliases[term]]:[term];
   });
@@ -34,6 +37,8 @@
   if(named)return text.search(new RegExp('第'+named[1]+'條'+(named[2]?'之'+named[2]+'(?![\\d-])':'(?!之\\d)')));
   const section=term.match(/^§(\d+)(?:-(\d+))?$/);
   if(section)return text.search(new RegExp('§'+section[1]+(section[2]?'-'+section[2]+'(?![\\d-])':'(?![-\\d])')));
+  const bareBase=term.match(/^(\d{1,4})條$/);
+  if(bareBase)return text.search(new RegExp('(?:^|[^\\d])'+bareBase[1]+'條(?!之\\d)'));
   const bare=term.match(/^(\d+)-(\d+)$/);
   if(bare)return text.search(new RegExp('(?:^|[^\\d-])'+bare[1]+'-'+bare[2]+'(?![\\d-])'));
   return text.indexOf(term);
