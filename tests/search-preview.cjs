@@ -27,8 +27,20 @@ const context={
   URL,URLSearchParams,AbortController,setTimeout,clearTimeout,
   matchMedia:()=>({matches:false}),Option:class {},fetch:async()=>{throw Error('not expected')}
 };
-vm.runInNewContext(script+'\nwindow.previewTest={queryGroups,snippet,search,load,changePage,pageFromUrl,getPage:()=>page,subjectLabel:key=>label(subjectNames,key),kindLabel:key=>label(kindNames,key),setRecords(value){records=value;ready=true},getHits(){return hits},setQuery(value){input.value=value}};',context);
+vm.runInNewContext(script+'\nwindow.previewTest={safeHref,queryGroups,snippet,search,load,changePage,pageFromUrl,getPage:()=>page,subjectLabel:key=>label(subjectNames,key),kindLabel:key=>label(kindNames,key),setRecords(value){records=value;ready=true},getHits(){return hits},setQuery(value){input.value=value}};',context);
 const api=context.window.previewTest;
+// Preview links must use the same explicit public-page allowlist as the main search.
+for(const href of ['index.html','essentials.html#property','reading.html?chapter=531',
+ 'legal-english.html','class-notes/property.html#sec-1']){
+ assert.equal(api.safeHref(href),href,'known public relative page must remain usable: '+href);
+}
+for(const href of ['https://example.test/index.html','//example.test/index.html',
+ 'https://user:password@example.test/index.html','https://evil.example@example.test/index.html',
+ '../index.html','class-notes/../index.html','class-notes/%2e%2e/index.html',
+ 'teacher-original.html','private-notes.html','index.html\\evil','javascript:alert(1)',
+ '/index.html','class-notes/Property.html','index.html%2fprivate']){
+ assert.equal(api.safeHref(href),null,'untrusted preview href must fail closed: '+href);
+}
 const normalize=value=>String(value).normalize('NFKC').toLocaleLowerCase('zh-TW')
  .replace(/第\s*(\d+)\s*-\s*(\d+)\s*條/g,'第$1條之$2')
  .replace(/第\s*(\d+)\s*條\s*之\s*(\d+)/g,'第$1條之$2')

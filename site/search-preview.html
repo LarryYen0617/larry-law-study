@@ -103,16 +103,15 @@ let loadSequence=0,activeLoadController=null;
 // Preserve edits made before the initial fetch or a retry finishes.
 let pendingUserEdits=false;
 function safeHref(href){
-  if(typeof href!=="string"||href.includes("\\")||/[\u0000-\u001f]/.test(href))return null;
-  const rawPath=href.split(/[?#]/)[0];
-  if(!rawPath||rawPath.startsWith("/")||/%2e|%2f|%5c/i.test(rawPath))return null;
-  if(!rawPath.endsWith(".html")||rawPath.split("/").some(segment=>!segment||segment==="."||segment===".."))return null;
+  // Match the primary search's explicit public-page allowlist. A same-origin
+  // absolute URL (including userinfo) or arbitrary local HTML is not trusted.
+  if(typeof href!=="string"||!/^(?:essentials|library|index|reading|legal-english|photonics|courses|class-notes\/[a-z0-9-]+)\.html(?:[?#]|$)/.test(href))return null;
+  if(href.includes("\\")||/[\u0000-\u001f]/.test(href))return null;
   try{
-    const target=new URL(href,location.href);
-    const base=new URL(".",location.href);
-    if(target.origin!==base.origin||!target.pathname.startsWith(base.pathname))return null;
+    const target=new URL(href,location.href),base=new URL(".",location.href);
+    if(target.origin!==base.origin||!target.pathname.startsWith(base.pathname)||target.username||target.password)return null;
     return href;
-  }catch{return null}
+  }catch{return null;}
 }
 function updateLink(){
   const params=new URLSearchParams();
