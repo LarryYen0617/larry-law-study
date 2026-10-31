@@ -12,6 +12,14 @@ const base = path.join(__dirname, '..', 'site', 'books', 'wan-jie-fa-shen');
 const manifest = JSON.parse(fs.readFileSync(path.join(base, 'manifest.json'), 'utf8'));
 assert(Array.isArray(manifest.chapters), 'manifest.chapters must be an array');
 assert.equal(manifest.chapterCount, manifest.chapters.length, 'manifest chapterCount mismatch');
+// The public book shelf must never advertise a stale chapter count.
+const catalog = JSON.parse(fs.readFileSync(path.join(base, '..', 'catalog.json'), 'utf8'));
+const matchingCatalogEntries = catalog.filter(book => book.id === manifest.id);
+assert.equal(matchingCatalogEntries.length, 1, 'novel must have exactly one catalog entry');
+assert.equal(matchingCatalogEntries[0].chapterCount, manifest.chapterCount,
+  'catalog chapterCount must match the published manifest');
+assert.equal(matchingCatalogEntries[0].subtitle, manifest.subtitle,
+  'catalog subtitle must match the published manifest');
 // SHA-256 of published chapter bodies, independently generated from the
 // preserved revision ZIP (excluding the chapter title). This prevents a
 // web-only edit from silently diverging from the reviewed master manuscript.
