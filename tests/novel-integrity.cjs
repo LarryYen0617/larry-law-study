@@ -134,6 +134,7 @@ const revisionHashes = new Map([
   [528, 'a643ea7b74e408f566753b9432b731e49ad81e7ec282d283d24db6564ccf0b9d'],
   [529, '8ee554a2ed396b6824a416f1fdd9a4079cc0188845e5cc77d4816d578f128696'],
   [530, '6a80a8fb3f60bc6ab01a5c330fbff0efda871f419c5d7e7b38b4f797e591caed'],
+  [531, '56756843577ba6e511334fcf871c534cc668251179dd18a3404ae73f85fc5f17'],
 ]);
 const files = new Map();
 const allNumbers = new Set();
@@ -162,7 +163,7 @@ for (let i = 0; i < manifest.chapters.length; i++) {
   // Effective length excludes whitespace and punctuation; keep this gate in
   // sync with the last chapter published from the revised master archive.
   const effective = [...chapter.text].filter(ch => /[\p{L}\p{N}]/u.test(ch)).length;
-  if (chapter.number >= 376 && chapter.number <= 530) {
+  if (chapter.number >= 376 && chapter.number <= 531) {
     assert(effective >= 2500, 'revised chapter below 2500 effective characters: ' + chapter.number);
   }
   if (revisionHashes.has(chapter.number)) {
