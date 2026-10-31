@@ -9,7 +9,7 @@ function element(name){
   if(!nodes.has(name))nodes.set(name,{
     value:'',textContent:'',hidden:false,disabled:false,children:[],
     get options(){return this.children},
-    addEventListener(type,handler){this["on"+type]=handler},focus(){this.focused=true},setAttribute(){},querySelector(){return null},
+    addEventListener(type,handler){this["on"+type]=handler},focus(){this.focused=true},setAttribute(name,value){this[name]=value},querySelector(){return null},
     replaceChildren(...items){this.children=items},
     append(...items){this.children.push(...items)}
   });
@@ -204,11 +204,14 @@ assert.equal(nodes.get('#page-jump').max,'3','jump control uses the actual page 
 nodes.get('#page-jump').value='0';nodes.get('#go-page').onclick();
 assert.equal(api.getPage(),2,'out-of-range jump must not change the page');
 assert.equal(nodes.get('#page-jump').value,'3','invalid jump restores current page');
+assert.equal(nodes.get('#page-jump')['aria-invalid'],'true','invalid page is marked for assistive technology');
+assert.match(nodes.get('#status').textContent,/頁碼超出範圍.*1 至 3/,'invalid page must announce the allowed range');
 let prevented=false;
 nodes.get('#page-jump').value='2';
 nodes.get('#page-jump').onkeydown({key:'Enter',preventDefault(){prevented=true}});
 assert.equal(prevented,true,'Enter prevents accidental form navigation');
 assert.equal(api.getPage(),1,'keyboard jump reaches requested page');
+assert.equal(nodes.get('#page-jump')['aria-invalid'],'false','valid page clears the invalid state');
 assert.match(nodes.get('#status').textContent,/目前顯示第 21–40 筆/,'screen-reader status announces the visible result range');
 assert.match(history.lastURL,/\bpage=2\b/,'shareable URL records page two');
 api.changePage(1);
@@ -234,8 +237,8 @@ api.load().then(async()=>{
   assert.equal(nodes.get('#retry').hidden,false,'partial corpus offers retry');
   // Even when 3,602 valid rows remain, one malformed or duplicate row
   // means the original production index was not loaded in full.
-  const complete=Array.from({length:3602},(_,i)=>({...rows[0],id:'complete-'+i}));
-  const badRows=[...complete,{...rows[0],id:'complete-0'}];
+  const complete=Array.from({length:3602},(_,i)=>({...rows[0],id:'note:complete-'+i}));
+  const badRows=[...complete,{...rows[0],id:'note:complete-0'}];
   context.fetch=async()=>({ok:true,json:async()=>({version:1,items:badRows})});
   await api.load();
   assert.match(nodes.get('#status').textContent,/資料載入失敗.*無效或重複記錄/,
@@ -245,6 +248,26 @@ api.load().then(async()=>{
   await api.load();
   assert.match(nodes.get('#status').textContent,/資料載入失敗.*無效或重複記錄/,
     'blank title must not be counted as a valid searchable record');
+  assert.equal(nodes.get('#retry').hidden,false);
+  // The preview must reject unsafe IDs, unknown types and overlong text even
+  // if the 3,602 baseline entries remain intact.
+  const malformed=[
+    {...complete[0],id:'note:bad-type',type:'restricted'},
+    {...complete[0],id:'../secret'},
+    {...complete[0],id:'note:huge-body',body:'字'.repeat(100001)}
+  ];
+  for(const bad of malformed){
+    context.fetch=async()=>({ok:true,json:async()=>({version:1,items:[...complete,bad]})});
+    await api.load();
+    assert.match(nodes.get('#status').textContent,/資料載入失敗.*無效或重複記錄/,
+      'malformed preview row must fail the entire corpus: '+bad.id);
+    assert.equal(nodes.get('#retry').hidden,false);
+  }
+  const overLimit=Array.from({length:20001},(_,i)=>({...complete[0],id:'note:limit-'+i}));
+  context.fetch=async()=>({ok:true,json:async()=>({version:1,items:overLimit})});
+  await api.load();
+  assert.match(nodes.get('#status').textContent,/資料載入失敗.*安全筆數上限/,
+    'preview must reject an oversized index before normalization');
   assert.equal(nodes.get('#retry').hidden,false);
   // A retry can finish before the original request. Late success or failure
   // must not replace the newer complete index or show a stale error.
