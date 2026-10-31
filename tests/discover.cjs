@@ -70,6 +70,18 @@ assert.equal(C.search([englishFixture],{q:'法英 不存在'}).length,0,'English
  assert(node('discoverResults').innerHTML.includes('discover-card'));
  const callsBeforePaging=searchCalls;
  node('discoverNext').onclick();assert.equal(searchCalls,callsBeforePaging,'pagination should reuse cached search results');
+ assert(node('discoverStatus').textContent.includes('目前顯示第 25–48 筆'),'visible result range should be announced');
+ node('discoverPageJump').value='3';node('discoverGoPage').onclick();
+ assert(node('discoverPage').textContent.startsWith('3 / '),'direct jump reaches page three');
+ assert(history.lastURL.includes('page=3'),'direct jump must update the shareable URL');
+ assert.equal(node('discoverPageJump').max,String(Math.ceil(index.items.length/24)),'jump input must use the current page count');
+ assert.equal(searchCalls,callsBeforePaging,'direct jump must reuse cached results');
+ node('discoverPageJump').value='9999';node('discoverGoPage').onclick();
+ assert(node('discoverPage').textContent.startsWith('3 / '),'out-of-range page jump must not navigate');
+ assert.equal(node('discoverPageJump').value,'3','invalid page jump must restore current page');
+ assert(node('collectionStatus').textContent.includes('頁碼超出範圍'),'invalid page jump must explain its failure');
+ let jumpPrevented=false;node('discoverPageJump').value='2';node('discoverPageJump').onkeydown({key:'Enter',preventDefault(){jumpPrevented=true;}});
+ assert(jumpPrevented&&node('discoverPage').textContent.startsWith('2 / '),'Enter should navigate directly');
  assert(history.lastURL.includes('page=2'),'next-page URL must be shareable');
  location.hash='#page=3';windowEvents.hashchange();assert(node('discoverPage').textContent.startsWith('3 / '),'opening a shared page must restore pagination');
  location.hash='#page=9999';windowEvents.hashchange();assert(node('discoverPage').textContent.startsWith(Math.ceil(index.items.length/24)+' / '),'out-of-range page must clamp to last page');assert(history.lastURL.includes('page='+Math.ceil(index.items.length/24)),'clamped page must update shared URL');

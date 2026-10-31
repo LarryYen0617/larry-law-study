@@ -24,15 +24,26 @@
    searchCache={key:cacheKey,rows};
   }
   const rows=searchCache.rows;const pages=Math.max(1,Math.ceil(rows.length/24));const requestedPage=page;page=Math.max(0,Math.min(page,pages-1));if(page!==requestedPage)url();
-  $('discoverStatus').textContent=`${rows.length.toLocaleString()} 筆結果 · 共 ${index.length.toLocaleString()} 筆可搜尋內容${view!=='search'&&saved.some(r=>!known.has(r.id))?'；部分已收藏內容目前不在索引中，紀錄仍保留。':''}`;
+  const first=rows.length?page*24+1:0,last=Math.min(rows.length,(page+1)*24);
+  $('discoverStatus').textContent=`${rows.length.toLocaleString()} 筆結果 · 共 ${index.length.toLocaleString()} 筆可搜尋內容${rows.length?` · 目前顯示第 ${first}–${last} 筆`:''}${view!=='search'&&saved.some(r=>!known.has(r.id))?'；部分已收藏內容目前不在索引中，紀錄仍保留。':''}`;
   $('discoverPage').textContent=`${page+1} / ${pages}`;$('discoverPrev').disabled=page===0;$('discoverNext').disabled=page+1>=pages;
+  $('discoverPageJump').max=String(pages);$('discoverPageJump').value=String(page+1);$('discoverGoPage').disabled=rows.length===0;
   $('discoverResults').innerHTML=rows.slice(page*24,page*24+24).map(x=>{const r=collection.items[x.id];return `<article class="discover-card"><span class="result-meta">${esc(C.types[x.type])}${x.subject?' / '+esc(C.subjects[x.subject]||x.subject):''}</span><h3><a href="${esc(x.href)}">${esc(x.title)}</a></h3><p>${esc(C.excerpt(x.body,q))}</p>${r?`<span class="review-date">${r.dueOn<=day?'待複習':'下次複習 '+r.dueOn} · 已複習 ${r.stage>=5?'5 次以上':r.stage+' 次'}</span>`:''}<div class="result-actions"><a class="open-result" href="${esc(x.href)}">${x.type==='question'?'開始作答':'開啟內容'} ↗</a><button type="button" data-save="${esc(x.id)}" aria-pressed="${!!r}" ${storageError?'disabled':''}>${r?'取消收藏':'＋ 收藏'}</button>${r?`<button type="button" data-review="${esc(x.id)}" ${storageError?'disabled':''}>已複習</button><button type="button" data-snooze="${esc(x.id)}" ${storageError?'disabled':''}>明天再看</button>`:''}</div></article>`;}).join('')||`<div class="discover-empty"><h3>${view==='search'?'沒有找到符合的內容':view==='saved'?'把重要觀念收進自己的書桌':'今天的複習已完成'}</h3><p>${q||type||subject?'可清除篩選，或換一個關鍵字。':view==='saved'?'在全站搜尋中，點「＋ 收藏」開始累積。':view==='due'?'收藏內容會依複習進度安排下次日期。':'試試較短的關鍵字。'}</p></div>`;
   if(focusData){const entry=Object.entries(focusData)[0];if(entry)Array.from(document.querySelectorAll('button')).find(b=>b.dataset[entry[0]]===entry[1])?.focus({preventScroll:true});}
  }
  function update(id,action){if(storageError)return;readCollection();if(storageError)return;const current=collection.items[id];if(!index.some(x=>x.id===id))return;const next={version:1,items:{...collection.items}};if(action==='save'){if(current)delete next.items[id];else{if(Object.keys(next.items).length>=5000){$('collectionStatus').textContent='收藏已達 5,000 筆，請先整理。';return;}next.items[id]={id,addedOn:C.today(),dueOn:C.today(),stage:0};}}else if(current)next.items[id]=C.review(current,C.today(),action==='snooze');try{C.persist(localStorage,next);collection=next;$('collectionStatus').textContent=action==='save'?(current?'已取消收藏。':'已收藏，加入今日複習。'):action==='snooze'?'已安排明天再看。':'已記錄複習，下次 '+next.items[id].dueOn+'。';render();}catch{$('collectionStatus').textContent='紀錄未儲存，可能是瀏覽器空間不足。請先下載備份。';}}
  $('discoverForm').onsubmit=e=>{e.preventDefault();page=0;url();render();};$('clearFilters').onclick=()=>{type='';subject='';$('discoverQuery').value='';page=0;url();render();};
  document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.view!==undefined){view=b.dataset.view;page=0;url();render();}if(b.dataset.type!==undefined){type=b.dataset.type;page=0;url();render();}if(b.dataset.subject!==undefined){subject=b.dataset.subject;page=0;url();render();}for(const action of ['save','review','snooze'])if(b.dataset[action])update(b.dataset[action],action);});
- $('discoverPrev').onclick=()=>{page=Math.max(0,page-1);url();render();$('resultsTitle').scrollIntoView({block:'start'});};$('discoverNext').onclick=()=>{page++;url();render();$('resultsTitle').scrollIntoView({block:'start'});};
+ $('discoverPrev').onclick=()=>{page=Math.max(0,page-1);url();render();$('resultsTitle').scrollIntoView({block:'start'});};function jumpToPage(){
+  const field=$('discoverPageJump'),raw=String(field.value).trim(),pages=Math.max(1,Math.ceil(searchCache.rows.length/24));
+  if(!/^[1-9]\d{0,3}$/.test(raw)||Number(raw)>pages){
+   field.value=String(page+1);$('collectionStatus').textContent=`頁碼超出範圍，請輸入 1 至 ${pages}。`;return;
+  }
+  page=Number(raw)-1;url();render();$('resultsTitle').scrollIntoView({block:'start'});
+ }
+ $('discoverGoPage').onclick=jumpToPage;
+ $('discoverPageJump').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();jumpToPage();}};
+ $('discoverNext').onclick=()=>{page++;url();render();$('resultsTitle').scrollIntoView({block:'start'});};
  async function load(){
   // Do not let an earlier, slower fetch (or its failure) overwrite a successful retry.
   const requestId=++loadSequence;
