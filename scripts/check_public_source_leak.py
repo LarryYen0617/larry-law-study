@@ -8,7 +8,11 @@ import re
 from pathlib import Path
 from urllib.parse import unquote
 
-TEXT_EXTENSIONS = frozenset({".html", ".js", ".json", ".txt", ".xml", ".md", ".css"})
+# Include all textual assets served by Pages, including SVG and source maps.
+TEXT_EXTENSIONS = frozenset({
+    ".html", ".js", ".json", ".txt", ".xml", ".md", ".css",
+    ".svg", ".map", ".webmanifest", ".csv", ".vtt", ".srt",
+})
 JS_HEX_ESCAPE = re.compile(r"\\u\{([0-9a-fA-F]{1,6})\}|\\u([0-9a-fA-F]{4})|\\x([0-9a-fA-F]{2})")
 
 
