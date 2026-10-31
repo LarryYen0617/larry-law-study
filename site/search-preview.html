@@ -211,6 +211,34 @@ function search(options={}){
   }).filter(Boolean).sort((a,b)=>b.score-a.score||a.item.title.localeCompare(b.item.title,"zh-TW")).map(x=>x.item);
   if(!preservePage)page=0;draw();updateLink();
 }
+// Bound the response *before* JSON parsing. A forged Content-Length or
+// chunked response must not exhaust memory on low-RAM mobile devices.
+async function readBoundedIndex(response){
+  const maxBytes=16*1024*1024; // The current production index is ~3.3 MB.
+  const tooLarge="資料庫檔案超過安全大小上限（16 MiB）";
+  const declared=Number(response.headers.get("content-length"));
+  if(declared>maxBytes)throw new Error(tooLarge);
+  if(!response.body)throw new Error("瀏覽器無法驗證資料庫下載大小");
+  const reader=response.body.getReader();
+  const decoder=new TextDecoder("utf-8",{fatal:true});
+  let received=0,payload="";
+  try{
+    while(true){
+      const {done,value}=await reader.read();
+      if(done)break;
+      received+=value.byteLength;
+      if(received>maxBytes){
+        await reader.cancel();
+        throw new Error(tooLarge);
+      }
+      payload+=decoder.decode(value,{stream:true});
+    }
+    payload+=decoder.decode();
+  }finally{
+    reader.releaseLock();
+  }
+  return JSON.parse(payload);
+}
 async function load(){
   // A slower previous request must never overwrite a successful retry.
   const requestId=++loadSequence;
@@ -224,7 +252,7 @@ async function load(){
   try{
     const response=await fetch("search-index.json",{signal:controller.signal,cache:"no-cache",credentials:"omit"});
     if(!response.ok)throw new Error("HTTP "+response.status);
-    const data=await response.json();
+    const data=await readBoundedIndex(response);
     if(requestId!==loadSequence)return;
     if(data?.version!==1||!Array.isArray(data.items))throw new Error("不支援的資料格式");
     // Match the main search index safety ceiling; never process an unbounded payload.
