@@ -34,7 +34,16 @@
  function update(id,action){if(storageError)return;readCollection();if(storageError)return;const current=collection.items[id];if(!index.some(x=>x.id===id))return;const next={version:1,items:{...collection.items}};if(action==='save'){if(current)delete next.items[id];else{if(Object.keys(next.items).length>=5000){$('collectionStatus').textContent='收藏已達 5,000 筆，請先整理。';return;}next.items[id]={id,addedOn:C.today(),dueOn:C.today(),stage:0};}}else if(current)next.items[id]=C.review(current,C.today(),action==='snooze');try{C.persist(localStorage,next);collection=next;$('collectionStatus').textContent=action==='save'?(current?'已取消收藏。':'已收藏，加入今日複習。'):action==='snooze'?'已安排明天再看。':'已記錄複習，下次 '+next.items[id].dueOn+'。';render();}catch{$('collectionStatus').textContent='紀錄未儲存，可能是瀏覽器空間不足。請先下載備份。';}}
  $('discoverForm').onsubmit=e=>{e.preventDefault();page=0;url();render();};$('clearFilters').onclick=()=>{type='';subject='';$('discoverQuery').value='';page=0;url();render();};
  document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.view!==undefined){view=b.dataset.view;page=0;url();render();}if(b.dataset.type!==undefined){type=b.dataset.type;page=0;url();render();}if(b.dataset.subject!==undefined){subject=b.dataset.subject;page=0;url();render();}for(const action of ['save','review','snooze'])if(b.dataset[action])update(b.dataset[action],action);});
- $('discoverPrev').onclick=()=>{page=Math.max(0,page-1);url();render();$('resultsTitle').scrollIntoView({block:'start'});};$('discoverNext').onclick=()=>{page++;url();render();$('resultsTitle').scrollIntoView({block:'start'});};
+ $('discoverPrev').onclick=()=>{page=Math.max(0,page-1);url();render();$('resultsTitle').scrollIntoView({block:'start'});};function jumpToPage(){
+  const field=$('discoverPageJump'),raw=String(field.value).trim(),pages=Math.max(1,Math.ceil(searchCache.rows.length/24));
+  if(!/^[1-9]\d{0,3}$/.test(raw)||Number(raw)>pages){
+   field.value=String(page+1);$('collectionStatus').textContent=`頁碼超出範圍，請輸入 1 至 ${pages}。`;return;
+  }
+  page=Number(raw)-1;url();render();$('resultsTitle').scrollIntoView({block:'start'});
+ }
+ $('discoverGoPage').onclick=jumpToPage;
+ $('discoverPageJump').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();jumpToPage();}};
+ $('discoverNext').onclick=()=>{page++;url();render();$('resultsTitle').scrollIntoView({block:'start'});};
  async function load(){
   // Do not let an earlier, slower fetch (or its failure) overwrite a successful retry.
   const requestId=++loadSequence;
