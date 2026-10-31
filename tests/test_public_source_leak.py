@@ -64,7 +64,7 @@ class PublicSourceLeakTests(unittest.TestCase):
     def test_split_js_string_literal_cannot_bypass_release_guard(self):
         midpoint = len(self.prompt) // 2
         left, right = self.prompt[:midpoint], self.prompt[midpoint:]
-        for join in ('" + "', '" +\\n "', "' + '"):
+        for join in ('" + "', '" +\n "', '" +\t "'):
             with self.subTest(join=join):
                 (self.root / "split.js").write_text(
                     'const question = "' + left + join + right + '";',
