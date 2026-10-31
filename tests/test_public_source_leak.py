@@ -61,6 +61,27 @@ class PublicSourceLeakTests(unittest.TestCase):
                     validate_public_site_text(self.source, self.root)
                 path.unlink()
 
+    def test_split_js_string_literal_cannot_bypass_release_guard(self):
+        midpoint = len(self.prompt) // 2
+        left, right = self.prompt[:midpoint], self.prompt[midpoint:]
+        for join in ('" + "', '" +\n "', '" +\t "'):
+            with self.subTest(join=join):
+                (self.root / "split.js").write_text(
+                    'const question = "' + left + join + right + '";',
+                    encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, "Private source-only"):
+                    validate_public_site_text(self.source, self.root)
+                (self.root / "split.js").unlink()
+
+    def test_split_base64_js_literal_cannot_bypass_release_guard(self):
+        encoded = base64.urlsafe_b64encode(self.prompt.encode("utf-8")).decode("ascii")
+        midpoint = len(encoded) // 2
+        (self.root / "encoded.js").write_text(
+            'const encoded = "' + encoded[:midpoint] + '" + "'
+            + encoded[midpoint:] + '";', encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "Private source-only"):
+            validate_public_site_text(self.source, self.root)
+
     def test_non_deployed_source_types_are_ignored(self):
         (self.root / "draft.py").write_text(self.prompt, encoding="utf-8")
         self.assertEqual(validate_public_site_text(self.source, self.root), 0)
