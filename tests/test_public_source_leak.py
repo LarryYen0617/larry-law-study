@@ -1,4 +1,5 @@
 """Regression tests for source-only teacher material in Pages artifacts."""
+import base64
 import sys
 from urllib.parse import quote
 import tempfile
@@ -44,6 +45,17 @@ class PublicSourceLeakTests(unittest.TestCase):
                 path = self.root / filename
                 path.write_text(quote(self.prompt, safe=""), encoding="utf-8")
                 with self.assertRaises(ValueError):
+                    validate_public_site_text(self.source, self.root)
+                path.unlink()
+
+    def test_base64_encoded_source_question_blocks_release(self):
+        raw = self.prompt.encode("utf-8")
+        for encoded in (base64.b64encode(raw).decode("ascii"),
+                        base64.urlsafe_b64encode(raw).decode("ascii")):
+            with self.subTest(encoding=encoded[:10]):
+                path = self.root / "payload.js"
+                path.write_text('const hidden = "' + encoded + '";', encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, "Private source-only"):
                     validate_public_site_text(self.source, self.root)
                 path.unlink()
 
