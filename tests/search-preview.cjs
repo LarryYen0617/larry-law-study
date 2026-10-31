@@ -113,7 +113,9 @@ const bareCitationRows=[
   ['raw-exact','民法759-1：登記推定'],
   ['raw-next','民法759-10：其他條文'],
   ['raw-prefix','民法1759-1：不同條號'],
-  ['raw-hyphen','民法759-1-2：非單一條號']
+  ['raw-hyphen','民法759-1-2：非單一條號'],
+  ['raw-named-hyphen','民法第759條之1-2：非單一條號'],
+  ['raw-section-hyphen','民法§759-1-2：非單一條號']
 ].map(([id,body])=>({id,title:'民法物權案例',body,subject:'property',type:'note',href:'index.html',
   _title:normalize('民法物權案例'),_body:normalize(body),_subject:normalize('物權')}));
 api.setRecords(bareCitationRows);

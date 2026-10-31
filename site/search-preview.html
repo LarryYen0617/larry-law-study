@@ -83,12 +83,12 @@ const queryGroups=value=>normalize(value).split(" ").filter(Boolean).flatMap(tok
 function termIndex(text,term){
   const named=term.match(/^第(\d+)條(?:之(\d+))?$/);
   if(named){
-    const pattern="第"+named[1]+"條"+(named[2]?"之"+named[2]+"(?!\\d)":"(?!之\\d)");
+    const pattern="第"+named[1]+"條"+(named[2]?"之"+named[2]+"(?![\\d-])":"(?!之\\d)");
     return text.search(new RegExp(pattern));
   }
   const section=term.match(/^§(\d+)(?:-(\d+))?$/);
   if(section){
-    const pattern="§"+section[1]+(section[2]?"-"+section[2]+"(?!\\d)":"(?![-\\d])");
+    const pattern="§"+section[1]+(section[2]?"-"+section[2]+"(?![\\d-])":"(?![-\\d])");
     return text.search(new RegExp(pattern));
   }
   const bare=term.match(/^(\d+)-(\d+)$/);

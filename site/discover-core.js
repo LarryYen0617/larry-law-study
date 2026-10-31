@@ -30,9 +30,9 @@
  // Avoid matching 第759條之10 when the user asks for 第759條之1.
  function termIndex(text,term){
   const named=term.match(/^第(\d+)條(?:之(\d+))?$/);
-  if(named)return text.search(new RegExp('第'+named[1]+'條'+(named[2]?'之'+named[2]+'(?!\\d)':'(?!之\\d)')));
+  if(named)return text.search(new RegExp('第'+named[1]+'條'+(named[2]?'之'+named[2]+'(?![\\d-])':'(?!之\\d)')));
   const section=term.match(/^§(\d+)(?:-(\d+))?$/);
-  if(section)return text.search(new RegExp('§'+section[1]+(section[2]?'-'+section[2]+'(?!\\d)':'(?![-\\d])')));
+  if(section)return text.search(new RegExp('§'+section[1]+(section[2]?'-'+section[2]+'(?![\\d-])':'(?![-\\d])')));
   const bare=term.match(/^(\d+)-(\d+)$/);
   if(bare)return text.search(new RegExp('(?:^|[^\\d-])'+bare[1]+'-'+bare[2]+'(?![\\d-])'));
   return text.indexOf(term);
