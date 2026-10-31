@@ -40,7 +40,7 @@ class PropertyMidtermCardsTests(unittest.TestCase):
             self.assertNotIn("originalQuestion", card)
             for ref in card["refs"]:
                 self.assertTrue(ref["url"].startswith("https://"), ref["url"])
-                self.assertIn(ref["url"].split("/")[2], {"law.moj.gov.tw", "www.moj.gov.tw", "www.judicial.gov.tw"})
+                self.assertIn(ref["url"].split("/")[2], {"law.moj.gov.tw", "www.moj.gov.tw", "www.tph.moj.gov.tw", "www.judicial.gov.tw"})
                 self.assertTrue(ref["label"].strip())
 
 
