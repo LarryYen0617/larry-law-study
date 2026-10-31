@@ -134,7 +134,6 @@ const revisionHashes = new Map([
   [528, 'a643ea7b74e408f566753b9432b731e49ad81e7ec282d283d24db6564ccf0b9d'],
   [529, '8ee554a2ed396b6824a416f1fdd9a4079cc0188845e5cc77d4816d578f128696'],
   [530, '7b6e0f65849d699c0d8a191f90230f15d15dd7092463697aa5cd9671b8071746'],
-,
 ]);
 const files = new Map();
 const allNumbers = new Set();
