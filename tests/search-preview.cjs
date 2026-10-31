@@ -24,7 +24,7 @@ const document={
 const history={lastURL:"",replaceState(_state,_title,url){this.lastURL=url}};
 const context={
   document,window:{},history,location:{pathname:'/search-preview.html',href:'https://example.test/search-preview.html'},
-  URL,URLSearchParams,AbortController,setTimeout,clearTimeout,
+  URL,URLSearchParams,AbortController,TextDecoder,setTimeout,clearTimeout,
   matchMedia:()=>({matches:false}),Option:class {},fetch:async()=>{throw Error('not expected')}
 };
 vm.runInNewContext(script+'\nwindow.previewTest={safeHref,queryGroups,snippet,search,load,changePage,pageFromUrl,getPage:()=>page,subjectLabel:key=>label(subjectNames,key),kindLabel:key=>label(kindNames,key),setRecords(value){records=value;ready=true},getHits(){return hits},setQuery(value){input.value=value}};',context);
@@ -251,9 +251,11 @@ assert.equal(api.getPage(),0,'new search resets to first page');
 assert.doesNotMatch(history.lastURL,/page=/,'reset query drops stale page from URL');
 api.setRecords(rows);
 
+// Exercise the same streamed Response contract used by the real browser.
+const mockIndex=items=>new Response(JSON.stringify({version:1,items}),{headers:{'content-type':'application/json'}});
 // A corrupted/partial live index must show an error and a retry option,
  // rather than claiming that a tiny subset is the full production corpus.
-context.fetch=async()=>({ok:true,json:async()=>({version:1,items:rows})});
+context.fetch=async()=>mockIndex(rows);
 api.load().then(async()=>{
   assert.match(nodes.get('#status').textContent,/資料載入失敗.*資料庫筆數低於完整基準/);
   assert.equal(nodes.get('#retry').hidden,false,'partial corpus offers retry');
@@ -261,12 +263,12 @@ api.load().then(async()=>{
   // means the original production index was not loaded in full.
   const complete=Array.from({length:3602},(_,i)=>({...rows[0],id:'note:complete-'+i}));
   const badRows=[...complete,{...rows[0],id:'note:complete-0'}];
-  context.fetch=async()=>({ok:true,json:async()=>({version:1,items:badRows})});
+  context.fetch=async()=>mockIndex(badRows);
   await api.load();
   assert.match(nodes.get('#status').textContent,/資料載入失敗.*無效或重複記錄/,
     'duplicate row must not be silently dropped just because minimum remains');
   assert.equal(nodes.get('#retry').hidden,false,'corrupt corpus offers retry');
-  context.fetch=async()=>({ok:true,json:async()=>({version:1,items:[...complete,{...rows[0],id:'blank-title',title:'   '}]})});
+  context.fetch=async()=>mockIndex([...complete,{...rows[0],id:'blank-title',title:'   '}]);
   await api.load();
   assert.match(nodes.get('#status').textContent,/資料載入失敗.*無效或重複記錄/,
     'blank title must not be counted as a valid searchable record');
@@ -279,14 +281,14 @@ api.load().then(async()=>{
     {...complete[0],id:'note:huge-body',body:'字'.repeat(100001)}
   ];
   for(const bad of malformed){
-    context.fetch=async()=>({ok:true,json:async()=>({version:1,items:[...complete,bad]})});
+    context.fetch=async()=>mockIndex([...complete,bad]);
     await api.load();
     assert.match(nodes.get('#status').textContent,/資料載入失敗.*無效或重複記錄/,
       'malformed preview row must fail the entire corpus: '+bad.id);
     assert.equal(nodes.get('#retry').hidden,false);
   }
   const overLimit=Array.from({length:20001},(_,i)=>({...complete[0],id:'note:limit-'+i}));
-  context.fetch=async()=>({ok:true,json:async()=>({version:1,items:overLimit})});
+  context.fetch=async()=>mockIndex(overLimit);
   await api.load();
   assert.match(nodes.get('#status').textContent,/資料載入失敗.*安全筆數上限/,
     'preview must reject an oversized index before normalization');
@@ -297,11 +299,11 @@ api.load().then(async()=>{
   const oldResponse=new Promise(resolve=>{finishOld=resolve});
   context.fetch=async()=>oldResponse;
   const staleSuccess=api.load();
-  context.fetch=async()=>({ok:true,json:async()=>({version:1,items:complete})});
+  context.fetch=async()=>mockIndex(complete);
   await api.load();
   assert.match(nodes.get('#status').textContent,/3602 筆資料已載入/);
   assert.equal(nodes.get('#retry').hidden,true);
-  finishOld({ok:true,json:async()=>({version:1,items:rows})});
+  finishOldmockIndex(rows);
   await staleSuccess;
   assert.match(nodes.get('#status').textContent,/3602 筆資料已載入/,
     'late partial response must not overwrite successful retry');
@@ -311,7 +313,7 @@ api.load().then(async()=>{
   const oldFailure=new Promise((_resolve,reject)=>{rejectOld=reject});
   context.fetch=async()=>oldFailure;
   const staleFailure=api.load();
-  context.fetch=async()=>({ok:true,json:async()=>({version:1,items:complete})});
+  context.fetch=async()=>mockIndex(complete);
   await api.load();
   rejectOld(new Error('stale connection failed'));
   await staleFailure;
@@ -321,7 +323,7 @@ api.load().then(async()=>{
   // A shared link restores its query and page when the user has not edited the form.
   context.location.search='?q=%E5%88%91%E7%B8%BD&page=2';
   nodes.get('#query').value='';
-  context.fetch=async()=>({ok:true,json:async()=>({version:1,items:complete})});
+  context.fetch=async()=>mockIndex(complete);
   await api.load();
   assert.equal(nodes.get('#query').value,'刑總','untouched shared link restores its search');
   assert.equal(api.getPage(),1,'untouched shared link restores its page');
@@ -333,7 +335,7 @@ api.load().then(async()=>{
   const draftLoad=api.load();
   nodes.get('#query').value='物權';
   nodes.get('#query').oninput();
-  finishDraft({ok:true,json:async()=>({version:1,items:complete})});
+  finishDraftmockIndex(complete);
   await draftLoad;
   assert.equal(nodes.get('#query').value,'物權','pending user input survives completed fetch');
   assert.equal(api.getPage(),0,'edited search starts at first page');
