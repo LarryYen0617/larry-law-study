@@ -61,7 +61,7 @@ def _canonical_private_text(value):
     replace full-width characters with their NFKC equivalents. These are
     formatting changes, not permission to publish source-only material.
     """
-    return re.sub(r"\\s+", "", unicodedata.normalize("NFKC", value))
+    return re.sub(r"\s+", "", unicodedata.normalize("NFKC", value))
 
 
 def _private_segments(value):
