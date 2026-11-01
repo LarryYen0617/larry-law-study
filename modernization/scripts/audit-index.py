@@ -22,8 +22,18 @@ def validate(data, site_root=ROOT / "site"):
                 issues.append(f"Row {row}: missing {key}")
         url = item.get("url")
         if not isinstance(url, str): continue
-        parsed = urlsplit(url)
-        if parsed.scheme or parsed.netloc or parsed.query or parsed.fragment or url.startswith("/") or "\\" in url:
+        # urlsplit() silently strips tabs and newlines; check raw URLs first.
+        if (any(ord(ch) < 32 or ord(ch) == 127 for ch in url)
+                or "\\" in url or "%" in url.split("?", 1)[0].split("#", 1)[0]):
+            issues.append(f"Row {row}: unsafe URL")
+            continue
+        try:
+            parsed = urlsplit(url)
+        except ValueError:
+            issues.append(f"Row {row}: unsafe URL")
+            continue
+        if (parsed.scheme or parsed.netloc or parsed.query or parsed.fragment
+                or url.startswith("/") or any(part in ("", ".", "..") for part in parsed.path.split("/"))):
             issues.append(f"Row {row}: unsafe URL")
             continue
         target = (site_root / url).resolve()
