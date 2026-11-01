@@ -4,15 +4,58 @@ This must run after source-based tests and before rebuilding the published
 search index. The checked-in imports remain unchanged for private review.
 """
 import json
+import hashlib
 import re
 import subprocess
 from pathlib import Path
-from check_public_source_leak import TEXT_EXTENSIONS, _decoded_public_text, _encoded_needles, _private_segments
+from check_public_source_leak import (TEXT_EXTENSIONS, _canonical_private_text,
+                                      _decoded_public_text, _encoded_needles,
+                                      _private_segments)
 
 EXPECTED_ORIGINALS = 91
 MIN_PUBLIC_SEARCH_ITEMS = 3602
 CHUNKS = tuple(f"library-teacher-{number:02}.js" for number in range(1, 6))
 PUSH_PATTERN = re.compile(r"window\.LEX_LIBRARY\.teacherQuestions\.push\(\.\.\.(\[[\s\S]*\])\);\s*$")
+
+
+# Teacher answers sometimes reproduce official law. Those passages are
+# public statutes, not private teacher-authored text. Only independently
+# pinned statutory snapshots in explicit source fields may be exempted from
+# *formatting-only* comparisons; raw/encoded private matches still fail.
+PUBLIC_STATUTE_TEXT_SHA256 = {
+    "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=1030-2":
+        "35f67ad92511121b51dea9f986800c45a4aea023a33eca11e12a9ffa3d714f55",
+    "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000005&flno=6-1":
+        "8ec44d26a6710924f72b2226212157aaac98501e8b60659c797618e4876be7b5",
+}
+
+
+def verified_statute_excerpts(path, payload):
+    if path.name not in ("note-law-data.js", "teacher-corrections.js"):
+        return ()
+    if not payload.startswith(("window.LEX_NOTE_LAWS=", "window.LEX_TEACHER_CORRECTIONS=")):
+        return ()
+    try:
+        data = json.loads(payload.split("=", 1)[1].strip().removesuffix(";"))
+        if path.name == "note-law-data.js":
+            candidates = data["articles"].values()
+        else:
+            candidates = (
+                source for item in data for source in item.get("sources", [])
+            )
+    except (ValueError, KeyError, TypeError, AttributeError):
+        return ()
+    excerpts = []
+    for source in candidates:
+        if not isinstance(source, dict):
+            continue
+        expected = PUBLIC_STATUTE_TEXT_SHA256.get(source.get("url"))
+        if not expected or not isinstance(source.get("text"), str):
+            continue
+        text = _canonical_private_text(source["text"])
+        if hashlib.sha256(text.encode("utf-8")).hexdigest() == expected:
+            excerpts.append(text)
+    return tuple(excerpts)
 
 
 def extract_originals(site):
@@ -79,15 +122,27 @@ def validate_public(site, originals):
                for text in (row["question"], row["answer"])
                for segment in _private_segments(text)
                for needle in _encoded_needles(segment)]
+    canonical_needles = [
+        (case_id, needle, _canonical_private_text(needle))
+        for case_id, needle in needles
+    ]
     checked = 0
     for path in site.rglob("*"):
         if not path.is_file() or path.is_symlink() or path.suffix.lower() not in TEXT_EXTENSIONS:
             continue
         payload = path.read_text(encoding="utf-8")
         decoded = _decoded_public_text(payload)
+        canonical = _canonical_private_text(decoded)
+        public_statutes = verified_statute_excerpts(path, payload)
         checked += 1
-        for case_id, needle in needles:
-            if needle in payload or needle in decoded:
+        for case_id, needle, normalized_needle in canonical_needles:
+            canonical_hit = normalized_needle in canonical
+            if canonical_hit and public_statutes:
+                # This *exact* pinned statutory text is public law, not a
+                # distinctive teacher-authored excerpt. Still block raw
+                # and encoded source matches as before.
+                canonical_hit = not any(normalized_needle in law for law in public_statutes)
+            if needle in payload or needle in decoded or canonical_hit:
                 raise ValueError(
                     f"Restricted teacher text remains in Pages file {path.relative_to(site)} (case {case_id})")
     return len(items), len(authored), checked

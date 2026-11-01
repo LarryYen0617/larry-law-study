@@ -91,6 +91,19 @@ class PublicSourceLeakTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Private source-only"):
             validate_public_site_text(self.source, self.root)
 
+    def test_whitespace_injected_into_private_question_blocks_release(self):
+        # Spacing/line wraps cannot turn a private teacher question public.
+        spaced = " \n ".join(self.prompt)
+        (self.root / "spaced.js").write_text(spaced, encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "Private source-only"):
+            validate_public_site_text(self.source, self.root)
+
+    def test_nfkc_equivalent_private_question_blocks_release(self):
+        self.source["cases"][0]["originalQuestion"] = "ＡＢＣ１２３－" * 15
+        (self.root / "nfkc.js").write_text("ABC123-" * 15, encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "Private source-only"):
+            validate_public_site_text(self.source, self.root)
+
     def test_non_deployed_source_types_are_ignored(self):
         (self.root / "draft.py").write_text(self.prompt, encoding="utf-8")
         self.assertEqual(validate_public_site_text(self.source, self.root), 0)

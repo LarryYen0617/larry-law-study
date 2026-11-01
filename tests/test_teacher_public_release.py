@@ -126,6 +126,81 @@ class TeacherPublicReleaseTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
             validate_public(self.site, originals)
 
+    def test_whitespace_wrapped_teacher_answer_blocks_release(self):
+        originals = sanitize(self.site)
+        self.index()
+        answer = originals[0]["answer"]
+        (self.site / "wrapped.js").write_text(" \n ".join(answer), encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
+            validate_public(self.site, originals)
+
+    def test_nfkc_equivalent_teacher_question_blocks_release(self):
+        originals = sanitize(self.site)
+        self.index()
+        originals[0]["question"] = "ＡＢＣ１２３－" * 15
+        (self.site / "normalized.js").write_text("ABC123-" * 15, encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
+            validate_public(self.site, originals)
+
+    def test_public_statute_quote_is_not_mistaken_for_private_answer(self):
+        # 民法第1030條之2 is public law. An answer quoting it with altered
+        # spacing must not prevent publication of the official law snapshot.
+        official = (
+            "夫或妻之一方以其婚後財產清償其婚前所負債務，或以其婚前財產清償婚姻關係存續中所負債務，"
+            "除已補償者外，於法定財產制關係消滅時，應分別納入現存之婚後財產或婚姻關係存續中所負債務計算。\n"
+            "夫或妻之一方以其前條第一項但書之財產清償婚姻關係存續中其所負債務者，適用前項之規定。"
+        )
+        originals = sanitize(self.site)
+        self.index()
+        originals[0]["answer"] = " ".join(official)
+        payload = "window.LEX_NOTE_LAWS=" + json.dumps({
+            "articles": {"B0000001-1030-2": {"text": official,
+                "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=1030-2"}}
+        }, ensure_ascii=False) + ";"
+        (self.site / "note-law-data.js").write_text(payload, encoding="utf-8")
+        self.assertEqual(validate_public(self.site, originals)[:2], (3620, 18))
+
+        # A forged official text must not grant a new privacy exception.
+        tampered = payload.replace("適用前項之規定。", "適用前項之規定。竄改")
+        (self.site / "note-law-data.js").write_text(tampered, encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
+            validate_public(self.site, originals)
+
+    def test_public_family_law_quote_does_not_mask_private_prose(self):
+        official = (
+            "中華民國七十四年六月四日以前結婚，並適用聯合財產制之夫妻，於婚姻關係存續中以妻之名義在同日以前取得不動產，"
+            "而有左列情形之一者，於本施行法中華民國八十五年九月六日修正生效一年後，"
+            "適用中華民國七十四年民法親屬編修正後之第一千零十七條規定： "
+            "一、婚姻關係尚存續中且該不動產仍以妻之名義登記者。 "
+            "二、夫妻已離婚而該不動產仍以妻之名義登記者。"
+        )
+        originals = sanitize(self.site)
+        self.index()
+        originals[0]["answer"] = " ".join(official)
+        source = {"url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000005&flno=6-1",
+                  "text": official}
+        payload = "window.LEX_TEACHER_CORRECTIONS=" + json.dumps(
+            [{"id": "authored-summary", "sources": [source]}], ensure_ascii=False) + ";"
+        (self.site / "teacher-corrections.js").write_text(payload, encoding="utf-8")
+        self.assertEqual(validate_public(self.site, originals)[:2], (3620, 18))
+
+        # The same teacher prose outside the pinned official statute field
+        # must remain blocked even if the legal quotation is permitted.
+        extra = {"id": "leak", "analysis": " ".join(official), "sources": []}
+        payload = "window.LEX_TEACHER_CORRECTIONS=" + json.dumps(
+            [{"id": "authored-summary", "sources": [source]}, extra], ensure_ascii=False) + ";"
+        (self.site / "teacher-corrections.js").write_text(payload, encoding="utf-8")
+        # A statutory quote is public wherever it appears; use a private
+        # non-statutory excerpt to verify the release guard stays active.
+        originals[0]["answer"] = "Private answer text " + "Q" * 100
+        extra["analysis"] = "Private answer text " + "Q" * 100
+        (self.site / "teacher-corrections.js").write_text(
+            "window.LEX_TEACHER_CORRECTIONS=" + json.dumps(
+                [{"id": "authored-summary", "sources": [source]}, extra], ensure_ascii=False) + ";",
+            encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
+            validate_public(self.site, originals)
+
     def test_inventory_changes_fail_closed(self):
         (self.site / "library-teacher-05.js").write_text(
             "window.LEX_LIBRARY.teacherQuestions.push(...[]);", encoding="utf-8")
