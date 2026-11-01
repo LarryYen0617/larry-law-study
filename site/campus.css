@@ -12,7 +12,7 @@ body .side-intro{padding:8px 18px 0}body .side-intro>span{font-size:10px;letter-
 body .sidebar-group{margin:12px 0;padding:0 12px 12px;border-bottom:1px solid var(--line)}body .sidebar-group h2{font:600 11px var(--body-font);letter-spacing:.13em;opacity:.65;padding:6px 10px}
 body .sidebar-link{border-radius:7px;min-height:40px;padding:8px 12px;margin:2px 0;font-size:14px;transition:background .15s}
 body .sidebar-link:hover{background:var(--soft)!important}body .sidebar-link[aria-current=page]{background:var(--soft)!important;border-left:3px solid var(--accent);font-weight:700}
-html[data-palette] body :is(.site-sidebar,aside:has(>#mainNav)) .sidebar-link[aria-current=page]{background:var(--soft)!important;color:var(--ink)!important}
+html[data-palette] body .site-sidebar :is(#mainNav,#siteNavigation) .sidebar-link[aria-current=page]{background:var(--soft)!important;color:var(--ink)!important}
 body .sidebar-marker{width:5px;height:5px;border-radius:1px;background:var(--accent)!important}body .sidebar-local{font-size:11px;opacity:.65;padding:10px 20px}
 body :is(.site-sidebar,aside:has(>#mainNav)) :is(.sidebar-group h2,.sidebar-local){opacity:1}
 body .shell>header{border-bottom:1px solid var(--line);box-shadow:none;background:var(--paper)!important}
