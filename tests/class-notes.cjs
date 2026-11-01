@@ -27,4 +27,8 @@ for(const name of pages){
     checked++;
   }
 }
+const discipline=read(path.join(dir,'administrative-discipline-remedies.html'));
+for(const term of ['第 22 條','原行政懲處處分失其效力','15 年','7 年','5 年','111 年憲判字第 9 號'])
+  assert(discipline.includes(term),'行政懲戒專題缺少現行法校訂：'+term);
+assert(discipline.includes('LawSingle.aspx?pcode=A0030155&amp;flno=22'),'懲戒法第22條官方來源缺漏');
 console.log('PASS: '+required.length+' 科入口、'+pages.length+' 頁教材、'+checked+' 個站內連結與錨點。');
