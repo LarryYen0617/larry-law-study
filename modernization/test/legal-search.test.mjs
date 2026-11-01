@@ -96,3 +96,21 @@ test('Taiwan inserted-article shorthand without 條 before 之 is normalized in 
   assert.deepEqual(searchLawNotes(source,'第759之1條').map(x=>x.note.id),['short']);
   assert.deepEqual(searchLawNotes(source,'第759條').map(x=>x.note.id),[]);
 });
+
+test('bare 之/條之 citations in source notes match exact inserted articles', () => {
+  const source = [
+    {id:'a',subject:'物權',title:'來源甲',statute:'民法759之1',body:'登記推定'},
+    {id:'b',subject:'物權',title:'來源乙',statute:'民法759條之1',body:'登記推定'},
+    {id:'c',subject:'物權',title:'來源丙',statute:'民法759之1條',body:'登記推定'},
+    {id:'long',subject:'物權',title:'較長條號',statute:'民法759條之10',body:'其他條文'},
+    {id:'nested',subject:'物權',title:'複合條號',statute:'民法759條之1-2',body:'其他條文'},
+    {id:'canonical',subject:'物權',title:'完整條號',statute:'民法第759條之1',body:'登記推定'},
+  ];
+  for (const query of ['759-1','§759-1','第759條之1','民法759之1','民法759條之1','民法第759條之1']) {
+    assert.deepEqual(searchLawNotes(source,query).map(hit=>hit.note.id).sort(),
+      ['a','b','c','canonical'],query);
+  }
+  assert.deepEqual(searchLawNotes(source,'第759條').map(hit=>hit.note.id),[]);
+  assert.deepEqual(searchLawNotes(source,'第759條之10').map(hit=>hit.note.id),['long']);
+  assert.deepEqual(searchLawNotes(source,'759條之1-2').map(hit=>hit.note.id),['nested']);
+});

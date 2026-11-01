@@ -25,6 +25,10 @@ const normalizeCitations = (value: string): string =>
     .replace(/§\s*(\d+)\s*(?:-\s*(\d+)|之\s*(\d+))/g,
       (_match, number: string, a: string | undefined, b: string | undefined) => "§" + number + "-" + (a || b))
     .replace(/§\s*(\d+)/g, "§$1")
+    // Source notes also use bare 民法759之1、民法759條之1 or 759之1條.
+    // Do not rewrite 第... citations or a prefix of longer article numbers.
+    .replace(/(^|[^第\d條之])(\d{1,4})(?:條之|之)(\d{1,3})條?(?![\d之-])/g,
+      (_match, prefix: string, number: string, suffix: string) => prefix + number + "-" + suffix)
     .replace(/\s+/g, " ").trim();
 const normalize = (value: string): string =>
   normalizeCitations(value).toLocaleLowerCase("zh-TW");
