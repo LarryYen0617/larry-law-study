@@ -33,6 +33,13 @@ summary{cursor:pointer;font-weight:600}#result:focus{outline:3px solid #257fca}
 <p class="muted">法條基準：中華民國民法第66–70、757–761、817、827、828、1148、1151條；查核日期2026-10-31。<a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=B0000001" rel="noopener noreferrer" target="_blank">全國法規資料庫：民法</a>。如法規修正，應以最新官方版本為準。</p>
 <form id="exam"><p id="progress" class="muted" role="status" aria-live="polite">已作答 0／25 題，尚有25題未作答。</p><nav aria-label="題目快速導覽"><p class="muted">點選題號跳轉；深色表示已作答。</p><div id="question-map" class="question-map"></div><button id="next-unanswered" type="button">跳至下一題未作答</button></nav><div id="questions"></div><div class="actions"><button class="primary" type="submit">交卷並查看詳解</button><button type="button" id="clear">重新作答</button></div></form>
 <section id="result" class="summary" aria-live="polite" aria-atomic="true" tabindex="-1"><p>尚未交卷。共25題，每題4分，滿分100分。</p></section>
+<section id="unsevered-produce" aria-labelledby="unsevered-title">
+<h2 id="unsevered-title">考前查漏｜未分離的出產物（民法第66條第2項）</h2>
+<p>民法第66條第2項將<strong>不動產的出產物尚未分離者</strong>視為該不動產的一部分。例如果園樹上的橘子尚未採下，不能只因日後能摘取，就先當成已獨立存在的動產；摘下後則應重新判斷其物之分類及權利歸屬。</p>
+<details><summary>自測：甲賣果園給乙，土地尚未辦移轉登記，樹上橘子已屬乙所有嗎？</summary>
+<p><strong>爭點：</strong>橘子分離前的物之分類，以及土地買賣契約與物權移轉的區別。<strong>法規：</strong>民法第66條第2項、第758條。<strong>涵攝：</strong>尚未採摘的橘子為不動產的未分離出產物；土地買賣契約成立不代表所有權已登記移轉。<strong>結論：</strong>不得僅憑簽約即認定乙已取得果園及其未分離出產物的所有權；乙是否另有契約上採收請求權，仍須看約定及其他事實。</p></details>
+<p class="muted">這是<strong>不計分的補充案例</strong>，25題正式模擬題數與計分方式不變。法源：<a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&amp;flno=66" target="_blank" rel="noopener noreferrer">民法第66條</a>、<a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&amp;flno=758" target="_blank" rel="noopener noreferrer">民法第758條</a>。</p>
+</section>
 <section aria-label="申論練習"><h2>申論延伸（原創案例）</h2>
 <details><summary>案例一：土地買賣、繼承與登記</summary><p>甲與乙簽訂土地買賣契約但尚未辦移轉登記，甲死亡，丙為繼承人。試比較乙之買賣契約地位、丙因繼承取得物權的時點，以及丙再處分土地的登記要件。</p><p><strong>答題架構：</strong>爭點（買賣債權與物權、繼承取得）→第758、759條→分別涵攝甲乙買賣、甲死亡與丙處分→結論。須區分丙繼承後承受契約義務等其他問題，不能以繼承一詞直接否定乙的債權。</p></details>
 <details><summary>案例二：同一手機的四種交付</summary><p>甲將手機讓與乙。分別假設：（一）甲直接交給乙；（二）乙本已借用；（三）甲約定繼續替乙保管；（四）手機由丙保管，甲讓與對丙的返還請求權。請依第761條逐一判斷。</p><p><strong>答題架構：</strong>爭點（動產物權讓與交付）→第761條各項→現實交付、簡易交付、占有改定、指示交付→逐案結論。不要把占有改定誤寫成受讓人原已占有。</p></details><details><summary>案例三：兩名繼承人、公同共有與土地處分</summary><p>甲死亡留下土地，乙、丙為共同繼承人，遺產尚未分割，也尚未辦繼承登記。乙主張自己已有二分之一持分，便自行與丁簽約出售整筆土地。試分析乙的繼承取得、共有關係與處分效力。</p><p><strong>答題架構：</strong>爭點（繼承取得、公同共有與處分）→第1148、759、1151、827、828條→先區分繼承開始與登記，再分析公同共有及全體同意原則與法定例外→結論。買賣契約的債權效力不得與土地所有權移轉混同。</p></details></section>
@@ -55,6 +62,14 @@ bank.forEach((row,i)=>{
   label.append(radio,span);box.append(label);
  });
  const explanation=document.createElement("div");explanation.className="explanation";explanation.hidden=true;box.append(explanation);area.append(box);
+});
+// Numbered question links must move keyboard focus to the question itself,
+// not leave Tab navigation stranded in the 25-link map.
+questionMap.addEventListener("click",event=>{
+ const link=event.target.closest('a[href^="#question-"]');
+ if(!link)return;
+ const box=document.getElementById(link.hash.slice(1));
+ box?.querySelector("input")?.focus({preventScroll:true});
 });
 function updateProgress(){
  const answered=bank.reduce((count,_row,i)=>count+Number(Boolean(form.querySelector('input[name="q'+i+'"]:checked'))),0);
