@@ -8,7 +8,7 @@ spec = importlib.util.spec_from_file_location("production_audit", SCRIPT)
 module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
 
-def item(key="id-1", href="index.html#example"):
+def item(key="note:id-1", href="index.html#example"):
     return {"id": key, "type": "note", "subject": "civilgeneral",
             "title": "民法", "body": "物權", "href": href}
 
@@ -36,7 +36,7 @@ class ProductionIndexAuditTests(unittest.TestCase):
     def test_rejects_non_object_record(self):
         self.assertFalse(module.inspect({"version": 1, "items": [None]})["valid"])
     def test_rejects_loss_of_record_category_even_if_total_is_unchanged(self):
-        records = [item("id-1"), item("id-2")]
+        records = [item("note:id-1"), item("note:id-2")]
         report = module.inspect({"version": 1, "items": records},
                                 min_records=2, baseline_types={"note": 1, "teacher": 1})
         self.assertFalse(report["valid"])
