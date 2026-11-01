@@ -5,7 +5,16 @@ let knowledgeMode=typeof location!=='undefined'&&location.hash==='#teacher'?'tea
 try{const v=JSON.parse(localStorage.getItem(KNOWLEDGE_KEY)||'null');if(v&&typeof v==='object')for(const key of ['familiar','answers','drafts'])if(v[key]&&typeof v[key]==='object'&&!Array.isArray(v[key]))knowledgeState[key]=v[key];}catch{}
 function knowledgeSave(){try{localStorage.setItem(KNOWLEDGE_KEY,JSON.stringify(knowledgeState));return true;}catch{$k('#knowledgeStatus').textContent='本機儲存失敗，請先下載練習紀錄備份。';return false;}}
 function kr(refs){return `<div class="ref-links">${refs.map(r=>{let u;try{u=new URL(r.url);}catch{return '';}return u.protocol==='https:'&&u.hostname.endsWith('.gov.tw')?`<a href="${ke(u.href)}" target="_blank" rel="noopener noreferrer">${ke(r.label)} ↗</a>`:'';}).join('')}</div>`;}
-function knowledgeMatches(v){return !knowledgeQuery||JSON.stringify(v).toLowerCase().includes(knowledgeQuery.toLowerCase());}
+// Search the text a student can actually read, not internal IDs, source URLs,
+// or JSON metadata that can make unrelated notes appear as matches.
+function knowledgeMatches(v){
+ if(!knowledgeQuery)return true;
+ const fields=['name','title','points','trap','originalQuestion','facts','issues','options','why','answer','levels','status','privacy','body','text','summary'];
+ const values=fields.flatMap(key=>Array.isArray(v?.[key])?v[key]:[v?.[key]]);
+ const refLabels=Array.isArray(v?.refs)?v.refs.map(ref=>ref?.label):[];
+ const searchable=[...values,...refLabels].filter(value=>typeof value==='string').join(' ').normalize('NFKC').toLocaleLowerCase('zh-TW');
+ return searchable.includes(knowledgeQuery.normalize('NFKC').toLocaleLowerCase('zh-TW'));
+}
 function visibleKnowledgeSubjects(){return knowledge.subjects.filter(s=>knowledgeSubject==='all'||s.id===knowledgeSubject);}
 function courseSupplements(applyQuery=true){return visibleKnowledgeSubjects().flatMap(s=>s.cards.filter(c=>c.courseSupplement&&(!applyQuery||knowledgeMatches(c))).map(c=>({...c,subjectName:s.name})));}
 function supplementMarkdown(){const cards=courseSupplements(false);return cards.length?'\n\n## 法源補充\n'+cards.map(c=>'\n### '+c.subjectName+'｜'+c.title+'\n'+c.points.map(t=>'- '+t).join('\n')+'\n'+c.source+'\n'+c.refs.map(r=>r.label+' '+r.url).join('\n')).join('\n'):'';}

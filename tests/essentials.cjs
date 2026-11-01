@@ -4,6 +4,23 @@ const el=s=>{if(!nodes.has(s))nodes.set(s,{innerHTML:'',value:'',textContent:'',
 const ctx=vm.createContext({window:{print(){}},URL,Blob,setTimeout,localStorage:{getItem:k=>saved.get(k),setItem:(k,v)=>saved.set(k,v)},document:{querySelector:el,querySelectorAll:()=>[],addEventListener(t,f){(events[t]??=[]).push(f);},createElement:()=>({click(){}})}});
 vm.runInContext(fs.readFileSync(path.join(root,'knowledge-data.js'),'utf8')+'\n'+fs.readFileSync(path.join(root,'property-midterm-cards.js'),'utf8')+'\n'+fs.readFileSync(path.join(root,'essentials.js'),'utf8'),ctx);
 const run=s=>vm.runInContext(s,ctx),click=dataset=>{for(const f of events.click||[])f({target:{closest:()=>({dataset})}});};
+// Search must not match internal IDs or official-link URL fragments that are
+// not student-facing content. Full-width numbers remain searchable.
+run("knowledgeQuery='LawSingle.aspx'");
+assert.equal(run("knowledgeMatches({id:'note:foo',title:'民法第66條',refs:[{label:'法條來源',url:'https://law.moj.gov.tw/LawClass/LawSingle.aspx'}]})"),false);
+run("knowledgeQuery='note:foo'");
+assert.equal(run("knowledgeMatches({id:'note:foo',title:'民法第66條'})"),false);
+run("knowledgeQuery='民法第６６條'");
+assert.equal(run("knowledgeMatches({title:'民法第66條',points:['不動產與動產區分']})"),true);
+run("knowledgeQuery='不動產'");
+assert.equal(run("knowledgeMatches({title:'民法第66條',points:['不動產與動產區分']})"),true);
+run("knowledgeQuery=''");
+const essentialsHTML=fs.readFileSync(path.join(root,'essentials.html'),'utf8');
+assert.ok(essentialsHTML.includes('法源查核日期與範圍依各張教材卡片標示'),
+  'footer must not claim a stale blanket statute verification date');
+assert.ok(!essentialsHTML.includes('法源查讀日2026-10-23'),
+  'stale whole-site source verification date must be removed');
+
 assert.equal(run('knowledge.subjects.length'),9);assert.equal(run('knowledgeMode'),'notes');assert.ok(!el('#knowledgeContent').innerHTML.includes('查看完整自編擬答'));
 assert.equal(run('knowledge.cases.length'),4);assert.equal(run('knowledge.quizzes.length'),6);
 assert.ok(el('#knowledgeContent').innerHTML.includes('選一科，專注讀一章。'));assert.ok(!el('#knowledgeContent').innerHTML.includes('data-knowledge-course='),'Empty notes page must not duplicate the subject selector');click({knowledgeCourse:'criminalgeneral'});assert.ok(el('#knowledgeContent').innerHTML.includes('條號校正'));assert.ok(el('#knowledgeContent').innerHTML.includes('第21條'));
