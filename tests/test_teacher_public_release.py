@@ -130,7 +130,7 @@ class TeacherPublicReleaseTests(unittest.TestCase):
         originals = sanitize(self.site)
         self.index()
         answer = originals[0]["answer"]
-        (self.site / "wrapped.js").write_text(" \\n ".join(answer), encoding="utf-8")
+        (self.site / "wrapped.js").write_text(" \n ".join(answer), encoding="utf-8")
         with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
             validate_public(self.site, originals)
 
