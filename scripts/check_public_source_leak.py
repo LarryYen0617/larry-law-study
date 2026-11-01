@@ -72,7 +72,9 @@ def _private_segments(value):
     offsets = list(range(0, len(content) - width + 1, step))
     if offsets[-1] != len(content) - width:
         offsets.append(len(content) - width)
-    return tuple(dict.fromkeys(content[offset:offset + width] for offset in offsets))
+    # Keep the full original too: Base64 of a complete string is not
+    # generally a substring of Base64 of an overlapping window.
+    return tuple(dict.fromkeys([content] + [content[offset:offset + width] for offset in offsets]))
 
 
 def validate_public_site_text(source, site_root):
