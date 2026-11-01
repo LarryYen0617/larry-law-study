@@ -29,13 +29,22 @@ class PropertyMidtermPracticeTests(unittest.TestCase):
 
     def test_statute_coverage_and_no_deleted_statute_misquote(self):
         cited = {str(q[3]) for q in self.questions}
-        for article in ("66", "67", "68", "69", "70", "757", "758", "759", "759-1", "760", "761"):
+        for article in ("66", "67", "68", "69", "70", "757", "758", "759", "759-1", "760", "761", "802", "803"):
             self.assertIn(article, cited)
         deleted = [q for q in self.questions if str(q[3]) == "760"]
         self.assertEqual(len(deleted), 1)
         self.assertIn("刪除", deleted[0][1][deleted[0][2]])
         for article in ("817", "827", "828", "1148", "1151"):
             self.assertIn(article, cited, "coownership/inheritance coverage missing: " + article)
+        # 教師範圍含無主物先占；遺失物不可誤認為無主物。
+        ownerless = [q for q in self.questions if str(q[3]) == "802"]
+        lost = [q for q in self.questions if str(q[3]) == "803"]
+        self.assertEqual(len(ownerless), 1)
+        self.assertEqual(len(lost), 1)
+        self.assertIn("所有之意思", ownerless[0][0])
+        self.assertIn("法令另有規定", ownerless[0][4])
+        self.assertIn("學校管理機關", lost[0][1][lost[0][2]])
+        self.assertIn("並非無主動產", lost[0][4])
         self.assertIn("案例三：兩名繼承人", self.html)
         self.assertIn("全國法規資料庫", self.html)
 
