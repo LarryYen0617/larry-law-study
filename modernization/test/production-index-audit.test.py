@@ -8,7 +8,7 @@ spec = importlib.util.spec_from_file_location("production_audit", SCRIPT)
 module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
 
-def item(key="id-1", href="index.html#example"):
+def item(key="note:id-1", href="index.html#example"):
     return {"id": key, "type": "note", "subject": "civilgeneral",
             "title": "民法", "body": "物權", "href": href}
 
@@ -36,7 +36,7 @@ class ProductionIndexAuditTests(unittest.TestCase):
     def test_rejects_non_object_record(self):
         self.assertFalse(module.inspect({"version": 1, "items": [None]})["valid"])
     def test_rejects_loss_of_record_category_even_if_total_is_unchanged(self):
-        records = [item("id-1"), item("id-2")]
+        records = [item("note:id-1"), item("note:id-2")]
         report = module.inspect({"version": 1, "items": records},
                                 min_records=2, baseline_types={"note": 1, "teacher": 1})
         self.assertFalse(report["valid"])
@@ -54,6 +54,40 @@ class ProductionIndexAuditTests(unittest.TestCase):
                                        min_records=18, baseline_types={"teacher": 18})["valid"])
         self.assertFalse(module.inspect({"version": 1, "items": rows[:-1]},
                                         min_records=17, baseline_types={"teacher": 18})["valid"])
+
+    def test_rejects_rows_browser_would_discard(self):
+        cases = [
+            {"id": "note:bad/path"},
+            {"id": "note:" + "a" * 151},
+            {"type": "unrecognized"},
+            {"title": "法" * 1001},
+            {"body": "a" * 100001},
+            {"href": "teacher-original.html"},
+            {"href": "class-notes/Property.html"},
+            {"href": "index.html?x=1\\x7f"},
+            {"href": "index.html#bad\\nfragment"},
+            {"href": "index.html?path=foo\\\\bar"},
+            {"href": "index.html/extra"},
+            {"href": "index.html%2fprivate"},
+        ]
+        for changes in cases:
+            with self.subTest(changes=list(changes)):
+                report = module.inspect({"version": 1, "items": [dict(item(), **changes)]})
+                self.assertFalse(report["valid"], changes)
+
+    def test_accepts_public_browser_links(self):
+        for href in ("index.html", "essentials.html?subject=property#note",
+                     "library.html?item=question%3A123#questions",
+                     "reading.html?book=wan-jie-fa-shen&chapter=557",
+                     "class-notes/property-midterm-1151.html#sec-1"):
+            with self.subTest(href=href):
+                self.assertTrue(module.inspect({"version": 1, "items": [item(href=href)]})["valid"])
+
+    def test_rejects_more_than_browser_record_cap(self):
+        records = [item(f"note:{i}") for i in range(20001)]
+        report = module.inspect({"version": 1, "items": records})
+        self.assertFalse(report["valid"])
+        self.assertTrue(any("browser safety cap" in p for p in report["problems"]))
 
     def test_rejects_blank_title(self):
         record = item()
