@@ -228,6 +228,29 @@ try{
   await multiTermRecord.waitFor({timeout:5000});
   assert.match(await multiTermRecord.locator("p").innerText(),/內容關鍵字/,"multi-term excerpt omitted the body match when the first term matched only the title");
   await excerptPage.close();
+  // Exercise the actual preview page with both query and source shorthand.
+  // The long inserted article must never be treated as article 759-1.
+  const articlePage=await browser.newPage();
+  await articlePage.route("**/search-index.json",async route=>{
+    const fixture=JSON.parse(await readFile(resolve(site,"search-index.json"),"utf8"));
+    fixture.items.push(
+      {id:"note:inserted-short-regression",type:"note",subject:"property",
+       title:"插入條號簡寫回歸甲",body:"民法第759之1條 登記推定",href:"courses.html"},
+      {id:"note:inserted-long-regression",type:"note",subject:"property",
+       title:"插入條號簡寫回歸乙",body:"民法第759條之10 其他條文",href:"courses.html"}
+    );
+    await route.fulfill({status:200,contentType:"application/json; charset=utf-8",body:JSON.stringify(fixture)});
+  });
+  await articlePage.goto("http://127.0.0.1:"+port+"/search-preview.html",{waitUntil:"domcontentloaded"});
+  await articlePage.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("筆資料已載入"),null,{timeout:20000});
+  for(const query of ["第759之1條","第 ７５９ 之 １ 條","第759條之1"]){
+    await articlePage.locator("#query").fill(query);
+    await articlePage.waitForFunction(q=>new URLSearchParams(location.search).get("q")===q,query,{timeout:5000});
+    const titles=await articlePage.locator("#results article h2").allTextContents();
+    assert.ok(titles.includes("插入條號簡寫回歸甲"),"missing inserted article for "+query);
+    assert.ok(!titles.includes("插入條號簡寫回歸乙"),"matched longer article for "+query);
+  }
+  await articlePage.close();
   // Property midterm: grades must not remain stale after changing an answer.
   const propertyQuiz=await context.newPage();
   await propertyQuiz.setViewportSize({width:320,height:800});
