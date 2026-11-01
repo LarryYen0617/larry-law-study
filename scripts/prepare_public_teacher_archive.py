@@ -18,29 +18,41 @@ CHUNKS = tuple(f"library-teacher-{number:02}.js" for number in range(1, 6))
 PUSH_PATTERN = re.compile(r"window\.LEX_LIBRARY\.teacherQuestions\.push\(\.\.\.(\[[\s\S]*\])\);\s*$")
 
 
-# A teacher answer can quote an independently public statute verbatim. Pin
-# the verified article text, so formatting-only comparisons do not mistake
-# the statutory quotation for private teacher prose. An edited or newly
-# injected "official" article cannot silently expand this exception.
+# Teacher answers sometimes reproduce official law. Those passages are
+# public statutes, not private teacher-authored text. Only independently
+# pinned statutory snapshots in explicit source fields may be exempted from
+# *formatting-only* comparisons; raw/encoded private matches still fail.
 PUBLIC_STATUTE_TEXT_SHA256 = {
-    "B0000001-1030-2": "35f67ad92511121b51dea9f986800c45a4aea023a33eca11e12a9ffa3d714f55",
+    "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=1030-2":
+        "35f67ad92511121b51dea9f986800c45a4aea023a33eca11e12a9ffa3d714f55",
+    "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000005&flno=6-1":
+        "8ec44d26a6710924f72b2226212157aaac98501e8b60659c797618e4876be7b5",
 }
 
 
 def verified_statute_excerpts(path, payload):
-    if path.name != "note-law-data.js" or not payload.startswith("window.LEX_NOTE_LAWS="):
+    if path.name not in ("note-law-data.js", "teacher-corrections.js"):
+        return ()
+    if not payload.startswith(("window.LEX_NOTE_LAWS=", "window.LEX_TEACHER_CORRECTIONS=")):
         return ()
     try:
         data = json.loads(payload.split("=", 1)[1].strip().removesuffix(";"))
-        articles = data["articles"]
-    except (ValueError, KeyError, TypeError):
+        if path.name == "note-law-data.js":
+            candidates = data["articles"].values()
+        else:
+            candidates = (
+                source for item in data for source in item.get("sources", [])
+            )
+    except (ValueError, KeyError, TypeError, AttributeError):
         return ()
     excerpts = []
-    for article_id, expected in PUBLIC_STATUTE_TEXT_SHA256.items():
-        article = articles.get(article_id)
-        if not isinstance(article, dict) or not isinstance(article.get("text"), str):
+    for source in candidates:
+        if not isinstance(source, dict):
             continue
-        text = _canonical_private_text(article["text"])
+        expected = PUBLIC_STATUTE_TEXT_SHA256.get(source.get("url"))
+        if not expected or not isinstance(source.get("text"), str):
+            continue
+        text = _canonical_private_text(source["text"])
         if hashlib.sha256(text.encode("utf-8")).hexdigest() == expected:
             excerpts.append(text)
     return tuple(excerpts)
