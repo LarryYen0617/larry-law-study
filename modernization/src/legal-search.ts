@@ -51,8 +51,13 @@ function queryGroups(query: string): string[][] {
   return tokens(query).flatMap(token => {
     const compound = token.match(/^(.+?)(第\d+條(?:之\d+)?|§\d+(?:-\d+)?)$/)
       || token.match(/^(.+?法)(\d{1,4}(?:-|條之|之)\d{1,3})$/)
-      || token.match(/^(.+?法)(\d{1,4}條)$/);
-    return (compound ? [compound[1], compound[2]] : [token]).map(variants);
+      || token.match(/^(.+?法)(\d{1,4}條)$/)
+      || token.match(/^(.+?法)(\d{1,4})$/);
+    // Attached bare numbers denote articles; standalone numbers remain free text.
+    const parts = compound
+      ? [compound[1], /^\d{1,4}$/.test(compound[2]) ? compound[2] + "條" : compound[2]]
+      : [token];
+    return parts.map(variants);
   });
 }
 function containsTerm(text: string, term: string): boolean {

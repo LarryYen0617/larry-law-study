@@ -28,10 +28,13 @@ test('base article does not collide with inserted article', () => {
   assert.deepEqual(ids('第759條之10'), ['c']);
 });
 test('bare base article is exact and preserves the statute name', () => {
-  for (const query of ['759條', '７５９條', '民法759條', '民法７５９條']) {
+  for (const query of ['759條', '７５９條', '民法759條', '民法７５９條', '民法759', '民法７５９']) {
     assert.deepEqual(ids(query), ['a'], query);
   }
   assert.deepEqual(ids('刑法759條'), []);
+  assert.deepEqual(ids('刑法759'), []);
+  assert.deepEqual(ids('民法7590'), []);
+  assert.deepEqual(ids('759'), ['a', 'b', 'c', 'd']); // standalone digits are still free-text
 });
 test('inserted article accepts canonical, section and bare shorthand', () => {
   for (const query of ['§759-1', '759-1', '７５９－１']) {
