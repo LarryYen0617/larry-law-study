@@ -53,6 +53,28 @@ def _encoded_needles(value):
     return {value, standard, urlsafe, standard.rstrip("="), urlsafe.rstrip("=")}
 
 
+def _private_segments(value):
+    """Return overlapping distinctive excerpts from source-only text.
+
+    With 64-character windows every 16 characters, every verbatim excerpt
+    of at least 80 characters contains a complete checked window, including
+    excerpts between the beginning, middle, and end of a long original.
+    Short originals (40-80 chars) are checked in full.
+    """
+    if not isinstance(value, str):
+        return ()
+    content = value.strip()
+    if len(content) < 40:
+        return ()
+    if len(content) <= 80:
+        return (content,)
+    width, step = 64, 16
+    offsets = list(range(0, len(content) - width + 1, step))
+    if offsets[-1] != len(content) - width:
+        offsets.append(len(content) - width)
+    return tuple(dict.fromkeys(content[offset:offset + width] for offset in offsets))
+
+
 def validate_public_site_text(source, site_root):
     markers = []
     for case in source.get("cases", []):
@@ -60,8 +82,8 @@ def validate_public_site_text(source, site_root):
             continue
         case_id = str(case.get("id", "unknown"))
         prompt = case.get("originalQuestion")
-        if isinstance(prompt, str) and len(prompt.strip()) >= 40:
-            markers.extend((case_id, text) for text in _encoded_needles(prompt.strip()))
+        for segment in _private_segments(prompt):
+            markers.extend((case_id, text) for text in _encoded_needles(segment))
         for field in ("originalQuestionSha256", "originalFileSha256"):
             digest = case.get(field)
             if (isinstance(digest, str) and len(digest) == 64
