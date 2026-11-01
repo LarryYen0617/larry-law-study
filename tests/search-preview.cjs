@@ -37,7 +37,7 @@ for(const href of ['index.html','essentials.html#property','reading.html?chapter
 for(const href of ['https://example.test/index.html','//example.test/index.html',
  'https://user:password@example.test/index.html','https://evil.example@example.test/index.html',
  '../index.html','class-notes/../index.html','class-notes/%2e%2e/index.html',
- 'teacher-original.html','private-notes.html','index.html\\evil','javascript:alert(1)',
+ 'index.html\u007f','teacher-original.html','private-notes.html','index.html\\evil','javascript:alert(1)',
  '/index.html','class-notes/Property.html','index.html%2fprivate']){
  assert.equal(api.safeHref(href),null,'untrusted preview href must fail closed: '+href);
 }

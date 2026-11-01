@@ -114,7 +114,7 @@ function safeHref(href){
   // Match the primary search's explicit public-page allowlist. A same-origin
   // absolute URL (including userinfo) or arbitrary local HTML is not trusted.
   if(typeof href!=="string"||!/^(?:essentials|library|index|reading|legal-english|photonics|courses|class-notes\/[a-z0-9-]+)\.html(?:[?#]|$)/.test(href))return null;
-  if(href.includes("\\")||/[\u0000-\u001f]/.test(href))return null;
+  if(href.includes("\\")||/[\u0000-\u001f\u007f]/.test(href))return null;
   try{
     const target=new URL(href,location.href),base=new URL(".",location.href);
     if(target.origin!==base.origin||!target.pathname.startsWith(base.pathname)||target.username||target.password)return null;
