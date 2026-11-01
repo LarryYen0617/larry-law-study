@@ -154,6 +154,15 @@ for(const spelling of ['第759條','§759','第759條之10']){
 }
 const baseArticle={...inserted,id:'base-article',body:'民法第759條：繼承取得',_body:normalize('民法第759條：繼承取得')};
 api.setRecords([baseArticle,inserted,nextInserted]);
+for(const spelling of ['民法759','民法７５９']){
+ api.setQuery(spelling);api.search();
+ assert.deepEqual(Array.from(api.getHits(),x=>x.id),['base-article'],
+   'attached bare article must not match inserted articles: '+spelling);
+}
+api.setQuery('刑法759');api.search();
+assert.equal(api.getHits().length,0,'attached shorthand must preserve law-name AND semantics');
+api.setQuery('民法7590');api.search();
+assert.equal(api.getHits().length,0,'attached shorthand must reject a longer number');
 for(const spelling of ['759條','７５９條','民法759條','民法７５９條']){
   api.setQuery(spelling);api.search();
   assert.deepEqual(Array.from(api.getHits(),x=>x.id),['base-article'],'bare base article lookup failed: '+spelling);

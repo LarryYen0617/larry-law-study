@@ -18,8 +18,10 @@
  function queryGroups(value){return terms(value).flatMap(token=>{
   const compound=token.match(/^(.+?)(第\d+條(?:之\d+)?|§\d+(?:-\d+)?)$/)
    ||token.match(/^(.+?法)(\d{1,4}(?:-|條之|之)\d{1,3})$/)
-   ||token.match(/^(.+?法)(\d{1,4}條)$/);
-  return (compound?[compound[1],compound[2]]:[token]).map(term=>{
+   ||token.match(/^(.+?法)(\d{1,4}條)$/)
+   ||token.match(/^(.+?法)(\d{1,4})$/);
+  // A law-name-attached number (民法759) means an article; standalone 759 stays free text.
+  return (compound?[compound[1],/^\d{1,4}$/.test(compound[2])?compound[2]+'條':compound[2]]:[token]).map(term=>{
    const bareBase=term.match(/^(\d{1,4})條$/);
    if(bareBase)return ['第'+bareBase[1]+'條','§'+bareBase[1],bareBase[1]+'條'];
    const bare=term.match(/^(\d{1,4})(?:-|條之|之)(\d{1,3})$/);
