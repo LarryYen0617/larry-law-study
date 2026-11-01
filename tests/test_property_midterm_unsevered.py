@@ -12,8 +12,9 @@ class PropertyMidtermUnseveredTests(unittest.TestCase):
     def setUpClass(cls):
         cls.html = PAGE.read_text(encoding="utf-8")
         payload = re.search(
-            r'<script id="question-bank" type="application/json">([\\s\\S]*?)</script>',
+            r'<script id="question-bank" type="application/json">(.*?)</script>',
             cls.html,
+            flags=re.DOTALL,
         )
         if payload is None:
             raise AssertionError("Original 25-question bank missing")
