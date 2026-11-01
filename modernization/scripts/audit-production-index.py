@@ -26,7 +26,10 @@ def safe_public_href(href):
         url = urlsplit(href)
     except ValueError:
         return False
-    return (not url.scheme and not url.netloc
+    # urlsplit() silently trims leading ASCII spaces, while the browser's
+    # safeHref() requires the public page name at the very first character.
+    # A CI-approved row must not be silently discarded by the search UI.
+    return (href.startswith(url.path) and not url.scheme and not url.netloc
             and (url.path in PUBLIC_PAGES or bool(CLASS_NOTE_PATTERN.fullmatch(url.path))))
 
 # Public Pages contains 18 authored teacher-case summaries. The 91 source-only
