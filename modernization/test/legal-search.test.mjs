@@ -112,5 +112,5 @@ test('bare 之/條之 citations in source notes match exact inserted articles', 
   }
   assert.deepEqual(searchLawNotes(source,'第759條').map(hit=>hit.note.id),[]);
   assert.deepEqual(searchLawNotes(source,'第759條之10').map(hit=>hit.note.id),['long']);
-  assert.deepEqual(searchLawNotes(source,'759-1-2').map(hit=>hit.note.id),['nested']);
+  assert.deepEqual(searchLawNotes(source,'759條之1-2').map(hit=>hit.note.id),['nested']);
 });
