@@ -142,6 +142,29 @@ class TeacherPublicReleaseTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
             validate_public(self.site, originals)
 
+    def test_public_statute_quote_is_not_mistaken_for_private_answer(self):
+        # 民法第1030條之2 is public law. An answer quoting it with altered
+        # spacing must not prevent publication of the official law snapshot.
+        official = (
+            "夫或妻之一方以其婚後財產清償其婚前所負債務，或以其婚前財產清償婚姻關係存續中所負債務，"
+            "除已補償者外，於法定財產制關係消滅時，應分別納入現存之婚後財產或婚姻關係存續中所負債務計算。\\n"
+            "夫或妻之一方以其前條第一項但書之財產清償婚姻關係存續中其所負債務者，適用前項之規定。"
+        )
+        originals = sanitize(self.site)
+        self.index()
+        originals[0]["answer"] = " ".join(official)
+        payload = "window.LEX_NOTE_LAWS=" + json.dumps({
+            "articles": {"B0000001-1030-2": {"text": official}}
+        }, ensure_ascii=False) + ";"
+        (self.site / "note-law-data.js").write_text(payload, encoding="utf-8")
+        self.assertEqual(validate_public(self.site, originals)[:2], (3620, 18))
+
+        # A forged official text must not grant a new privacy exception.
+        tampered = payload.replace("適用前項之規定。", "適用前項之規定。竄改")
+        (self.site / "note-law-data.js").write_text(tampered, encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
+            validate_public(self.site, originals)
+
     def test_inventory_changes_fail_closed(self):
         (self.site / "library-teacher-05.js").write_text(
             "window.LEX_LIBRARY.teacherQuestions.push(...[]);", encoding="utf-8")
