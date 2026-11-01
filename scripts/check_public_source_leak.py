@@ -6,6 +6,7 @@ messages intentionally contain file paths and case IDs, never private prompts.
 import base64
 import html
 import re
+import unicodedata
 from pathlib import Path
 from urllib.parse import unquote
 
@@ -51,6 +52,16 @@ def _encoded_needles(value):
     # JavaScript atob(), Python and many web decoders accept omitted padding.
     # Checking only padded forms leaves those published strings undetected.
     return {value, standard, urlsafe, standard.rstrip("="), urlsafe.rstrip("=")}
+
+
+def _canonical_private_text(value):
+    """Compare private excerpts after harmless Unicode and spacing changes.
+
+    A public copy may insert line breaks or spaces between characters, or
+    replace full-width characters with their NFKC equivalents. These are
+    formatting changes, not permission to publish source-only material.
+    """
+    return re.sub(r"\\s+", "", unicodedata.normalize("NFKC", value))
 
 
 def _private_segments(value):
@@ -101,6 +112,10 @@ def validate_public_site_text(source, site_root):
             markers.extend((str(entry.get("id", "inventory-unknown")), text) for text in _encoded_needles(digest))
     if not markers:
         return 0
+    canonical_markers = [
+        (case_id, needle, _canonical_private_text(needle))
+        for case_id, needle in markers
+    ]
     root = Path(site_root)
     checked = 0
     for path in root.rglob("*"):
@@ -110,8 +125,10 @@ def validate_public_site_text(source, site_root):
         checked += 1
         # Escaped text must not bypass the final Pages privacy check.
         decoded = _decoded_public_text(content)
-        for case_id, needle in markers:
-            if needle in content or needle in decoded:
+        canonical = _canonical_private_text(decoded)
+        for case_id, needle, normalized_needle in canonical_markers:
+            if (needle in content or needle in decoded
+                    or normalized_needle in canonical):
                 relative = path.relative_to(root)
                 raise ValueError(
                     f"Private source-only case material in public artifact {relative} (case {case_id})"
