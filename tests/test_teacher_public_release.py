@@ -117,6 +117,15 @@ class TeacherPublicReleaseTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
             validate_public(self.site, originals)
 
+    def test_off_center_teacher_excerpt_blocks_release(self):
+        originals = sanitize(self.site)
+        self.index()
+        originals[0]["question"] = "前" * 80 + "中" * 120 + "後" * 80
+        excerpt = originals[0]["question"][75:155]
+        (self.site / "off-center-excerpt.js").write_text(excerpt, encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
+            validate_public(self.site, originals)
+
     def test_inventory_changes_fail_closed(self):
         (self.site / "library-teacher-05.js").write_text(
             "window.LEX_LIBRARY.teacherQuestions.push(...[]);", encoding="utf-8")
