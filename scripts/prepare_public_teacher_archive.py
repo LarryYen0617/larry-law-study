@@ -7,7 +7,7 @@ import json
 import re
 import subprocess
 from pathlib import Path
-from check_public_source_leak import TEXT_EXTENSIONS, _decoded_public_text, _encoded_needles
+from check_public_source_leak import TEXT_EXTENSIONS, _decoded_public_text, _encoded_needles, _private_segments
 
 EXPECTED_ORIGINALS = 91
 MIN_PUBLIC_SEARCH_ITEMS = 3602
@@ -73,23 +73,11 @@ def validate_public(site, originals):
     authored = [item for item in items if item.get("type") == "teacher"]
     if len(authored) != 18:
         raise ValueError(f"Expected 18 authored public teacher-case summaries, found {len(authored)}")
-    # Source-only questions and answers can be shorter than 80 characters.
-    # Check distinctive 40+ character originals and selected long excerpts,
-    # not just complete long strings. This is a conservative release gate:
-    # a verbatim excerpt must be reviewed before publication.
-    def private_segments(value):
-        text = value.strip()
-        if len(text) < 40:
-            return ()
-        if len(text) <= 160:
-            return (text,)
-        width = 80
-        offsets = (0, (len(text) - width) // 2, len(text) - width)
-        return tuple(dict.fromkeys(text[start:start + width] for start in offsets))
-
+    # Use the same overlapping excerpt gate for teacher questions and answers.
+    # Three sampled excerpts miss verbatim passages between sample positions.
     needles = [(row["id"], needle) for row in originals
                for text in (row["question"], row["answer"])
-               for segment in private_segments(text)
+               for segment in _private_segments(text)
                for needle in _encoded_needles(segment)]
     checked = 0
     for path in site.rglob("*"):
