@@ -74,6 +74,15 @@
       "essay": "questions.html?view=essay&subject=family",
       "materials": [
         {
+          "id": "family-midterm-1151",
+          "subjects": [
+            "family"
+          ],
+          "title": "親屬法｜期中原題、解答與舊法對照",
+          "label": "期中優先：親屬、婚約結婚、法定財產制",
+          "href": "class-notes/family-midterm-1151.html"
+        },
+        {
           "id": "four-subjects-roadmap",
           "subjects": [
             "family",
@@ -352,6 +361,15 @@
       "title": "行政法｜公務員懲戒、行政懲處與救濟",
       "label": "10/20課堂重點：懲戒、懲處與救濟",
       "href": "class-notes/administrative-discipline-remedies.html"
+    },
+    {
+      "id": "family-midterm-1151",
+      "subjects": [
+        "family"
+      ],
+      "title": "親屬法｜期中原題、解答與舊法對照",
+      "label": "期中優先：親屬、婚約結婚、法定財產制",
+      "href": "class-notes/family-midterm-1151.html"
     }
   ]
 }

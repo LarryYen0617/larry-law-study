@@ -1,0 +1,29 @@
+{
+  "updatedAt": "2026-11-02",
+  "notice": "期中與期末依已取得來源分類；題型、範圍與正式試卷分別標示。未分期題庫不推定為當次考題。",
+  "courses": {
+    "family": {
+      "midterm": [{"title":"親屬關係、婚約結婚、法定夫妻財產制","kind":"教材原題與校訂","source":"既有修訂版案例題及選擇題第1至3單元；本次使用者指定期中優先","href":"class-notes/family-midterm-1151.html","note":"72則來源區塊，含續段，不能當成72道完整新題；未取得正式考卷。"}],
+      "final": [{"title":"離婚及其效力；共同財產制延伸","kind":"延伸教材原題","source":"使用者指定離婚期末、共同財產制延伸；修訂版第4、5單元","href":"class-notes/family-midterm-1151.html#unit-5","note":"離婚13則區塊、共同財產制6則區塊；非正式期末試卷或完整命題公告。"}]
+    },
+    "debt": {
+      "midterm": [{"title":"115-1債總期中四題","kind":"有原題來源的題型整理","source":"115-1債總期中考題.doc，壹至肆；knowledge-base.json既有來源對照","href":"questions.html?subject=debt&view=teacher","note":"公開閱讀層保留去識別化題型整理與本站自編擬答；原附資料未提供教師解答，不冒稱標準答案。"}]
+    },
+    "property": {
+      "midterm": [{"title":"25題單選複習與物權期中重點","kind":"範圍整理與自編練習","source":"2026-10-22課堂逐字稿、黑板照片及既有期中整理頁","href":"class-notes/property-midterm-1151.html","note":"25題為既有複習內容，不代表已取得正式期中試卷；BOT研究與命題公告分開。"}],
+      "final": [{"title":"共有、擔保物權、地上權與占有","kind":"範圍線索","source":"物權期中整理頁之課程大綱及課堂範圍段落","href":"class-notes/property-midterm-1151.html#syllabus","note":"已有期末範圍線索，尚未取得期末正式考題；最新教師公告優先。"}]
+    },
+    "legalenglish": {
+      "midterm": [{"title":"法系、法源與法律領域、法院與管轄","kind":"公告範圍與自編練習","source":"2026-10-22 09:32課程公告；legal-english.json.exam","href":"legal-english.html","note":"61題自編詞義練習及中英筆記；以公告三主題為準，教材延伸不推定納入期中。原卷題型對照不等於完整重製歷屆試卷。"}]
+    },
+    "photonics": {
+      "midterm": [{"title":"光電科技期中重點與概念問答","kind":"教材範圍與自編練習","source":"115-1 期中重點.pdf第1至3頁；使用者確認課別","href":"photonics.html","note":"8題自編練習；考試日期、正式試卷與教師標準答案尚未取得。"}]
+    },
+    "admin": {
+      "unassigned": [{"title":"公務員懲戒、懲處與救濟課堂考點","kind":"尚未分期的課堂考點","source":"2026-10-20課堂逐字稿及既有專題查核","href":"class-notes/administrative-discipline-remedies.html#exam","note":"課堂強調的考點，未據此推定為期中或期末完整範圍。"}]
+    },
+    "criminalgeneral": {
+      "unassigned": [{"title":"舊學年刑總期中筆記","kind":"舊學年參考","source":"2025-10-28刑法總則期中考統整筆記；knowledge-base.json.inventory","href":"essentials.html?subject=criminalgeneral","note":"2025年的舊筆記，不歸入115-1本學期期中考題。"}]
+    }
+  }
+}

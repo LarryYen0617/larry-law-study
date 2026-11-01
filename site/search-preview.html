@@ -21,7 +21,7 @@ article h2{font-size:1.1rem;margin:0 0 .25rem}article p{margin:.5rem 0 0;white-s
 #page-jump{width:5rem;max-width:100%;min-height:44px}#pager label{display:inline-flex;align-items:center;gap:.35rem}a{overflow-wrap:anywhere}h2:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #2c8bd8;outline-offset:2px}
 @media(max-width:700px){.search-grid{grid-template-columns:1fr}.search-grid label{width:100%}article{padding:.85rem}}
 </style>
-<link rel="stylesheet" href="experience.css?v=20261029-structure"></head>
+<link rel="stylesheet" href="experience.css?v=20261029-structure"><link rel="stylesheet" href="campus.css?v=20261102"></head>
 <body>
 <main>
 <nav aria-label="返回"><a href="courses.html">← 返回課程與筆記</a> · <a href="discover.html">原有搜尋與複習</a></nav>
@@ -117,7 +117,7 @@ let pendingUserEdits=false;
 function safeHref(href){
   // Match the primary search's explicit public-page allowlist. A same-origin
   // absolute URL (including userinfo) or arbitrary local HTML is not trusted.
-  if(typeof href!=="string"||!/^(?:essentials|library|index|reading|legal-english|photonics|courses|class-notes\/[a-z0-9-]+)\.html(?:[?#]|$)/.test(href))return null;
+  if(typeof href!=="string"||!/^(?:essentials|library|index|reading|legal-english|photonics|courses|exams|class-notes\/[a-z0-9-]+)\.html(?:[?#]|$)/.test(href))return null;
   if(href.includes("\\")||/[\u0000-\u001f\u007f]/.test(href))return null;
   try{
     const target=new URL(href,location.href),base=new URL(".",location.href);

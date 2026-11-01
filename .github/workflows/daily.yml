@@ -38,6 +38,7 @@ jobs:
         run: |
           python scripts/build_legal_english.py
           python scripts/build_learning_catalog.py
+          node scripts/build_exam_catalog.cjs
       - name: 執行離線測試
         run: python -m unittest discover -s tests -v
       - name: 產生題庫校訂資料並驗證內容
@@ -57,6 +58,7 @@ jobs:
           node tests/practice.cjs
           node tests/practice-views.cjs
           node tests/questions.cjs
+          node tests/exams.cjs
           node tests/daily-entry.cjs
           node tests/note-law.cjs
           node tests/study-workspace.cjs
@@ -75,6 +77,7 @@ jobs:
           node scripts/build_search_index.cjs
           node tests/discover.cjs
           node tests/course-catalog.cjs
+          node tests/family-midterm.cjs
           # Only after source tests, rewrite the ephemeral Pages artifact.
           python scripts/prepare_public_teacher_archive.py
           node tests/search-index-links.cjs --self-test

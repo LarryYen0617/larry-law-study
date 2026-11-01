@@ -3,7 +3,7 @@
  const key='lex-nexus-palette-v1',names={forest:'書院墨綠',navy:'典藏藏藍',gold:'曜石燙金',rose:'玫瑰書箋'};
  function apply(value){const id=Object.hasOwn(names,value)?value:'forest';document.documentElement.dataset.palette=id;document.querySelectorAll('[data-palette-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.paletteChoice===id)));return id;}
  let initial='forest';try{initial=localStorage.getItem(key)||initial;}catch{}apply(initial);
- const css=document.createElement('link');css.rel='stylesheet';css.href='palette.css?v=20261026-palette26';document.head.append(css);
+ const css=document.createElement('link');css.rel='stylesheet';css.href=document.currentScript?.src?new URL('palette.css?v=20261026-palette26',document.currentScript.src).href:'palette.css?v=20261026-palette26';document.head.append(css);const campus=document.createElement('link');campus.rel='stylesheet';campus.href=document.currentScript?.src?new URL('campus.css?v=20261102',document.currentScript.src).href:'campus.css?v=20261102';document.head.append(campus);
  window.addEventListener('storage',e=>{if(e.key===key)apply(e.newValue);});
  if(new URL(location.href).searchParams.get('embed')==='1')return;
  const open=document.createElement('button');open.type='button';open.className='palette-open';open.textContent='◈ 配色';open.setAttribute('aria-haspopup','dialog');

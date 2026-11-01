@@ -1,0 +1,6 @@
+/* Filtering changes visibility only, never the existing question/progress stores. */
+(()=>{const scope=document.getElementById('familyScope'),search=document.getElementById('familySearch'),count=document.getElementById('familyCount'),sections=[...document.querySelectorAll('[data-family-scope]')];
+function filter(){let visible=0;const q=search.value.trim().toLocaleLowerCase();for(const s of sections){const allowed=scope.value==='all'||s.dataset.familyScope===scope.value;let matches=0;for(const a of s.querySelectorAll('.family-question')){a.hidden=!allowed||!a.textContent.toLocaleLowerCase().includes(q);if(!a.hidden){matches++;visible++;}}s.hidden=!matches;}count.textContent=`顯示 ${visible} 則來源區塊（續段不另計完整題）`;}
+scope.addEventListener('change',filter);search.addEventListener('input',filter);document.getElementById('familyReset').addEventListener('click',()=>{scope.value='midterm';search.value='';filter();});
+function anchor(){const a=document.getElementById(decodeURIComponent(location.hash.slice(1)));if(a?.classList.contains('family-question')||a?.dataset.familyScope){scope.value='all';search.value='';filter();a.scrollIntoView({block:'start'});}}filter();anchor();window.addEventListener('hashchange',anchor);
+})();

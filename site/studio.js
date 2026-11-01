@@ -33,7 +33,7 @@
   else if(file==='library.html')active=typeof mode!=='undefined'?({questions:'archive',teacher:'originals',sources:'sources',notes:'archivenotes'})[mode]:'archive';
   else if(location.pathname.includes('/class-notes/')||file==='courses.html')active='courses';else if(file==='legal-english.html')active='english';else if(file==='photonics.html')active='science';
   else if(file==='discover.html')active=new URLSearchParams(location.hash.slice(1)).get('view')==='saved'||new URLSearchParams(location.hash.slice(1)).get('view')==='due'?'saved':'search';
-  else if(file==='practice.html'||file==='questions.html')active='questions';
+  else if(file==='exams.html')active='exams';else if(file==='practice.html'||file==='questions.html')active='questions';
   else if(file==='coverage.html')active='coverage';else if(file==='settings.html')active='settings';else if(file==='reading.html')active='reading';else if(file==='study-toolkit.html')active=location.hash==='#method'||location.hash==='#draft'||location.hash==='#templates'?'method':'official';
   return {subject,active,file,last};
  }

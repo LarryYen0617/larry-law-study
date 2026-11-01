@@ -50,11 +50,11 @@
  function validCollection(value){return !!value&&value.version===1&&value.items&&typeof value.items==='object'&&!Array.isArray(value.items)&&Object.keys(value.items).length<=5000&&Object.entries(value.items).every(([id,r])=>/^[a-z]+:[A-Za-z0-9_-]{1,150}$/.test(id)&&r&&r.id===id&&validDate(r.addedOn)&&validDate(r.dueOn)&&Number.isInteger(r.stage)&&r.stage>=0&&r.stage<=5);}
  function dueDate(day,days){if(!validDate(day))throw Error('日期格式不符');const d=new Date(day+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+days);return d.toISOString().slice(0,10);}
  function review(record,day=today(),snooze=false){if(!validDate(day))throw Error('日期格式不符');const intervals=[1,3,7,14,30,30];return {...record,dueOn:dueDate(day,snooze?1:intervals[record.stage]),stage:snooze?record.stage:Math.min(5,record.stage+1)};}
- function safeHref(href){if(typeof href!=='string'||! /^(?:essentials|library|index|reading|legal-english|photonics|courses|class-notes\/[a-z0-9-]+)\.html(?:[?#]|$)/.test(href))return false;
+ function safeHref(href){if(typeof href!=='string'||! /^(?:essentials|library|index|reading|legal-english|photonics|courses|exams|class-notes\/[a-z0-9-]+)\.html(?:[?#]|$)/.test(href))return false;
   // Keep the primary search as strict as the preview: URL parsing can silently
   // normalize tabs/newlines or backslashes inside a relative href.
   if(href.includes('\\')||/[\u0000-\u001f\u007f]/.test(href))return false;
-  try{const u=new URL(href,'https://lex.invalid/');return u.origin==='https://lex.invalid'&&(['/essentials.html','/library.html','/index.html','/reading.html','/courses.html','/legal-english.html','/photonics.html'].includes(u.pathname)||/^\/class-notes\/[a-z0-9-]+\.html$/.test(u.pathname))&&!u.username&&!u.password;}catch{return false;}}
+  try{const u=new URL(href,'https://lex.invalid/');return u.origin==='https://lex.invalid'&&(['/essentials.html','/library.html','/index.html','/reading.html','/courses.html','/legal-english.html','/photonics.html','/exams.html'].includes(u.pathname)||/^\/class-notes\/[a-z0-9-]+\.html$/.test(u.pathname))&&!u.username&&!u.password;}catch{return false;}}
  function validIndex(d){return d?.version===1&&Array.isArray(d.items)&&d.items.length<=20000&&d.items.every(x=>x&&typeof x==='object'&&/^[a-z]+:[A-Za-z0-9_-]{1,150}$/.test(x.id)&&Object.hasOwn(types,x.type)&&typeof x.title==='string'&&x.title.trim().length>0&&x.title.length<=1000&&typeof x.body==='string'&&x.body.length<=100000&&typeof x.subject==='string'&&safeHref(x.href))&&new Set(d.items.map(x=>x.id)).size===d.items.length;}
  // Normalize each immutable index row once, not on every mobile filter/search.
  // Revalidate source strings so tests and future in-memory edits cannot use stale text.

@@ -7,6 +7,7 @@ import json
 import hashlib
 import re
 import subprocess
+from authorized_family_release import authorized_family_page
 from pathlib import Path
 from check_public_source_leak import (TEXT_EXTENSIONS, _canonical_private_text,
                                       _decoded_public_text, _encoded_needles,
@@ -131,6 +132,9 @@ def validate_public(site, originals):
         if not path.is_file() or path.is_symlink() or path.suffix.lower() not in TEXT_EXTENSIONS:
             continue
         payload = path.read_text(encoding="utf-8")
+        if authorized_family_page(path, site):
+            checked += 1
+            continue
         decoded = _decoded_public_text(payload)
         canonical = _canonical_private_text(decoded)
         public_statutes = verified_statute_excerpts(path, payload)

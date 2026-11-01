@@ -1,0 +1,12 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const data={window:{}};vm.runInNewContext(fs.readFileSync('site/exam-data.js','utf8'),data);const D=data.window.LEX_EXAMS;
+assert.equal(D.courses.length,12);assert.equal(D.courses.reduce((n,c)=>n+c.practiceCount,0),1872);assert.equal(D.courses.find(c=>c.id==='debt').practiceCount,205);assert.equal(D.courses.filter(c=>c.midterm.length).length,5);assert.equal(D.courses.filter(c=>c.final.length).length,2);
+assert.equal(D.courses.find(c=>c.id==='criminalgeneral').midterm.length,0,'Old school year must not become a current exam');
+for(const c of D.courses)for(const i of [...c.midterm,...c.final,...c.unassigned])assert(i.source&&i.kind&&i.note);
+function desk(url){const nodes={},events={},buttons=['midterm','final','unassigned'].map(period=>({dataset:{examPeriod:period},setAttribute(k,v){this[k]=v;}}));const el=id=>nodes[id]??={value:'',innerHTML:'',textContent:'',addEventListener(t,f){this[t]=f;}};el('examSubject').value='all';let last;
+vm.runInNewContext(fs.readFileSync('site/exams.js','utf8'),{window:{LEX_EXAMS:D},document:{getElementById:el,querySelectorAll:()=>buttons,addEventListener(t,f){events[t]=f;}},URL,location:{href:url},history:{replaceState(a,b,u){last=u.href;}}});return {el,events,get url(){return last}};}
+const d=desk('https://site.test/exams.html');assert.equal((d.el('examGrid').innerHTML.match(/class="exam-card"/g)||[]).length,12);assert(d.el('examGrid').innerHTML.includes('當次考題待補'));d.events.click({target:{closest:()=>({dataset:{examPeriod:'final'}})}});assert(d.url.includes('period=final'));assert(d.el('examGrid').innerHTML.includes('離婚及其效力'));assert(!d.el('examGrid').innerHTML.includes('115-1債總期中四題'));
+d.el('examSubject').value='admin';d.el('examSubject').change();assert(d.el('examGrid').innerHTML.includes('行政法'));assert(!d.el('examGrid').innerHTML.includes('<h2>親屬法</h2>'));
+d.el('examSearch').value='不存在XYZ';d.el('examSearch').input();assert(d.el('examGrid').innerHTML.includes('沒有符合'));d.el('examReset').click();assert.equal((d.el('examGrid').innerHTML.match(/class="exam-card"/g)||[]).length,12);
+const p=desk('https://site.test/exams.html?subject=family&period=final');assert.equal((p.el('examGrid').innerHTML.match(/class="exam-card"/g)||[]).length,1);assert(p.el('examGrid').innerHTML.includes('延伸教材原題'));
+console.log('PASS: 12 subjects, evidence-backed semester classification, old-year isolation, deep links, filters and empty-state recovery; no new learning storage.');

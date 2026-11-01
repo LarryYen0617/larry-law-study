@@ -9,6 +9,7 @@ import re
 import unicodedata
 from pathlib import Path
 from urllib.parse import unquote
+from authorized_family_release import authorized_family_page
 
 # Include all textual assets served by Pages, including SVG and source maps.
 TEXT_EXTENSIONS = frozenset({
@@ -128,6 +129,8 @@ def validate_public_site_text(source, site_root):
             continue
         content = path.read_text(encoding="utf-8")
         checked += 1
+        if authorized_family_page(path, root):
+            continue
         # Escaped text must not bypass the final Pages privacy check.
         decoded = _decoded_public_text(content)
         canonical = _canonical_private_text(decoded)

@@ -2,10 +2,9 @@
 (()=>{
  const version='20261027-architecture',subjects=['crime','family','debt','property','admin','tax','criminalgeneral','civilgeneral','constitution'];
  const groups=[
-  ['工作台',[['home','學習首頁','index.html','#/dashboard'],['search','全站搜尋','discover.html',''],['saved','收藏與複習','discover.html','#view=saved'],['progress','學習進度','index.html','progress']]],
-  ['課程與筆記',[['courses','課程總覽','courses.html',''],['notes','法律筆記與法條','essentials.html',''],['english','法學英文','legal-english.html',''],['science','光電科技','photonics.html','']]],
-  ['題庫與申論',[['questions','題庫與申論中心','questions.html','']]],
-  ['閱讀書房',[['daily','每日官方資訊','index.html','#/daily'],['reading','小說與個人書架','reading.html','']]],
+  ['學習中心',[['home','學習首頁','index.html','#/dashboard'],['courses','全部課程','courses.html',''],['notes','筆記與法條','essentials.html',''],['english','法學英文','legal-english.html',''],['science','光電科技','photonics.html','']]],
+  ['考試與練習',[['exams','期中與期末考題','exams.html',''],['questions','題庫與申論','questions.html',''],['saved','收藏與複習','discover.html','#view=saved'],['progress','學習進度','index.html','progress']]],
+  ['資訊與閱讀',[['daily','每日官方資訊','index.html','#/daily'],['reading','小說與個人書架','reading.html',''],['search','全站搜尋','discover.html','']]],
   ['資料管理',[['materials','個人教材','index.html','materials'],['coverage','資料來源與校訂','coverage.html',''],['official','官方法律資源','study-toolkit.html','#sources'],['settings','資料與備份','settings.html','']]]
  ];
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

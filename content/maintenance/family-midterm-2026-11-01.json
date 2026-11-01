@@ -1,0 +1,84 @@
+{
+  "date": "2026-11-01",
+  "conversationId": "6ae73a6a-c24c-83ec-b9ac-1be657ea58d4",
+  "reportedAttachmentCount": 20,
+  "readableAttachmentCount": 10,
+  "missingAttachmentCount": 10,
+  "attachments": [
+    {
+      "name": "親屬法選擇題.pdf",
+      "sha256": "07285498a1fca4f96527339a3181d247550593a281d2825b7288d2566e79d661",
+      "pages": 35,
+      "matchesExistingSource": "family-9",
+      "reconciliation": "與既有來源位元完全相同，沿用既有題目，不重複匯入。"
+    },
+    {
+      "name": "空大375(5).pdf",
+      "sha256": "6ded990675a21194f170eaf2b11061e4b940e8d658cbe1d26810d808f6078849",
+      "pages": 18,
+      "matchesExistingSource": null,
+      "reconciliation": "2007年補充教材；部分字型擷取亂碼。作歷史與來源對照，不冒稱完整現行法解答。"
+    },
+    {
+      "name": "選擇題4：夫妻共同財產制(6).pdf",
+      "sha256": "ef630115550d109c1009f1be37e3fb19195516ce561267405db3b8af1deac531",
+      "pages": 1,
+      "matchesExistingSource": null,
+      "reconciliation": "本次取得版本；依主題連接既有修訂版題目，未宣稱逐題等同或全數新增校核。"
+    },
+    {
+      "name": "115-1案例題4：夫妻共同財產制.pdf",
+      "sha256": "f48a8002533e19b3b4a396d2a90d61a984ed71a0fb2c2024cd908f533e936a40",
+      "pages": 2,
+      "matchesExistingSource": "family-4",
+      "reconciliation": "與既有來源位元完全相同，沿用既有題目，不重複匯入。"
+    },
+    {
+      "name": "選擇題1：身分法、親屬關係(5).pdf",
+      "sha256": "2bdfdb3884681a1899fb990b286f186dc97585cfe766dc8762e1c32fc3a5ec7d",
+      "pages": 2,
+      "matchesExistingSource": "family-10",
+      "reconciliation": "與既有來源位元完全相同，沿用既有題目，不重複匯入。"
+    },
+    {
+      "name": "選擇題2：婚約、結婚及婚姻之效力(5).pdf",
+      "sha256": "d8d60d108a09bd03fc0a49b9f0d095dba8a4f25b8dd83371f6b1fd792386fbd7",
+      "pages": 7,
+      "matchesExistingSource": null,
+      "reconciliation": "本次取得版本；依主題連接既有修訂版題目，未宣稱逐題等同或全數新增校核。"
+    },
+    {
+      "name": "選擇題5：離婚及其效力(8) (1).pdf",
+      "sha256": "99825a8d7cbc07c7c6f1ed61ec4a6d28fe069951f5d137938847ef3603a1d2fb",
+      "pages": 3,
+      "matchesExistingSource": null,
+      "reconciliation": "本次取得版本；依主題連接既有修訂版題目，未宣稱逐題等同或全數新增校核。"
+    },
+    {
+      "name": "115-1案例題1：身分法、親屬關係.pdf",
+      "sha256": "e49666870fb555964ac28cdcc3d3bb60537b269234dc1f81fa26c9f81a907dec",
+      "pages": 2,
+      "matchesExistingSource": "family-0",
+      "reconciliation": "與既有來源位元完全相同，沿用既有題目，不重複匯入。"
+    },
+    {
+      "name": "115-1案例題2：婚約、結婚及婚姻之效力1.pdf",
+      "sha256": "23f7cdc2602dac4877fef11ec3214c6f4a0b37e05edeebcfa7a40c2d36868bc7",
+      "pages": 8,
+      "matchesExistingSource": "family-2",
+      "reconciliation": "與既有來源位元完全相同，沿用既有題目，不重複匯入。"
+    },
+    {
+      "name": "表格整理1(2).pdf",
+      "sha256": "ab70269aa49765a3a0ac2a048e98a24fbfb341baf6080b2a885955d5bbc18b7e",
+      "pages": 2,
+      "matchesExistingSource": null,
+      "reconciliation": "比較表；納入撤銷、無效、賠償及舊法辨析，非獨立選擇題。"
+    }
+  ],
+  "scopeAuthority": "使用者本次指定期中第1至3單元；共同財產制延伸、離婚期末。",
+  "limitations": [
+    "原對話再次讀取仍只回傳10份附件且無更早游標。",
+    "既有91則來源區塊不代表本次80頁全部題目完成校訂。"
+  ]
+}
