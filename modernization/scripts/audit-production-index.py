@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Read-only structural and link-safety validation of the production search database."""
 import json
+import re
 import sys
 from collections import Counter
 from pathlib import Path
@@ -8,6 +9,26 @@ from urllib.parse import urlsplit
 
 PATH = Path(__file__).resolve().parents[2] / "site" / "search-index.json"
 REQUIRED = ("id", "type", "subject", "title", "body", "href")
+# Keep the build-time audit in sync with site/discover-core.js and
+# site/search-preview.html. Otherwise CI can approve rows that browsers reject.
+PUBLIC_TYPES = frozenset(("note", "card", "question", "teacher", "archive", "reading", "lesson", "novel"))
+PUBLIC_PAGES = frozenset(("essentials.html", "library.html", "index.html", "reading.html",
+                          "legal-english.html", "photonics.html", "courses.html", "exams.html"))
+ID_PATTERN = re.compile(r"[a-z]+:[A-Za-z0-9_-]{1,150}\Z")
+CLASS_NOTE_PATTERN = re.compile(r"class-notes/[a-z0-9-]+\.html\Z")
+
+
+def safe_public_href(href):
+    """Mirror the browser's public-page allowlist without URL normalization gaps."""
+    if not isinstance(href, str) or "\\" in href or any(ord(ch) < 32 or ord(ch) == 127 for ch in href):
+        return False
+    try:
+        url = urlsplit(href)
+    except ValueError:
+        return False
+    return (not url.scheme and not url.netloc
+            and (url.path in PUBLIC_PAGES or bool(CLASS_NOTE_PATTERN.fullmatch(url.path))))
+
 # Public Pages contains 18 authored teacher-case summaries. The 91 source-only
 # teacher originals are checked separately before build and withheld from Pages.
 BASELINE_TYPES = {"note": 97, "card": 40, "question": 1803, "teacher": 18, "archive": 1016, "reading": 14, "lesson": 27, "novel": 513}
@@ -19,6 +40,8 @@ def inspect(data, min_records=0, baseline_types=None):
     items = data["items"]
     if len(items) < min_records:
         problems.append(f"record count dropped below {min_records}: {len(items)}")
+    if len(items) > 20000:
+        problems.append(f"record count exceeds browser safety cap of 20000: {len(items)}")
     seen = set()
     kinds = Counter()
     for row, item in enumerate(items):
@@ -33,6 +56,8 @@ def inspect(data, min_records=0, baseline_types=None):
         key = item.get("id")
         if not isinstance(key, str) or not key.strip():
             problems.append(f"row {row}: missing id")
+        elif not ID_PATTERN.fullmatch(key):
+            problems.append(f"row {row}: invalid id format")
         elif key in seen:
             problems.append(f"row {row}: duplicate id {key}")
         else:
@@ -40,17 +65,17 @@ def inspect(data, min_records=0, baseline_types=None):
         kind = item.get("type")
         if isinstance(kind, str) and kind:
             kinds[kind] += 1
+            if kind not in PUBLIC_TYPES:
+                problems.append(f"row {row}: unsupported type")
         else:
             problems.append(f"row {row}: missing type")
+        if isinstance(item.get("title"), str) and len(item["title"]) > 1000:
+            problems.append(f"row {row}: title exceeds browser safety cap")
+        if isinstance(item.get("body"), str) and len(item["body"]) > 100000:
+            problems.append(f"row {row}: body exceeds browser safety cap")
         href = item.get("href")
-        if isinstance(href, str):
-            url = urlsplit(href)
-            parts = url.path.split("/")
-            if (url.scheme or url.netloc or not url.path or url.path.startswith("/")
-                    or not url.path.endswith(".html") or any(part in ("", ".", "..") for part in parts)
-                    or any(encoded in url.path.lower() for encoded in ("%2e", "%2f", "%5c"))
-                    or "\\" in href or any(ord(ch) < 32 for ch in href)):
-                problems.append(f"row {row}: unsafe href")
+        if isinstance(href, str) and not safe_public_href(href):
+            problems.append(f"row {row}: unsafe href")
     if baseline_types is not None:
         for kind, minimum in baseline_types.items():
             if kinds[kind] < minimum:
