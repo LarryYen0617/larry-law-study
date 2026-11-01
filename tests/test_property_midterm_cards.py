@@ -74,5 +74,18 @@ class PropertyMidtermCardsTests(unittest.TestCase):
         self.assertTrue(any("judicial.gov.tw" in ref["url"] for ref in example["refs"]))
         self.assertTrue(any("moj.gov.tw" in ref["url"] for ref in statute["refs"]))
 
+    def test_inheritance_management_and_partition_extensions(self):
+        source = json.loads(SOURCE.read_text(encoding="utf-8"))
+        cards = {card["id"]: card for card in source["cards"]}
+        for article in (1152, 1164, 1165):
+            card = cards[f"property-midterm-{article}-20261102"]
+            self.assertIn("非教師原題", card["source"])
+            self.assertIn("非教師指定必考", card["source"])
+            self.assertTrue(any(f"flno={article}" in ref["url"] for ref in card["refs"]))
+        self.assertIn("互推一人管理", "".join(cards["property-midterm-1152-20261102"]["points"]))
+        self.assertIn("法律另有規定或契約另有訂定", "".join(cards["property-midterm-1164-20261102"]["points"]))
+        self.assertIn("十年為限", "".join(cards["property-midterm-1165-20261102"]["points"]))
+        self.assertEqual(len(source["cards"]), len({c["id"] for c in source["cards"]}))
+
 if __name__ == "__main__":
     unittest.main()
