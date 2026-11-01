@@ -154,7 +154,8 @@ class TeacherPublicReleaseTests(unittest.TestCase):
         self.index()
         originals[0]["answer"] = " ".join(official)
         payload = "window.LEX_NOTE_LAWS=" + json.dumps({
-            "articles": {"B0000001-1030-2": {"text": official}}
+            "articles": {"B0000001-1030-2": {"text": official,
+                "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=1030-2"}}
         }, ensure_ascii=False) + ";"
         (self.site / "note-law-data.js").write_text(payload, encoding="utf-8")
         self.assertEqual(validate_public(self.site, originals)[:2], (3620, 18))
@@ -162,6 +163,41 @@ class TeacherPublicReleaseTests(unittest.TestCase):
         # A forged official text must not grant a new privacy exception.
         tampered = payload.replace("適用前項之規定。", "適用前項之規定。竄改")
         (self.site / "note-law-data.js").write_text(tampered, encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
+            validate_public(self.site, originals)
+
+    def test_public_family_law_quote_does_not_mask_private_prose(self):
+        official = (
+            "中華民國七十四年六月四日以前結婚，並適用聯合財產制之夫妻，於婚姻關係存續中以妻之名義在同日以前取得不動產，"
+            "而有左列情形之一者，於本施行法中華民國八十五年九月六日修正生效一年後，"
+            "適用中華民國七十四年民法親屬編修正後之第一千零十七條規定： "
+            "一、婚姻關係尚存續中且該不動產仍以妻之名義登記者。 "
+            "二、夫妻已離婚而該不動產仍以妻之名義登記者。"
+        )
+        originals = sanitize(self.site)
+        self.index()
+        originals[0]["answer"] = " ".join(official)
+        source = {"url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000005&flno=6-1",
+                  "text": official}
+        payload = "window.LEX_TEACHER_CORRECTIONS=" + json.dumps(
+            [{"id": "authored-summary", "sources": [source]}], ensure_ascii=False) + ";"
+        (self.site / "teacher-corrections.js").write_text(payload, encoding="utf-8")
+        self.assertEqual(validate_public(self.site, originals)[:2], (3620, 18))
+
+        # The same teacher prose outside the pinned official statute field
+        # must remain blocked even if the legal quotation is permitted.
+        extra = {"id": "leak", "analysis": " ".join(official), "sources": []}
+        payload = "window.LEX_TEACHER_CORRECTIONS=" + json.dumps(
+            [{"id": "authored-summary", "sources": [source]}, extra], ensure_ascii=False) + ";"
+        (self.site / "teacher-corrections.js").write_text(payload, encoding="utf-8")
+        # A statutory quote is public wherever it appears; use a private
+        # non-statutory excerpt to verify the release guard stays active.
+        originals[0]["answer"] = "Private answer text " + "Q" * 100
+        extra["analysis"] = "Private answer text " + "Q" * 100
+        (self.site / "teacher-corrections.js").write_text(
+            "window.LEX_TEACHER_CORRECTIONS=" + json.dumps(
+                [{"id": "authored-summary", "sources": [source]}, extra], ensure_ascii=False) + ";",
+            encoding="utf-8")
         with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
             validate_public(self.site, originals)
 
