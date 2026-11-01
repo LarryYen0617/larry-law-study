@@ -55,6 +55,40 @@ class ProductionIndexAuditTests(unittest.TestCase):
         self.assertFalse(module.inspect({"version": 1, "items": rows[:-1]},
                                         min_records=17, baseline_types={"teacher": 18})["valid"])
 
+    def test_rejects_rows_browser_would_discard(self):
+        cases = [
+            {"id": "note:bad/path"},
+            {"id": "note:" + "a" * 151},
+            {"type": "unrecognized"},
+            {"title": "法" * 1001},
+            {"body": "a" * 100001},
+            {"href": "teacher-original.html"},
+            {"href": "class-notes/Property.html"},
+            {"href": "index.html?x=1\\x7f"},
+            {"href": "index.html#bad\\nfragment"},
+            {"href": "index.html?path=foo\\\\bar"},
+            {"href": "index.html/extra"},
+            {"href": "index.html%2fprivate"},
+        ]
+        for changes in cases:
+            with self.subTest(changes=list(changes)):
+                report = module.inspect({"version": 1, "items": [dict(item(), **changes)]})
+                self.assertFalse(report["valid"], changes)
+
+    def test_accepts_public_browser_links(self):
+        for href in ("index.html", "essentials.html?subject=property#note",
+                     "library.html?item=question%3A123#questions",
+                     "reading.html?book=wan-jie-fa-shen&chapter=557",
+                     "class-notes/property-midterm-1151.html#sec-1"):
+            with self.subTest(href=href):
+                self.assertTrue(module.inspect({"version": 1, "items": [item(href=href)]})["valid"])
+
+    def test_rejects_more_than_browser_record_cap(self):
+        records = [item(f"note:{i}") for i in range(20001)]
+        report = module.inspect({"version": 1, "items": records})
+        self.assertFalse(report["valid"])
+        self.assertTrue(any("browser safety cap" in p for p in report["problems"]))
+
     def test_rejects_blank_title(self):
         record = item()
         record["title"] = "   "
