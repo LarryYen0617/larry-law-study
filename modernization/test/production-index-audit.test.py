@@ -69,6 +69,8 @@ class ProductionIndexAuditTests(unittest.TestCase):
             {"href": "index.html?path=foo\\\\bar"},
             {"href": "index.html/extra"},
             {"href": "index.html%2fprivate"},
+            {"href": " index.html"},
+            {"href": "  class-notes/property-midterm-1151.html#sec-1"},
         ]
         for changes in cases:
             with self.subTest(changes=list(changes)):
