@@ -18,6 +18,7 @@ export type SearchHit = { note: LawNote; score: number; matchedFields: string[] 
 const normalizeCitations = (value: string): string =>
   value.normalize("NFKC")
     .replace(/第\s*(\d+)\s*-\s*(\d+)\s*條/g, "第$1條之$2")
+    .replace(/第\s*(\d+)\s*之\s*(\d+)\s*條/g, "第$1條之$2")
     .replace(/第\s*(\d+)\s*條\s*-\s*(\d+)/g, "第$1條之$2")
     .replace(/第\s*(\d+)\s*條\s*之\s*(\d+)/g, "第$1條之$2")
     .replace(/第\s*(\d+)\s*條/g, "第$1條")
