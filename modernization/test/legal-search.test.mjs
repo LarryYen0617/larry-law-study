@@ -83,3 +83,16 @@ test('postfix-hyphen article notation is equivalent but never matches base or lo
     assert.equal(searchLawNotes(fixture,query).length,0,query);
   }
 });
+
+test('Taiwan inserted-article shorthand without 條 before 之 is normalized in queries and source notes', () => {
+  for (const query of ['第759之1條', '第 ７５９ 之 １ 條', '民法第759之1條']) {
+    assert.deepEqual(ids(query), query.startsWith('民法') ? ['b'] : ['b', 'd'], query);
+  }
+  const source=[
+    {id:'short',subject:'民法物權',title:'登記推定',statute:'民法第759之1條',body:'來源採用常見簡寫'},
+    {id:'long',subject:'民法物權',title:'較長條號',statute:'民法第759條之10',body:'不得誤命中'},
+  ];
+  assert.deepEqual(searchLawNotes(source,'民法第759條之1').map(x=>x.note.id),['short']);
+  assert.deepEqual(searchLawNotes(source,'第759之1條').map(x=>x.note.id),['short']);
+  assert.deepEqual(searchLawNotes(source,'第759條').map(x=>x.note.id),[]);
+});

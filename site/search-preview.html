@@ -32,7 +32,7 @@ article h2{font-size:1.1rem;margin:0 0 .25rem}article p{margin:.5rem 0 0;white-s
 <label for="subject">科目<select id="subject"><option value="">全部科目</option></select></label>
 <label for="kind">資料類型<select id="kind"><option value="">全部類型</option></select></label>
 </div>
-<p id="search-help">可輸入多個關鍵字，以空白分隔；結果須同時符合所有關鍵字。法條可查「第757條」、「§757」、「民法第757條」，以及「759條」、「民法759」、「民法759條」等基本條文簡寫，及「第759條之1」、「§759-1」、「759-1」等增訂條文（可搜尋筆記中的簡寫）。最多輸入 200 個字元。</p>
+<p id="search-help">可輸入多個關鍵字，以空白分隔；結果須同時符合所有關鍵字。法條可查「第757條」、「§757」、「民法第757條」，以及「759條」、「民法759」、「民法759條」等基本條文簡寫，及「第759之1條」、「第759條之1」、「§759-1」、「759-1」等增訂條文（可搜尋筆記中的簡寫）。最多輸入 200 個字元。</p>
 <button id="reset" type="button" hidden>清除搜尋與篩選條件</button>
 <p id="status" role="status" aria-live="polite">正在讀取教材資料庫……</p>
 <button id="retry" type="button" hidden>重新載入</button>
@@ -47,6 +47,7 @@ const kindNames={note:"筆記",card:"重點卡片",question:"題目",teacher:"�
 // Canonicalize Taiwan's inserted article numbers before matching (e.g. §759-1).
 const normalizeCitations=value=>String(value||"").normalize("NFKC")
   .replace(/第\s*(\d+)\s*-\s*(\d+)\s*條/g,"第$1條之$2")
+  .replace(/第\s*(\d+)\s*之\s*(\d+)\s*條/g,"第$1條之$2")
   .replace(/第\s*(\d+)\s*條\s*-\s*(\d+)/g,"第$1條之$2")
   .replace(/第\s*(\d+)\s*條\s*之\s*(\d+)/g,"第$1條之$2")
   .replace(/第\s*(\d+)\s*條/g,"第$1條")
