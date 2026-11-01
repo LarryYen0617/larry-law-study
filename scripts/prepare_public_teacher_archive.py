@@ -7,7 +7,9 @@ import json
 import re
 import subprocess
 from pathlib import Path
-from check_public_source_leak import TEXT_EXTENSIONS, _decoded_public_text, _encoded_needles, _private_segments
+from check_public_source_leak import (TEXT_EXTENSIONS, _canonical_private_text,
+                                      _decoded_public_text, _encoded_needles,
+                                      _private_segments)
 
 EXPECTED_ORIGINALS = 91
 MIN_PUBLIC_SEARCH_ITEMS = 3602
@@ -79,15 +81,21 @@ def validate_public(site, originals):
                for text in (row["question"], row["answer"])
                for segment in _private_segments(text)
                for needle in _encoded_needles(segment)]
+    canonical_needles = [
+        (case_id, needle, _canonical_private_text(needle))
+        for case_id, needle in needles
+    ]
     checked = 0
     for path in site.rglob("*"):
         if not path.is_file() or path.is_symlink() or path.suffix.lower() not in TEXT_EXTENSIONS:
             continue
         payload = path.read_text(encoding="utf-8")
         decoded = _decoded_public_text(payload)
+        canonical = _canonical_private_text(decoded)
         checked += 1
-        for case_id, needle in needles:
-            if needle in payload or needle in decoded:
+        for case_id, needle, normalized_needle in canonical_needles:
+            if (needle in payload or needle in decoded
+                    or normalized_needle in canonical):
                 raise ValueError(
                     f"Restricted teacher text remains in Pages file {path.relative_to(site)} (case {case_id})")
     return len(items), len(authored), checked
