@@ -212,7 +212,7 @@ class TeacherPublicReleaseTests(unittest.TestCase):
         originals = sanitize(self.site)
         self.index()
         for field in ("question", "answer"):
-            for control in ("\\u200b", "\\u200c", "\\u2060", "\\ufeff"):
+            for control in ("\u200b", "\u200c", "\u2060", "\ufeff"):
                 with self.subTest(field=field, control=repr(control)):
                     (self.site / "obfuscated.js").write_text(
                         control.join(originals[0][field]), encoding="utf-8")
