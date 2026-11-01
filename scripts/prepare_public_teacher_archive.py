@@ -4,6 +4,7 @@ This must run after source-based tests and before rebuilding the published
 search index. The checked-in imports remain unchanged for private review.
 """
 import json
+import hashlib
 import re
 import subprocess
 from pathlib import Path
@@ -15,6 +16,34 @@ EXPECTED_ORIGINALS = 91
 MIN_PUBLIC_SEARCH_ITEMS = 3602
 CHUNKS = tuple(f"library-teacher-{number:02}.js" for number in range(1, 6))
 PUSH_PATTERN = re.compile(r"window\.LEX_LIBRARY\.teacherQuestions\.push\(\.\.\.(\[[\s\S]*\])\);\s*$")
+
+
+# A teacher answer can quote an independently public statute verbatim. Pin
+# the verified article text, so formatting-only comparisons do not mistake
+# the statutory quotation for private teacher prose. An edited or newly
+# injected "official" article cannot silently expand this exception.
+PUBLIC_STATUTE_TEXT_SHA256 = {
+    "B0000001-1030-2": "35f67ad92511121b51dea9f986800c45a4aea023a33eca11e12a9ffa3d714f55",
+}
+
+
+def verified_statute_excerpts(path, payload):
+    if path.name != "note-law-data.js" or not payload.startswith("window.LEX_NOTE_LAWS="):
+        return ()
+    try:
+        data = json.loads(payload.split("=", 1)[1].strip().removesuffix(";"))
+        articles = data["articles"]
+    except (ValueError, KeyError, TypeError):
+        return ()
+    excerpts = []
+    for article_id, expected in PUBLIC_STATUTE_TEXT_SHA256.items():
+        article = articles.get(article_id)
+        if not isinstance(article, dict) or not isinstance(article.get("text"), str):
+            continue
+        text = _canonical_private_text(article["text"])
+        if hashlib.sha256(text.encode("utf-8")).hexdigest() == expected:
+            excerpts.append(text)
+    return tuple(excerpts)
 
 
 def extract_originals(site):
@@ -92,10 +121,16 @@ def validate_public(site, originals):
         payload = path.read_text(encoding="utf-8")
         decoded = _decoded_public_text(payload)
         canonical = _canonical_private_text(decoded)
+        public_statutes = verified_statute_excerpts(path, payload)
         checked += 1
         for case_id, needle, normalized_needle in canonical_needles:
-            if (needle in payload or needle in decoded
-                    or normalized_needle in canonical):
+            canonical_hit = normalized_needle in canonical
+            if canonical_hit and public_statutes:
+                # This *exact* pinned statutory text is public law, not a
+                # distinctive teacher-authored excerpt. Still block raw
+                # and encoded source matches as before.
+                canonical_hit = not any(normalized_needle in law for law in public_statutes)
+            if needle in payload or needle in decoded or canonical_hit:
                 raise ValueError(
                     f"Restricted teacher text remains in Pages file {path.relative_to(site)} (case {case_id})")
     return len(items), len(authored), checked
