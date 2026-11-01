@@ -61,7 +61,12 @@ def _canonical_private_text(value):
     replace full-width characters with their NFKC equivalents. These are
     formatting changes, not permission to publish source-only material.
     """
-    return re.sub(r"\s+", "", unicodedata.normalize("NFKC", value))
+    normalized = unicodedata.normalize("NFKC", value)
+    # Zero-width format controls (e.g. U+200B, U+200C, U+2060) are
+    # invisible in rendered Pages text. Treat them like injected spacing
+    # when comparing against restricted teacher originals.
+    return "".join(ch for ch in normalized
+                   if not ch.isspace() and unicodedata.category(ch) != "Cf")
 
 
 def _private_segments(value):

@@ -208,5 +208,17 @@ class TeacherPublicReleaseTests(unittest.TestCase):
             sanitize(self.site)
 
 
+    def test_zero_width_format_controls_in_teacher_originals_block_release(self):
+        originals = sanitize(self.site)
+        self.index()
+        for field in ("question", "answer"):
+            for control in ("\u200b", "\u200c", "\u2060", "\ufeff"):
+                with self.subTest(field=field, control=repr(control)):
+                    (self.site / "obfuscated.js").write_text(
+                        control.join(originals[0][field]), encoding="utf-8")
+                    with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
+                        validate_public(self.site, originals)
+                    (self.site / "obfuscated.js").unlink()
+
 if __name__ == "__main__":
     unittest.main()

@@ -163,5 +163,16 @@ class PublicSourceLeakTests(unittest.TestCase):
         self.assertNotIn('"sha256":', public)
 
 
+    def test_zero_width_format_controls_do_not_bypass_source_check(self):
+        # The browser renders these controls invisibly; they must not allow
+        # private teacher text to be republished with a character inserted.
+        for control in ("\u200b", "\u200c", "\u2060", "\ufeff"):
+            with self.subTest(control=repr(control)):
+                (self.root / "obfuscated.js").write_text(
+                    control.join(self.prompt), encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, "Private source-only"):
+                    validate_public_site_text(self.source, self.root)
+                (self.root / "obfuscated.js").unlink()
+
 if __name__ == "__main__":
     unittest.main()
