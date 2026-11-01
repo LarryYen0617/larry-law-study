@@ -126,6 +126,22 @@ class TeacherPublicReleaseTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
             validate_public(self.site, originals)
 
+    def test_whitespace_wrapped_teacher_answer_blocks_release(self):
+        originals = sanitize(self.site)
+        self.index()
+        answer = originals[0]["answer"]
+        (self.site / "wrapped.js").write_text(" \\n ".join(answer), encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
+            validate_public(self.site, originals)
+
+    def test_nfkc_equivalent_teacher_question_blocks_release(self):
+        originals = sanitize(self.site)
+        self.index()
+        originals[0]["question"] = "ＡＢＣ１２３－" * 15
+        (self.site / "normalized.js").write_text("ABC123-" * 15, encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "Restricted teacher text"):
+            validate_public(self.site, originals)
+
     def test_inventory_changes_fail_closed(self):
         (self.site / "library-teacher-05.js").write_text(
             "window.LEX_LIBRARY.teacherQuestions.push(...[]);", encoding="utf-8")
