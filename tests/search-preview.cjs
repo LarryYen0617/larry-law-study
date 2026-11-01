@@ -27,8 +27,28 @@ const context={
   URL,URLSearchParams,AbortController,TextDecoder,setTimeout,clearTimeout,
   matchMedia:()=>({matches:false}),Option:class {},fetch:async()=>{throw Error('not expected')}
 };
-vm.runInNewContext(script+'\nwindow.previewTest={safeHref,queryGroups,snippet,search,load,changePage,pageFromUrl,getPage:()=>page,subjectLabel:key=>label(subjectNames,key),kindLabel:key=>label(kindNames,key),setRecords(value){records=value;ready=true},getHits(){return hits},setQuery(value){input.value=value}};',context);
+vm.runInNewContext(script+'\nwindow.previewTest={safeHref,queryGroups,normalizeCitations,snippet,search,load,changePage,pageFromUrl,getPage:()=>page,subjectLabel:key=>label(subjectNames,key),kindLabel:key=>label(kindNames,key),setRecords(value){records=value;ready=true},getHits(){return hits},setQuery(value){input.value=value}};',context);
 const api=context.window.previewTest;
+// Bare source citations must be indexed as the same exact article, not a
+// prefix of a longer or compound reference.
+const sourceVariants=[
+  ['short','民法759之1'],
+  ['with-clause','民法759條之1'],
+  ['with-trailing-clause','民法759之1條'],
+  ['long','民法759條之10'],
+  ['nested','民法759條之1-2'],
+].map(([id,body])=>({id,title:'來源格式',body,subject:'property',type:'note',href:'index.html',
+  _title:'來源格式',_body:api.normalizeCitations(body).toLocaleLowerCase('zh-TW'),_subject:'物權'}));
+api.setRecords(sourceVariants);
+for(const query of ['759-1','§759-1','第759條之1','民法759之1','民法第759條之1']){
+  api.setQuery(query);api.search();
+  assert.deepEqual(Array.from(api.getHits(),x=>x.id).sort(),['short','with-clause','with-trailing-clause'].sort(),
+    'bare source citation mismatch: '+query);
+}
+api.setQuery('第759條');api.search();
+assert.equal(api.getHits().length,0,'base article must not match bare inserted source');
+api.setQuery('第759條之10');api.search();
+assert.deepEqual(Array.from(api.getHits(),x=>x.id),['long'],'long suffix remains distinct');
 // Preview links must use the same explicit public-page allowlist as the main search.
 for(const href of ['index.html','essentials.html#property','reading.html?chapter=531',
  'legal-english.html','class-notes/property.html#sec-1']){
