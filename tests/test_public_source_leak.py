@@ -82,6 +82,15 @@ class PublicSourceLeakTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Private source-only"):
             validate_public_site_text(self.source, self.root)
 
+    def test_middle_excerpt_from_long_original_blocks_release(self):
+        # The previous beginning/middle/end sampling missed this 80-character
+        # excerpt because it straddles two sampled regions.
+        self.source["cases"][0]["originalQuestion"] = "前" * 80 + "中" * 120 + "後" * 80
+        excerpt = self.source["cases"][0]["originalQuestion"][75:155]
+        (self.root / "middle-excerpt.js").write_text(excerpt, encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "Private source-only"):
+            validate_public_site_text(self.source, self.root)
+
     def test_non_deployed_source_types_are_ignored(self):
         (self.root / "draft.py").write_text(self.prompt, encoding="utf-8")
         self.assertEqual(validate_public_site_text(self.source, self.root), 0)
