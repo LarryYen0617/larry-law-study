@@ -19,6 +19,7 @@ assert.ok(adminCards.find(c=>c.id==='admin-discipline-performance-20261103').poi
 assert.ok(adminCards.find(c=>c.id==='admin-personnel-remedy-20261103').points.some(p=>p.includes('第79條')));
 assert.ok(adminCards.find(c=>c.id==='admin-revocation-reopening-20261103').points.some(p=>p.includes('持續效力')&&p.includes('處分後始存在')));
 assert.ok(adminCards.find(c=>c.id==='admin-discipline-performance-20261103').points.some(p=>p.includes('15年')&&p.includes('7年')&&p.includes('5年')));
+assert.ok(adminCards.find(c=>c.id==='admin-discipline-performance-20261103').points.some(p=>p.includes('重行起算')&&p.includes('不重行起算')));
 assert.ok(adminCards.find(c=>c.id==='admin-personnel-remedy-20261103').points.some(p=>p.includes('釋字第785號')&&p.includes('行政訴訟')));
 run("knowledgeQuery='LawSingle.aspx'");
 assert.equal(run("knowledgeMatches({id:'note:foo',title:'民法第66條',refs:[{label:'法條來源',url:'https://law.moj.gov.tw/LawClass/LawSingle.aspx'}]})"),false);
