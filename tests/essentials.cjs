@@ -6,6 +6,17 @@ vm.runInContext(fs.readFileSync(path.join(root,'knowledge-data.js'),'utf8')+'\n'
 const run=s=>vm.runInContext(s,ctx),click=dataset=>{for(const f of events.click||[])f({target:{closest:()=>({dataset})}});};
 // Search must not match internal IDs or official-link URL fragments that are
 // not student-facing content. Full-width numbers remain searchable.
+// Administrative law cards must be public-law summaries, never claimed teacher originals.
+const adminCards=ctx.window.LEX_KNOWLEDGE.subjects.find(s=>s.id==='admin').cards;
+for(const id of ["admin-revocation-reopening-20261103","admin-discipline-performance-20261103","admin-personnel-remedy-20261103"]){
+ const card=adminCards.find(c=>c.id===id);
+ assert.ok(card&&card.courseSupplement,'missing administrative supplement '+id);
+ assert.ok(card.source.includes('非教師確認考試範圍'),'teacher scope not verified '+id);
+ assert.ok(card.refs.length>=4&&card.refs.every(r=>r.url.startsWith('https://law.moj.gov.tw/LawClass/LawSingle.aspx?')),'official law sources '+id);
+}
+assert.ok(adminCards.find(c=>c.id==='admin-revocation-reopening-20261103').points.some(p=>p.includes('三個月')));
+assert.ok(adminCards.find(c=>c.id==='admin-discipline-performance-20261103').points.some(p=>p.includes('第12條')));
+assert.ok(adminCards.find(c=>c.id==='admin-personnel-remedy-20261103').points.some(p=>p.includes('第79條')));
 run("knowledgeQuery='LawSingle.aspx'");
 assert.equal(run("knowledgeMatches({id:'note:foo',title:'民法第66條',refs:[{label:'法條來源',url:'https://law.moj.gov.tw/LawClass/LawSingle.aspx'}]})"),false);
 run("knowledgeQuery='note:foo'");
