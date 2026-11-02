@@ -181,6 +181,9 @@ const revisionHashes = new Map([
   [575, '160b35de48c9f89e3a45817adb649f264e4f20b422f4707dbbde66afaa5bc326'],
   [576, '612001f9e050d204a06075cfe3b8d59ebcce8f6f77f4ad882ce5aeac43fa3782'],
   [577, 'de0bac08e94d41330166098b6d9ea8a0d25e2404342be8661790e4efbc9bb1f8'],
+  [578, 'ade562bfef4813eb634385271ea98948479811eddd50e25a5233d5e7b3bc317c'],
+  [579, '84a92fc6b779fb494741c81f71a249fc64a01cec2e99e78e42ac3e36206efa71'],
+  [580, '1b950081180a2a5f4cd229c6dbceda36bd2847908dfccd30417ae8bfb42a34e4'],
 ]);
 const files = new Map();
 const allNumbers = new Set();
