@@ -5,11 +5,9 @@ function renderPersonalNotes(){
  window.LEX_STUDY_WORKSPACE?.sync();
  if(window.LEX_NOTE_LAW_UI?.isLaws()){ $k('#knowledgeContent').innerHTML=window.LEX_NOTE_LAW_UI.toolbar()+window.LEX_NOTE_LAW_UI.index(knowledgeSubject,knowledgeQuery);$k('#knowledgeStatus').textContent='官方條文與相關筆記';return true;}
  const subjects=data.subjects.filter(s=>knowledgeSubject==='all'||s.id===knowledgeSubject);if(!subjects.length)return false;
- // Search only student-visible note content. Source filenames and paths are
- // provenance, not study keywords; NFKC makes full-width numbers searchable.
- const terms=String(knowledgeQuery||'').normalize('NFKC').toLocaleLowerCase('zh-TW').trim().split(/\s+/).filter(Boolean);
- const matches=c=>!terms.length||terms.every(term=>[c.title,c.focus,c.text,c.trap].filter(Boolean)
-  .join(' ').normalize('NFKC').toLocaleLowerCase('zh-TW').includes(term));
+ // Use the same citation-aware, visible-text-only AND search as study cards.
+ // This avoids divergent results between the chapter reader and card view.
+ const matches=c=>knowledgeMatches({title:c.title,focus:c.focus,text:c.text,trap:c.trap});
  const count=subjects.reduce((n,s)=>n+s.chapters.filter(matches).length,0);
  const rows=subjects.flatMap(s=>s.chapters.filter(matches).map(c=>({s,c})));if(!rows.some(x=>x.c.id===personalSelected))personalSelected=rows[0]?.c.id||'';
  $k('#knowledgeStatus').textContent=`找到 ${count} 個筆記單元`;
