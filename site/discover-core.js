@@ -5,11 +5,15 @@
  // Canonicalize Taiwanese statute citations before tokenization, including full-width digits.
  const normalizeCitations=s=>String(s??'').normalize('NFKC')
   .replace(/第\s*(\d+)\s*-\s*(\d+)\s*條/g,'第$1條之$2')
+  .replace(/第\s*(\d+)\s*之\s*(\d+)\s*條/g,'第$1條之$2')
   .replace(/第\s*(\d+)\s*條\s*-\s*(\d+)/g,'第$1條之$2')
   .replace(/第\s*(\d+)\s*條\s*之\s*(\d+)/g,'第$1條之$2')
   .replace(/第\s*(\d+)\s*條/g,'第$1條')
   .replace(/§\s*(\d+)\s*(?:-\s*(\d+)|之\s*(\d+))/g,(_,n,a,b)=>'§'+n+'-'+(a||b))
   .replace(/§\s*(\d+)/g,'§$1')
+  // Student notes often cite inserted articles without 第/§ (759之1、759條之1).
+  // Keep the article boundary exact; never turn 759之10 into 759之1.
+  .replace(/(^|[^第\d條之])(\d{1,4})(?:條之|之)(\d{1,3})條?(?![\d之-])/g,(_,prefix,number,suffix)=>prefix+number+'-'+suffix)
   .replace(/\s+/g,' ').trim();
  const normalize=s=>normalizeCitations(s).toLowerCase();
  const terms=s=>normalize(s).split(' ').filter(Boolean);

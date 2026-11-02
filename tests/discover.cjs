@@ -43,6 +43,26 @@ assert.equal(citeIds('刑法759'),'','attached shorthand must preserve law-name 
 assert.equal(citeIds('民法7590'),'','attached shorthand must not match a shorter article');
 assert.equal(citeIds('759'), 'note:bare,note:base,note:exact,note:hyphenated,note:long,note:section-hyphenated',
  'standalone numbers must remain free-text searches');
+// An indexed source may use bare Taiwanese inserted-article spellings even
+// when the query uses 第...條之... or §...-.... All variants must match exactly.
+const bareSourceRows=[
+ citeFixture('source-bare','民法759之1：登記推定'),
+ citeFixture('source-with-tiao','民法759條之1：登記推定'),
+ citeFixture('source-trailing-tiao','民法759之1條：登記推定'),
+ citeFixture('source-prefix','民法第759之1條：登記推定'),
+ citeFixture('source-long','民法759之10：不同條文'),
+ citeFixture('source-base','民法第759條：基本條文'),
+ citeFixture('source-nested','民法759之1-2：延伸編號')
+];
+for(const q of ['第759條之1','§759-1','759-1','民法759-1','民法第759之1條']){
+ const found=C.search(bareSourceRows,{q}).map(x=>x.id).sort().join(',');
+ assert.equal(found,'note:source-bare,note:source-prefix,note:source-trailing-tiao,note:source-with-tiao',
+  'indexed bare inserted-article spelling mismatch: '+q);
+}
+assert.deepEqual(C.search(bareSourceRows,{q:'第759條'}).map(x=>x.id),['note:source-base'],
+ 'base article must not match inserted source spellings');
+assert.deepEqual(C.search(bareSourceRows,{q:'第759條之10'}).map(x=>x.id),['note:source-long'],
+ 'inserted article 759-10 must remain distinct from 759-1');
 const postfixCitation=citeFixture('postfix','民法第759條-1：增訂條文另一種寫法');
 for(const q of ['第759條之1','第759條-1','民法第759條-1','§759-1','759-1']){
  assert.equal(C.search([postfixCitation],{q}).length,1,'postfix-hyphen article must normalize: '+q);
