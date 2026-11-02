@@ -5,18 +5,41 @@ let knowledgeMode=typeof location!=='undefined'&&location.hash==='#teacher'?'tea
 try{const v=JSON.parse(localStorage.getItem(KNOWLEDGE_KEY)||'null');if(v&&typeof v==='object')for(const key of ['familiar','answers','drafts'])if(v[key]&&typeof v[key]==='object'&&!Array.isArray(v[key]))knowledgeState[key]=v[key];}catch{}
 function knowledgeSave(){try{localStorage.setItem(KNOWLEDGE_KEY,JSON.stringify(knowledgeState));return true;}catch{$k('#knowledgeStatus').textContent='本機儲存失敗，請先下載練習紀錄備份。';return false;}}
 function kr(refs){return `<div class="ref-links">${refs.map(r=>{let u;try{u=new URL(r.url);}catch{return '';}return u.protocol==='https:'&&u.hostname.endsWith('.gov.tw')?`<a href="${ke(u.href)}" target="_blank" rel="noopener noreferrer">${ke(r.label)} ↗</a>`:'';}).join('')}</div>`;}
-// Search the text a student can actually read, not internal IDs, source URLs,
-// or JSON metadata that can make unrelated notes appear as matches.
+// Match article citations across Taiwan shorthand spellings without allowing
+// §759 to collide with §759-1 or §759-1 with §759-10.
+function knowledgeNormalizeCitation(value){
+ return String(value??'').normalize('NFKC').toLocaleLowerCase('zh-TW')
+  .replace(/第\s*(\d{1,4})\s*(?:條\s*)?(?:之|-)\s*(\d{1,3})\s*條?/g,'§$1-$2')
+  .replace(/§\s*(\d{1,4})\s*(?:之|-)\s*(\d{1,3})/g,'§$1-$2')
+  .replace(/(^|[^\d§])(\d{1,4})\s*條\s*之\s*(\d{1,3})\s*條?/g,'$1§$2-$3')
+  .replace(/(^|[^\d§])(\d{1,4})\s*之\s*(\d{1,3})\s*條?/g,'$1§$2-$3')
+  .replace(/第\s*(\d{1,4})\s*條/g,'§$1')
+  .replace(/(^|[^\d§])(\d{1,4})\s*條(?!之\d)/g,'$1§$2')
+  .replace(/(民法|刑法|憲法|行政程序法)(\d{1,4})(?:-(\d{1,3}))?條?/g,(_,law,number,suffix)=>law+'§'+number+(suffix?'-'+suffix:''));
+}
+function knowledgeTermMatches(searchable,term){
+ const normalized=knowledgeNormalizeCitation(term);
+ const attached=normalized.match(/^(.+?法)(§\d{1,4}(?:-\d{1,3})?)$/);
+ if(attached)return searchable.includes(attached[1])&&knowledgeTermMatches(searchable,attached[2]);
+ const article=normalized.match(/^§?(\d{1,4})(?:-(\d{1,3}))?$/);
+ if(article&&(normalized.startsWith('§')||article[2])){
+  const citation='§'+article[1]+(article[2]?'-'+article[2]:'');
+  if(new RegExp(citation+'(?![\\d-])').test(searchable))return true;
+  // Student notes sometimes omit §/第 entirely for inserted articles.
+  return Boolean(article[2]&&new RegExp('(?:^|[^\\d§])'+article[1]+'-'+article[2]+'(?![\\d-])').test(searchable));
+ }
+ return searchable.includes(normalized);
+}
+// Search only student-visible text. Internal IDs, filenames and source URLs
+// must not create hits. Whitespace-separated terms retain AND semantics.
 function knowledgeMatches(v){
  if(!knowledgeQuery)return true;
- const fields=['name','title','points','trap','originalQuestion','facts','issues','options','why','answer','levels','status','privacy','body','text','summary'];
+ const fields=['name','title','focus','points','trap','originalQuestion','facts','issues','options','why','answer','levels','status','privacy','body','text','summary'];
  const values=fields.flatMap(key=>Array.isArray(v?.[key])?v[key]:[v?.[key]]);
  const refLabels=Array.isArray(v?.refs)?v.refs.map(ref=>ref?.label):[];
- const searchable=[...values,...refLabels].filter(value=>typeof value==='string').join(' ').normalize('NFKC').toLocaleLowerCase('zh-TW');
- // Match the personal-note reader and full-site search: whitespace separates
- // AND terms, even when the terms appear in different visible card fields.
+ const searchable=knowledgeNormalizeCitation([...values,...refLabels].filter(value=>typeof value==='string').join(' '));
  const terms=String(knowledgeQuery).normalize('NFKC').toLocaleLowerCase('zh-TW').trim().split(/\s+/).filter(Boolean);
- return terms.every(term=>searchable.includes(term));
+ return terms.every(term=>knowledgeTermMatches(searchable,term));
 }
 function visibleKnowledgeSubjects(){return knowledge.subjects.filter(s=>knowledgeSubject==='all'||s.id===knowledgeSubject);}
 function courseSupplements(applyQuery=true){return visibleKnowledgeSubjects().flatMap(s=>s.cards.filter(c=>c.courseSupplement&&(!applyQuery||knowledgeMatches(c))).map(c=>({...c,subjectName:s.name})));}
