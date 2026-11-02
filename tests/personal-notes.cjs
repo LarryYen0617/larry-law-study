@@ -52,3 +52,18 @@ run("knowledgeSubject='criminalgeneral';knowledgeQuery='not-found-abc';var captu
 run("knowledgeSubject='family';knowledgeQuery='';personalSelected='personal-family-6d43222690f3';personalShowAll=false;renderKnowledge()");assert(node('#knowledgeContent').innerHTML.includes('500÷2＝250萬元'));assert(run('personalMarkdown()').includes('500÷2＝250萬元'));assert(node('#knowledgeContent').innerHTML.includes('class="chapter-depth"'));
 run("knowledgeSubject='tax';knowledgeQuery='';personalSelected='personal-tax-53e1ff0cf344';renderKnowledge()");assert(node('#knowledgeContent').innerHTML.includes('補稅與罰鍰應分別判斷'));assert(run('personalMarkdown()').includes('補稅與罰鍰應分別判斷'));
 console.log('PASS: 27 source-mapped deep chapters, worked examples, comparison tables, visible chapter labels and complete exports.');
+
+// The chapter reader must use the same exact legal citation semantics as cards.
+const propertySubject=data.subjects.find(s=>s.id==='property');
+const citationFixture={...propertySubject.chapters[0],id:'citation-search-regression',
+ title:'民法第759條之1 登記推定',focus:'登記推定',text:'民法第759條之1',body:'<p>登記推定</p>'};
+propertySubject.chapters.push(citationFixture);
+run("knowledgeSubject='property';knowledgeMode='notes';personalSelected='citation-search-regression';personalShowAll=false;knowledgeQuery=''");
+node('#knowledgeSearch').input({target:{value:'民法759-1'}});
+assert(node('#knowledgeContent').innerHTML.includes('id="citation-search-regression"'),
+  'chapter reader must resolve the shorthand to the inserted article');
+node('#knowledgeSearch').input({target:{value:'第759條'}});
+assert(!node('#knowledgeContent').innerHTML.includes('id="citation-search-regression"'),
+  'base article must not match inserted article in the chapter reader');
+propertySubject.chapters.pop();
+console.log('PASS: personal chapter reader shares exact article citation search');
