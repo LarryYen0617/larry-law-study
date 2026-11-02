@@ -26,6 +26,34 @@ assert.equal(run("knowledgeMatches({title:'民法第66條',refs:[{label:'官方�
 run("knowledgeQuery='民法 第６６條'");
 assert.equal(run("knowledgeMatches({title:'民法第66條'})"),true,
   'multi-term query normalizes full-width article numbers');
+// Citation spellings must be equivalent, but different article numbers must not collide.
+const articleFixtures=[
+ ['民法第759條之1 登記','第759條之1',true],
+ ['民法§759-1 登記','民法759-1',true],
+ ['民法第759條之1 登記','759-1',true],
+ ['民法759條之1','第759之1條',true],
+ ['民法第759條之10','第759條之1',false],
+ ['民法第759條之1','第759條',false],
+ ['民法第759條','民法759',true],
+ ['民法第759條之1','民法759',false],
+ ['民法第759條','刑法759',false],
+ ['刑法第320條','刑法第３２０條',true],
+ ['民法第759條','民法759條',true],
+ ['民法第759條之1','民法759條',false],
+ ['行政程序法第123條','行政程序法123',true],
+ ['民法第759條之1','759條',false]
+];
+for(const [title,query,expected] of articleFixtures){
+ run('knowledgeQuery='+JSON.stringify(query));
+ assert.equal(run('knowledgeMatches({title:'+JSON.stringify(title)+'})'),expected,
+   'exact article lookup failed for '+query+' against '+title);
+}
+run("knowledgeQuery='民法 759-1'");
+assert.equal(run("knowledgeMatches({title:'民法第759條之1',points:['登記推定']})"),true,
+ 'separate law name and inserted article must retain AND semantics');
+run("knowledgeQuery='民法 759-1 不存在'");
+assert.equal(run("knowledgeMatches({title:'民法第759條之1',points:['登記推定']})"),false,
+ 'third unmatched term must exclude the card');
 run("knowledgeQuery=''");
 const essentialsHTML=fs.readFileSync(path.join(root,'essentials.html'),'utf8');
 assert.ok(essentialsHTML.includes('法源查核日期與範圍依各張教材卡片標示'),
