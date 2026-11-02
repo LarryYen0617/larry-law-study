@@ -16,6 +16,12 @@ PAGES = {
     "essentials.html": "筆記",
     "class-notes/property-midterm-1151.html": "民法物權",
 }
+# HTML elements with no end tag must not leave the hidden-content guard active.
+VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input",
+             "link", "meta", "param", "source", "track", "wbr"}
+EXCLUDED_TAGS = {"script", "style", "nav", "footer", "noscript",
+                 "template", "svg", "math", "iframe", "canvas"}
+
 class Extractor(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True)
@@ -24,22 +30,40 @@ class Extractor(HTMLParser):
         self.in_head = False
         self.title = []
         self.body = []
+
     def handle_starttag(self, tag, attrs):
-        if tag == "head": self.in_head = True
-        if tag in ("script", "style", "nav", "footer", "noscript"):
-            self.skip_stack.append(tag)
-        elif tag == "title" and not self.skip_stack:
+        if tag == "head":
+            self.in_head = True
+        attributes = dict(attrs)
+        hidden = (tag in EXCLUDED_TAGS or "hidden" in attributes
+                  or (attributes.get("aria-hidden") or "").lower() == "true")
+        # Track every nested non-void tag, not just excluded tags, so that
+        # text after a nested child cannot escape its hidden ancestor.
+        if self.skip_stack or hidden:
+            if tag not in VOID_TAGS:
+                self.skip_stack.append(tag)
+            return
+        if tag == "title":
             self.title_depth += 1
+
     def handle_endtag(self, tag):
-        if tag == "head": self.in_head = False
-        if self.skip_stack and tag == self.skip_stack[-1]:
-            self.skip_stack.pop()
-        elif tag == "title" and self.title_depth:
+        if self.skip_stack:
+            if tag == self.skip_stack[-1]:
+                self.skip_stack.pop()
+            return
+        if tag == "head":
+            self.in_head = False
+        if tag == "title" and self.title_depth:
             self.title_depth -= 1
+
     def handle_data(self, data):
-        if self.skip_stack: return
-        if self.title_depth: self.title.append(data)
-        elif not self.in_head: self.body.append(data)
+        if self.skip_stack:
+            return
+        if self.title_depth:
+            self.title.append(data)
+        elif not self.in_head:
+            self.body.append(data)
+
 def compact(value):
     return re.sub(r"\s+", " ", value).strip()
 def build(root=ROOT):
