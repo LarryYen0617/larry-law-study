@@ -14,6 +14,18 @@ run("knowledgeQuery='民法第６６條'");
 assert.equal(run("knowledgeMatches({title:'民法第66條',points:['不動產與動產區分']})"),true);
 run("knowledgeQuery='不動產'");
 assert.equal(run("knowledgeMatches({title:'民法第66條',points:['不動產與動產區分']})"),true);
+run("knowledgeQuery='民法 不動產'");
+assert.equal(run("knowledgeMatches({title:'民法第66條',points:['不動產與動產區分']})"),true,
+  'separate student-visible fields should satisfy AND search');
+run("knowledgeQuery='民法 侵占'");
+assert.equal(run("knowledgeMatches({title:'民法第66條',points:['不動產與動產區分']})"),false,
+  'AND search must not match a partial query');
+run("knowledgeQuery='民法 LawSingle.aspx'");
+assert.equal(run("knowledgeMatches({title:'民法第66條',refs:[{label:'官方法條',url:'https://law.moj.gov.tw/LawClass/LawSingle.aspx'}]})"),false,
+  'internal URL metadata must remain excluded with multi-term queries');
+run("knowledgeQuery='民法 第６６條'");
+assert.equal(run("knowledgeMatches({title:'民法第66條'})"),true,
+  'multi-term query normalizes full-width article numbers');
 run("knowledgeQuery=''");
 const essentialsHTML=fs.readFileSync(path.join(root,'essentials.html'),'utf8');
 assert.ok(essentialsHTML.includes('法源查核日期與範圍依各張教材卡片標示'),

@@ -13,7 +13,10 @@ function knowledgeMatches(v){
  const values=fields.flatMap(key=>Array.isArray(v?.[key])?v[key]:[v?.[key]]);
  const refLabels=Array.isArray(v?.refs)?v.refs.map(ref=>ref?.label):[];
  const searchable=[...values,...refLabels].filter(value=>typeof value==='string').join(' ').normalize('NFKC').toLocaleLowerCase('zh-TW');
- return searchable.includes(knowledgeQuery.normalize('NFKC').toLocaleLowerCase('zh-TW'));
+ // Match the personal-note reader and full-site search: whitespace separates
+ // AND terms, even when the terms appear in different visible card fields.
+ const terms=String(knowledgeQuery).normalize('NFKC').toLocaleLowerCase('zh-TW').trim().split(/\s+/).filter(Boolean);
+ return terms.every(term=>searchable.includes(term));
 }
 function visibleKnowledgeSubjects(){return knowledge.subjects.filter(s=>knowledgeSubject==='all'||s.id===knowledgeSubject);}
 function courseSupplements(applyQuery=true){return visibleKnowledgeSubjects().flatMap(s=>s.cards.filter(c=>c.courseSupplement&&(!applyQuery||knowledgeMatches(c))).map(c=>({...c,subjectName:s.name})));}
