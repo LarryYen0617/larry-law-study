@@ -16,6 +16,32 @@ PAGES = {
     "essentials.html": "筆記",
     "class-notes/property-midterm-1151.html": "民法物權",
 }
+# HTML elements with no end tag must not leave the hidden-content guard active.
+VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input",
+             "link", "meta", "param", "source", "track", "wbr"}
+EXCLUDED_TAGS = {"script", "style", "nav", "footer", "noscript",
+                 "template", "svg", "math", "iframe", "canvas"}
+
+def inline_style_hidden(style):
+    """Conservatively omit elements explicitly hidden by inline CSS.
+
+    Stylesheets and computed styles are outside this HTML-only extractor.
+    This is defense in depth, not authorization to index private source.
+    """
+    if not style:
+        return False
+    for declaration in style.split(";"):
+        prop, separator, value = declaration.partition(":")
+        if not separator:
+            continue
+        prop = prop.strip().lower()
+        value = re.sub(r"\s*!\s*important\s*$", "", value.strip(), flags=re.I).strip().lower()
+        if ((prop == "display" and value == "none")
+                or (prop == "visibility" and value in ("hidden", "collapse"))
+                or (prop == "content-visibility" and value == "hidden")):
+            return True
+    return False
+
 class Extractor(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True)
@@ -24,22 +50,42 @@ class Extractor(HTMLParser):
         self.in_head = False
         self.title = []
         self.body = []
+
     def handle_starttag(self, tag, attrs):
-        if tag == "head": self.in_head = True
-        if tag in ("script", "style", "nav", "footer", "noscript"):
-            self.skip_stack.append(tag)
-        elif tag == "title" and not self.skip_stack:
+        if tag == "head":
+            self.in_head = True
+        attributes = dict(attrs)
+        hidden = (tag in EXCLUDED_TAGS or "hidden" in attributes
+                  or "inert" in attributes
+                  or (attributes.get("aria-hidden") or "").strip().lower() == "true"
+                  or inline_style_hidden(attributes.get("style")))
+        # Track every nested non-void tag, not just excluded tags, so that
+        # text after a nested child cannot escape its hidden ancestor.
+        if self.skip_stack or hidden:
+            if tag not in VOID_TAGS:
+                self.skip_stack.append(tag)
+            return
+        if tag == "title":
             self.title_depth += 1
+
     def handle_endtag(self, tag):
-        if tag == "head": self.in_head = False
-        if self.skip_stack and tag == self.skip_stack[-1]:
-            self.skip_stack.pop()
-        elif tag == "title" and self.title_depth:
+        if self.skip_stack:
+            if tag == self.skip_stack[-1]:
+                self.skip_stack.pop()
+            return
+        if tag == "head":
+            self.in_head = False
+        if tag == "title" and self.title_depth:
             self.title_depth -= 1
+
     def handle_data(self, data):
-        if self.skip_stack: return
-        if self.title_depth: self.title.append(data)
-        elif not self.in_head: self.body.append(data)
+        if self.skip_stack:
+            return
+        if self.title_depth:
+            self.title.append(data)
+        elif not self.in_head:
+            self.body.append(data)
+
 def compact(value):
     return re.sub(r"\s+", " ", value).strip()
 def build(root=ROOT):
