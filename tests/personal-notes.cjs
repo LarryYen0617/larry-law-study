@@ -11,6 +11,24 @@ node('#knowledgeSubject').change({target:{value:'criminalgeneral'}});assert(node
 const id=data.subjects[0].chapters[0].id;for(const f of events.input)f({target:{dataset:{caseDraft:id},value:'我自己的補充'}});assert.equal(JSON.parse(saved.get('lex-nexus-study-v1')).drafts[id],'我自己的補充');assert(run('personalMarkdown()').includes('我自己的補充'));
 node('#knowledgeSearch').input({target:{value:'客觀歸責'}});assert(node('#knowledgeContent').innerHTML.includes('客觀歸責'));
 node('#knowledgeSearch').input({target:{value:'not-found-abc'}});assert(node('#knowledgeContent').innerHTML.includes('沒有符合的筆記'));
+
+const numbered=data.subjects.flatMap(s=>s.chapters).find(c=>/\d/.test(c.title));
+assert(numbered,'expected a numbered chapter title for NFKC regression');
+const fullWidthTitle=numbered.title.replace(/[0-9]/g,n=>String.fromCharCode(n.charCodeAt(0)+65248));
+run("knowledgeSubject='all';personalSelected="+JSON.stringify(numbered.id));
+node('#knowledgeSearch').input({target:{value:fullWidthTitle}});
+assert(node('#knowledgeContent').innerHTML.includes('id="'+numbered.id+'"'),
+  'full-width chapter numbers should match ASCII chapter titles');
+node('#knowledgeSearch').input({target:{value:'客觀歸責 完全不存在的查詢字詞'}});
+assert(node('#knowledgeContent').innerHTML.includes('沒有符合的筆記'),
+  'multiple search terms must all match');
+run("knowledgeSubject='criminalgeneral'");
+assert(data.subjects.some(s=>s.chapters.some(c=>c.source.includes('CriminalLaw.html'))),
+  'provenance test requires a source filename in the fixture');
+node('#knowledgeSearch').input({target:{value:'CriminalLaw.html'}});
+assert(node('#knowledgeContent').innerHTML.includes('沒有符合的筆記'),
+  'source file paths must not produce student-facing search hits');
+
 console.log('PASS: 48 restored full chapters, nine-subject integration, inert imported HTML, source provenance, corrections, search, personal annotations and complete-note export.');
 node('#knowledgeSearch').input({target:{value:''}});
 const chapterId=data.subjects[0].chapters[2].id;
