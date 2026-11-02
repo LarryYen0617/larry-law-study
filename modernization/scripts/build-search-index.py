@@ -22,6 +22,26 @@ VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input",
 EXCLUDED_TAGS = {"script", "style", "nav", "footer", "noscript",
                  "template", "svg", "math", "iframe", "canvas"}
 
+def inline_style_hidden(style):
+    """Conservatively omit elements explicitly hidden by inline CSS.
+
+    Stylesheets and computed styles are outside this HTML-only extractor.
+    This is defense in depth, not authorization to index private source.
+    """
+    if not style:
+        return False
+    for declaration in style.split(";"):
+        prop, separator, value = declaration.partition(":")
+        if not separator:
+            continue
+        prop = prop.strip().lower()
+        value = re.sub(r"\s*!\s*important\s*$", "", value.strip(), flags=re.I).strip().lower()
+        if ((prop == "display" and value == "none")
+                or (prop == "visibility" and value in ("hidden", "collapse"))
+                or (prop == "content-visibility" and value == "hidden")):
+            return True
+    return False
+
 class Extractor(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True)
@@ -36,7 +56,9 @@ class Extractor(HTMLParser):
             self.in_head = True
         attributes = dict(attrs)
         hidden = (tag in EXCLUDED_TAGS or "hidden" in attributes
-                  or (attributes.get("aria-hidden") or "").lower() == "true")
+                  or "inert" in attributes
+                  or (attributes.get("aria-hidden") or "").strip().lower() == "true"
+                  or inline_style_hidden(attributes.get("style")))
         # Track every nested non-void tag, not just excluded tags, so that
         # text after a nested child cannot escape its hidden ancestor.
         if self.skip_stack or hidden:
