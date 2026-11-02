@@ -44,6 +44,24 @@ class IndexBuilderTests(unittest.TestCase):
         parser.feed('<nav><input type="hidden"><br><span>隱藏</span></nav><p>正常</p>')
         self.assertEqual(builder.compact(" ".join(parser.body)), "正常")
 
+    def test_inline_css_hidden_blocks_not_indexed(self):
+        parser = builder.Extractor()
+        parser.feed('<div style="display: none !important"><span>不得索引</span></div>'
+                    '<section style="visibility:hidden">隱藏</section>'
+                    '<aside style="content-visibility: hidden">未顯示</aside><p>可見筆記</p>')
+        self.assertEqual(builder.compact(" ".join(parser.body)), "可見筆記")
+
+    def test_case_insensitive_aria_and_inert_blocks(self):
+        parser = builder.Extractor()
+        parser.feed('<div aria-hidden=" TRUE ">敏感</div><section inert>略過</section><p>公開</p>')
+        self.assertEqual(builder.compact(" ".join(parser.body)), "公開")
+
+    def test_hidden_inline_css_does_not_hide_later_siblings(self):
+        parser = builder.Extractor()
+        parser.feed('<div style="display:none"><span>內層</span><br>仍隱藏</div>'
+                    '<div style="display:block">正常</div>')
+        self.assertEqual(builder.compact(" ".join(parser.body)), "正常")
+
     def test_missing_source_is_error(self):
         with tempfile.TemporaryDirectory() as temp:
             with self.assertRaises(FileNotFoundError):
