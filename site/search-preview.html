@@ -78,8 +78,8 @@ function snippet(record,terms){
   const normalized=normalize(body);
   let position=terms.length?normalized.indexOf(terms[0]):-1;
   if(position<0)position=0;
-  const start=Math.max(0,position-65),end=Math.min(body.length,start+220);
-  return (start?"…":"")+body.slice(start,end)+(end<body.length?"…":"");
+  const start=Math.max(0,position-65),end=Math.min(normalized.length,start+220);
+  return (start?"…":"")+normalized.slice(start,end)+(end<normalized.length?"…":"");
 }
 function draw(){
   results.replaceChildren();
