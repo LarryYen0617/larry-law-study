@@ -71,6 +71,19 @@ try{
   const width=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,viewport:window.innerWidth}));
   assert.ok(width.scroll<=width.viewport+2,"mobile horizontal overflow: "+JSON.stringify(width));
   assert.deepEqual(errors,[],"uncaught browser errors");
+  // Regression: audited public paths must survive browser sanitization without lowering the 3,602-row floor.
+  const allowedPaths=["legal-english.html","exams.html","courses.html","class-notes/criminal-law.html"];
+  const allowed=await browser.newPage();
+  await allowed.route("**/search-index.json",async route=>{
+    const response=await route.fetch();
+    const payload=await response.json();
+    for(let i=0;i<allowedPaths.length;i++)payload.items[i].href=allowedPaths[i];
+    await route.fulfill({status:200,contentType:"application/json",body:JSON.stringify(payload)});
+  });
+  await allowed.goto("http://127.0.0.1:"+port+"/search-preview.html",{waitUntil:"domcontentloaded"});
+  await allowed.waitForFunction(()=>document.querySelector("#status")?.textContent?.includes("3602 筆資料已載入"),null,{timeout:20000});
+  assert.equal(await allowed.locator("#results article").count(),20,"audited paths filtered from corpus");
+  await allowed.close();
   const failurePage=await browser.newPage();
   await failurePage.route("**/search-index.json",route=>route.abort("failed"));
   await failurePage.goto("http://127.0.0.1:"+port+"/search-preview.html",{waitUntil:"domcontentloaded"});
