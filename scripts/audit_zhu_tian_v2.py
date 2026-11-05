@@ -29,11 +29,14 @@ for number in EXPECTED:
         errors.append(f"Chapter {number:03}: empty chapter title")
     body = re.sub(r"(?m)^#{1,6}.*$", "", raw)
     chars = len(re.sub(r"\s", "", body))
+    han_chars = len(re.findall(r"[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]", body))
     chapter_text[number] = body
     paragraphs = [p.strip() for p in re.split(r"\n\s*\n", body) if len(p.strip()) >= 35]
     if len(paragraphs) != len(set(paragraphs)):
         errors.append(f"Chapter {number:03}: duplicate substantial paragraphs")
-    print(f"chapter-{number:03}: {chars} non-whitespace Unicode characters")
+    print(f"chapter-{number:03}: {chars} non-whitespace Unicode characters; {han_chars} Han characters")
+    if han_chars < 3000:
+        errors.append(f"Chapter {number:03}: {han_chars} Han characters < 3000 (punctuation excluded)")
     if chars < 3000:
         errors.append(f"Chapter {number:03}: {chars} < 3000")
     if "顏凌淵" not in body:
@@ -43,7 +46,7 @@ if len(chapter_text) == len(EXPECTED):
     for name in ("沈月璃", "莫凡", "天道圖書館"):
         if name not in joined:
             errors.append(f"Batch lacks required reference: {name}")
-print("NOTICE: Character counts are a mechanical minimum only, not literary editing.")
+print("NOTICE: Han character count excludes punctuation, Latin letters and digits; editorial review remains required.")
 print("NOTICE: Passing does not authorize changing catalog.json or legacy 581-chapter manifest.")
 if errors:
     for error in errors:
