@@ -11,6 +11,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 DRAFTS = ROOT / "drafts/zhu-tian-wan-jie/v2"
 EXPECTED = list(range(1, 11))
+CHINESE_NUMERALS = ("一", "二", "三", "四", "五", "六", "七", "八", "九", "十")
 errors = []
 chapter_text = {}
 for number in EXPECTED:
@@ -22,9 +23,16 @@ for number in EXPECTED:
     heading = re.search(r"(?m)^##\s*第([一二三四五六七八九十]+)章\s+(.+)$", raw)
     if not heading:
         errors.append(f"Chapter {number:03}: missing numbered title")
+    elif heading.group(1) != CHINESE_NUMERALS[number - 1]:
+        errors.append(f"Chapter {number:03}: heading says 第{heading.group(1)}章, expected 第{CHINESE_NUMERALS[number - 1]}章")
+    elif not heading.group(2).strip():
+        errors.append(f"Chapter {number:03}: empty chapter title")
     body = re.sub(r"(?m)^#{1,6}.*$", "", raw)
     chars = len(re.sub(r"\s", "", body))
     chapter_text[number] = body
+    paragraphs = [p.strip() for p in re.split(r"\n\s*\n", body) if len(p.strip()) >= 35]
+    if len(paragraphs) != len(set(paragraphs)):
+        errors.append(f"Chapter {number:03}: duplicate substantial paragraphs")
     print(f"chapter-{number:03}: {chars} non-whitespace Unicode characters")
     if chars < 3000:
         errors.append(f"Chapter {number:03}: {chars} < 3000")
