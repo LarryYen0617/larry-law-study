@@ -1,0 +1,27 @@
+/* Larry Law Study / Rebuild foundation v1
+   One shared design language across content pages; no changes to learning data. */
+:root{--rebuild-width:1320px;--rebuild-reading:78ch;--rebuild-gap:clamp(16px,2.4vw,32px);--rebuild-radius:10px;--rebuild-ring:#c7a46c}
+html{scroll-behavior:smooth}
+body:not(.is-dashboard){font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.75}
+body:not(.is-dashboard) main{min-width:0}
+body:not(.is-dashboard) main>header{max-width:var(--rebuild-width);margin-inline:auto;padding-block:clamp(18px,3vw,42px);border-bottom:1px solid var(--line)}
+body:not(.is-dashboard) main>header h1{font-family:"Noto Serif TC","Songti TC",serif;font-size:clamp(28px,3vw,42px);line-height:1.35;letter-spacing:.015em;margin:.3em 0}
+body:not(.is-dashboard) main>header p{max-width:70ch;color:var(--muted)}
+body:not(.is-dashboard) :is(.card,.course-card,.exam-card,.desk-card,.collection-section,.book-card,.question-shell,.personal-chapter){border-radius:var(--rebuild-radius)!important;box-shadow:none!important}
+body:not(.is-dashboard) :is(input,select,textarea){max-width:100%;font:inherit}
+body:not(.is-dashboard) :is(button,a,input,select,textarea,summary):focus-visible{outline:3px solid var(--rebuild-ring);outline-offset:3px}
+body:not(.is-dashboard) button{min-height:40px}
+body:not(.is-dashboard) :is(.study-tabs,.question-tabs,.exam-tabs,.collection-tabs){display:flex;flex-wrap:wrap;gap:8px;border-bottom:1px solid var(--line);padding-bottom:12px}
+body:not(.is-dashboard) :is(.study-tabs,.question-tabs,.exam-tabs,.collection-tabs) button{border-radius:6px;padding:10px 16px}
+body:not(.is-dashboard) :is(.filters,.exam-filter,.catalog-search){max-width:100%;min-width:0}
+body:not(.is-dashboard) :is(.learning-grid,.exam-grid,.grid,.course-pills){min-width:0}
+body:not(.is-dashboard) :is(.learning-grid,.exam-grid,.grid,.course-pills)>*{min-width:0}
+body:not(.is-dashboard) :is(.personal-body,.prose-reader,.answer){overflow-wrap:anywhere}
+body:not(.is-dashboard) table{max-width:100%;display:block;overflow-x:auto}
+body:not(.is-dashboard) .site-sidebar .sidebar-group{margin-bottom:8px}
+body:not(.is-dashboard) .site-sidebar .sidebar-group h2{font-size:11px;letter-spacing:.09em}
+body:not(.is-dashboard) .site-sidebar .sidebar-link{min-height:44px;display:flex;align-items:center}
+body:not(.is-dashboard) a{text-underline-offset:3px}
+@media(max-width:760px){body:not(.is-dashboard) main>header{padding-block:18px}body:not(.is-dashboard) :is(.study-tabs,.question-tabs,.exam-tabs,.collection-tabs){overflow-x:auto;flex-wrap:nowrap;scrollbar-width:thin}body:not(.is-dashboard) :is(.study-tabs,.question-tabs,.exam-tabs,.collection-tabs)>*{flex:0 0 auto}body:not(.is-dashboard) :is(.learning-grid,.exam-grid){grid-template-columns:minmax(0,1fr)!important}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{body:not(.is-dashboard) :is(.site-sidebar,.palette-open,.page-reading-tools){display:none!important}body:not(.is-dashboard) main{margin:0!important;max-width:none!important}}
