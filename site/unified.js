@@ -13,8 +13,6 @@
   if(mainApp&&typeof page!=='undefined'&&page==='dashboard'&&!query){
    document.getElementById('title').textContent='把考題讀懂，把知識串起來。';document.getElementById('intro').textContent='按科目讀筆記，按期別準備考試，再用練習把觀念變成自己的能力。';
    const eyebrow=document.querySelector('.hero .eyebrow');if(eyebrow)eyebrow.textContent='LEX NEXUS / STUDY & EXAMS';
-   let practiceHref='questions.html?view=essay',practiceLabel='國考申論';try{const P=window.LEX_PRACTICE,s=P&&JSON.parse(localStorage.getItem(P.key)||'null');if(P&&P.valid(s)&&s.lastCase){practiceHref+='&case='+s.lastCase;practiceLabel='接續上次申論';}}catch{}
-   let resume='';try{const last=JSON.parse(localStorage.getItem('lex-nexus-reading-position-v1')||'null'),href=window.LEX_NAVIGATION.resume(last);if(href)resume=`<div class="resume-card"><div><small>CONTINUE READING</small><h2>${esc(last.title)}</h2></div><a class="solid-link" href="${esc(href)}">接續閱讀 →</a></div>`;}catch{}
    document.getElementById('content').innerHTML=`<section class="new-home" aria-labelledby="new-home-title"><div class="new-home-mark" aria-hidden="true">L</div><p class="new-home-kicker">LARRY LAW STUDY</p><h1 id="new-home-title">法域中樞</h1><p class="new-home-subtitle">法律 · 思辨 · 研究</p><div class="new-home-rule" aria-hidden="true"></div><p class="new-home-caption">以知識為基礎，以思辨為方法。</p></section>`
   }
  }
