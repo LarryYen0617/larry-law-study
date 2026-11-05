@@ -56,3 +56,28 @@ main tbody tr:nth-child(even){background:#f6f3ed}
 @media(max-width:620px){.hero,.is-dashboard .hero{padding:24px 20px!important}.hero h1,.is-dashboard .hero h1{font-size:clamp(26px,7vw,34px)!important}.hero .hero-actions{display:flex;flex-wrap:wrap;gap:10px}.hero .hero-actions button{min-height:46px;flex:1 1 180px}.home-primary-card{padding:22px!important}.course-pills{grid-template-columns:repeat(2,minmax(0,1fr))}.course-pills a{min-width:0}.shell>header{padding-inline:18px!important}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 @media print{.hero,.is-dashboard .hero{background:white!important;color:#19283a!important;box-shadow:none!important}.hero h1,.is-dashboard .hero h1,.hero p,.is-dashboard .hero p{color:#19283a!important}.home-primary-card,.course-card{box-shadow:none!important}}
+
+/* Integration corrections: campus.css and palette.css use high-specificity rules.
+   Scope the visual override to the law-firm palette, preserving alternate palettes. */
+html[data-palette=lawfirm] body:not(.dark){--ink:#19283a;--muted:#5b6878;--paper:#fffdf9;--bg:#f4f1eb;--line:#d9d3c8;--accent:#193650;--soft:#ebe7df;--gold:#a47a39;background:var(--bg)}
+html[data-palette=lawfirm] body :is(.site-sidebar,aside:has(>#mainNav)){background:#14283b!important;border-right-color:#a47a3970!important}
+html[data-palette=lawfirm] body :is(.site-sidebar,aside:has(>#mainNav)) :is(a,b,h2,p,.side-intro span){color:#e8e2d6!important}
+html[data-palette=lawfirm] body .site-sidebar .sidebar-brand b{color:#f3e5c9!important}
+html[data-palette=lawfirm] body .site-sidebar .sidebar-group h2{color:#d6b982!important}
+html[data-palette=lawfirm] body .site-sidebar :is(#mainNav,#siteNavigation) .sidebar-link[aria-current=page]{background:#263f56!important;color:#fff!important;border-left:3px solid #caa565!important}
+html[data-palette=lawfirm] body .site-sidebar .sidebar-link:hover{background:#30475e!important;color:#fff!important}
+html[data-palette=lawfirm] body.is-dashboard .hero{background:linear-gradient(115deg,#162d43,#203b51 65%,#31475a)!important;border:1px solid #a47a3970!important;border-radius:5px!important;padding:clamp(24px,4vw,44px)!important}
+html[data-palette=lawfirm] body.is-dashboard .hero h1{color:#fffaf0!important}
+html[data-palette=lawfirm] body.is-dashboard .hero p{color:#e4e9ed!important}
+html[data-palette=lawfirm] body.is-dashboard .hero .eyebrow{color:#e3c28a!important}
+html[data-palette=lawfirm] body .course-pills>a{border-left:3px solid #b99763!important;border-radius:5px!important}
+html[data-palette=lawfirm] body .home-primary-card{border-radius:5px!important}
+html[data-palette=lawfirm] body.dark{--ink:#f0ece4;--muted:#c8c5bc;--paper:#233244;--bg:#142232;--line:#4b6073;--accent:#e4c28b;--soft:#314357;--gold:#e4c28b;background:var(--bg);color:var(--ink)}
+html[data-palette=lawfirm] body.dark .hero,html[data-palette=lawfirm] body.dark.is-dashboard .hero{background:linear-gradient(115deg,#101e2d,#20374e)!important}
+html[data-palette=lawfirm] body.dark :is(.home-primary-card,.course-card,.desk-card,.book-card,.exam-card,.discover-result,.collection-section,.science-box,.personal-chapter){background:var(--paper);color:var(--ink);border-color:var(--line)}
+html[data-palette=lawfirm] body.dark main th{background:#304357;color:#f0ece4}
+html[data-palette=lawfirm] body.dark main tbody tr:nth-child(even){background:#293b4e}
+html[data-palette=lawfirm] body.dark :is(.trap,.notice,.integration-notice,.science-model){background:#344354;color:var(--ink)}
+html[data-palette=lawfirm] body.dark .hero .primary{color:#17283a!important;background:#d8b77e!important;border-color:#d8b77e!important}
+html[data-palette=lawfirm] body.dark .hero button:not(.primary){color:#fff!important;border-color:#9caebf!important}
+@media(max-width:760px){html[data-palette=lawfirm] body.is-dashboard .hero{padding:24px 18px!important}}
