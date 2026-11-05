@@ -66,3 +66,22 @@ body.dark .firm-home-actions>a,body.dark .firm-home-subject-grid>a,body.dark .fi
 .is-dashboard .minimal-search .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
 body.dark.is-dashboard .minimal-search button{color:#142232!important}
 @media(max-width:620px){.is-dashboard .firm-home-minimal{padding-top:12px}.is-dashboard .minimal-heading{text-align:left;margin-bottom:24px}.is-dashboard .minimal-search{grid-template-columns:minmax(0,1fr) 76px;padding:5px;margin-bottom:22px}.is-dashboard .minimal-search button{padding:8px}.is-dashboard .minimal-links{grid-template-columns:1fr;gap:9px}.is-dashboard .minimal-links a{min-height:74px;padding:18px}.is-dashboard .minimal-bottom{justify-content:flex-start}.is-dashboard .minimal-note{text-align:left}}
+
+/* Completely new, link-free identity homepage. Other pages retain navigation. */
+body.is-dashboard{background:#f8f6f1!important}
+body.is-dashboard>aside,body.is-dashboard>.site-sidebar,body.is-dashboard .shell>header,body.is-dashboard #workspaceTop>.hero,body.is-dashboard #workspaceTop>.stats,body.is-dashboard #workspaceTop>.toolbar,body.is-dashboard #workspaceTop>.page-reading-tools,body.is-dashboard #workspaceTop>footer,body.is-dashboard #toast{display:none!important}
+body.is-dashboard .shell{margin:0!important;width:100%!important;max-width:none!important;min-height:100dvh}
+body.is-dashboard #workspaceTop{display:grid!important;place-items:center!important;min-height:100dvh!important;width:100%!important;max-width:none!important;margin:0!important;padding:32px 20px!important;background:transparent!important}
+body.is-dashboard #content{width:100%!important;max-width:none!important;margin:0!important;padding:0!important}
+body.is-dashboard .new-home{min-height:calc(100dvh - 64px);display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;gap:0;color:#19283a}
+body.is-dashboard .new-home-mark{display:grid;place-items:center;width:74px;height:74px;border:1px solid #b99b67;border-radius:50%;font:500 44px Georgia,serif;color:#a17b45;margin-bottom:34px}
+body.is-dashboard .new-home-kicker{font:600 11px Georgia,serif;letter-spacing:.32em;color:#92764e;margin:0 0 14px}
+body.is-dashboard .new-home h1{font:600 clamp(42px,7vw,76px)/1.3 "Noto Serif TC","Songti TC",serif!important;letter-spacing:.14em;color:#19283a!important;margin:0 0 16px}
+body.is-dashboard .new-home-subtitle{font-size:14px;letter-spacing:.3em;color:#63717a;margin:0}
+body.is-dashboard .new-home-rule{width:54px;height:1px;background:#b99b67;margin:36px auto 25px}
+body.is-dashboard .new-home-caption{font-size:13px;letter-spacing:.09em;color:#7b817e;margin:0}
+body.dark.is-dashboard{background:#162638!important}
+body.dark.is-dashboard .new-home h1{color:#f6f0e6!important}
+body.dark.is-dashboard .new-home-mark{color:#d3b785}
+body.dark.is-dashboard .new-home-subtitle,body.dark.is-dashboard .new-home-caption{color:#c2c8c8}
+@media(max-width:480px){body.is-dashboard .new-home-mark{width:62px;height:62px;font-size:37px;margin-bottom:27px}body.is-dashboard .new-home h1{letter-spacing:.08em;font-size:43px!important}body.is-dashboard .new-home-subtitle{letter-spacing:.16em}}
