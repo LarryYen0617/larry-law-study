@@ -89,5 +89,12 @@ body.dark.is-dashboard .new-home-subtitle,body.dark.is-dashboard .new-home-capti
 /* Home is a clean, link-free landing page. Search and resume live in their own workspaces. */
 body.is-dashboard :is(.palette-open,.palette-dialog,.page-reading-tools,.side-navigation,.side-nav,.sidebar,.sidebar-shell,.mobile-nav,.mobile-bottom-nav,.floating-search,.quick-search,.resume-card,.sidebar-resume){display:none!important}
 body.is-dashboard :is(.hero,.stats,.toolbar,#stats,#tabs,.home-grid,.home-course-strip,.home-secondary,.library-banner){display:none!important}
-body.is-dashboard #content .new-home :is(a,button,input,select,form){display:none!important}
+body.is-dashboard #content .new-home :is(button,input,select,form){display:none!important}
 body.is-dashboard .new-home{isolation:isolate}
+
+/* Single understated entrance: homepage stays clean but never traps visitors. */
+body.is-dashboard .new-home-enter{display:inline-flex!important;align-items:center;gap:14px;margin-top:48px;padding:12px 18px;min-height:44px;border:1px solid #b99b67;border-radius:4px;background:transparent;color:#19283a!important;font-size:14px;font-weight:600;letter-spacing:.08em;text-decoration:none!important;transition:background .15s,color .15s}
+body.is-dashboard .new-home-enter:hover{background:#19283a;color:#fff!important}
+body.is-dashboard .new-home-enter:focus-visible{outline:3px solid #b99b67;outline-offset:4px}
+body.dark.is-dashboard .new-home-enter{color:#f6f0e6!important}
+body.dark.is-dashboard .new-home-enter:hover{background:#b99b67;color:#162638!important}
