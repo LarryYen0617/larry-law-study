@@ -85,3 +85,9 @@ body.dark.is-dashboard .new-home h1{color:#f6f0e6!important}
 body.dark.is-dashboard .new-home-mark{color:#d3b785}
 body.dark.is-dashboard .new-home-subtitle,body.dark.is-dashboard .new-home-caption{color:#c2c8c8}
 @media(max-width:480px){body.is-dashboard .new-home-mark{width:62px;height:62px;font-size:37px;margin-bottom:27px}body.is-dashboard .new-home h1{letter-spacing:.08em;font-size:43px!important}body.is-dashboard .new-home-subtitle{letter-spacing:.16em}}
+
+/* Home is a clean, link-free landing page. Search and resume live in their own workspaces. */
+body.is-dashboard :is(.palette-open,.palette-dialog,.page-reading-tools,.side-navigation,.side-nav,.sidebar,.sidebar-shell,.mobile-nav,.mobile-bottom-nav,.floating-search,.quick-search,.resume-card,.sidebar-resume){display:none!important}
+body.is-dashboard :is(.hero,.stats,.toolbar,#stats,#tabs,.home-grid,.home-course-strip,.home-secondary,.library-banner){display:none!important}
+body.is-dashboard #content .new-home :is(a,button,input,select,form){display:none!important}
+body.is-dashboard .new-home{isolation:isolate}
