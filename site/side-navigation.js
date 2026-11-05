@@ -3,9 +3,9 @@
  const version='20261027-architecture',subjects=['crime','family','debt','property','admin','tax','criminalgeneral','civilgeneral','constitution'];
  const groups=[
   ['學習與研究',[['courses','課程總覽','courses.html',''],['notes','筆記與法條','essentials.html',''],['english','法學英文','legal-english.html',''],['science','光電科技','photonics.html','']]],
-  ['考試與練習',[['exams','考試資料','exams.html',''],['questions','題庫與申論','questions.html',''],['saved','收藏與複習','discover.html','#view=saved'],['progress','學習進度','index.html','progress']]],
-  ['搜尋與閱讀',[['search','全站搜尋','discover.html',''],['reading','閱讀書架','reading.html',''],['daily','每日資訊','index.html','#/daily']]],
-  ['資料與設定',[['materials','個人教材','index.html','materials'],['coverage','來源與校訂','coverage.html',''],['official','官方法源','study-toolkit.html','#sources'],['settings','備份與設定','settings.html','']]]
+  ['考試與練習',[['exams','考試資料','exams.html',''],['questions','題庫與申論','questions.html',''],['saved','收藏與複習','discover.html','#view=saved'],['progress','學習進度','workspace.html','progress']]],
+  ['搜尋與閱讀',[['search','全站搜尋','discover.html',''],['reading','閱讀書架','reading.html',''],['daily','每日資訊','workspace.html','#/daily']]],
+  ['資料與設定',[['materials','個人教材','workspace.html','materials'],['coverage','來源與校訂','coverage.html',''],['official','官方法源','study-toolkit.html','#sources'],['settings','備份與設定','settings.html','']]]
  ];
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  function destination(file,target,subject='crime',current=''){
