@@ -1,7 +1,7 @@
 const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('assert');
 const ctx={window:{}};vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../site/side-navigation.js'),'utf8'),ctx);
 const nav=ctx.window.LEX_NAVIGATION,ids=nav.groups.flatMap(g=>g[1].map(i=>i[0]));
-assert.equal(nav.groups.length,4);assert.equal(ids.length,16);assert.equal(new Set(ids).size,16);
+assert.equal(nav.groups.length,4);assert.equal(ids.length,15);assert.equal(new Set(ids).size,15);
 for(const subject of ['crime','family','debt','property','admin','tax','criminalgeneral','civilgeneral','constitution']){
  assert.equal(nav.destination('index.html','essays',subject,'index.html'),`#/${subject}/essays/0`);
  assert(nav.destination('index.html','progress',subject,'essentials.html').endsWith(`#/${subject}/progress/0`));
@@ -13,8 +13,8 @@ const last={subject:'debt',chapter:'personal-debt-guide',title:'<img onerror="ba
 const html=nav.markup({active:'questions',subject:'debt',file:'index.html',last});
 assert(html.includes('接續上次閱讀'));assert(html.includes('&lt;img'));assert(!html.includes('<img'));assert.equal((html.match(/aria-current="page"/g)||[]).length,1);
 assert(!html.includes('<select'));assert(!html.includes('<details'));assert(html.includes('questions.html?v=20261027-architecture'));assert(html.includes('courses.html?v=20261027-architecture'));assert(html.includes('legal-english.html'));assert(html.includes('photonics.html'));
-for(const name of ['index','essentials','library','coverage','study-toolkit','settings','reading','discover','practice']){
+for(const name of ['workspace','essentials','library','coverage','study-toolkit','settings','reading','discover','practice']){
  const page=fs.readFileSync(path.join(__dirname,'../site',name+'.html'),'utf8');assert(page.includes('side-navigation.css?'));assert(page.indexOf('side-navigation.js?')<page.indexOf('studio.js?'));
 }
-console.log('PASS: 16 classified destinations, all nine course routes, cross-page navigation, safe reading resume, active state and shared sidebar assets.');
+console.log('PASS: 15 classified destinations, all nine course routes, cross-page navigation, safe reading resume, active state and shared sidebar assets.');
 
