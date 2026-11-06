@@ -1,0 +1,23 @@
+name: Novel v2 draft quality gate
+on:
+  push:
+    paths:
+      - 'drafts/zhu-tian-wan-jie/v2/**'
+      - 'scripts/audit_zhu_tian_v2.py'
+      - '.github/workflows/novel-v2-audit.yml'
+  pull_request:
+    paths:
+      - 'drafts/zhu-tian-wan-jie/v2/**'
+      - 'scripts/audit_zhu_tian_v2.py'
+      - '.github/workflows/novel-v2-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify ten chapters and Han character minimum
+        run: python3 scripts/audit_zhu_tian_v2.py
