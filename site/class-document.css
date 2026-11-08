@@ -16,8 +16,8 @@ body.document-page>main h3{font-size:1.1rem;line-height:1.7;margin:24px 0 12px}
 body.document-page>main p{margin-block:14px;overflow-wrap:anywhere}
 body.document-page>main li{margin-block:8px;line-height:1.9}
 body.document-page>main :is(.source,.notice,.alert,.exam,.note,.caution,blockquote){font-size:1rem;line-height:1.85;color:var(--ink);background:var(--soft);border:0;border-inline-start:3px solid var(--accent);border-radius:0 10px 10px 0;padding:16px 20px}
-body.document-page>main nav{display:flex;flex-wrap:wrap;gap:10px;border:0}
-body.document-page>main nav a{display:inline-flex;align-items:center;min-height:44px;padding:8px 14px;margin:0;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--accent);font-size:.9rem;text-decoration:none}
+body.document-page>main nav{display:flex;flex-wrap:wrap;gap:16px;border:0}
+body.document-page>main nav a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;min-width:48px;padding:10px 16px;margin:0;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--accent);font-size:.9rem;text-decoration:none}
 body.document-page>main nav a:hover{background:var(--soft);border-color:var(--accent)}
 body.document-page>main details{border:0;border-bottom:1px solid var(--line);padding:14px 0}
 body.document-page>main .document-provenance{padding:0 0 12px;margin-bottom:14px}
