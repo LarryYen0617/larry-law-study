@@ -22,9 +22,9 @@ def check():
             continue
         raw = path.read_text(encoding="utf-8")
         body = re.sub(r"(?m)^#{1,6} .*?$", "", raw)
-        body = re.sub(r"(?m)^\\s*(?:---|\\*\\*\\*)\\s*$", "", body)
-        count = len(re.findall(r"[\\u3400-\\u9fff]", body))
-        headings = re.findall(r"(?m)^#{1,6}\\s+.*?第[一二三四五六七八九十百零]+章.*$", raw)
+        body = re.sub(r"(?m)^\s*(?:---|\*\*\*)\s*$", "", body)
+        count = len(re.findall(r"[\u3400-\u9fff]", body))
+        headings = re.findall(r"(?m)^#{1,6}\s+.*?第[一二三四五六七八九十百零]+章.*$", raw)
         if len(headings) != 1:
             problems.append(f"Chapter {number}: expected exactly one numbered chapter heading")
         if count < MIN_HAN:
