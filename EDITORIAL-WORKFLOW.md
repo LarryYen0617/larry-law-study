@@ -128,3 +128,7 @@ questions.html 預設老師原題；課程有已確認原題時 practice 直接�
 ## 期中期末與全站分類（2026-11-02）
 content/exam-catalog.json保存逐科逐期有證據的題目與範圍。scripts/build_exam_catalog.cjs合併11門課程及繼承法既有題庫專題，產生exam-data.js，exams.html統一分類。未取得當次原卷不能把自編練習或舊學年資料標為本次考題。債編總論在統計時歸入債權，繼承法202題獨立保留；期中、期末、未分期切換不新增或搬移作答儲存。
 全站四組導覽：學習中心、考試與練習、資訊與閱讀、資料管理。campus.css由palette.js依腳本位置載入，套用現有配色與深淺色。首頁及課程卡均連考試專區。建置順序：課程目錄 → build_exam_catalog.cjs → 搜尋；測試exams.cjs、side-navigation.cjs及既有互動與資料隔離。
+
+## 舊版小說下架（2026-11-08 使用者指示）
+舊版《全職法師：萬界法神》581章退出網站公開發布。scripts/unpublish_legacy_novel.py 在所有原稿完整性檢查完成後、Pages上傳之前，移除公開書目、搜尋索引及整個舊版章節目錄。site/books 中的版本控制原稿保留供回復，不能以原稿存在推定仍在網站上架。新版 drafts/zhu-tian-wan-jie/v2 不因此發布；瀏覽器閱讀進度與個人匯入書架不變。
+

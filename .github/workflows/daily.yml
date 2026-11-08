@@ -96,6 +96,10 @@ jobs:
         run: python3 scripts/check_public_learning.py --final
       - name: 若所有消息來源失敗，明確回報（網站仍保留可用內容）
         run: python -c "import json,sys; d=json.load(open('site/updates/daily.json')); print('News status:',d['newsState']); print('Editorial status:',d.get('editorial',{}).get('status')); sys.exit(1 if d['newsState']=='error' or d.get('editorial',{}).get('status') in ('rejected','error','no_sources','not_configured') else 0)"
+      - name: 下架舊版小說並驗證最終公開檔案
+        run: |
+          python scripts/unpublish_legacy_novel.py
+          node tests/search-index-links.cjs
       - name: 上傳網站（不包含教材原始檔、腳本或任何秘密）
         uses: actions/upload-pages-artifact@v4
         with:
