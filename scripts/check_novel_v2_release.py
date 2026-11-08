@@ -37,6 +37,19 @@ def check():
         problems.append("Legacy 581-chapter catalog is still the source entry; no v2 publication switch verified")
     if manifest.get("chapterCount") == 581:
         problems.append("Legacy 581-chapter manifest is still present; no v2 publication switch verified")
+    # A draft count is never evidence of an editorially approved or deployed release.
+    # Require an explicit human-readable editorial sign-off file for the batch.
+    signoff = DRAFTS / "release-001-010-editorial-signoff.json"
+    if not signoff.is_file():
+        problems.append("Missing editorial sign-off for chapters 1-10")
+    else:
+        try:
+            approval = json.loads(signoff.read_text(encoding="utf-8"))
+            approved = approval.get("approved_chapters", [])
+            if approved != list(range(1, BATCH + 1)) or approval.get("continuity_checked") is not True:
+                problems.append("Editorial sign-off does not approve all 10 chapters and continuity")
+        except (ValueError, OSError, TypeError) as exc:
+            problems.append(f"Invalid editorial sign-off: {exc}")
     result = {"status": "BLOCKED" if problems else "DRAFT_CHECK_PASS_ONLY",
               "drafts": report, "blockers": problems,
               "note": "Editorial continuity, rollback snapshot, CI and live chapter links require separate verification."}
