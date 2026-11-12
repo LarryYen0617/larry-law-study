@@ -26,6 +26,15 @@ class ProductionIndexAuditTests(unittest.TestCase):
     def test_rejects_credential_href(self):
         self.assertFalse(module.inspect({"version": 1, "items": [item(href="https://user:password@example.com/index.html")]})["valid"])
 
+    def test_rejects_malformed_ipv6_href_without_crashing(self):
+        report = module.inspect({"version": 1, "items": [item(href="http://[broken")]})
+        self.assertFalse(report["valid"])
+        self.assertTrue(any("unsafe href" in problem for problem in report["problems"]))
+
+    def test_rejects_control_character_href(self):
+        report = module.inspect({"version": 1, "items": [item(href="index.html#bad\\nfragment")]})
+        self.assertFalse(report["valid"])
+
     def test_rejects_traversal_href(self):
         self.assertFalse(module.inspect({"version": 1, "items": [item(href="../index.html")]})["valid"])
     def test_rejects_javascript_href(self):
