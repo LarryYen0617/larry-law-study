@@ -43,10 +43,14 @@ def inspect(data, min_records=0, baseline_types=None):
             problems.append(f"row {row}: missing type")
         href = item.get("href")
         if isinstance(href, str):
-            url = urlsplit(href)
-            if (url.scheme or url.netloc or url.path not in SAFE_PAGES
-                    or "\\" in href or any(ord(ch) < 32 for ch in href)
-                    or url.username or url.password):
+            try:
+                url = urlsplit(href)
+                unsafe = (url.scheme or url.netloc or url.path not in SAFE_PAGES
+                          or "\\\\" in href or any(ord(ch) < 32 for ch in href)
+                          or url.username or url.password)
+            except ValueError:
+                unsafe = True
+            if unsafe:
                 problems.append(f"row {row}: unsafe href")
     if baseline_types is not None:
         for kind, minimum in baseline_types.items():
