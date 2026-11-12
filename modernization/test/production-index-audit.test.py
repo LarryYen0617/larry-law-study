@@ -32,7 +32,15 @@ class ProductionIndexAuditTests(unittest.TestCase):
         self.assertTrue(any("unsafe href" in problem for problem in report["problems"]))
 
     def test_rejects_control_character_href(self):
-        report = module.inspect({"version": 1, "items": [item(href="index.html#bad\\nfragment")]})
+        report = module.inspect({"version": 1, "items": [item(href="index.html#bad\nfragment")]})
+        self.assertFalse(report["valid"])
+
+    def test_rejects_carriage_return_href(self):
+        report = module.inspect({"version": 1, "items": [item(href="index.html#bad\rfragment")]})
+        self.assertFalse(report["valid"])
+
+    def test_rejects_tab_href(self):
+        report = module.inspect({"version": 1, "items": [item(href="index.html#bad\tfragment")]})
         self.assertFalse(report["valid"])
 
     def test_rejects_traversal_href(self):
