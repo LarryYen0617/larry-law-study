@@ -296,7 +296,14 @@ try{
     const readingContext=await browser.newContext({viewport:{width:readingWidth,height:900},reducedMotion:"reduce"});
     for(const filename of (await readdir(resolve(site,"class-notes"))).filter(name=>name.endsWith(".html"))){
       const reading=await readingContext.newPage();
-      await reading.goto("http://127.0.0.1:"+port+"/class-notes/"+filename,{waitUntil:"domcontentloaded"});
+      const readingStarted=Date.now();
+      console.log("[reading-check] START "+filename+" width="+readingWidth);
+      try{
+        await reading.goto("http://127.0.0.1:"+port+"/class-notes/"+filename,{waitUntil:"domcontentloaded"});
+      }catch(error){
+        console.error("[reading-check] NAVIGATION FAILED "+filename+" width="+readingWidth+" elapsedMs="+(Date.now()-readingStarted)+" url="+reading.url()+" error="+String(error));
+        throw error;
+      }
       if(filename==="study-hub.html"){
         await reading.waitForURL("**/courses.html");
       }else{
