@@ -486,6 +486,118 @@
           "source": "2026-10-25官方條文查讀後自編整理；非教師教材或考試範圍",
           "trap": "不以公益口號、申請人同意或拒絕履行，跳過附款合法性檢驗。",
           "courseSupplement": true
+        },
+        {
+          "id": "admin-revocation-reopening-20261103",
+          "title": "違法處分撤銷與程序重開：第117條不等於第128條",
+          "points": [
+            "行政程序法第117條是救濟期間經過後，原處分機關或上級機關對違法處分的職權撤銷；須注意公益重大危害與受益人信賴保護的例外。",
+            "第118條以溯及既往失效為原則，但得為維護公益或避免財產損失另定失效日；第121條另設知悉撤銷原因起二年的職權撤銷期間。",
+            "第128條是相對人或利害關係人申請重新開始程序的途徑，須符合事實變更、新事實／新證據或相當再審事由，並檢查重大過失限制。",
+            "第128條第1項第1款的事實事後變更，限於具有持續效力的處分；第2款新事實或新證據須達到斟酌後可能受較有利益處分的程度，第3項並明定處分後始存在的證據也可能屬新證據。",
+            "第128條申請原則上自救濟期間經過後三個月內提出；事由較晚發生或知悉者自該時起算，並有救濟期間經過後五年的上限。",
+            "第129條須另判斷申請有無理由、原處分是否仍屬正當，不能把『有新證據』直接寫成『必然撤銷』。"
+          ],
+          "refs": [
+            {
+              "label": "行政程序法第117條",
+              "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030055&flno=117"
+            },
+            {
+              "label": "行政程序法第118條",
+              "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030055&flno=118"
+            },
+            {
+              "label": "行政程序法第121條",
+              "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030055&flno=121"
+            },
+            {
+              "label": "行政程序法第128條",
+              "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030055&flno=128"
+            },
+            {
+              "label": "行政程序法第129條",
+              "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030055&flno=129"
+            }
+          ],
+          "source": "2026-11-03依官方法規核對後自編；非教師確認考試範圍",
+          "trap": "職權撤銷、人民申請程序重開與法院撤銷訴訟的主體、期間及效果不可混用。",
+          "courseSupplement": true
+        },
+        {
+          "id": "admin-discipline-performance-20261103",
+          "title": "公務員懲戒與考績懲處：名稱相似、法源不同",
+          "points": [
+            "公務員懲戒法第2條先檢查法定違失及懲戒必要；第3條要求故意或過失。",
+            "公務員懲戒法第9條列有免除職務、撤職、退休金剝奪或減少、休職、降級、減俸、罰款、記過、申誡等懲戒種類。",
+            "公務人員考績法第12條則處理平時考核懲處（申誡、記過、記一大過）及專案考績等制度；同名『記過』『申誡』仍須回到適用法源辨別。",
+            "先辨主管機關考績懲處，或懲戒法庭的懲戒；再分別審查法定要件、程序、法律效果與救濟。",
+            "考績法第12條另有懲處權行使期間規範，個案須核對適用時點與修法。",
+            "依114年11月19日修正的考績法第12條，懲處權行使期間：一次記二大過15年、記一大過7年、記過或申誡5年；原則自違失行為終了日起算，不作為自作為義務消滅日起算，結果後發生者另依結果日起算。",
+            "考績懲處經救濟程序撤銷、原機關另為適法處分時，懲處權行使期間原則自撤銷確定日起重行起算；但原懲處事由已逾行使期間者，不重行起算（考績法第12條末項）。"
+          ],
+          "refs": [
+            {
+              "label": "公務員懲戒法第2條",
+              "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030155&flno=2"
+            },
+            {
+              "label": "公務員懲戒法第3條",
+              "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030155&flno=3"
+            },
+            {
+              "label": "公務員懲戒法第9條",
+              "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030155&flno=9"
+            },
+            {
+              "label": "公務人員考績法第12條",
+              "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0040001&flno=12"
+            }
+          ],
+          "source": "2026-11-03依官方法規核對後自編；非教師確認考試範圍",
+          "trap": "同名記過、申誡不代表同一制度，先辨法源及作成機關。",
+          "courseSupplement": true
+        },
+        {
+          "id": "admin-personnel-remedy-20261103",
+          "title": "人事行政行為：程序排除不等於救濟排除",
+          "points": [
+            "行政程序法第3條第3項第7款排除對公務員人事行政行為適用本法程序規定，不等於一律沒有救濟。",
+            "公務人員保障法第25條：對服務機關或人事主管機關行政處分，認為違法或顯然不當而損害權利利益者，循復審途徑。",
+            "公務人員保障法第77條：管理措施或工作條件處置認為不當、影響權益者，循申訴及再申訴途徑。",
+            "第30條規定復審自行政處分達到次日起三十日內提出；第78條規定申訴自處置達到次日起三十日內提出，不服函復者另有三十日再申訴期間。",
+            "第79條設有誤提申訴而應走復審時的移轉處理，仍須檢查適用身分、送達及期限。",
+            "依司法院釋字第785號，公務員認為權利受違法侵害或有主張權利必要時，得按措施及爭議性質依法提起相應行政訴訟；不能誤認申訴、再申訴必然排除司法救濟，也不能把單純不當直接等同違法。"
+          ],
+          "refs": [
+            {
+              "label": "行政程序法第3條",
+              "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=A0030055&flno=3"
+            },
+            {
+              "label": "公務人員保障法第25條",
+              "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0120001&flno=25"
+            },
+            {
+              "label": "公務人員保障法第30條",
+              "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0120001&flno=30"
+            },
+            {
+              "label": "公務人員保障法第77條",
+              "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0120001&flno=77"
+            },
+            {
+              "label": "公務人員保障法第78條",
+              "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0120001&flno=78"
+            },
+            {
+              "label": "公務人員保障法第79條",
+              "url": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0120001&flno=79"
+            }
+          ],
+          "source": "2026-11-03依官方法規核對後自編；非教師確認考試範圍",
+          "trap": "程序適用例外不等於剝奪全部行政或司法救濟。",
+          "courseSupplement": true
         }
       ]
     },
