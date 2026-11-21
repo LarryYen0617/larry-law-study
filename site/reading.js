@@ -75,7 +75,7 @@
  }
 chapter=Math.max(0,Math.min(book.chapters.length-1,chapter));const c=book.chapters[chapter];$('bookshelf').hidden=true;$('bookReader').hidden=false;$('bookReader').innerHTML=`${book.id===NOVEL_ID?novelSettings():''}<div class="reader-toolbar"><button id="backShelf">← 返回書架</button><span>${E(book.title)}${book.subtitle?' · '+E(book.subtitle):''}</span><div class="chapter-jump"><label>第 <input id="chapterNumber" type="number" min="1" max="${book.chapters.length}" value="${chapter+1}" aria-label="前往章號"> 章</label><button data-jump-book="true">前往</button></div><div><button data-font="-1" aria-label="縮小閱讀字級">A−</button><button data-font="1" aria-label="放大閱讀字級">A＋</button></div></div><div class="reading-workbench"><nav class="chapter-rail" aria-label="小說章節目錄">${book.chapters.slice(tocPage*25,tocPage*25+25).map((c,i)=>`<button data-book-chapter="${tocPage*25+i}" aria-pressed="${tocPage*25+i===chapter}">${E(c.title)}</button>`).join('')}<div class="toc-pager"><button data-toc-page="${tocPage-1}" ${tocPage===0?'disabled':''}>← 目錄</button><span>${tocPage*25+1}–${Math.min(book.chapters.length,tocPage*25+25)}</span><button data-toc-page="${tocPage+1}" ${(tocPage+1)*25>=book.chapters.length?'disabled':''}>目錄 →</button></div></nav><article class="prose-reader${book.id===NOVEL_ID?' novel-prose':''}" ${book.id===NOVEL_ID?'id="novelProse"':''} style="--reader-font:${font}px"><p class="eyebrow">${chapter+1} / ${book.chapters.length}</p><h2>${E(c.title)}</h2>${c.text.split(/\n\s*\n|\n/).filter(Boolean).map(t=>`<p>${E(t)}</p>`).join('')}<nav class="chapter-pagination" aria-label="章節翻頁"><button data-book-chapter="${chapter-1}" ${chapter===0?'disabled':''}>← 上一章</button><span>${chapter+1} / ${book.chapters.length}</span><button data-book-chapter="${chapter+1}" ${chapter===book.chapters.length-1?'disabled':''}>下一章 →</button></nav></article></div>`;if(book.id===NOVEL_ID){
  const reader=$('bookReader');
- reader.insertAdjacentHTML('beforeend','<nav class="mobile-reader-menu" aria-label="閱讀工具"><button data-sheet="catalog">目錄</button><button data-sheet="progress">進度</button><button data-sheet="marks">書籤</button><button data-sheet="settings">設定</button><button id="mobileShelf">書架</button></nav><button class="reader-tools-toggle" aria-label="顯示或收起閱讀工具">閱讀工具</button>');
+ reader.insertAdjacentHTML('beforeend','<nav class="mobile-reader-menu" aria-label="閱讀工具"><button data-sheet="catalog">目錄</button><button data-sheet="progress">進度</button><button data-sheet="marks">書籤</button><button data-sheet="settings">設定</button><button id="mobileShelf">書架</button><button class="reader-dismiss" aria-label="收起閱讀工具">收起</button></nav><button class="reader-shade" aria-label="關閉面板"></button><button class="reader-tools-toggle" aria-label="顯示或收起閱讀工具">閱讀工具</button>');
  delete reader.dataset.sheet;
  if(reader.dataset.chapter!==String(chapter))reader.scrollTop=0;
  reader.dataset.chapter=String(chapter);
@@ -115,8 +115,13 @@ chapter=Math.max(0,Math.min(book.chapters.length-1,chapter));const c=book.chapte
   if(['settings','progress','catalog','marks'].includes(sheet)&&target.closest('.mobile-reader-menu')){
    reader.classList.add('tools-visible');
    reader.dataset.sheet=reader.dataset.sheet===sheet?'':sheet;
+   for(const button of reader.querySelectorAll('.mobile-reader-menu [data-sheet]'))button.setAttribute('aria-expanded',String(button.dataset.sheet===reader.dataset.sheet));
    const settings=reader.querySelector('.novel-settings');
    if(settings)settings.open=reader.dataset.sheet==='settings';
+  }else if(target.closest('.reader-shade,.reader-dismiss')){
+   delete reader.dataset.sheet;
+   if(target.closest('.reader-dismiss'))reader.classList.remove('tools-visible');
+   for(const button of reader.querySelectorAll('.mobile-reader-menu [data-sheet]'))button.setAttribute('aria-expanded','false');
   }else if(target.closest('.reader-tools-toggle')||(target.closest('#novelProse')&&!target.closest('button')&&!window.getSelection()?.toString())){
    reader.classList.toggle('tools-visible');delete reader.dataset.sheet;
   }
