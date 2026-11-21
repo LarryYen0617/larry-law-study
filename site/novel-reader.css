@@ -47,3 +47,20 @@
 .novel-settings-fields label { display: grid; gap: 4px; }
 .novel-settings-fields select, .novel-settings-fields button { min-height: 40px; }
 .novel-settings-fields input { width: 100%; }
+
+.mobile-reader-menu,.reader-tools-toggle{display:none}
+@media(max-width:760px){
+ body:has(#bookReader:not([hidden]) #novelProse){overflow:hidden}
+ #bookReader:not([hidden]):has(#novelProse){position:fixed;inset:0;z-index:10000;overflow:auto;background:var(--paper,#faf5e9);overscroll-behavior:contain}
+ #bookReader:has(#novelProse) .reading-workbench{display:block;margin:0}
+ #bookReader .novel-prose{box-sizing:border-box;min-height:100dvh;width:100%;max-width:none;margin:0;border:0;border-radius:0;padding:calc(28px + env(safe-area-inset-top)) 6vw 100px}
+ .novel-prose>p:not(.eyebrow){text-indent:2em}
+ #bookReader:has(#novelProse) :is(.chapter-rail,.reader-toolbar,.novel-settings){display:none}
+ #bookReader .reader-tools-toggle{display:block;position:fixed;bottom:calc(10px + env(safe-area-inset-bottom));right:12px;padding:8px 14px;border-radius:24px;background:#28483f;color:white}
+ #bookReader.tools-visible .reader-tools-toggle{bottom:calc(63px + env(safe-area-inset-bottom))}
+ #bookReader.tools-visible .mobile-reader-menu{display:flex;position:fixed;inset:auto 0 0;justify-content:space-around;background:#213f37;padding:7px 4px calc(7px + env(safe-area-inset-bottom));z-index:3}
+ .mobile-reader-menu button{background:transparent;color:white;border:0;padding:10px}
+ #bookReader[data-sheet=catalog] .chapter-rail,#bookReader[data-sheet=progress] .reader-toolbar,#bookReader[data-sheet=settings] .novel-settings{display:block;position:fixed;inset:auto 8px calc(58px + env(safe-area-inset-bottom));z-index:4;max-height:55dvh;overflow:auto;background:#faf8f1;color:#243c33;border:1px solid #b7c5bc;border-radius:16px;padding:14px;margin:0}
+ #bookReader[data-sheet=catalog] .chapter-rail button{display:block;width:100%;text-align:left}
+ #bookReader[data-sheet=progress] .reader-toolbar> :not(.chapter-jump){display:none}
+}
