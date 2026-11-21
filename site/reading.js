@@ -8,9 +8,10 @@
  const NOVEL_OPTIONS={
   fontFace:{kai:'標楷體',serif:'明體',sans:'黑體'},
   spacing:{compact:'緊湊',regular:'適中',relaxed:'寬鬆'},
+  flow:{pages:'左右翻頁',scroll:'直向捲動'},
   theme:{paper:'米白',white:'純白',green:'淡綠',night:'夜間'},
  };
- const NOVEL_DEFAULTS={fontFace:'kai',spacing:'compact',theme:'paper'};
+ const NOVEL_DEFAULTS={fontFace:'kai',spacing:'compact',theme:'paper',flow:'pages'};
  const novelPrefs={...NOVEL_DEFAULTS};
  try{
   const stored=JSON.parse(localStorage.getItem(NOVEL_PREF_KEY)||'{}');
@@ -22,7 +23,7 @@
  novelPrefs.size??=font-2;
 
  function novelSettings(){
-  const fields=[['fontFace','字體'],['spacing','行距'],['theme','背景']];
+  const fields=[['fontFace','字體'],['spacing','行距'],['theme','背景'],['flow','閱讀方式']];
   return `<details class="novel-settings"><summary>閱讀設定</summary>
    <div class="novel-settings-fields">
     <label>字級 <output id="novelFontValue" for="novelFontSize">${novelPrefs.size} px</output>
@@ -40,6 +41,8 @@
    article.dataset.fontFace=novelPrefs.fontFace;
    article.dataset.spacing=novelPrefs.spacing;
    article.dataset.theme=novelPrefs.theme;
+   article.dataset.flow=novelPrefs.flow;
+   requestAnimationFrame(updatePageCount);
    article.style.setProperty('--reader-font',novelPrefs.size+'px');
    $('novelFontSize').value=novelPrefs.size;
    $('novelFontValue').textContent=novelPrefs.size+' px';
@@ -79,6 +82,19 @@ chapter=Math.max(0,Math.min(book.chapters.length-1,chapter));const c=book.chapte
  delete reader.dataset.sheet;
  if(reader.dataset.chapter!==String(chapter))reader.scrollTop=0;
  reader.dataset.chapter=String(chapter);
+ const article=$('novelProse'), pages=document.createElement('div');
+ pages.className='novel-pages';
+ for(const paragraph of article.querySelectorAll(':scope > p:not(.eyebrow)'))pages.append(paragraph);
+ article.insertBefore(pages,article.querySelector('.chapter-pagination'));
+ article.insertAdjacentHTML('beforeend','<nav class="novel-page-controls" aria-label="正文翻頁"><button data-page-step="-1">上一頁</button><span id="novelPageCount" aria-live="polite"></span><button data-page-step="1">下一頁</button></nav>');
+ let start;
+ pages.addEventListener('touchstart',event=>{start=event.touches.length===1?event.touches[0]:null;},{passive:true});
+ pages.addEventListener('touchend',event=>{
+  if(!start||!pages.matches('#novelProse[data-flow="pages"] .novel-pages')||!matchMedia('(max-width:760px)').matches)return;
+  const end=event.changedTouches[0], dx=end.clientX-start.clientX, dy=end.clientY-start.clientY;
+  start=null;
+  if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5)turnNovelPage(dx<0?1:-1);
+ },{passive:true});
  const marks=readMarks();
  reader.insertAdjacentHTML('beforeend','<section class="novel-marks"><h2>章節書籤</h2><button id="toggleNovelMark">'+(marks.includes(chapter)?'移除本章書籤':'收藏本章')+'</button>'+marks.map(n=>'<button data-book-chapter="'+n+'">'+E(book.chapters[n].title)+'</button>').join('')+'</section>');
  applyNovelPreferences();
@@ -96,6 +112,38 @@ chapter=Math.max(0,Math.min(book.chapters.length-1,chapter));const c=book.chapte
  }
  $('bookFile').addEventListener('change',async e=>{const f=e.target.files?.[0];if(!f)return;try{if(f.size>20_000_000)throw Error('單檔請小於 20 MB。');status('正在整理章節…');const data=/\.epub$/i.test(f.name)?await epub(f):/\.txt$/i.test(f.name)?{title:f.name.replace(/\.txt$/i,''),chapters:W.chapters(await f.text())}:null;if(!data)throw Error('請選擇 TXT 或 EPUB。');const hash=await crypto.subtle.digest('SHA-256',await f.arrayBuffer()),id='book-'+Array.from(new Uint8Array(hash)).map(x=>x.toString(16).padStart(2,'0')).join('');const previous=collection.find(b=>b.id===id),entry={...data,id,position:previous?.position||0,updatedAt:new Date().toISOString()};if(!W.validBook(entry))throw Error('書籍內容超出支援範圍。');await W.books('put',entry);collection=await W.books();shelf();status('已加入書架，點選「接續閱讀」開始。');}catch(err){status(err.message||'無法匯入，請改用 UTF-8 TXT。');}finally{e.target.value='';}});
  async function openBook(id,requested=null){book=[...published,...collection].find(x=>x.id===id);if(!book){status(id==='wan-jie-fa-shen'?'舊版《全職法師：萬界法神》已下架。你仍可使用個人書架，原閱讀紀錄會保留。':'找不到這本書。');return;}if(book.published&&!book.chapters){try{status('正在開啟目錄…');const response=await fetch(book.base+'manifest.json',{credentials:'omit'});if(!response.ok)throw Error('目錄暫時無法讀取。');const manifest=await response.json();if(!Array.isArray(manifest.chapters)||manifest.chapters.length!==book.chapterCount)throw Error('章節目錄不完整。');book.chapters=manifest.chapters;status('');}catch(err){status(err.message);return;}}chapter=requested===null?(book.position||0):requested-1;if(!Number.isInteger(chapter)||chapter<0||chapter>=book.chapters.length){status('章號超出目錄範圍。');return;}tocPage=Math.floor(chapter/25);await render();if(book.published&&typeof book.chapters[chapter].text==='string')await remember();$('bookReader').scrollIntoView({block:'start'});}
+ function novelPagePosition(pages){
+  const step=pages.clientWidth+24;
+  return {step,index:Math.round(pages.scrollLeft/step),last:Math.round((pages.scrollWidth-pages.clientWidth)/step)};
+ }
+ function updatePageCount(){
+  const pages=document.querySelector('#novelProse .novel-pages');
+  if(!pages||!pages.clientWidth)return;
+  const {index,last}=novelPagePosition(pages);
+  $('novelPageCount').textContent=(index+1)+' / '+(last+1);
+  for(const button of pages.parentElement.querySelectorAll('[data-page-step]')){
+   button.disabled=Number(button.dataset.pageStep)<0?index===0&&chapter===0:index===last&&chapter===book.chapters.length-1;
+  }
+ }
+ async function turnNovelPage(direction){
+  const pages=document.querySelector('#novelProse .novel-pages');
+  if(!pages||!pages.clientWidth)return;
+  const {step,index,last}=novelPagePosition(pages), next=index+direction;
+  if(next>=0&&next<=last){
+   pages.scrollLeft=next*step;
+  }else if(chapter+direction>=0&&chapter+direction<book.chapters.length){
+   chapter+=direction;
+   tocPage=Math.floor(chapter/25);
+   await render();
+   await remember();
+   if(direction<0&&$('novelProse')){
+    const previous=$('novelProse').querySelector('.novel-pages');
+    previous.scrollLeft=previous.scrollWidth-previous.clientWidth;
+   }
+  }
+  updatePageCount();
+ }
+ window.addEventListener('resize',updatePageCount);
  function readMarks(){
   try{
    const saved=JSON.parse(localStorage.getItem('lex-novel-v2-bookmarks')||'[]');
@@ -104,6 +152,8 @@ chapter=Math.max(0,Math.min(book.chapters.length-1,chapter));const c=book.chapte
  }
  $('bookReader').addEventListener('click',event=>{
   const reader=$('bookReader'), target=event.target;
+  const pageButton=target.closest('[data-page-step]');
+  if(pageButton){turnNovelPage(Number(pageButton.dataset.pageStep));return;}
   if(target.closest('#toggleNovelMark')){
    const marks=readMarks();
    try{localStorage.setItem('lex-novel-v2-bookmarks',JSON.stringify(marks.includes(chapter)?marks.filter(n=>n!==chapter):marks.concat(chapter)));}
