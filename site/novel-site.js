@@ -18,16 +18,17 @@ function write(key,value) {
   try { localStorage.setItem(key,JSON.stringify(value)); }
   catch { /* Reading remains available without persistent storage. */ }
 }
-const prefs = {fontFace:'kai', size:18, spacing:'compact', theme:'paper', ...read(prefsKey,{})};
+const prefs = {fontFace:'kai', size:18, spacing:'compact', theme:'portrait', ...read(prefsKey,{})};
 const choices = {
   fontFace:{kai:'標楷體／文楷',serif:'明體',sans:'黑體'},
   spacing:{compact:'緊湊',regular:'適中',relaxed:'寬鬆'},
-  theme:{paper:'米白',white:'純白',green:'淡綠',night:'夜間'}
+  theme:{portrait:'人物',paper:'米白',white:'純白',gold:'淡黃',gray:'霧灰',green:'淡綠',night:'夜間'}
 };
 let chapters = [], active = null, ticket = 0, queryTicket = 0;
 let scrollQueued = false;
 function applyPrefs() {
   const root = document.documentElement;
+  root.style.setProperty('--dim', String(1-Math.max(50, Math.min(100,Number(prefs.light)||100))/100));
   root.dataset.theme = Object.hasOwn(choices.theme,prefs.theme) ? prefs.theme : 'paper';
   root.style.setProperty('--size',Math.max(14,Math.min(28,Number(prefs.size)||16))+'px');
   root.style.setProperty('--leading',{compact:1.55,regular:1.8,relaxed:2.1}[prefs.spacing] || 1.55);
@@ -71,12 +72,20 @@ function shell(content) {
 function toc(current) {
   return '<ul class="results">'+chapters.map(chapter=>'<li><a '+(chapter.number===current?'aria-current="page" ':'')+'href="'+chapterLink(chapter.number)+'">'+esc(chapter.title)+'</a></li>').join('')+'</ul>';
 }
+function shelfNav() {
+  return '<nav class="bottom-tabs" aria-label="書架導覽">'+[['shelf','書架','▣'],['store','書城','◇'],['discover','發現','◎'],['mine','我的','☻']].map(([id,label,icon])=>'<a href="#'+id+'" aria-current="'+((location.hash||'#shelf')==='#'+id?'page':'false')+'"><i>'+icon+'</i>'+label+'</a>').join('')+'</nav>';
+}
+const weekKey=()=>{const d=new Date();d.setDate(d.getDate()-(d.getDay()+6)%7);return 'novel-week-'+d.toLocaleDateString('en-CA');};
+setInterval(()=>{if(active!==null&&!document.hidden)write(weekKey(),Number(read(weekKey(),0))+1);},60000);
 function library(detail) {
   const n=resumeNumber(), latest=chapters.at(-1);
   const cover='<a class="cover" href="#book" aria-label="諸天萬界作品詳情"><span>諸天萬界</span></a>';
   if(!detail){
     const resume = chapterLink(n);
-    app.innerHTML=shell('<div class="shelf-grid"><section>'+cover.replace('href="#book"', 'href="'+resume+'"').replace('作品詳情','繼續閱讀')+'<a class="book-name" href="'+resume+'">諸天萬界</a><small>'+n+'章／'+chapters.length+'章</small></section></div>');
+    if(location.hash==='#mine'){app.innerHTML=shell('<h1>我的</h1><button data-panel="marks">書籤</button>')+shelfNav();return;}
+    const shelf=(location.hash==='#shelf'||!location.hash);
+    const intro=shelf?'<section class="week"><strong>'+read(weekKey(),0)+' <small>分鐘</small></strong><span>本週閱讀</span></section>':'<h1>'+(location.hash==='#store'?'書城':'發現')+'</h1>';
+    app.innerHTML=shell(intro+'<div class="shelf-grid"><section>'+cover.replace('href="#book"', 'href="'+resume+'"').replace('作品詳情','繼續閱讀')+'<a class="book-name" href="'+resume+'">諸天萬界</a><small>'+n+'章／'+chapters.length+'章</small></section></div>')+shelfNav();
     return;
   }
   const description=detail?'<p class="blurb">顏凌淵與沈月璃從博城出發，在不同世界追尋線索，逐步揭開兩人命運交會的原因。</p>':'';
@@ -125,15 +134,16 @@ function showError(error) {
   app.innerHTML=shell('<p class="message" role="status">'+esc(error.message)+'</p><button data-retry>重新載入</button> <a href="#shelf">返回書架</a>');
 }
 function preferences() {
-  const fields=[['fontFace','字體'],['spacing','行距']];
-  const themes=Object.entries(choices.theme).map(([value,name])=>'<button type="button" class="theme-chip" data-theme-choice="'+value+'" aria-pressed="'+(prefs.theme===value)+'"><i></i>'+name+'</button>').join('');
-  return '<div class="theme-chips" aria-label="閱讀背景">'+themes+'</div><label class="setting">字級 <output id="size-value">'+esc(prefs.size)+' px</output><input aria-label="字級" type="range" min="14" max="28" value="'+esc(prefs.size)+'" data-setting="size"></label>'+
-  fields.map(([key,label])=>'<label class="setting">'+label+'<select data-setting="'+key+'">'+Object.entries(choices[key]).map(([value,name])=>'<option value="'+value+'" '+(prefs[key]===value?'selected':'')+'>'+name+'</option>').join('')+'</select></label>').join('');
+  const colors=Object.entries(choices.theme).map(([value,name])=>'<button class="swatch" aria-label="'+name+'" aria-pressed="'+(prefs.theme===value)+'" data-theme-choice="'+value+'"></button>').join('');
+  return '<label class="setting">亮度<input type="range" min="50" max="100" value="'+(Number(prefs.light)||100)+'" data-setting="light"></label><div class="setting">字號 <button data-size="-1">A−</button><output>'+prefs.size+'</output><button data-size="1">A＋</button><select aria-label="字體" data-setting="fontFace">'+Object.entries(choices.fontFace).map(([k,v])=>'<option value="'+k+'" '+(prefs.fontFace===k?'selected':'')+'>'+v+'</option>').join('')+'</select></div><div class="swatches">'+colors+'</div><button class="more" data-panel="more">更多設定</button>';
 }
 function openPanel(type) {
   queryTicket++;
-  document.querySelector('#panel-title').textContent={toc:'章節目錄',progress:'閱讀進度',marks:'書籤',search:'全文搜尋',prefs:'閱讀設定'}[type];
-  if(type==='toc') panelContent.innerHTML='<nav class="toc-tabs"><button data-panel="marks">書籤</button><button data-panel="search">搜全文</button></nav>'+toc(active);
+  panel.dataset.view=type;
+  document.querySelector('#panel-title').textContent={toc:'章節目錄',progress:'閱讀進度',marks:'書籤',search:'全文搜尋',prefs:'設定',more:'更多閱讀設定',notes:'想法'}[type];
+  if(type==='toc') panelContent.innerHTML='<nav class="toc-tabs"><button data-panel="marks">書籤</button><button data-panel="notes">想法</button><button data-panel="search">搜全文</button></nav><div class="toc-book">諸天萬界<small>連載至'+chapters.length+'章</small></div>'+toc(active);
+  if(type==='more')panelContent.innerHTML='<div class="setting">行間距 '+Object.entries(choices.spacing).map(([key,label])=>'<button data-space="'+key+'" aria-pressed="'+(prefs.spacing===key)+'">'+label+'</button>').join('')+'</div>';
+  if(type==='notes')panelContent.innerHTML='<label>本章想法<textarea data-note>'+esc(read('novel-note-'+(active||resumeNumber()),''))+'</textarea></label>';
   if(type==='prefs') panelContent.innerHTML=preferences();
   if(type==='progress') panelContent.innerHTML='<p class="meta">第 '+active+' 章，共 '+chapters.length+' 章</p><form id="jump"><label>前往第 <input name="number" type="number" min="1" max="'+chapters.length+'" value="'+active+'" required> 章</label><button>前往</button></form>';
   if(type==='search') panelContent.innerHTML='<form id="search-form"><input id="query" name="query" type="search" autocomplete="off" placeholder="書中文字或章名" aria-label="搜尋關鍵字" required maxlength="60"><button>搜尋</button></form><div id="results" aria-live="polite"></div>';
@@ -166,6 +176,8 @@ async function search(term) {
 }
 document.addEventListener('click',event=>{
   const button=event.target.closest('button');
+  if(button?.dataset.size){prefs.size=Math.max(14,Math.min(28,Number(prefs.size)+Number(button.dataset.size)));applyPrefs();write(prefsKey,prefs);panelContent.innerHTML=preferences();}
+  if(button?.dataset.space){prefs.spacing=button.dataset.space;applyPrefs();write(prefsKey,prefs);openPanel('more');}
   if(button?.dataset.themeChoice){prefs.theme=button.dataset.themeChoice;applyPrefs();write(prefsKey,prefs);panelContent.innerHTML=preferences();}
   if(button?.dataset.panel)openPanel(button.dataset.panel);
   if(button?.id==='close-panel'||event.target===panel)panel.close();
@@ -180,6 +192,7 @@ document.addEventListener('click',event=>{
 });
 panel.addEventListener('close',()=>queryTicket++);
 panel.addEventListener('input',event=>{
+  if(event.target.hasAttribute('data-note'))write('novel-note-'+(active||resumeNumber()),event.target.value);
   const key=event.target.dataset.setting;
   if(!key)return;
   prefs[key]=key==='size'?Number(event.target.value):event.target.value;
