@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
   pages: write
   id-token: write
 
@@ -105,9 +106,26 @@ jobs:
           git fetch --no-tags --depth=1 origin cde97a74d5a270aa3cf8b59ae1265f5e305f94a3
           python scripts/publish_novel_v2.py
       - name: 上傳網站（不包含教材原始檔、腳本或任何秘密）
+        id: pages-artifact
         uses: actions/upload-pages-artifact@v4
         with:
           path: site
+      - name: 等待 Pages Artifact 可供部署
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARTIFACT_ID: ${{ steps.pages-artifact.outputs.artifact_id }}
+        run: |
+          for attempt in {1..12}; do
+            if gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts?name=github-pages" \
+              --jq ".artifacts[] | select(.expired == false) | .id" | grep -Fx "$ARTIFACT_ID"; then
+              # The deployment action reads the Actions results service.
+              sleep 5
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "::error::Pages artifact $ARTIFACT_ID did not become visible in run $GITHUB_RUN_ID."
+          exit 1
       - name: 發布到 GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
