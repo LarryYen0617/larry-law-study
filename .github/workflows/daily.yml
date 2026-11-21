@@ -100,6 +100,10 @@ jobs:
         run: |
           python scripts/unpublish_legacy_novel.py
           node tests/search-index-links.cjs
+      - name: 將《諸天萬界》新版試閱加入閱讀書房
+        run: |
+          git fetch --no-tags --depth=1 origin cde97a74d5a270aa3cf8b59ae1265f5e305f94a3
+          python scripts/publish_novel_v2.py
       - name: 上傳網站（不包含教材原始檔、腳本或任何秘密）
         uses: actions/upload-pages-artifact@v4
         with:

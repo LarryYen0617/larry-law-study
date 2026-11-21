@@ -100,6 +100,7 @@ jobs:
       - run: node tests/class-notes.cjs
       - run: node tests/discover.cjs
       - run: node tests/search-preview.cjs
+      - run: python3 scripts/build_learning_catalog.py
       - run: node scripts/build_search_index.cjs
       - run: node tests/course-catalog.cjs
       # Match the mandatory novel integrity gate used before the live Pages release.
