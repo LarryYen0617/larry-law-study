@@ -43,6 +43,7 @@
    article.dataset.theme=novelPrefs.theme;
    article.dataset.flow=novelPrefs.flow;
    requestAnimationFrame(updatePageCount);
+   if(document.fonts)document.fonts.ready.then(updatePageCount);
    article.style.setProperty('--reader-font',novelPrefs.size+'px');
    $('novelFontSize').value=novelPrefs.size;
    $('novelFontValue').textContent=novelPrefs.size+' px';

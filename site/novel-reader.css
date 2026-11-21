@@ -1,5 +1,5 @@
 .prose-reader.novel-prose {
-  --novel-font: "DFKai-SB", "標楷體", BiauKai, "Kaiti TC", KaiTi, STKaiti, serif;
+  --novel-font: "DFKai-SB", "標楷體", BiauKai, "LXGW WenKai TC", "Kaiti TC", KaiTi, STKaiti, serif;
   --novel-leading: 1.55;
   --novel-paragraph-gap: .65em;
   background: var(--paper);
@@ -113,4 +113,26 @@
  body > #bookReader .novel-prose > .eyebrow{margin:0 0 6px;font-size:.75rem}
  body > #bookReader .novel-prose > h2{margin-top:0}
  body > #bookReader .novel-page-controls{flex:none}
+}
+
+@media(max-width:760px){
+ body > #bookReader .novel-prose{
+  padding-inline:clamp(18px,5vw,32px);
+  padding-top:calc(12px + env(safe-area-inset-top));
+ }
+ body > #bookReader .novel-prose > h2{
+  font-size:clamp(18px,5vw,23px);
+  line-height:1.4;
+  margin:0 0 .8rem;
+ }
+ body > #bookReader .novel-page-controls{
+  padding:4px 0 0;
+  margin:8px 0 0;
+  border-top:1px solid var(--line);
+ }
+ #bookReader .reader-tools-toggle{
+  right:12px;top:calc(8px + env(safe-area-inset-top));bottom:auto;
+  padding:4px 9px;font-size:.75rem;
+ }
+ #bookReader .chapter-rail button{min-height:44px}
 }
