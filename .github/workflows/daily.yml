@@ -105,6 +105,7 @@ jobs:
         run: |
           git fetch --no-tags --depth=1 origin cde97a74d5a270aa3cf8b59ae1265f5e305f94a3
           python scripts/publish_novel_v2.py
+          node modernization/test/browser-search.test.mjs --novel
       - name: 上傳網站（不包含教材原始檔、腳本或任何秘密）
         id: pages-artifact
         uses: actions/upload-pages-artifact@v4
