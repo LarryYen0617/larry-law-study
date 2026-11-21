@@ -22,13 +22,14 @@ const prefs = {fontFace:'kai', size:18, spacing:'compact', theme:'portrait', ...
 const choices = {
   fontFace:{kai:'標楷體／文楷',serif:'明體',sans:'黑體'},
   spacing:{compact:'緊湊',regular:'適中',relaxed:'寬鬆'},
-  theme:{portrait:'人物',paper:'米白',white:'純白',gold:'淡黃',gray:'霧灰',green:'淡綠',night:'夜間'}
+  theme:{portrait:'人物',paper:'米白',night:'夜間',gold:'淡黃',gray:'霧灰',green:'淡綠',white:'純白'}
 };
 let chapters = [], active = null, ticket = 0, queryTicket = 0;
 let scrollQueued = false;
 function applyPrefs() {
   const root = document.documentElement;
-  root.style.setProperty('--dim', String(1-Math.max(50, Math.min(100,Number(prefs.light)||100))/100));
+  root.style.setProperty('--dim', String(1-Math.max(50, Math.min(100,(prefs.systemLight ? 100 : Number(prefs.light))||100))/100));
+  root.dataset.eye=prefs.eye ? "on" : "off";
   root.dataset.theme = Object.hasOwn(choices.theme,prefs.theme) ? prefs.theme : 'paper';
   root.style.setProperty('--size',Math.max(14,Math.min(28,Number(prefs.size)||16))+'px');
   root.style.setProperty('--leading',{compact:1.55,regular:1.8,relaxed:2.1}[prefs.spacing] || 1.55);
@@ -191,7 +192,7 @@ function showError(error) {
 }
 function preferences() {
   const colors=Object.entries(choices.theme).map(([value,name])=>'<button class="swatch" aria-label="'+name+'" aria-pressed="'+(prefs.theme===value)+'" data-theme-choice="'+value+'"></button>').join('');
-  return '<label class="setting">亮度<input type="range" min="50" max="100" value="'+(Number(prefs.light)||100)+'" data-setting="light"></label><div class="setting">字號 <button data-size="-1">A−</button><output>'+prefs.size+'</output><button data-size="1">A＋</button><select aria-label="字體" data-setting="fontFace">'+Object.entries(choices.fontFace).map(([k,v])=>'<option value="'+k+'" '+(prefs.fontFace===k?'selected':'')+'>'+v+'</option>').join('')+'</select></div><div class="swatches">'+colors+'</div><div class="reader-actions"><button data-auto-start>自動閱讀</button><button data-panel="more">更多設定</button></div>';
+  return '<label class="setting">亮度<input type="range" min="50" max="100" value="'+((prefs.systemLight ? 100 : Number(prefs.light))||100)+'" data-setting="light"></label><button class="system-light" aria-pressed="'+Boolean(prefs.systemLight)+'" data-toggle="systemLight">跟隨系統</button><div class="setting">字號 <button data-size="-1">A−</button><output>'+prefs.size+'</output><button data-size="1">A＋</button><select aria-label="字體" data-setting="fontFace">'+Object.entries(choices.fontFace).map(([k,v])=>'<option value="'+k+'" '+(prefs.fontFace===k?'selected':'')+'>'+v+'</option>').join('')+'</select></div><div class="swatches">'+colors+'</div><div class="reader-actions"><button data-toggle="eye">'+(prefs.eye?'關閉護眼':'開啟護眼')+'</button><button data-auto-start>自動閱讀</button><button data-panel="more">更多設定</button></div>';
 }
 function openPanel(type) {
   queryTicket++;
@@ -208,6 +209,9 @@ function openPanel(type) {
     panelContent.innerHTML=(active===null?'':'<button data-bookmark>'+ (saved.includes(active-1)?'移除本章書籤':'收藏本章')+'</button>')+
       (saved.length?'<ul class="results">'+saved.map(index=>'<li><a href="'+chapterLink(index+1)+'">'+esc(chapters[index].title)+'</a></li>').join('')+'</ul>':'<p class="meta">目前沒有書籤</p>');
   }
+  const footer=panel.querySelector('.panel-dock');
+  footer.hidden=active===null || type==='more';
+  for(const button of footer.querySelectorAll('button'))button.setAttribute('aria-current',button.dataset.panel===type?'page':'false');
   if(!panel.open)panel.showModal();
   if(type==='toc')requestAnimationFrame(()=>panel.querySelector('[aria-current]')?.scrollIntoView({block:'center'}));
 }
@@ -235,6 +239,11 @@ document.addEventListener('click',event=>{
   if(button?.hasAttribute('data-auto-start')){startAuto();return;}
   if(button?.hasAttribute('data-auto-stop')){stopAuto();document.body.dataset.chrome='on';return;}
   if(autoFrame && event.target.closest('.prose'))stopAuto();
+  if(['eye','systemLight'].includes(button?.dataset.toggle)){
+    const key=button.dataset.toggle;
+    prefs[key]=!prefs[key];
+    applyPrefs();write(prefsKey,prefs);panelContent.innerHTML=preferences();return;
+  }
   if(button?.dataset.size){prefs.size=Math.max(14,Math.min(28,Number(prefs.size)+Number(button.dataset.size)));applyPrefs();write(prefsKey,prefs);panelContent.innerHTML=preferences();}
   if(button?.dataset.space){prefs.spacing=button.dataset.space;applyPrefs();write(prefsKey,prefs);openPanel('more');}
   if(button?.dataset.themeChoice){prefs.theme=button.dataset.themeChoice;applyPrefs();write(prefsKey,prefs);panelContent.innerHTML=preferences();}
@@ -254,6 +263,7 @@ panel.addEventListener('input',event=>{
   if(event.target.hasAttribute('data-note'))write('novel-note-'+(active||resumeNumber()),event.target.value);
   const key=event.target.dataset.setting;
   if(!key)return;
+  if(key==='light'){prefs.systemLight=false;panel.querySelector('.system-light')?.setAttribute('aria-pressed','false');}
   prefs[key]=key==='size'?Number(event.target.value):event.target.value;
   if(key==='size')document.querySelector('#size-value').textContent=prefs.size+' px';
   applyPrefs();

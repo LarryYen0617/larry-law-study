@@ -43,6 +43,14 @@ try{
     assert.ok(await reader.locator('dialog .results li').count()>100);
     await reader.locator('#close-panel').click();
     await reader.locator('.reader-dock [data-panel=prefs]').click();
+    const settings=reader.locator('dialog[data-view=prefs]');
+    const sheet=await settings.boundingBox();
+    assert.ok(sheet && sheet.y>0 && Math.abs(sheet.y+sheet.height-844)<3,'settings must sit against the viewport bottom');
+    await settings.getByRole('button',{name:'跟隨系統'}).click();
+    assert.equal(await settings.locator('.system-light').getAttribute('aria-pressed'),'true');
+    await settings.getByRole('button',{name:'開啟護眼'}).click();
+    assert.equal(await reader.locator('html').getAttribute('data-eye'),'on');
+    assert.ok(await settings.locator('.panel-dock').isVisible());
     await reader.locator('[data-size="1"]').click();
     assert.equal(await reader.locator('output').innerText(),'19');
     await reader.getByText('更多設定',{exact:true}).click();

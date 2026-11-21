@@ -94,3 +94,28 @@ dialog[data-view=toc]{height:90dvh;max-height:90dvh}.toc-tabs{position:sticky;to
 .reader-actions button,.auto-controls button{border:0;background:transparent}
 .auto-controls{position:fixed;bottom:calc(env(safe-area-inset-bottom) + 8px);left:50%;transform:translateX(-50%);z-index:4;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:24px;padding:0 14px;white-space:nowrap;font-size:14px}
 .auto-controls input{width:95px;accent-color:var(--accent)}
+
+:root[data-eye=on] .reader{background:rgb(223 179 97 / 16%)}
+.panel-dock[hidden]{display:none}
+.panel-dock{display:flex;background:var(--paper);border-top:1px solid var(--line);position:sticky;bottom:0;margin:0 -16px -16px;justify-content:space-around}
+.panel-dock [aria-current=page]{color:var(--ink)}
+dialog[data-view=prefs] .panel-head{position:absolute;top:0;right:0;background:transparent;border:0;padding:0}
+dialog[data-view=prefs] .panel-head h2{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+dialog[data-view=prefs] #close-panel{font-size:0;min-height:24px;padding:0 8px}
+dialog[data-view=prefs] #close-panel::after{content:'⌄';font-size:18px}
+dialog[data-view=prefs]::backdrop{background:transparent}
+dialog[data-view=prefs]{overflow-x:hidden;padding-top:22px}
+dialog[data-view=prefs] #panel-content{display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:8px}
+dialog[data-view=prefs] #panel-content>*:not(:first-child):not(.system-light){grid-column:1/-1}
+dialog[data-view=prefs] .setting{flex-wrap:nowrap;font-size:14px;margin:9px 0;gap:6px}
+dialog[data-view=prefs] input[type=range]{min-width:0;width:100%;height:30px;min-height:30px;padding:0;accent-color:#a69c91}
+.system-light{border:0;background:none;font-size:12px;min-height:36px;padding:3px}
+.system-light::after{content:'○';padding-left:3px}.system-light[aria-pressed=true]::after{content:'✓'}.system-light[aria-pressed]{outline:none}
+dialog[data-view=prefs] select{border:0;background:transparent;font-size:14px}
+dialog[data-view=prefs] .swatches{margin:12px 0}
+dialog[data-view=prefs] .reader-actions{justify-content:space-around;gap:0;margin:12px -16px 0;padding:7px 0}
+.reader-actions button{flex:1;font-size:14px}
+@media(max-width:600px){dialog[data-view=prefs]{border:0;border-radius:14px 14px 0 0;background:var(--paper);max-height:82dvh}.panel-dock{margin-bottom:calc(-14px - env(safe-area-inset-bottom));padding-bottom:calc(8px + env(safe-area-inset-bottom))}}
+
+.panel-dock button{border:0;background:transparent;display:grid;justify-items:center;gap:3px;color:var(--muted);font-size:12px}
+.panel-dock button::before{font:21px/1 system-ui}.panel-dock [data-panel=toc]::before{content:'☷'}.panel-dock [data-panel=progress]::before{content:'◯'}.panel-dock [data-panel=prefs]::before{content:'⚙'}
