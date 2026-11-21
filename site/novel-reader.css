@@ -64,3 +64,14 @@
  #bookReader[data-sheet=catalog] .chapter-rail button{display:block;width:100%;text-align:left}
  #bookReader[data-sheet=progress] .reader-toolbar> :not(.chapter-jump){display:none}
 }
+
+.shelf-cover{width:100%;min-height:120px;aspect-ratio:3/4;max-width:160px;display:grid;place-items:center;padding:15%;background:linear-gradient(145deg,#193f35,#416553 63%,#24382f);color:#fff4d9;border:1px solid #827857;border-radius:3px 12px 12px 3px;box-shadow:inset 5px 0 #bba37e;font:600 23px/1.25 "DFKai-SB","Kaiti TC",serif}
+.shelf-cover span{writing-mode:vertical-rl;max-height:7em;overflow:hidden}
+.novel-marks{display:none}
+@media(max-width:760px){
+ #bookshelf .shelf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(115px,45%),1fr));gap:18px}
+ #bookshelf .book-card{display:block;padding:0;background:transparent;border:0}
+ #bookshelf .book-card h3{margin:.45em 0 .2em}
+ #bookshelf .book-card .eyebrow{display:none}
+ #bookReader[data-sheet=marks] .novel-marks{display:grid;gap:8px;position:fixed;inset:auto 8px calc(58px + env(safe-area-inset-bottom));z-index:4;max-height:55dvh;overflow:auto;background:#faf8f1;color:#243c33;border-radius:16px;padding:16px}
+}
