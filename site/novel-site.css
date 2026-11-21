@@ -57,3 +57,20 @@ input,select{min-height:44px;background:var(--paper);border:1px solid var(--line
 .show-tools{min-height:38px;padding:4px 10px}
 .theme-chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}.theme-chip{display:grid;justify-items:center;gap:5px;font-size:.82rem}.theme-chip i{border-radius:50%;width:25px;height:25px;border:1px solid #918879;background:#faf3dd}.theme-chip[data-theme-choice=white] i{background:white}.theme-chip[data-theme-choice=green] i{background:#c7dbbf}.theme-chip[data-theme-choice=night] i{background:#252b29}.theme-chip[aria-pressed=true]{outline:2px solid var(--accent)}
 @media(max-width:600px){.reader{padding-inline:6vw}.reader-head{border:0}.reader-head span{margin-left:auto}.reader-dock{justify-content:space-around;box-shadow:0 -2px 18px #28251912}.reader-dock button{font-size:.88rem}.panel-head{position:sticky;top:-16px;background:var(--paper);padding-block:8px;border-bottom:1px solid var(--line)}.setting{justify-content:space-between}.setting input[type=range]{flex:1}.shelf-grid small{font-size:.75rem}.site-head{padding:16px 0}.shelf-label{font-size:1.15rem}.theme-chips{justify-content:space-between}}
+
+:root[data-theme=paper]{--paper:#f6eee7;--ink:#221b17;--muted:#807972;--line:#e3dbd4;--accent:#312a24}
+body[data-chrome=off] .reader-head{display:none}
+.reader .chapter-caption{font:14px/1.45 system-ui,sans-serif;color:var(--muted);margin:8px 0 20px}
+.chapter-caption a{color:inherit;text-decoration:none;padding-right:3px}
+.shelf-grid{margin-top:24px}
+.site-head{border:0}
+.site-head .brand{font:600 22px/1.3 system-ui,sans-serif;letter-spacing:normal}
+.site-head .search-icon{border:0;background:transparent;font-size:28px;padding:0 8px}
+.reader-dock button,.reader-head button,.toc-tabs button{border:0;background:none}
+.reader-dock button{display:grid;justify-items:center;gap:3px;color:var(--muted)}
+.reader-dock button::before{font:22px/1 system-ui}
+.reader-dock [data-panel=toc]::before{content:'☷'}
+.reader-dock [data-panel=progress]::before{content:'◯'}
+.reader-dock [data-panel=prefs]::before{content:'⚙'}
+.toc-tabs{display:flex;gap:12px}
+@media(max-width:600px){.reader{padding-inline:6.3vw}.reader-dock{box-shadow:none}.reader-head{background:var(--paper)}.prose p{margin-bottom:.85em}.shelf-grid{gap:5vw}.shelf-grid .cover{border:0;border-radius:5px;box-shadow:none}.book-name{font-size:16px;font-weight:400}.reader-dock button{font-size:12px}}

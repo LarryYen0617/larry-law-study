@@ -18,7 +18,7 @@ function write(key,value) {
   try { localStorage.setItem(key,JSON.stringify(value)); }
   catch { /* Reading remains available without persistent storage. */ }
 }
-const prefs = {fontFace:'kai', size:16, spacing:'compact', theme:'paper', ...read(prefsKey,{})};
+const prefs = {fontFace:'kai', size:18, spacing:'compact', theme:'paper', ...read(prefsKey,{})};
 const choices = {
   fontFace:{kai:'標楷體／文楷',serif:'明體',sans:'黑體'},
   spacing:{compact:'緊湊',regular:'適中',relaxed:'寬鬆'},
@@ -66,7 +66,7 @@ function recordChapter(n) {
   write(progressKey,{...read(progressKey,{}),[bookId]:{chapter:n-1,updatedAt:new Date().toISOString()}});
 }
 function shell(content) {
-  return '<main class="shell"><header class="site-head"><a class="brand" href="#shelf">小說書房</a><button data-panel="search">全文搜尋</button></header>'+content+'</main>';
+  return '<main class="shell"><header class="site-head"><a class="brand" href="#shelf">書架</a><button data-panel="search" class="search-icon" aria-label="搜尋">⌕</button></header>'+content+'</main>';
 }
 function toc(current) {
   return '<ul class="results">'+chapters.map(chapter=>'<li><a '+(chapter.number===current?'aria-current="page" ':'')+'href="'+chapterLink(chapter.number)+'">'+esc(chapter.title)+'</a></li>').join('')+'</ul>';
@@ -75,7 +75,8 @@ function library(detail) {
   const n=resumeNumber(), latest=chapters.at(-1);
   const cover='<a class="cover" href="#book" aria-label="諸天萬界作品詳情"><span>諸天萬界</span></a>';
   if(!detail){
-    app.innerHTML=shell('<section class="shelf-resume"><div><span>最近閱讀</span><h1>諸天萬界</h1><p>'+esc(chapters[n-1].title)+'</p></div><a class="action primary" href="'+chapterLink(n)+'">繼續閱讀</a></section><h2 class="shelf-label">我的書架</h2><div class="shelf-grid"><section>'+cover+'<a class="book-name" href="#book">諸天萬界</a><small>第 '+n+' 章／共 '+chapters.length+' 章</small></section></div>');
+    const resume = chapterLink(n);
+    app.innerHTML=shell('<div class="shelf-grid"><section>'+cover.replace('href="#book"', 'href="'+resume+'"').replace('作品詳情','繼續閱讀')+'<a class="book-name" href="'+resume+'">諸天萬界</a><small>'+n+'章／'+chapters.length+'章</small></section></div>');
     return;
   }
   const description=detail?'<p class="blurb">顏凌淵與沈月璃從博城出發，在不同世界追尋線索，逐步揭開兩人命運交會的原因。</p>':'';
@@ -98,11 +99,11 @@ async function openChapter(n, version) {
   recordChapter(n);
   document.title=meta.title+'｜諸天萬界';
   const paragraphs=row.text.split(/\n\s*\n|\n/).map(t=>t.trim()).filter(Boolean);
-  app.innerHTML='<main class="reader"><header class="reader-head"><a href="#book">← 作品詳情</a><span>'+n+' / '+chapters.length+'</span><button class="show-tools" aria-label="閱讀工具">選單</button></header>'+
-  '<h1>'+esc(meta.title)+'</h1><article class="prose">'+paragraphs.map(p=>'<p>'+esc(p)+'</p>').join('')+
+  app.innerHTML='<main class="reader"><header class="reader-head"><a href="#shelf">‹ 書架</a><button class="show-tools" aria-label="閱讀工具">選單</button></header>'+
+  '<h1 class="chapter-caption"><a href="#book" aria-label="章節目錄">‹</a> '+esc(meta.title)+'</h1><article class="prose">'+paragraphs.map(p=>'<p>'+esc(p)+'</p>').join('')+
   '</article><nav class="chapter-turn" aria-label="章節翻頁">'+navigation(n-1,'上一章')+navigation(n+1,'下一章')+
   '</nav></main><nav class="reader-dock" aria-label="閱讀工具"><button data-panel="toc">目錄</button><button data-panel="progress">進度</button>'+
-  '<button data-panel="marks">書籤</button><button data-panel="search">搜尋</button><button data-panel="prefs">設定</button></nav>';
+  '<button data-panel="prefs">設定</button></nav>';
   const offset=read(offsetKey,{})[n];
   if (Number.isInteger(offset)&&offset>0) app.querySelectorAll('.prose p')[offset]?.scrollIntoView();
 }
@@ -132,7 +133,7 @@ function preferences() {
 function openPanel(type) {
   queryTicket++;
   document.querySelector('#panel-title').textContent={toc:'章節目錄',progress:'閱讀進度',marks:'書籤',search:'全文搜尋',prefs:'閱讀設定'}[type];
-  if(type==='toc') panelContent.innerHTML=toc(active);
+  if(type==='toc') panelContent.innerHTML='<nav class="toc-tabs"><button data-panel="marks">書籤</button><button data-panel="search">搜全文</button></nav>'+toc(active);
   if(type==='prefs') panelContent.innerHTML=preferences();
   if(type==='progress') panelContent.innerHTML='<p class="meta">第 '+active+' 章，共 '+chapters.length+' 章</p><form id="jump"><label>前往第 <input name="number" type="number" min="1" max="'+chapters.length+'" value="'+active+'" required> 章</label><button>前往</button></form>';
   if(type==='search') panelContent.innerHTML='<form id="search-form"><input id="query" name="query" type="search" autocomplete="off" placeholder="書中文字或章名" aria-label="搜尋關鍵字" required maxlength="60"><button>搜尋</button></form><div id="results" aria-live="polite"></div>';
