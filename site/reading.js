@@ -82,6 +82,7 @@ chapter=Math.max(0,Math.min(book.chapters.length-1,chapter));const c=book.chapte
  delete reader.dataset.sheet;
  if(reader.dataset.chapter!==String(chapter))reader.scrollTop=0;
  reader.dataset.chapter=String(chapter);
+ syncReadingViewport();
  const article=$('novelProse'), pages=document.createElement('div');
  pages.className='novel-pages';
  for(const paragraph of article.querySelectorAll(':scope > p:not(.eyebrow)'))pages.append(paragraph);
@@ -143,7 +144,15 @@ chapter=Math.max(0,Math.min(book.chapters.length-1,chapter));const c=book.chapte
   }
   updatePageCount();
  }
- window.addEventListener('resize',updatePageCount);
+ const readerAnchor=document.createComment('章節閱讀位置');
+ $('bookReader').before(readerAnchor);
+ function syncReadingViewport(){
+  const reader=$('bookReader');
+  const immersive=!reader.hidden&&reader.querySelector('#novelProse')&&matchMedia('(max-width:760px)').matches;
+  if(immersive&&reader.parentElement!==document.body)document.body.append(reader);
+  else if(!immersive&&reader.parentElement!==readerAnchor.parentElement)readerAnchor.after(reader);
+ }
+ window.addEventListener('resize',()=>{syncReadingViewport();updatePageCount();});
  function readMarks(){
   try{
    const saved=JSON.parse(localStorage.getItem('lex-novel-v2-bookmarks')||'[]');
@@ -178,6 +187,6 @@ chapter=Math.max(0,Math.min(book.chapters.length-1,chapter));const c=book.chapte
  });
  document.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.openBook){await openBook(b.dataset.openBook);}if(b.dataset.bookChapter!==undefined&&book){const n=Number(b.dataset.bookChapter);if(Number.isInteger(n)&&n>=0&&n<book.chapters.length){chapter=n;tocPage=Math.floor(chapter/25);await render();await remember();$('bookReader').scrollIntoView({block:'start'});}}if(b.dataset.tocPage!==undefined&&book){const n=Number(b.dataset.tocPage);if(Number.isInteger(n)&&n>=0&&n*25<book.chapters.length){tocPage=n;await render();$('bookReader').dataset.sheet='catalog';}}if(b.dataset.jumpBook&&book){const n=Number($('chapterNumber').value)-1;if(Number.isInteger(n)&&n>=0&&n<book.chapters.length){chapter=n;tocPage=Math.floor(chapter/25);await render();await remember();$('bookReader').scrollIntoView({block:'start'});}else status('請輸入有效的章號。');}if(b.id==='resetNovelPreferences'){Object.assign(novelPrefs,NOVEL_DEFAULTS,{size:16});applyNovelPreferences(true);}
  if(b.dataset.font&&book?.id===NOVEL_ID){novelPrefs.size=Math.max(14,Math.min(28,novelPrefs.size+Number(b.dataset.font)));applyNovelPreferences(true);return;}
- if(b.dataset.font){font=Math.max(16,Math.min(26,font+Number(b.dataset.font)));try{localStorage.setItem('lex-nexus-reader-preferences-v1',JSON.stringify({font}));}catch{}render();}if(b.id==='backShelf'){await remember();$('bookReader').hidden=true;$('bookshelf').hidden=false;collection=await W.books();shelf();}});
+ if(b.dataset.font){font=Math.max(16,Math.min(26,font+Number(b.dataset.font)));try{localStorage.setItem('lex-nexus-reader-preferences-v1',JSON.stringify({font}));}catch{}render();}if(b.id==='backShelf'){await remember();$('bookReader').hidden=true;syncReadingViewport();$('bookshelf').hidden=false;collection=await W.books();shelf();}});
  Promise.allSettled([W.books(),fetch('books/catalog.json',{credentials:'omit'}).then(r=>{if(!r.ok)throw Error('書目暫時無法讀取。');return r.json();})]).then(async results=>{if(results[0].status==='fulfilled')collection=results[0].value.filter(W.validBook);let progress={};try{progress=JSON.parse(localStorage.getItem('lex-nexus-public-reading-v1')||'{}');}catch{}if(results[1].status==='fulfilled')published=results[1].value.filter(b=>b.id===NOVEL_ID&&b.base==='books/'+NOVEL_ID+'/'&&Number.isInteger(b.chapterCount)&&b.chapterCount>0).map(b=>({...b,position:Number.isInteger(progress[b.id]?.chapter)?Math.max(0,Math.min(b.chapterCount-1,progress[b.id].chapter)):0}));else status('公開書目暫時無法載入，仍可使用本機書架。');shelf();const params=new URL(location.href).searchParams;const id=params.get('book'),number=params.get('chapter');if(id===NOVEL_ID||id==='wan-jie-fa-shen')await openBook(id,/^\d{1,4}$/.test(number||'')?Number(number):null);});
 })();

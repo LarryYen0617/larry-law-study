@@ -100,3 +100,17 @@
  .novel-page-controls button{min-height:44px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:4px 8px}
  .novel-page-controls span{font-size:.85rem;font-variant-numeric:tabular-nums}
 }
+
+@media(max-width:760px){
+ body:has(> #bookReader:not([hidden]) #novelProse)>:not(#bookReader){visibility:hidden!important}
+ body > #bookReader:not([hidden]):has(#novelProse){
+  position:fixed;inset:0;z-index:2147483640;
+  width:100%;max-width:none;height:100dvh;margin:0;padding:0;
+  color-scheme:light;
+ }
+ body > #bookReader:has([data-theme=night]){color-scheme:dark;background:#22262e}
+ body > #bookReader .novel-prose{padding-top:calc(14px + env(safe-area-inset-top))}
+ body > #bookReader .novel-prose > .eyebrow{margin:0 0 6px;font-size:.75rem}
+ body > #bookReader .novel-prose > h2{margin-top:0}
+ body > #bookReader .novel-page-controls{flex:none}
+}
