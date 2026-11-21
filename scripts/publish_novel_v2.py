@@ -4,11 +4,11 @@ import re
 import subprocess
 from pathlib import Path
 
-SOURCE = "cde97a74d5a270aa3cf8b59ae1265f5e305f94a3"
+SOURCE = "a0e499fc1c6da85255db4962c9a84a46d5ce8040"
 SOURCE_DIR = "drafts/zhu-tian-wan-jie/v2"
 BOOK_ID = "zhu-tian-wan-jie-v2"
 BASE = f"books/{BOOK_ID}/"
-CHAPTER_COUNT = 173
+CHAPTER_COUNT = 174
 PART_SIZE = 10
 
 
@@ -26,7 +26,7 @@ def publish(site):
         headings = re.findall(r"^#{1,3}\s+([^\n]+)$", markdown, re.M)
         title = next((h.strip() for h in headings if re.match(r"第.{1,12}章", h)), None)
         body = re.sub(r"^#{1,6}[^\n]*$", "", markdown, flags=re.M).strip()
-        if not title or not body or len(body) >= 200_000:
+        if not title or not body or len(body) >= 200_000 or len(re.findall(r"[\u3400-\u9fff]", body)) < 3000:
             raise ValueError(f"Invalid chapter for the reader: {source}")
         part = f"chapters-{(number - 1) // PART_SIZE * PART_SIZE + 1:03d}.json"
         chapters.append({"number": number, "title": title, "part": part})
