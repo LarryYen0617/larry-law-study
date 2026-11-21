@@ -44,12 +44,16 @@ def compact(value):
     return re.sub(r"\s+", " ", value).strip()
 def build(root=ROOT):
     entries = []
-    discovered = {p.relative_to(root).as_posix() for p in root.rglob("*.html") if p.is_file()}
+    root = root.resolve()
+    discovered = {p.relative_to(root).as_posix() for p in root.rglob("*.html")
+                  if p.is_file() and p.resolve().is_relative_to(root)}
     # Keep mandatory pages, but include all actual HTML learning materials.
     # Never traverse outside the site tree or modify the production index.
     for url in sorted(discovered | set(PAGES)):
         subject = PAGES.get(url, Path(url).parent.name or "教材")
         path = root / url
+        if not path.resolve().is_relative_to(root):
+            raise ValueError(f"Page escapes site root: {path}")
         if not path.is_file():
             raise FileNotFoundError(f"Missing required page: {path}")
         parser = Extractor()
