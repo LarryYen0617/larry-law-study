@@ -103,7 +103,7 @@ jobs:
           node tests/search-index-links.cjs
       - name: 將《諸天萬界》新版試閱加入閱讀書房
         run: |
-          git fetch --no-tags --depth=1 origin cde97a74d5a270aa3cf8b59ae1265f5e305f94a3
+          git fetch --no-tags --depth=1 origin a0e499fc1c6da85255db4962c9a84a46d5ce8040
           python scripts/publish_novel_v2.py
           node modernization/test/browser-search.test.mjs --novel
       - name: 上傳網站（不包含教材原始檔、腳本或任何秘密）
