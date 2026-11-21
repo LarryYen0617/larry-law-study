@@ -48,6 +48,16 @@ try{
     await reader.getByText('更多設定',{exact:true}).click();
     await reader.locator('[data-space=compact]').click();
     assert.equal(await reader.locator('[data-space=compact]').getAttribute('aria-pressed'),'true');
+    await reader.locator('#close-panel').click();
+    await reader.locator('.reader-dock [data-panel=prefs]').click();
+    await reader.locator('[data-auto-start]').click();
+    await reader.waitForFunction(()=>scrollY>10);
+    await reader.locator('[data-auto-speed]').press('End');
+    assert.equal(await reader.locator('[data-auto-speed]').inputValue(),'5');
+    await reader.evaluate(()=>scrollTo(0,document.scrollingElement.scrollHeight));
+    await reader.waitForURL('**/novel.html#chapter/2');
+    await reader.locator('[data-auto-stop]').click();
+    assert.equal(await reader.locator('.auto-controls').count(),0);
     await readerContext.close();
   }else{
   const context=await browser.newContext({viewport:{width:1280,height:800}});

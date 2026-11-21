@@ -98,7 +98,57 @@ function library(detail) {
 function navigation(n,label) {
   return chapters[n-1] ? '<a class="action" href="'+chapterLink(n)+'">'+label+'</a>' : '<button disabled>'+label+'</button>';
 }
-async function openChapter(n, version) {
+let autoFrame = 0;
+let nextAutoHash = null;
+let autoGeneration = 0;
+const speed = () => Math.max(1, Math.min(5, Number(prefs.autoSpeed) || 3));
+
+function stopAuto() {
+  autoGeneration++;
+  nextAutoHash = null;
+  cancelAnimationFrame(autoFrame);
+  autoFrame = 0;
+  document.querySelector('.auto-controls')?.remove();
+}
+function startAuto() {
+  if (active === null || document.hidden) return;
+  stopAuto();
+  if (panel.open) panel.close();
+  document.body.dataset.chrome = 'off';
+  app.insertAdjacentHTML('beforeend','<div class="auto-controls"><button data-auto-stop>暫停</button><label>速度 <input type="range" min="1" max="5" value="'+speed()+'" data-auto-speed></label></div>');
+  let last = performance.now();
+  let fraction = 0;
+  function advance(now) {
+    fraction += Math.min(100, now-last) * [12,22,34,48,68][speed()-1] / 1000;
+    last = now;
+    const pixels = Math.floor(fraction);
+    if (pixels) {
+      fraction -= pixels;
+      const root = document.scrollingElement;
+      if (root.scrollTop + root.clientHeight >= root.scrollHeight - 1) {
+        const next = active + 1;
+        stopAuto();
+        if (chapters[next-1]) {
+          nextAutoHash = chapterLink(next);
+          location.hash = nextAutoHash;
+        }
+        return;
+      }
+      window.scrollBy(0, pixels);
+    }
+    autoFrame = requestAnimationFrame(advance);
+  }
+  autoFrame = requestAnimationFrame(advance);
+}
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stopAuto();});
+window.addEventListener('pagehide',stopAuto);
+document.addEventListener('input',event=>{
+  if(event.target.matches('[data-auto-speed]')){
+    prefs.autoSpeed=Number(event.target.value);
+    write(prefsKey,prefs);
+  }
+});
+async function openChapter(n, version, continuing) {
   const meta=chapters[n-1];
   app.innerHTML='<main class="reader"><p class="message" role="status">正在載入章節…</p></main>';
   const row=(await batch(meta.part)).find(entry=>entry.number===n);
@@ -114,9 +164,12 @@ async function openChapter(n, version) {
   '</nav></main><nav class="reader-dock" aria-label="閱讀工具"><button data-panel="toc">目錄</button><button data-panel="progress">進度</button>'+
   '<button data-panel="prefs">設定</button></nav>';
   const offset=read(offsetKey,{})[n];
-  if (Number.isInteger(offset)&&offset>0) app.querySelectorAll('.prose p')[offset]?.scrollIntoView();
+  if (!continuing && Number.isInteger(offset)&&offset>0) app.querySelectorAll('.prose p')[offset]?.scrollIntoView();
 }
 async function route() {
+  const continuing=nextAutoHash===location.hash;
+  stopAuto();
+  const generation=autoGeneration;
   const version=++ticket;
   if(panel.open)panel.close();
   queryTicket++;
@@ -126,7 +179,10 @@ async function route() {
   window.scrollTo(0,0);
   const match=location.hash.match(/^#chapter\/(\d+)$/);
   if(match&&chapters[Number(match[1])-1]){
-    try{await openChapter(Number(match[1]),version);}
+    try{
+      await openChapter(Number(match[1]),version,continuing);
+      if(continuing && generation===autoGeneration && version===ticket)startAuto();
+    }
     catch(error){if(version===ticket)showError(error);}
   }else library(location.hash==='#book');
 }
@@ -135,7 +191,7 @@ function showError(error) {
 }
 function preferences() {
   const colors=Object.entries(choices.theme).map(([value,name])=>'<button class="swatch" aria-label="'+name+'" aria-pressed="'+(prefs.theme===value)+'" data-theme-choice="'+value+'"></button>').join('');
-  return '<label class="setting">亮度<input type="range" min="50" max="100" value="'+(Number(prefs.light)||100)+'" data-setting="light"></label><div class="setting">字號 <button data-size="-1">A−</button><output>'+prefs.size+'</output><button data-size="1">A＋</button><select aria-label="字體" data-setting="fontFace">'+Object.entries(choices.fontFace).map(([k,v])=>'<option value="'+k+'" '+(prefs.fontFace===k?'selected':'')+'>'+v+'</option>').join('')+'</select></div><div class="swatches">'+colors+'</div><button class="more" data-panel="more">更多設定</button>';
+  return '<label class="setting">亮度<input type="range" min="50" max="100" value="'+(Number(prefs.light)||100)+'" data-setting="light"></label><div class="setting">字號 <button data-size="-1">A−</button><output>'+prefs.size+'</output><button data-size="1">A＋</button><select aria-label="字體" data-setting="fontFace">'+Object.entries(choices.fontFace).map(([k,v])=>'<option value="'+k+'" '+(prefs.fontFace===k?'selected':'')+'>'+v+'</option>').join('')+'</select></div><div class="swatches">'+colors+'</div><div class="reader-actions"><button data-auto-start>自動閱讀</button><button data-panel="more">更多設定</button></div>';
 }
 function openPanel(type) {
   queryTicket++;
@@ -176,6 +232,9 @@ async function search(term) {
 }
 document.addEventListener('click',event=>{
   const button=event.target.closest('button');
+  if(button?.hasAttribute('data-auto-start')){startAuto();return;}
+  if(button?.hasAttribute('data-auto-stop')){stopAuto();document.body.dataset.chrome='on';return;}
+  if(autoFrame && event.target.closest('.prose'))stopAuto();
   if(button?.dataset.size){prefs.size=Math.max(14,Math.min(28,Number(prefs.size)+Number(button.dataset.size)));applyPrefs();write(prefsKey,prefs);panelContent.innerHTML=preferences();}
   if(button?.dataset.space){prefs.spacing=button.dataset.space;applyPrefs();write(prefsKey,prefs);openPanel('more');}
   if(button?.dataset.themeChoice){prefs.theme=button.dataset.themeChoice;applyPrefs();write(prefsKey,prefs);panelContent.innerHTML=preferences();}
