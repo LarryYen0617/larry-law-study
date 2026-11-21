@@ -48,3 +48,12 @@ input,select{min-height:44px;background:var(--paper);border:1px solid var(--line
 #query{flex:1;min-width:8em}
 .results small{display:block;color:var(--muted);margin-top:4px}
 @media(max-width:600px){dialog{margin:auto auto 0;padding-bottom:calc(14px + env(safe-area-inset-bottom));border-radius:16px 16px 0 0;width:100%;max-width:100%}.book{grid-template-columns:105px minmax(0,1fr)}}
+
+.shelf-resume{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:26px 0 30px;padding:22px;background:#e6e8da;color:#294034;border-radius:16px}
+.shelf-resume h1{margin:6px 0;font:30px var(--kai)}.shelf-resume p,.shelf-resume span{margin:0;font-size:.86rem}
+.shelf-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;max-width:580px}
+.shelf-grid .cover{width:100%;position:relative;overflow:hidden;background:radial-gradient(ellipse at 100% 100%,#ad8f61 0 16%,transparent 17%),radial-gradient(ellipse at 75% 110%,#496755 0 41%,transparent 42%),linear-gradient(145deg,#172f32,#425c4b)}
+.book-name,.shelf-grid small{display:block;margin-top:7px}.book-name{color:inherit;text-decoration:none;font-weight:600}.shelf-grid small{color:var(--muted)}
+.show-tools{min-height:38px;padding:4px 10px}
+.theme-chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}.theme-chip{display:grid;justify-items:center;gap:5px;font-size:.82rem}.theme-chip i{border-radius:50%;width:25px;height:25px;border:1px solid #918879;background:#faf3dd}.theme-chip[data-theme-choice=white] i{background:white}.theme-chip[data-theme-choice=green] i{background:#c7dbbf}.theme-chip[data-theme-choice=night] i{background:#252b29}.theme-chip[aria-pressed=true]{outline:2px solid var(--accent)}
+@media(max-width:600px){.reader{padding-inline:6vw}.reader-head{border:0}.reader-head span{margin-left:auto}.reader-dock{justify-content:space-around;box-shadow:0 -2px 18px #28251912}.reader-dock button{font-size:.88rem}.panel-head{position:sticky;top:-16px;background:var(--paper);padding-block:8px;border-bottom:1px solid var(--line)}.setting{justify-content:space-between}.setting input[type=range]{flex:1}.shelf-grid small{font-size:.75rem}.site-head{padding:16px 0}.shelf-label{font-size:1.15rem}.theme-chips{justify-content:space-between}}
