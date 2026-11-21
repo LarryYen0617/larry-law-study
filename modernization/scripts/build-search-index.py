@@ -44,7 +44,11 @@ def compact(value):
     return re.sub(r"\s+", " ", value).strip()
 def build(root=ROOT):
     entries = []
-    for url, subject in PAGES.items():
+    discovered = {p.relative_to(root).as_posix() for p in root.rglob("*.html") if p.is_file()}
+    # Keep mandatory pages, but include all actual HTML learning materials.
+    # Never traverse outside the site tree or modify the production index.
+    for url in sorted(discovered | set(PAGES)):
+        subject = PAGES.get(url, Path(url).parent.name or "教材")
         path = root / url
         if not path.is_file():
             raise FileNotFoundError(f"Missing required page: {path}")
@@ -53,6 +57,8 @@ def build(root=ROOT):
         entries.append({"url": url, "subject": subject,
                         "title": compact(" ".join(parser.title)) or url,
                         "body": compact(" ".join(parser.body))[:100000]})
+    if len(entries) != len(discovered | set(PAGES)):
+        raise RuntimeError("Preview index coverage mismatch")
     return entries
 if __name__ == "__main__":
     result = build()
