@@ -119,3 +119,17 @@ dialog[data-view=prefs] .reader-actions{justify-content:space-around;gap:0;margi
 
 .panel-dock button{border:0;background:transparent;display:grid;justify-items:center;gap:3px;color:var(--muted);font-size:12px}
 .panel-dock button::before{font:21px/1 system-ui}.panel-dock [data-panel=toc]::before{content:'☷'}.panel-dock [data-panel=progress]::before{content:'◯'}.panel-dock [data-panel=prefs]::before{content:'⚙'}
+
+/* The novel uses its own ink-green controls and a compact reading sheet. */
+dialog[data-view=prefs]{
+  border-top:3px solid #456251;
+  border-radius:18px 18px 0 0;
+  background:var(--paper);
+}
+dialog[data-view=prefs] .reader-actions button[data-auto-start]{
+  border-radius:6px;
+  background:#365643;
+  color:#fff;
+}
+dialog[data-view=prefs] .reader-actions{gap:8px;padding-inline:12px}
+.reader .chapter-caption{letter-spacing:.03em}

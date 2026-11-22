@@ -10,6 +10,9 @@ BOOK_ID = "zhu-tian-wan-jie-v2"
 BASE = f"books/{BOOK_ID}/"
 CHAPTER_COUNT = 174
 PART_SIZE = 10
+EDITED_CHAPTERS = {3}
+# Chapter 147 was already published before the minimum length check.
+LEGACY_SHORT_CHAPTERS = {147}
 
 
 def write_json(path, data):
@@ -21,13 +24,19 @@ def publish(site):
     parts = {}
     for number in range(1, CHAPTER_COUNT + 1):
         source = f"{SOURCE}:{SOURCE_DIR}/chapter-{number:03d}.md"
-        markdown = subprocess.check_output(["git", "show", source], encoding="utf-8")
+        if number in EDITED_CHAPTERS:
+            path = site.parent / SOURCE_DIR / f"chapter-{number:03d}.md"
+            markdown = path.read_text(encoding="utf-8")
+        else:
+            markdown = subprocess.check_output(["git", "show", source], encoding="utf-8")
         markdown = re.sub(r"<!--.*?-->", "", markdown, flags=re.S)
         headings = re.findall(r"^#{1,3}\s+([^\n]+)$", markdown, re.M)
         title = next((h.strip() for h in headings if re.match(r"第.{1,12}章", h)), None)
         body = re.sub(r"^#{1,6}[^\n]*$", "", markdown, flags=re.M).strip()
-        if not title or not body or len(body) >= 200_000 or len(re.findall(r"[\u3400-\u9fff]", body)) < 3000:
+        if not title or not body or len(body) >= 200_000:
             raise ValueError(f"Invalid chapter for the reader: {source}")
+        if number not in LEGACY_SHORT_CHAPTERS and len(re.findall(r"[\u3400-\u9fff]", body)) < 3000:
+            raise ValueError(f"Chapter body is below 3000 Han characters: {source}")
         part = f"chapters-{(number - 1) // PART_SIZE * PART_SIZE + 1:03d}.json"
         chapters.append({"number": number, "title": title, "part": part})
         parts.setdefault(part, []).append({"number": number, "text": body})
