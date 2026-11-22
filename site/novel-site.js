@@ -30,7 +30,7 @@ function applyPrefs() {
   const root = document.documentElement;
   root.style.setProperty('--dim', String(1-Math.max(50, Math.min(100,(prefs.systemLight ? 100 : Number(prefs.light))||100))/100));
   root.dataset.eye=prefs.eye ? "on" : "off";
-  root.dataset.theme = Object.hasOwn(choices.theme,prefs.theme) ? prefs.theme : 'paper';
+  root.dataset.theme = Object.prototype.hasOwnProperty.call(choices.theme,prefs.theme) ? prefs.theme : 'paper';
   root.style.setProperty('--size',Math.max(14,Math.min(28,Number(prefs.size)||16))+'px');
   root.style.setProperty('--leading',{compact:1.55,regular:1.8,relaxed:2.1}[prefs.spacing] || 1.55);
   root.style.setProperty('--face',{kai:'var(--kai)',serif:'"Songti TC",serif',sans:'system-ui,sans-serif'}[prefs.fontFace] || 'var(--kai)');
@@ -79,7 +79,7 @@ function shelfNav() {
 const weekKey=()=>{const d=new Date();d.setDate(d.getDate()-(d.getDay()+6)%7);return 'novel-week-'+d.toLocaleDateString('en-CA');};
 setInterval(()=>{if(active!==null&&!document.hidden)write(weekKey(),Number(read(weekKey(),0))+1);},60000);
 function library(detail) {
-  const n=resumeNumber(), latest=chapters.at(-1);
+  const n=resumeNumber(), latest=chapters[chapters.length-1];
   const cover='<a class="cover" href="#book" aria-label="諸天萬界作品詳情"><span>諸天萬界</span></a>';
   if(!detail){
     const resume = chapterLink(n);
@@ -188,7 +188,7 @@ async function route() {
   }else library(location.hash==='#book');
 }
 function showError(error) {
-  app.innerHTML=shell('<p class="message" role="status">'+esc(error.message)+'</p><button data-retry>重新載入</button> <a href="#shelf">返回書架</a>');
+  app.innerHTML=shell('<p class="message" role="status">'+esc(error.message)+'</p><button data-retry>重新載入</button> <a href="#shelf">返回書架</a> <a href="reading.html?book=zhu-tian-wan-jie-v2">切換閱讀器</a>');
 }
 function preferences() {
   const colors=Object.entries(choices.theme).map(([value,name])=>'<button class="swatch" aria-label="'+name+'" aria-pressed="'+(prefs.theme===value)+'" data-theme-choice="'+value+'"></button>').join('');
