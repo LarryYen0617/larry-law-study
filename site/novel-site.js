@@ -161,7 +161,7 @@ async function openChapter(n, version, continuing) {
   const paragraphs=row.text.split(/\n\s*\n|\n/).map(t=>t.trim()).filter(Boolean);
   app.innerHTML='<main class="reader"><header class="reader-head"><a href="#shelf">‹ 書架</a><button class="show-tools" aria-label="閱讀工具">選單</button></header>'+
   '<h1 class="chapter-caption"><a href="#book" aria-label="章節目錄">‹</a> '+esc(meta.title)+'</h1><article class="prose">'+paragraphs.map(p=>'<p>'+esc(p)+'</p>').join('')+
-  '</article><nav class="chapter-turn" aria-label="章節翻頁">'+navigation(n-1,'上一章')+navigation(n+1,'下一章')+
+  '</article><nav class="chapter-turn" aria-label="章節翻頁">'+navigation(n-1,'上一章')+'<button data-panel="toc">目錄</button>'+navigation(n+1,'下一章')+
   '</nav></main><nav class="reader-dock" aria-label="閱讀工具"><button data-panel="toc">目錄</button><button data-panel="progress">進度</button>'+
   '<button data-panel="prefs">設定</button></nav>';
   const offset=read(offsetKey,{})[n];
@@ -294,3 +294,26 @@ json('manifest.json').then(manifest=>{
   if(!Array.isArray(chapters)||!chapters.length)throw Error('章節目錄暫時無法載入');
   return route();
 }).catch(showError);
+
+let swipeStart = null;
+app.addEventListener('touchstart', event => {
+  const touch = event.touches[0];
+  swipeStart = event.touches.length === 1 && event.target.closest('.prose') &&
+    touch.clientX > 24 && touch.clientX < innerWidth - 24
+    ? {x:touch.clientX, y:touch.clientY, chapter:active} : null;
+}, {passive:true});
+app.addEventListener('touchcancel', () => { swipeStart = null; });
+app.addEventListener('touchend', event => {
+  const start = swipeStart;
+  swipeStart = null;
+  if (!start || start.chapter !== active || panel.open || window.getSelection()?.toString()) return;
+  const touch = event.changedTouches[0];
+  const dx = touch.clientX - start.x;
+  const dy = touch.clientY - start.y;
+  if (Math.abs(dx) < 80 || Math.abs(dx) < Math.abs(dy) * 2) return;
+  const next = active + (dx < 0 ? 1 : -1);
+  if (chapters[next-1]) {
+    savePosition();
+    location.hash = chapterLink(next);
+  }
+}, {passive:true});
