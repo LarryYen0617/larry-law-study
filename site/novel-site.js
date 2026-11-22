@@ -86,7 +86,7 @@ function library(detail) {
     if(location.hash==='#mine'){app.innerHTML=shell('<h1>我的</h1><button data-panel="marks">書籤</button>')+shelfNav();return;}
     const shelf=(location.hash==='#shelf'||!location.hash);
     const intro=shelf?'<section class="week"><strong>'+read(weekKey(),0)+' <small>分鐘</small></strong><span>本週閱讀</span></section>':'<h1>'+(location.hash==='#store'?'書城':'發現')+'</h1>';
-    app.innerHTML=shell(intro+'<div class="shelf-grid"><section>'+cover.replace('href="#book"', 'href="'+resume+'"').replace('作品詳情','繼續閱讀')+'<a class="book-name" href="'+resume+'">諸天萬界</a><small>'+n+'章／'+chapters.length+'章</small></section></div>')+shelfNav();
+    app.innerHTML=shell(intro+'<div class="shelf-grid"><section>'+cover.replace('href="#book"', 'href="'+resume+'"').replace('作品詳情','繼續閱讀')+'<a class="book-name" href="'+resume+'">諸天萬界</a><small>'+n+'章／'+chapters.length+'章</small><button data-panel="toc">目錄</button></section></div>')+shelfNav();
     return;
   }
   const description=detail?'<p class="blurb">顏凌淵與沈月璃從博城出發，在不同世界追尋線索，逐步揭開兩人命運交會的原因。</p>':'';
@@ -198,7 +198,7 @@ function openPanel(type) {
   queryTicket++;
   panel.dataset.view=type;
   document.querySelector('#panel-title').textContent={toc:'章節目錄',progress:'閱讀進度',marks:'書籤',search:'全文搜尋',prefs:'設定',more:'更多閱讀設定',notes:'想法'}[type];
-  if(type==='toc') panelContent.innerHTML='<nav class="toc-tabs"><button data-panel="marks">書籤</button><button data-panel="notes">想法</button><button data-panel="search">搜全文</button></nav><div class="toc-book">諸天萬界<small>連載至'+chapters.length+'章</small></div>'+toc(active);
+  if(type==='toc') panelContent.innerHTML='<nav class="toc-tabs"><button data-panel="marks">書籤</button><button data-panel="notes">想法</button><button data-panel="search">搜全文</button></nav><div class="toc-book">諸天萬界<small>連載至'+chapters.length+'章</small></div>'+toc(active??resumeNumber());
   if(type==='more')panelContent.innerHTML='<div class="setting">行間距 '+Object.entries(choices.spacing).map(([key,label])=>'<button data-space="'+key+'" aria-pressed="'+(prefs.spacing===key)+'">'+label+'</button>').join('')+'</div>';
   if(type==='notes')panelContent.innerHTML='<label>本章想法<textarea data-note>'+esc(read('novel-note-'+(active||resumeNumber()),''))+'</textarea></label>';
   if(type==='prefs') panelContent.innerHTML=preferences();
