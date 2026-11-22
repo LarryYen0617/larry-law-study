@@ -1,0 +1,23 @@
+{
+  "id": "./novel.html",
+  "name": "諸天萬界",
+  "short_name": "諸天萬界",
+  "lang": "zh-Hant",
+  "start_url": "./novel.html#shelf",
+  "scope": "./",
+  "display": "standalone",
+  "theme_color": "#f6eee7",
+  "background_color": "#f6eee7",
+  "icons": [
+    {
+      "src": "icons/novel-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/novel-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

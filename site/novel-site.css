@@ -133,3 +133,10 @@ dialog[data-view=prefs] .reader-actions button[data-auto-start]{
 }
 dialog[data-view=prefs] .reader-actions{gap:8px;padding-inline:12px}
 .reader .chapter-caption{letter-spacing:.03em}
+
+@media (display-mode: standalone) {
+  .shell {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: calc(60px + env(safe-area-inset-bottom));
+  }
+}
