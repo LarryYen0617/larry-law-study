@@ -10,7 +10,7 @@ BOOK_ID = "zhu-tian-wan-jie-v2"
 BASE = f"books/{BOOK_ID}/"
 CHAPTER_COUNT = 174
 PART_SIZE = 10
-EDITED_CHAPTERS = {3}
+EDITED_CHAPTERS = {1, 3, 4, 20, 22}
 # Chapter 147 was already published before the minimum length check.
 LEGACY_SHORT_CHAPTERS = {147}
 
@@ -30,6 +30,7 @@ def publish(site):
         else:
             markdown = subprocess.check_output(["git", "show", source], encoding="utf-8")
         markdown = re.sub(r"<!--.*?-->", "", markdown, flags=re.S)
+        markdown = re.sub(r"^> 編輯狀態：[^\n]*$", "", markdown, flags=re.M)
         headings = re.findall(r"^#{1,3}\s+([^\n]+)$", markdown, re.M)
         title = next((h.strip() for h in headings if re.match(r"第.{1,12}章", h)), None)
         body = re.sub(r"^#{1,6}[^\n]*$", "", markdown, flags=re.M).strip()
