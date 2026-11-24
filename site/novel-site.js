@@ -36,7 +36,7 @@ function applyPrefs() {
   root.style.setProperty('--face',{kai:'var(--kai)',serif:'"Songti TC",serif',sans:'system-ui,sans-serif'}[prefs.fontFace] || 'var(--kai)');
 }
 async function json(path) {
-  const response = await fetch(base+path);
+  const response = await fetch(base+path,{cache:'no-cache'});
   if (!response.ok) throw Error('資料暫時無法載入');
   return response.json();
 }
@@ -188,7 +188,7 @@ async function route() {
   }else library(location.hash==='#book');
 }
 function showError(error) {
-  app.innerHTML=shell('<p class="message" role="status">'+esc(error.message)+'</p><button data-retry>重新載入</button> <a href="#shelf">返回書架</a> <a href="reading.html?book=zhu-tian-wan-jie-v2">切換閱讀器</a>');
+  app.innerHTML=shell('<p class="message" role="status">'+esc(error.message)+'</p><button data-retry>重新載入</button> <a href="#shelf">返回書架</a> <a href="reading.html?book=zhu-tian-wan-jie-v2&amp;fallback=1">切換閱讀器</a>');
 }
 function preferences() {
   const colors=Object.entries(choices.theme).map(([value,name])=>'<button class="swatch" aria-label="'+name+'" aria-pressed="'+(prefs.theme===value)+'" data-theme-choice="'+value+'"></button>').join('');

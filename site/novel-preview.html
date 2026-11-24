@@ -5,15 +5,15 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>諸天萬界｜閱讀書房</title>
   <script>
-    const target = new URL('reading.html?book=zhu-tian-wan-jie-v2', location.href);
+    const target = new URL('novel.html?v=12#shelf', location.href);
     const chapter = location.hash.match(/^#chapter-(\d{1,3})$/);
-    if (chapter && Number(chapter[1]) >= 1 && Number(chapter[1]) <= 173) {
-      target.searchParams.set('chapter', chapter[1]);
+    if (chapter && Number(chapter[1]) >= 1) {
+      target.hash = 'chapter/' + Number(chapter[1]);
     }
     location.replace(target);
   </script>
 </head>
 <body>
-  <a href="reading.html?book=zhu-tian-wan-jie-v2">在閱讀書房開啟《諸天萬界》</a>
+  <a href="novel.html?v=12#shelf">在閱讀書房開啟《諸天萬界》</a>
 </body>
 </html>
